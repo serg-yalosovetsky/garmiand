@@ -4,51 +4,24 @@ import com.garmiand.domain.RoutePackage
 
 sealed interface SyncMessage {
     val sessionId: String
-    fun toEnvelope(): PhoneEnvelope
 
     data class SyncStart(
         override val sessionId: String,
         val routeId: String,
         val routeName: String,
-    ) : SyncMessage {
-        override fun toEnvelope(): PhoneEnvelope = mapOf(
-            PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,
-            PhoneMessageEnvelope.KEY_KIND to PhoneMessageEnvelope.KIND_SYNC_START,
-            PhoneMessageEnvelope.KEY_SESSION_ID to sessionId,
-            PhoneMessageEnvelope.KEY_ROUTE_ID to routeId,
-            PhoneMessageEnvelope.KEY_ROUTE_NAME to routeName,
-        )
-    }
+    ) : SyncMessage
 
     data class RouteChunk(
         override val sessionId: String,
-        val routeId: String,
         val chunkIndex: Int,
         val chunkCount: Int,
-        val payloadBase64: String,
-    ) : SyncMessage {
-        override fun toEnvelope(): PhoneEnvelope = mapOf(
-            PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,
-            PhoneMessageEnvelope.KEY_KIND to PhoneMessageEnvelope.KIND_ROUTE_CHUNK,
-            PhoneMessageEnvelope.KEY_SESSION_ID to sessionId,
-            PhoneMessageEnvelope.KEY_ROUTE_ID to routeId,
-            PhoneMessageEnvelope.KEY_CHUNK_INDEX to chunkIndex,
-            PhoneMessageEnvelope.KEY_CHUNK_COUNT to chunkCount,
-            PhoneMessageEnvelope.KEY_PAYLOAD_B64 to payloadBase64,
-        )
-    }
+        val payloadUtf8: String,
+    ) : SyncMessage
 
     data class SyncFinish(
         override val sessionId: String,
         val routeId: String,
-    ) : SyncMessage {
-        override fun toEnvelope(): PhoneEnvelope = mapOf(
-            PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,
-            PhoneMessageEnvelope.KEY_KIND to PhoneMessageEnvelope.KIND_SYNC_FINISH,
-            PhoneMessageEnvelope.KEY_SESSION_ID to sessionId,
-            PhoneMessageEnvelope.KEY_ROUTE_ID to routeId,
-        )
-    }
+    ) : SyncMessage
 }
 
 data class SyncAck(

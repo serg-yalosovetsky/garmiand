@@ -160,17 +160,3 @@ pytest -q
 - описание состава и следующих шагов в `docs/boilerplate.md`.
 
 Это уже не просто Python-прототип, а база под реальную реализацию mobile + watch.
-
-## Единый формат phone-message envelope
-
-Добавлен единый формат payload для Android Companion и Monkey C receiver:
-- спецификация: `docs/phone_message_envelope.md`;
-- Android константы: `android/.../protocol/PhoneMessageEnvelope.kt`;
-- watch receiver: `garmin/source/GarmiandApp.mc`.
-
-## CI/CD (GitHub Actions)
-
-Добавлен workflow `.github/workflows/build-release.yml`, который:
-1. запускает Python тесты;
-2. собирает release APK через Gradle;
-3. собирает Garmin PRG через Connect IQ SDK (`monkeybrains.jar`).

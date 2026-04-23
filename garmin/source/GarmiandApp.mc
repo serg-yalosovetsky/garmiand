@@ -9,10 +9,7 @@ class GarmiandApp extends App.AppBase {
         AppBase.initialize();
         _syncStore = {
             :chunks => [],
-            :routeId => null,
-            :sessionId => null,
-            :version => 1,
-            :ready => false
+            :routeId => null
         };
     }
 
@@ -25,30 +22,20 @@ class GarmiandApp extends App.AppBase {
     }
 
     function onPhoneMessage(msg as Dictionary) as Void {
-        if (msg == null || !msg.hasKey("kind")) {
+        if (msg == null || !msg.hasKey(:kind)) {
             return;
         }
 
-        var kind = msg["kind"];
+        var kind = msg[:kind];
 
         if (kind == "sync_start") {
             _syncStore[:chunks] = [];
-            _syncStore[:routeId] = msg["route_id"];
-            _syncStore[:sessionId] = msg["session_id"];
-            _syncStore[:version] = msg["v"];
-            _syncStore[:ready] = false;
-            WatchUi.requestUpdate();
+            _syncStore[:routeId] = msg[:routeId];
             return;
         }
 
         if (kind == "route_chunk") {
-            var entry = {
-                :index => msg["chunk_index"],
-                :count => msg["chunk_count"],
-                :payload => msg["payload_b64"]
-            };
-            _syncStore[:chunks].add(entry);
-            WatchUi.requestUpdate();
+            _syncStore[:chunks].add(msg[:payload]);
             return;
         }
 

@@ -16,10 +16,9 @@ class NavigationView extends WatchUi.View {
         var title = "Garmiand V1";
         var status = _store[:ready] ? "Route synced" : "Waiting sync";
         var chunks = _store[:chunks] != null ? _store[:chunks].size() : 0;
-        var version = _store[:version] != null ? _store[:version] : 0;
 
-        dc.drawText(dc.getWidth()/2, 44, Graphics.FONT_MEDIUM, title, Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth()/2, 78, Graphics.FONT_SMALL, status, Graphics.TEXT_JUSTIFY_CENTER);
-        dc.drawText(dc.getWidth()/2, 106, Graphics.FONT_TINY, "v=" + version + " chunks=" + chunks, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()/2, 50, Graphics.FONT_MEDIUM, title, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()/2, 90, Graphics.FONT_SMALL, status, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(dc.getWidth()/2, 120, Graphics.FONT_TINY, "Chunks: " + chunks, Graphics.TEXT_JUSTIFY_CENTER);
     }
 }

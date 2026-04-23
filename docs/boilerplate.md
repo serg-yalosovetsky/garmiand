@@ -6,7 +6,6 @@
 - `android/` Gradle-проект с модулем `app`.
 - Доменные модели маршрута: `domain/RouteModels.kt`.
 - Протокол обмена и chunk encoder: `protocol/SyncProtocol.kt`, `protocol/JsonRouteChunkEncoder.kt`.
-- Единый envelope с ключами `kind/session_id/route_id/...`: `protocol/PhoneMessageEnvelope.kt`.
 - Слой интеграции OsmAnd (интерфейс + заглушка): `osmand/OsmAndBridge.kt`.
 - Слой Garmin Companion (интерфейс + заглушка): `garmin/GarminCompanion.kt`.
 - Оркестратор синхронизации: `sync/RouteSyncOrchestrator.kt`.
@@ -14,13 +13,10 @@
 
 ### Garmin Watch App (Monkey C)
 - `garmin/manifest.xml` (fenix7, Communications + Positioning permissions).
-- `source/GarmiandApp.mc`: прием phone messages с единым envelope.
+- `source/GarmiandApp.mc`: прием phone messages и хранение sync state.
 - `source/NavigationView.mc`: экран статуса синхронизации.
 - `source/NavigationDelegate.mc`: delegate-заготовка.
 - `resources/strings.xml`.
-
-### Протокол
-- Спецификация формата сообщения: `docs/phone_message_envelope.md`.
 
 ## Что дальше (чтобы довести до прод-готовности)
 1. Подключить реальный Connect IQ Mobile SDK transport в Android `GarminCompanion`.
