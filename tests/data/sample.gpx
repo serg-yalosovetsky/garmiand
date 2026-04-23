@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="test" xmlns="http://www.topografix.com/GPX/1/1">
+  <wpt lat="50.4501" lon="30.5234"><name>City Center</name></wpt>
+  <trk><name>Demo Route</name><trkseg>
+    <trkpt lat="50.4501" lon="30.5234" />
+    <trkpt lat="50.4510" lon="30.5240" />
+    <trkpt lat="50.4520" lon="30.5250" />
+  </trkseg></trk>
+</gpx>
