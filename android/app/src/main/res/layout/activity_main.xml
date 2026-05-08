@@ -4,32 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="12dp"
         android:text="Initializing..."
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:gravity="center" />
 
-    <Button
-        android:id="@+id/btn_import"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Import GPX" />
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
 
-    <Button
-        android:id="@+id/btn_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="Send to Garmin"
-        android:enabled="false" />
+        <Button
+            android:id="@+id/btn_import"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:text="Import GPX" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:text="Send"
+            android:enabled="false" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -37,6 +45,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="100"
+        android:layout_marginBottom="8dp"
         android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Log"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_clear_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:padding="6dp"
+            android:text="Clear"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/btn_copy_log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:layout_marginStart="6dp"
+            android:padding="6dp"
+            android:text="Copy"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/log_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#101010"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/tv_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textSize="10sp"
+            android:textColor="#CCFFCC"
+            android:textIsSelectable="true" />
+    </ScrollView>
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.garmiand.garmin
 
 import android.content.Context
-import android.util.Log
 import com.garmin.android.connectiq.ConnectIQ
 import com.garmin.android.connectiq.ConnectIQ.IQApplicationInfoListener
 import com.garmin.android.connectiq.ConnectIQ.IQMessageStatus
@@ -11,6 +10,7 @@ import com.garmin.android.connectiq.IQDevice
 import com.garmiand.protocol.SyncAck
 import com.garmiand.protocol.SyncMessage
 import com.garmiand.protocol.SyncMessageSerializer
+import com.garmiand.util.AppLog
 import java.util.concurrent.atomic.AtomicReference
 
 private const val TAG = "ConnectIQCompanion"
@@ -27,7 +27,7 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
         connectIQ = ConnectIQ.getInstance(context, ConnectIQ.IQConnectType.WIRELESS)
         connectIQ!!.initialize(context, false, object : ConnectIQ.ConnectIQListener {
             override fun onInitializeError(errStatus: ConnectIQ.IQSdkErrorStatus) {
-                Log.e(TAG, "ConnectIQ init error: $errStatus")
+                AppLog.e(TAG, "ConnectIQ init error: $errStatus")
                 onReady(false)
             }
 
@@ -36,7 +36,7 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
             }
 
             override fun onSdkShutDown() {
-                Log.d(TAG, "ConnectIQ SDK shut down")
+                AppLog.d(TAG, "ConnectIQ SDK shut down")
             }
         })
     }
@@ -44,41 +44,41 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
     private fun discoverDevice(onReady: (Boolean) -> Unit) {
         val ciq = connectIQ ?: run { onReady(false); return }
         val known = try { ciq.knownDevices ?: emptyList() } catch (e: Exception) {
-            Log.e(TAG, "knownDevices failed: ${e.message}")
+            AppLog.e(TAG, "knownDevices failed", e)
             emptyList()
         }
-        Log.i(TAG, "knownDevices: ${known.map { "${it.friendlyName}(id=${it.deviceIdentifier}, status=${it.status})" }}")
+        AppLog.i(TAG, "knownDevices: ${known.map { "${it.friendlyName}(id=${it.deviceIdentifier}, status=${it.status})" }}")
 
         val connected = try {
             ciq.getConnectedDevices() ?: emptyList()
         } catch (e: Exception) {
-            Log.w(TAG, "getConnectedDevices failed: ${e.message}; falling back to known")
+            AppLog.w(TAG, "getConnectedDevices failed: ${e.message}; falling back to known")
             known
         }
-        Log.i(TAG, "connectedDevices: ${connected.map { it.friendlyName }}")
+        AppLog.i(TAG, "connectedDevices: ${connected.map { it.friendlyName }}")
 
         val device = connected.firstOrNull()
             ?: known.firstOrNull { it.status == IQDevice.IQDeviceStatus.CONNECTED }
             ?: known.firstOrNull()
             ?: run {
-                Log.w(TAG, "No Garmin devices visible to Connect IQ. Open Garmin Connect Mobile and ensure the watch is paired and connected.")
+                AppLog.w(TAG, "No Garmin devices visible. Ensure Garmin Connect Mobile is open and watch is paired+connected.")
                 onReady(false)
                 return
             }
         connectedDevice = device
-        Log.i(TAG, "Selected device: ${device.friendlyName} status=${device.status}")
+        AppLog.i(TAG, "Selected device: ${device.friendlyName} status=${device.status}")
         ciq.getApplicationInfo(
             WATCH_APP_ID,
             device,
             object : IQApplicationInfoListener {
                 override fun onApplicationInfoReceived(app: IQApp) {
                     watchApp = app
-                    Log.i(TAG, "Watch app ready on ${device.friendlyName}")
+                    AppLog.i(TAG, "Watch app ready on ${device.friendlyName}")
                     onReady(true)
                 }
 
                 override fun onApplicationNotInstalled(applicationId: String) {
-                    Log.w(TAG, "Watch app $applicationId is NOT installed on ${device.friendlyName}. Sideload .prg to GARMIN/APPS/ on the watch.")
+                    AppLog.w(TAG, "Watch app $applicationId NOT installed on ${device.friendlyName}.")
                     onReady(false)
                 }
             }
@@ -94,11 +94,14 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
             ?: return SyncAck(message.sessionId, ok = false, reason = "Watch app not found")
 
         val payload: Map<String, Any> = SyncMessageSerializer.toMap(message)
+        val kind = payload["kind"] ?: message::class.simpleName
+        AppLog.i(TAG, "send -> $kind keys=${payload.keys}")
 
         val result = AtomicReference<SyncAck?>(null)
 
         ciq.sendMessage(device, app, payload, object : IQSendMessageListener {
             override fun onMessageStatus(dev: IQDevice, iqApp: IQApp, status: IQMessageStatus) {
+                AppLog.i(TAG, "ack $kind status=$status")
                 result.set(
                     SyncAck(
                         sessionId = message.sessionId,
@@ -113,7 +116,9 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
         while (result.get() == null && System.currentTimeMillis() < deadline) {
             Thread.sleep(50)
         }
-        return result.get() ?: SyncAck(message.sessionId, ok = false, reason = "Send timeout")
+        val ack = result.get() ?: SyncAck(message.sessionId, ok = false, reason = "Send timeout")
+        if (!ack.ok) AppLog.w(TAG, "send $kind failed: ${ack.reason}")
+        return ack
     }
 
     fun shutdown() {

@@ -18,6 +18,8 @@ class GarmiandApp extends App.AppBase {
     var _mapMaxLon as Lang.Float;
     var _mapWidth as Lang.Number;
     var _mapHeight as Lang.Number;
+    var _mapDebug as Lang.String;
+    var _lastUrlTail as Lang.String;
 
     function initialize() {
         AppBase.initialize();
@@ -31,6 +33,8 @@ class GarmiandApp extends App.AppBase {
         _mapMaxLon = 0.0f;
         _mapWidth = 0;
         _mapHeight = 0;
+        _mapDebug = "";
+        _lastUrlTail = "";
     }
 
     function onStart(state) {
@@ -69,10 +73,12 @@ class GarmiandApp extends App.AppBase {
 
     function onMapImage(responseCode as Lang.Number, data as WatchUi.BitmapResource?) as Void {
         System.println("[Map] image response code=" + responseCode);
+        var hasData = (data != null) ? "1" : "0";
+        _mapDebug = "code=" + responseCode + " d=" + hasData;
         if (responseCode == 200 && data != null) {
             _mapBitmap = data;
-            WatchUi.requestUpdate();
         }
+        WatchUi.requestUpdate();
     }
 
     function applyPositionInfo(info as Position.Info, source as Lang.String) as Void {
@@ -147,6 +153,10 @@ class GarmiandApp extends App.AppBase {
             _mapWidth = (dict["w"] as Lang.Numeric).toNumber();
             _mapHeight = (dict["h"] as Lang.Numeric).toNumber();
             System.println("[Map] requesting " + url);
+            var n = url.length();
+            _lastUrlTail = (n > 24) ? url.substring(n - 24, n) : url;
+            _mapDebug = "requesting...";
+            WatchUi.requestUpdate();
             Communications.makeImageRequest(
                 url,
                 null,

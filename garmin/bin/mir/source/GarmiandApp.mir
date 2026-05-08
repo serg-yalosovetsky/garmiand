@@ -43,1004 +43,1099 @@ class GarmiandApp extends App.AppBase {
     var _mapWidth as Lang.Number;
     [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 20; @position = 8; @symbol_vardef = [_mapHeight,20,8,18]; @symbol_type<0> = [Lang,20,22,26]; @symbol_type<1> = [Number,20,27,33]; ]
     var _mapHeight as Lang.Number;
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 22; @symbol_functiondef = [initialize,22,13,23]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 21; @position = 8; @symbol_vardef = [_mapDebug,21,8,17]; @symbol_type<0> = [Lang,21,21,25]; @symbol_type<1> = [String,21,26,32]; ]
+    var _mapDebug as Lang.String;
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 22; @position = 8; @symbol_vardef = [_lastUrlTail,22,8,20]; @symbol_type<0> = [Lang,22,24,28]; @symbol_type<1> = [String,22,29,35]; ]
+    var _lastUrlTail as Lang.String;
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 24; @symbol_functiondef = [initialize,24,13,23]; ]
     function initialize() as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_22_26_34_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 23 8 ]
-        symbol [ AppBase %tmp.2 23 8 15 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_24_26_38_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 25 8 ]
+        symbol [ AppBase %tmp.2 25 8 15 ];
         %tmp.2 = getv ? :AppBase;
-        symbol [ initialize %tmp.3 23 16 26 ];
+        symbol [ initialize %tmp.3 25 16 26 ];
         %tmp.3 = getv function %tmp.2 :initialize;
         invoke %tmp.2 %tmp.3();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 24 8 ]
-        symbol [ RouteData %tmp.7 24 21 30 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 26 8 ]
+        symbol [ RouteData %tmp.7 26 21 30 ];
         %tmp.7 = getv ? :RouteData;
         %tmp.4 = newc %tmp.7 ();
-        symbol [ _route ? 24 8 14 ];
+        symbol [ _route ? 26 8 14 ];
         putv self :_route %tmp.4;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 25 8 ]
-        %tmp.8 = 0.0f;
-        symbol [ _currentLat ? 25 8 19 ];
-        putv self :_currentLat %tmp.8;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 26 8 ]
-        %tmp.9 = 0.0f;
-        symbol [ _currentLon ? 26 8 19 ];
-        putv self :_currentLon %tmp.9;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 27 8 ]
-        %tmp.10 = null;
-        symbol [ _mapBitmap ? 27 8 18 ];
-        putv self :_mapBitmap %tmp.10;
+        %tmp.8 = 0.0f;
+        symbol [ _currentLat ? 27 8 19 ];
+        putv self :_currentLat %tmp.8;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 28 8 ]
-        %tmp.11 = 0.0f;
-        symbol [ _mapMinLat ? 28 8 18 ];
-        putv self :_mapMinLat %tmp.11;
+        %tmp.9 = 0.0f;
+        symbol [ _currentLon ? 28 8 19 ];
+        putv self :_currentLon %tmp.9;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 29 8 ]
-        %tmp.12 = 0.0f;
-        symbol [ _mapMaxLat ? 29 8 18 ];
-        putv self :_mapMaxLat %tmp.12;
+        %tmp.10 = null;
+        symbol [ _mapBitmap ? 29 8 18 ];
+        putv self :_mapBitmap %tmp.10;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 30 8 ]
-        %tmp.13 = 0.0f;
-        symbol [ _mapMinLon ? 30 8 18 ];
-        putv self :_mapMinLon %tmp.13;
+        %tmp.11 = 0.0f;
+        symbol [ _mapMinLat ? 30 8 18 ];
+        putv self :_mapMinLat %tmp.11;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 31 8 ]
-        %tmp.14 = 0.0f;
-        symbol [ _mapMaxLon ? 31 8 18 ];
-        putv self :_mapMaxLon %tmp.14;
+        %tmp.12 = 0.0f;
+        symbol [ _mapMaxLat ? 31 8 18 ];
+        putv self :_mapMaxLat %tmp.12;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 32 8 ]
-        %tmp.15 = 0;
-        symbol [ _mapWidth ? 32 8 17 ];
-        putv self :_mapWidth %tmp.15;
+        %tmp.13 = 0.0f;
+        symbol [ _mapMinLon ? 32 8 18 ];
+        putv self :_mapMinLon %tmp.13;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 33 8 ]
+        %tmp.14 = 0.0f;
+        symbol [ _mapMaxLon ? 33 8 18 ];
+        putv self :_mapMaxLon %tmp.14;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 34 8 ]
+        %tmp.15 = 0;
+        symbol [ _mapWidth ? 34 8 17 ];
+        putv self :_mapWidth %tmp.15;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 35 8 ]
         %tmp.16 = 0;
-        symbol [ _mapHeight ? 33 8 18 ];
+        symbol [ _mapHeight ? 35 8 18 ];
         putv self :_mapHeight %tmp.16;
-G__code_garmiand_garmin_source_GarmiandApp_mc_22_26_34_4_stop:
-    }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 36; @symbol_functiondef = [onStart,36,13,20]; @symbol_param<0> = [state,36,21,26]; ]
-    function onStart(state) {
-G__code_garmiand_garmin_source_GarmiandApp_mc_36_28_44_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 36 8 ]
+        %tmp.17 = "";
+        symbol [ _mapDebug ? 36 8 17 ];
+        putv self :_mapDebug %tmp.17;
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 37 8 ]
-        symbol [ Communications %tmp.1 37 8 22 ];
+        %tmp.18 = "";
+        symbol [ _lastUrlTail ? 37 8 20 ];
+        putv self :_lastUrlTail %tmp.18;
+G__code_garmiand_garmin_source_GarmiandApp_mc_24_26_38_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 40; @symbol_functiondef = [onStart,40,13,20]; @symbol_param<0> = [state,40,21,26]; ]
+    function onStart(state) {
+G__code_garmiand_garmin_source_GarmiandApp_mc_40_28_48_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 41 8 ]
+        symbol [ Communications %tmp.1 41 8 22 ];
         %tmp.1 = getm $.Toybox.Communications;
-        symbol [ registerForPhoneAppMessages %tmp.2 37 23 50 ];
+        symbol [ registerForPhoneAppMessages %tmp.2 41 23 50 ];
         %tmp.2 = getv function %tmp.1 :registerForPhoneAppMessages;
         %tmp.3 = self;
-        symbol [ method %tmp.4 37 51 57 ];
+        symbol [ method %tmp.4 41 51 57 ];
         %tmp.4 = getv function %tmp.3 :method;
         %tmp.6 = const :onPhoneMessage;
-        symbol [ onPhoneMessage %tmp.6 37 59 73 const ];
+        symbol [ onPhoneMessage %tmp.6 41 59 73 const ];
         %tmp.7 = invoke %tmp.3 %tmp.4(%tmp.6);
         invoke %tmp.1 %tmp.2(%tmp.7);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 39 8 ]
-        symbol [ System %tmp.8 39 8 14 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 43 8 ]
+        symbol [ System %tmp.8 43 8 14 ];
         %tmp.8 = getm $.Toybox.System;
-        symbol [ println %tmp.9 39 15 22 ];
+        symbol [ println %tmp.9 43 15 22 ];
         %tmp.9 = getv function %tmp.8 :println;
         %tmp.10 = "[GPS] enableLocationEvents(CONTINUOUS) at AppBase";
         invoke %tmp.8 %tmp.9(%tmp.10);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 40 8 ]
-        symbol [ Position %tmp.11 40 8 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 44 8 ]
+        symbol [ Position %tmp.11 44 8 16 ];
         %tmp.11 = getm $.Toybox.Position;
-        symbol [ enableLocationEvents %tmp.12 40 17 37 ];
+        symbol [ enableLocationEvents %tmp.12 44 17 37 ];
         %tmp.12 = getv function %tmp.11 :enableLocationEvents;
-        symbol [ Position %tmp.13 40 38 46 ];
+        symbol [ Position %tmp.13 44 38 46 ];
         %tmp.13 = getm $.Toybox.Position;
-        symbol [ LOCATION_CONTINUOUS %tmp.14 40 47 66 ];
+        symbol [ LOCATION_CONTINUOUS %tmp.14 44 47 66 ];
         %tmp.14 = getv %tmp.13 :LOCATION_CONTINUOUS;
         %tmp.15 = self;
-        symbol [ method %tmp.16 40 68 74 ];
+        symbol [ method %tmp.16 44 68 74 ];
         %tmp.16 = getv function %tmp.15 :method;
         %tmp.18 = const :onGpsPosition;
-        symbol [ onGpsPosition %tmp.18 40 76 89 const ];
+        symbol [ onGpsPosition %tmp.18 44 76 89 const ];
         %tmp.19 = invoke %tmp.15 %tmp.16(%tmp.18);
         invoke %tmp.11 %tmp.12(%tmp.14, %tmp.19);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 42 8 ]
-        symbol [ Timer %tmp.22 42 24 29 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 46 8 ]
+        symbol [ Timer %tmp.22 46 24 29 ];
         %tmp.22 = getm $.Toybox.Timer;
-        symbol [ Timer %tmp.23 42 30 35 ];
+        symbol [ Timer %tmp.23 46 30 35 ];
         %tmp.23 = getv function ? %tmp.22 :Timer;
         %tmp.20 = newc %tmp.23 ();
-        symbol [ _gpsTimer ? 42 8 17 ];
+        symbol [ _gpsTimer ? 46 8 17 ];
         putv self :_gpsTimer %tmp.20;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 43 8 ]
-        symbol [ _gpsTimer %tmp.25 43 8 17 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 47 8 ]
+        symbol [ _gpsTimer %tmp.25 47 8 17 ];
         %tmp.25 = getv ? :_gpsTimer;
-        symbol [ start %tmp.26 43 18 23 ];
+        symbol [ start %tmp.26 47 18 23 ];
         %tmp.26 = getv function %tmp.25 :start;
         %tmp.27 = self;
-        symbol [ method %tmp.28 43 24 30 ];
+        symbol [ method %tmp.28 47 24 30 ];
         %tmp.28 = getv function %tmp.27 :method;
         %tmp.30 = const :pollGps;
-        symbol [ pollGps %tmp.30 43 32 39 const ];
+        symbol [ pollGps %tmp.30 47 32 39 const ];
         %tmp.31 = invoke %tmp.27 %tmp.28(%tmp.30);
         %tmp.32 = 1000;
         %tmp.33 = true;
         invoke %tmp.25 %tmp.26(%tmp.31, %tmp.32, %tmp.33);
-G__code_garmiand_garmin_source_GarmiandApp_mc_36_28_44_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_40_28_48_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 46; @symbol_functiondef = [onStop,46,13,19]; @symbol_param<0> = [state,46,20,25]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 50; @symbol_functiondef = [onStop,50,13,19]; @symbol_param<0> = [state,50,20,25]; ]
     function onStop(state) {
-G__code_garmiand_garmin_source_GarmiandApp_mc_46_27_52_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 47 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_47_8_50_8_if_stmt:
-        symbol [ _gpsTimer %tmp.2 47 12 21 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_50_27_56_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 51 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_51_8_54_8_if_stmt:
+        symbol [ _gpsTimer %tmp.2 51 12 21 ];
         %tmp.2 = getv ? :_gpsTimer;
         %tmp.3 = null;
         %tmp.4 = ne %tmp.2 %tmp.3;
-        bf %tmp.4 @G__code_garmiand_garmin_source_GarmiandApp_mc_47_8_50_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_47_8_50_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_47_31_50_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 48 12 ]
-        symbol [ _gpsTimer %tmp.6 48 12 21 ];
+        bf %tmp.4 @G__code_garmiand_garmin_source_GarmiandApp_mc_51_8_54_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_51_8_54_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_51_31_54_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 52 12 ]
+        symbol [ _gpsTimer %tmp.6 52 12 21 ];
         %tmp.6 = getv ? :_gpsTimer;
         %tmp.7 = as %tmp.6 { (!Null) };
-        symbol [ stop %tmp.8 48 22 26 ];
+        symbol [ stop %tmp.8 52 22 26 ];
         %tmp.8 = getv function %tmp.7 :stop;
         invoke %tmp.7 %tmp.8();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 49 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 53 12 ]
         %tmp.9 = null;
-        symbol [ _gpsTimer ? 49 12 21 ];
+        symbol [ _gpsTimer ? 53 12 21 ];
         putv self :_gpsTimer %tmp.9;
-G__code_garmiand_garmin_source_GarmiandApp_mc_47_31_50_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_47_8_50_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_47_8_50_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 51 8 ]
-        symbol [ Position %tmp.10 51 8 16 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_51_31_54_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_51_8_54_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_51_8_54_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 55 8 ]
+        symbol [ Position %tmp.10 55 8 16 ];
         %tmp.10 = getm $.Toybox.Position;
-        symbol [ enableLocationEvents %tmp.11 51 17 37 ];
+        symbol [ enableLocationEvents %tmp.11 55 17 37 ];
         %tmp.11 = getv function %tmp.10 :enableLocationEvents;
-        symbol [ Position %tmp.12 51 38 46 ];
+        symbol [ Position %tmp.12 55 38 46 ];
         %tmp.12 = getm $.Toybox.Position;
-        symbol [ LOCATION_DISABLE %tmp.13 51 47 63 ];
+        symbol [ LOCATION_DISABLE %tmp.13 55 47 63 ];
         %tmp.13 = getv %tmp.12 :LOCATION_DISABLE;
         %tmp.14 = self;
-        symbol [ method %tmp.15 51 65 71 ];
+        symbol [ method %tmp.15 55 65 71 ];
         %tmp.15 = getv function %tmp.14 :method;
         %tmp.17 = const :onGpsPosition;
-        symbol [ onGpsPosition %tmp.17 51 73 86 const ];
+        symbol [ onGpsPosition %tmp.17 55 73 86 const ];
         %tmp.18 = invoke %tmp.14 %tmp.15(%tmp.17);
         invoke %tmp.10 %tmp.11(%tmp.13, %tmp.18);
-G__code_garmiand_garmin_source_GarmiandApp_mc_46_27_52_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_50_27_56_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 54; @symbol_functiondef = [getInitialView,54,13,27]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 58; @symbol_functiondef = [getInitialView,58,13,27]; ]
     function getInitialView() {
-G__code_garmiand_garmin_source_GarmiandApp_mc_54_30_58_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 55 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_54_30_58_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_54_30_58_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_58_30_62_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 59 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_58_30_62_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_58_30_62_4_stop" ]
         %view.1 = local;
-        symbol [ view %view.1 55 12 16 ];
-        symbol [ NavigationView %tmp.4 55 23 37 ];
+        symbol [ view %view.1 59 12 16 ];
+        symbol [ NavigationView %tmp.4 59 23 37 ];
         %tmp.4 = getv ? :NavigationView;
-        symbol [ _route %tmp.6 55 38 44 ];
+        symbol [ _route %tmp.6 59 38 44 ];
         %tmp.6 = getv ? :_route;
         %tmp.1 = newc %tmp.4 (%tmp.6);
         lputv %view.1 %tmp.1;
-        symbol [ view %view.1 55 12 16 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 56 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_54_30_58_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_54_30_58_4_stop" ]
+        symbol [ view %view.1 59 12 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 60 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_58_30_62_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_58_30_62_4_stop" ]
         %delegate.2 = local;
-        symbol [ delegate %delegate.2 56 12 20 ];
-        symbol [ NavigationDelegate %tmp.10 56 27 45 ];
+        symbol [ delegate %delegate.2 60 12 20 ];
+        symbol [ NavigationDelegate %tmp.10 60 27 45 ];
         %tmp.10 = getv ? :NavigationDelegate;
-        symbol [ _route %tmp.12 56 46 52 ];
+        symbol [ _route %tmp.12 60 46 52 ];
         %tmp.12 = getv ? :_route;
         %tmp.13 = lgetv %view.1;
-        symbol [ view %tmp.13 56 54 58 ];
+        symbol [ view %tmp.13 60 54 58 ];
         %tmp.7 = newc %tmp.10 (%tmp.12, %tmp.13);
         lputv %delegate.2 %tmp.7;
-        symbol [ delegate %delegate.2 56 12 20 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 57 8 ]
+        symbol [ delegate %delegate.2 60 12 20 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 61 8 ]
         %tmp.14 = newa 2;
         %tmp.15 = lgetv %view.1;
-        symbol [ view %tmp.15 57 16 20 ];
+        symbol [ view %tmp.15 61 16 20 ];
         %tmp.16 = dup %tmp.14;
         %tmp.17 = aputv %tmp.16 0 %tmp.15;
         %tmp.18 = lgetv %delegate.2;
-        symbol [ delegate %tmp.18 57 22 30 ];
+        symbol [ delegate %tmp.18 61 22 30 ];
         %tmp.19 = dup %tmp.17;
         %tmp.20 = aputv %tmp.19 1 %tmp.18;
         ret %tmp.20;
-G__code_garmiand_garmin_source_GarmiandApp_mc_54_30_58_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_58_30_62_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 60; @symbol_functiondef = [onGpsPosition,60,13,26]; @symbol_param<0> = [info,60,27,31]; @symbol_param<0>_type<0> = [Position,60,35,43]; @symbol_param<0>_type<1> = [Info,60,44,48]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 64; @symbol_functiondef = [onGpsPosition,64,13,26]; @symbol_param<0> = [info,64,27,31]; @symbol_param<0>_type<0> = [Position,64,35,43]; @symbol_param<0>_type<1> = [Info,64,44,48]; ]
     function onGpsPosition(info as Position.Info) as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_60_58_63_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 61 8 ]
-        symbol [ System %tmp.1 61 8 14 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_64_58_67_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 65 8 ]
+        symbol [ System %tmp.1 65 8 14 ];
         %tmp.1 = getm $.Toybox.System;
-        symbol [ println %tmp.2 61 15 22 ];
+        symbol [ println %tmp.2 65 15 22 ];
         %tmp.2 = getv function %tmp.1 :println;
         %tmp.3 = "[GPS] onGpsPosition fired, accuracy=";
         %tmp.4 = lgetv %info;
-        symbol [ info %tmp.4 61 64 68 ];
-        symbol [ accuracy %tmp.5 61 69 77 ];
+        symbol [ info %tmp.4 65 64 68 ];
+        symbol [ accuracy %tmp.5 65 69 77 ];
         %tmp.5 = getv %tmp.4 :accuracy;
         %tmp.6 = add %tmp.3 %tmp.5;
         invoke %tmp.1 %tmp.2(%tmp.6);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 62 8 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 66 8 ]
         %tmp.7 = self;
-        symbol [ applyPositionInfo %tmp.8 62 8 25 ];
+        symbol [ applyPositionInfo %tmp.8 66 8 25 ];
         %tmp.8 = getv function %tmp.7 :applyPositionInfo;
         %tmp.9 = lgetv %info;
-        symbol [ info %tmp.9 62 26 30 ];
+        symbol [ info %tmp.9 66 26 30 ];
         %tmp.10 = "callback";
         invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10);
-G__code_garmiand_garmin_source_GarmiandApp_mc_60_58_63_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_64_58_67_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 65; @symbol_functiondef = [pollGps,65,13,20]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 69; @symbol_functiondef = [pollGps,69,13,20]; ]
     function pollGps() as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_65_31_68_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 66 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_65_31_68_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_65_31_68_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_69_31_72_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 70 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_69_31_72_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_69_31_72_4_stop" ]
         %info.1 = local;
-        symbol [ info %info.1 66 12 16 ];
-        symbol [ Position %tmp.1 66 19 27 ];
+        symbol [ info %info.1 70 12 16 ];
+        symbol [ Position %tmp.1 70 19 27 ];
         %tmp.1 = getm $.Toybox.Position;
-        symbol [ getInfo %tmp.2 66 28 35 ];
+        symbol [ getInfo %tmp.2 70 28 35 ];
         %tmp.2 = getv function %tmp.1 :getInfo;
         %tmp.3 = invoke %tmp.1 %tmp.2();
         lputv %info.1 %tmp.3;
-        symbol [ info %info.1 66 12 16 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 67 8 ]
+        symbol [ info %info.1 70 12 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 71 8 ]
         %tmp.4 = self;
-        symbol [ applyPositionInfo %tmp.5 67 8 25 ];
+        symbol [ applyPositionInfo %tmp.5 71 8 25 ];
         %tmp.5 = getv function %tmp.4 :applyPositionInfo;
         %tmp.6 = lgetv %info.1;
-        symbol [ info %tmp.6 67 26 30 ];
+        symbol [ info %tmp.6 71 26 30 ];
         %tmp.7 = "poll";
         invoke %tmp.4 %tmp.5(%tmp.6, %tmp.7);
-G__code_garmiand_garmin_source_GarmiandApp_mc_65_31_68_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_69_31_72_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 70; @symbol_functiondef = [onMapImage,70,13,23]; @symbol_param<0> = [responseCode,70,24,36]; @symbol_param<0>_type<0> = [Lang,70,40,44]; @symbol_param<0>_type<1> = [Number,70,45,51]; @symbol_param<1> = [data,70,53,57]; @symbol_param<1>_type<0> = [WatchUi,70,61,68]; @symbol_param<1>_type<1> = [BitmapResource,70,69,83]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 74; @symbol_functiondef = [onMapImage,74,13,23]; @symbol_param<0> = [responseCode,74,24,36]; @symbol_param<0>_type<0> = [Lang,74,40,44]; @symbol_param<0>_type<1> = [Number,74,45,51]; @symbol_param<1> = [data,74,53,57]; @symbol_param<1>_type<0> = [WatchUi,74,61,68]; @symbol_param<1>_type<1> = [BitmapResource,74,69,83]; ]
     function onMapImage(responseCode as Lang.Number, data as WatchUi.BitmapResource or Null) as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_70_94_76_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 71 8 ]
-        symbol [ System %tmp.1 71 8 14 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_74_94_82_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 75 8 ]
+        symbol [ System %tmp.1 75 8 14 ];
         %tmp.1 = getm $.Toybox.System;
-        symbol [ println %tmp.2 71 15 22 ];
+        symbol [ println %tmp.2 75 15 22 ];
         %tmp.2 = getv function %tmp.1 :println;
         %tmp.3 = "[Map] image response code=";
         %tmp.4 = lgetv %responseCode;
-        symbol [ responseCode %tmp.4 71 54 66 ];
+        symbol [ responseCode %tmp.4 75 54 66 ];
         %tmp.5 = add %tmp.3 %tmp.4;
         invoke %tmp.1 %tmp.2(%tmp.5);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 72 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_8_75_8_if_stmt:
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_12_72_43_begin:
-        %tmp.6 = lgetv %responseCode;
-        symbol [ responseCode %tmp.6 72 12 24 ];
-        %tmp.7 = 200;
-        %tmp.8 = eq %tmp.6 %tmp.7;
-        bf %tmp.8 @G__code_garmiand_garmin_source_GarmiandApp_mc_72_8_75_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_35_72_43_true:
-        %tmp.9 = lgetv %data;
-        symbol [ data %tmp.9 72 35 39 ];
-        %tmp.10 = null;
-        %tmp.11 = ne %tmp.9 %tmp.10;
-        push %tmp.11;
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_35_72_43_end:
-        %tmp.12 = phi [%tmp.8 @G__code_garmiand_garmin_source_GarmiandApp_mc_72_12_72_43_begin] [%tmp.11 @G__code_garmiand_garmin_source_GarmiandApp_mc_72_35_72_43_true] [%tmp.12 @G__code_garmiand_garmin_source_GarmiandApp_mc_72_35_72_43_end];
-        bf %tmp.12 @G__code_garmiand_garmin_source_GarmiandApp_mc_72_8_75_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_8_75_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_49_75_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 73 12 ]
-        %tmp.13 = lgetv %data;
-        symbol [ data %tmp.13 73 25 29 ];
-        %tmp.14 = as %tmp.13 { (!Null) };
-        symbol [ _mapBitmap ? 73 12 22 ];
-        putv self :_mapBitmap %tmp.14;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 74 12 ]
-        symbol [ WatchUi %tmp.15 74 12 19 ];
-        %tmp.15 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.16 74 20 33 ];
-        %tmp.16 = getv function %tmp.15 :requestUpdate;
-        invoke %tmp.15 %tmp.16();
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_49_75_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_72_8_75_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_72_8_75_8_if_end:
-G__code_garmiand_garmin_source_GarmiandApp_mc_70_94_76_4_stop:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 76 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_74_94_82_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_74_94_82_4_stop" ]
+        %hasData.1 = local;
+        symbol [ hasData %hasData.1 76 12 19 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_begin:
+        %tmp.6 = lgetv %data;
+        symbol [ data %tmp.6 76 23 27 ];
+        %tmp.7 = null;
+        %tmp.8 = ne %tmp.6 %tmp.7;
+        bf %tmp.8 @G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_else_false;
+G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_true:
+        %tmp.9 = "1";
+        push %tmp.9;
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_else_false:
+        %tmp.10 = "0";
+        push %tmp.10;
+G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_end:
+        %tmp.11 = phi [%tmp.8 @G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_begin] [%tmp.9 @G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_true] [%tmp.10 @G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_else_false] [%tmp.11 @G__code_garmiand_garmin_source_GarmiandApp_mc_76_22_76_45_end];
+        lputv %hasData.1 %tmp.11;
+        symbol [ hasData %hasData.1 76 12 19 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 77 8 ]
+        %tmp.12 = "code=";
+        %tmp.13 = lgetv %responseCode;
+        symbol [ responseCode %tmp.13 77 30 42 ];
+        %tmp.14 = add %tmp.12 %tmp.13;
+        %tmp.15 = " d=";
+        %tmp.16 = add %tmp.14 %tmp.15;
+        %tmp.17 = lgetv %hasData.1;
+        symbol [ hasData %tmp.17 77 53 60 ];
+        %tmp.18 = add %tmp.16 %tmp.17;
+        symbol [ _mapDebug ? 77 8 17 ];
+        putv self :_mapDebug %tmp.18;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 78 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_8_80_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_12_78_43_begin:
+        %tmp.19 = lgetv %responseCode;
+        symbol [ responseCode %tmp.19 78 12 24 ];
+        %tmp.20 = 200;
+        %tmp.21 = eq %tmp.19 %tmp.20;
+        bf %tmp.21 @G__code_garmiand_garmin_source_GarmiandApp_mc_78_8_80_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_35_78_43_true:
+        %tmp.22 = lgetv %data;
+        symbol [ data %tmp.22 78 35 39 ];
+        %tmp.23 = null;
+        %tmp.24 = ne %tmp.22 %tmp.23;
+        push %tmp.24;
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_35_78_43_end:
+        %tmp.25 = phi [%tmp.21 @G__code_garmiand_garmin_source_GarmiandApp_mc_78_12_78_43_begin] [%tmp.24 @G__code_garmiand_garmin_source_GarmiandApp_mc_78_35_78_43_true] [%tmp.25 @G__code_garmiand_garmin_source_GarmiandApp_mc_78_35_78_43_end];
+        bf %tmp.25 @G__code_garmiand_garmin_source_GarmiandApp_mc_78_8_80_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_8_80_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_49_80_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 79 12 ]
+        %tmp.26 = lgetv %data;
+        symbol [ data %tmp.26 79 25 29 ];
+        %tmp.27 = as %tmp.26 { (!Null) };
+        symbol [ _mapBitmap ? 79 12 22 ];
+        putv self :_mapBitmap %tmp.27;
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_49_80_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_78_8_80_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_78_8_80_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 81 8 ]
+        symbol [ WatchUi %tmp.28 81 8 15 ];
+        %tmp.28 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.29 81 16 29 ];
+        %tmp.29 = getv function %tmp.28 :requestUpdate;
+        invoke %tmp.28 %tmp.29();
+G__code_garmiand_garmin_source_GarmiandApp_mc_74_94_82_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 78; @symbol_functiondef = [applyPositionInfo,78,13,30]; @symbol_param<0> = [info,78,31,35]; @symbol_param<0>_type<0> = [Position,78,39,47]; @symbol_param<0>_type<1> = [Info,78,48,52]; @symbol_param<1> = [source,78,54,60]; @symbol_param<1>_type<0> = [Lang,78,64,68]; @symbol_param<1>_type<1> = [String,78,69,75]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 84; @symbol_functiondef = [applyPositionInfo,84,13,30]; @symbol_param<0> = [info,84,31,35]; @symbol_param<0>_type<0> = [Position,84,39,47]; @symbol_param<0>_type<1> = [Info,84,48,52]; @symbol_param<1> = [source,84,54,60]; @symbol_param<1>_type<0> = [Lang,84,64,68]; @symbol_param<1>_type<1> = [String,84,69,75]; ]
     function applyPositionInfo(info as Position.Info, source as Lang.String) as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 79 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_79_8_81_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 85 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_85_8_87_8_if_stmt:
         %tmp.1 = lgetv %info;
-        symbol [ info %tmp.1 79 12 16 ];
-        symbol [ accuracy %tmp.2 79 17 25 ];
+        symbol [ info %tmp.1 85 12 16 ];
+        symbol [ accuracy %tmp.2 85 17 25 ];
         %tmp.2 = getv %tmp.1 :accuracy;
-        symbol [ Position %tmp.3 79 29 37 ];
+        symbol [ Position %tmp.3 85 29 37 ];
         %tmp.3 = getm $.Toybox.Position;
-        symbol [ QUALITY_NOT_AVAILABLE %tmp.4 79 38 59 ];
+        symbol [ QUALITY_NOT_AVAILABLE %tmp.4 85 38 59 ];
         %tmp.4 = getv %tmp.3 :QUALITY_NOT_AVAILABLE;
         %tmp.5 = eq %tmp.2 %tmp.4;
-        bf %tmp.5 @G__code_garmiand_garmin_source_GarmiandApp_mc_79_8_81_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_79_8_81_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_79_61_81_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 80 12 ]
+        bf %tmp.5 @G__code_garmiand_garmin_source_GarmiandApp_mc_85_8_87_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_85_8_87_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_85_61_87_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 86 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_79_61_81_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_79_8_81_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_79_8_81_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 82 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_85_61_87_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_85_8_87_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_85_8_87_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 88 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_stop" ]
         %pos.1 = local;
-        symbol [ pos %pos.1 82 12 15 ];
+        symbol [ pos %pos.1 88 12 15 ];
         %tmp.6 = lgetv %info;
-        symbol [ info %tmp.6 82 18 22 ];
-        symbol [ position %tmp.7 82 23 31 ];
+        symbol [ info %tmp.6 88 18 22 ];
+        symbol [ position %tmp.7 88 23 31 ];
         %tmp.7 = getv %tmp.6 :position;
         lputv %pos.1 %tmp.7;
-        symbol [ pos %pos.1 82 12 15 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 83 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_83_8_85_8_if_stmt:
-        %tmp.8 = lgetv %pos.1;
-        symbol [ pos %tmp.8 83 12 15 ];
-        %tmp.9 = null;
-        %tmp.10 = eq %tmp.8 %tmp.9;
-        bf %tmp.10 @G__code_garmiand_garmin_source_GarmiandApp_mc_83_8_85_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_83_8_85_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_83_25_85_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 84 12 ]
-        ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_83_25_85_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_83_8_85_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_83_8_85_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 86 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_stop" ]
-        %coords.2 = local;
-        symbol [ coords %coords.2 86 12 18 ];
-        %tmp.11 = lgetv %pos.1;
-        symbol [ pos %tmp.11 86 21 24 ];
-        symbol [ toDegrees %tmp.12 86 25 34 ];
-        %tmp.12 = getv function %tmp.11 :toDegrees;
-        %tmp.13 = invoke %tmp.11 %tmp.12();
-        lputv %coords.2 %tmp.13;
-        symbol [ coords %coords.2 86 12 18 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 87 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_stop" ]
-        %lat.3 = local;
-        symbol [ lat %lat.3 87 12 15 ];
-        %tmp.14 = lgetv %coords.2;
-        symbol [ coords %tmp.14 87 18 24 ];
-        %tmp.15 = 0;
-        %tmp.16 = agetv %tmp.14 %tmp.15;
-        symbol [ toFloat %tmp.17 87 28 35 ];
-        %tmp.17 = getv function %tmp.16 :toFloat;
-        %tmp.18 = invoke %tmp.16 %tmp.17();
-        lputv %lat.3 %tmp.18;
-        symbol [ lat %lat.3 87 12 15 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 88 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_stop" ]
-        %lon.4 = local;
-        symbol [ lon %lon.4 88 12 15 ];
-        %tmp.19 = lgetv %coords.2;
-        symbol [ coords %tmp.19 88 18 24 ];
-        %tmp.20 = 1;
-        %tmp.21 = agetv %tmp.19 %tmp.20;
-        symbol [ toFloat %tmp.22 88 28 35 ];
-        %tmp.22 = getv function %tmp.21 :toFloat;
-        %tmp.23 = invoke %tmp.21 %tmp.22();
-        lputv %lon.4 %tmp.23;
-        symbol [ lon %lon.4 88 12 15 ];
+        symbol [ pos %pos.1 88 12 15 ];
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 89 8 ]
 G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_stmt:
-G__code_garmiand_garmin_source_GarmiandApp_mc_89_12_89_41_begin:
-        %tmp.24 = lgetv %lat.3;
-        symbol [ lat %tmp.24 89 12 15 ];
-        symbol [ _currentLat %tmp.26 89 19 30 ];
-        %tmp.26 = getv ? :_currentLat;
-        %tmp.27 = eq %tmp.24 %tmp.26;
-        bf %tmp.27 @G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_89_34_89_41_true:
-        %tmp.28 = lgetv %lon.4;
-        symbol [ lon %tmp.28 89 34 37 ];
-        symbol [ _currentLon %tmp.30 89 41 52 ];
-        %tmp.30 = getv ? :_currentLon;
-        %tmp.31 = eq %tmp.28 %tmp.30;
-        push %tmp.31;
-G__code_garmiand_garmin_source_GarmiandApp_mc_89_34_89_41_end:
-        %tmp.32 = phi [%tmp.27 @G__code_garmiand_garmin_source_GarmiandApp_mc_89_12_89_41_begin] [%tmp.31 @G__code_garmiand_garmin_source_GarmiandApp_mc_89_34_89_41_true] [%tmp.32 @G__code_garmiand_garmin_source_GarmiandApp_mc_89_34_89_41_end];
-        bf %tmp.32 @G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_end;
+        %tmp.8 = lgetv %pos.1;
+        symbol [ pos %tmp.8 89 12 15 ];
+        %tmp.9 = null;
+        %tmp.10 = eq %tmp.8 %tmp.9;
+        bf %tmp.10 @G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_89_54_91_8_start:
+G__code_garmiand_garmin_source_GarmiandApp_mc_89_25_91_8_start:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 90 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_89_54_91_8_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_89_25_91_8_stop:
         goto @G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_89_8_91_8_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 92 8 ]
-        symbol [ System %tmp.33 92 8 14 ];
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_stop" ]
+        %coords.2 = local;
+        symbol [ coords %coords.2 92 12 18 ];
+        %tmp.11 = lgetv %pos.1;
+        symbol [ pos %tmp.11 92 21 24 ];
+        symbol [ toDegrees %tmp.12 92 25 34 ];
+        %tmp.12 = getv function %tmp.11 :toDegrees;
+        %tmp.13 = invoke %tmp.11 %tmp.12();
+        lputv %coords.2 %tmp.13;
+        symbol [ coords %coords.2 92 12 18 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 93 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_stop" ]
+        %lat.3 = local;
+        symbol [ lat %lat.3 93 12 15 ];
+        %tmp.14 = lgetv %coords.2;
+        symbol [ coords %tmp.14 93 18 24 ];
+        %tmp.15 = 0;
+        %tmp.16 = agetv %tmp.14 %tmp.15;
+        symbol [ toFloat %tmp.17 93 28 35 ];
+        %tmp.17 = getv function %tmp.16 :toFloat;
+        %tmp.18 = invoke %tmp.16 %tmp.17();
+        lputv %lat.3 %tmp.18;
+        symbol [ lat %lat.3 93 12 15 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 94 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_stop" ]
+        %lon.4 = local;
+        symbol [ lon %lon.4 94 12 15 ];
+        %tmp.19 = lgetv %coords.2;
+        symbol [ coords %tmp.19 94 18 24 ];
+        %tmp.20 = 1;
+        %tmp.21 = agetv %tmp.19 %tmp.20;
+        symbol [ toFloat %tmp.22 94 28 35 ];
+        %tmp.22 = getv function %tmp.21 :toFloat;
+        %tmp.23 = invoke %tmp.21 %tmp.22();
+        lputv %lon.4 %tmp.23;
+        symbol [ lon %lon.4 94 12 15 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 95 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_8_97_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_12_95_41_begin:
+        %tmp.24 = lgetv %lat.3;
+        symbol [ lat %tmp.24 95 12 15 ];
+        symbol [ _currentLat %tmp.26 95 19 30 ];
+        %tmp.26 = getv ? :_currentLat;
+        %tmp.27 = eq %tmp.24 %tmp.26;
+        bf %tmp.27 @G__code_garmiand_garmin_source_GarmiandApp_mc_95_8_97_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_34_95_41_true:
+        %tmp.28 = lgetv %lon.4;
+        symbol [ lon %tmp.28 95 34 37 ];
+        symbol [ _currentLon %tmp.30 95 41 52 ];
+        %tmp.30 = getv ? :_currentLon;
+        %tmp.31 = eq %tmp.28 %tmp.30;
+        push %tmp.31;
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_34_95_41_end:
+        %tmp.32 = phi [%tmp.27 @G__code_garmiand_garmin_source_GarmiandApp_mc_95_12_95_41_begin] [%tmp.31 @G__code_garmiand_garmin_source_GarmiandApp_mc_95_34_95_41_true] [%tmp.32 @G__code_garmiand_garmin_source_GarmiandApp_mc_95_34_95_41_end];
+        bf %tmp.32 @G__code_garmiand_garmin_source_GarmiandApp_mc_95_8_97_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_8_97_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_54_97_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 96 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_54_97_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_95_8_97_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_95_8_97_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 98 8 ]
+        symbol [ System %tmp.33 98 8 14 ];
         %tmp.33 = getm $.Toybox.System;
-        symbol [ println %tmp.34 92 15 22 ];
+        symbol [ println %tmp.34 98 15 22 ];
         %tmp.34 = getv function %tmp.33 :println;
         %tmp.35 = "[GPS:";
         %tmp.36 = lgetv %source;
-        symbol [ source %tmp.36 92 33 39 ];
+        symbol [ source %tmp.36 98 33 39 ];
         %tmp.37 = add %tmp.35 %tmp.36;
         %tmp.38 = "] lat=";
         %tmp.39 = add %tmp.37 %tmp.38;
         %tmp.40 = lgetv %lat.3;
-        symbol [ lat %tmp.40 92 53 56 ];
+        symbol [ lat %tmp.40 98 53 56 ];
         %tmp.41 = add %tmp.39 %tmp.40;
         %tmp.42 = " lon=";
         %tmp.43 = add %tmp.41 %tmp.42;
         %tmp.44 = lgetv %lon.4;
-        symbol [ lon %tmp.44 92 69 72 ];
+        symbol [ lon %tmp.44 98 69 72 ];
         %tmp.45 = add %tmp.43 %tmp.44;
         %tmp.46 = " acc=";
         %tmp.47 = add %tmp.45 %tmp.46;
         %tmp.48 = lgetv %info;
-        symbol [ info %tmp.48 92 85 89 ];
-        symbol [ accuracy %tmp.49 92 90 98 ];
+        symbol [ info %tmp.48 98 85 89 ];
+        symbol [ accuracy %tmp.49 98 90 98 ];
         %tmp.49 = getv %tmp.48 :accuracy;
         %tmp.50 = add %tmp.47 %tmp.49;
         invoke %tmp.33 %tmp.34(%tmp.50);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 93 8 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 99 8 ]
         %tmp.51 = lgetv %lat.3;
-        symbol [ lat %tmp.51 93 22 25 ];
-        symbol [ _currentLat ? 93 8 19 ];
+        symbol [ lat %tmp.51 99 22 25 ];
+        symbol [ _currentLat ? 99 8 19 ];
         putv self :_currentLat %tmp.51;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 94 8 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 100 8 ]
         %tmp.52 = lgetv %lon.4;
-        symbol [ lon %tmp.52 94 22 25 ];
-        symbol [ _currentLon ? 94 8 19 ];
+        symbol [ lon %tmp.52 100 22 25 ];
+        symbol [ _currentLon ? 100 8 19 ];
         putv self :_currentLon %tmp.52;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 95 8 ]
-        symbol [ WatchUi %tmp.53 95 8 15 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 101 8 ]
+        symbol [ WatchUi %tmp.53 101 8 15 ];
         %tmp.53 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.54 95 16 29 ];
+        symbol [ requestUpdate %tmp.54 101 16 29 ];
         %tmp.54 = getv function %tmp.53 :requestUpdate;
         invoke %tmp.53 %tmp.54();
-G__code_garmiand_garmin_source_GarmiandApp_mc_78_85_96_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_84_85_102_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 98; @symbol_functiondef = [onPhoneMessage,98,13,27]; @symbol_param<0> = [msg,98,28,31]; @symbol_param<0>_type<0> = [Communications,98,35,49]; @symbol_param<0>_type<1> = [PhoneAppMessage,98,50,65]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 104; @symbol_functiondef = [onPhoneMessage,104,13,27]; @symbol_param<0> = [msg,104,28,31]; @symbol_param<0>_type<0> = [Communications,104,35,49]; @symbol_param<0>_type<1> = [PhoneAppMessage,104,50,65]; ]
     function onPhoneMessage(msg as Communications.PhoneAppMessage) as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 99 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 105 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_stop" ]
         %data.1 = local;
-        symbol [ data %data.1 99 12 16 ];
+        symbol [ data %data.1 105 12 16 ];
         %tmp.1 = lgetv %msg;
-        symbol [ msg %tmp.1 99 19 22 ];
-        symbol [ data %tmp.2 99 23 27 ];
+        symbol [ msg %tmp.1 105 19 22 ];
+        symbol [ data %tmp.2 105 23 27 ];
         %tmp.2 = getv %tmp.1 :data;
         lputv %data.1 %tmp.2;
-        symbol [ data %data.1 99 12 16 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 100 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_100_8_102_8_if_stmt:
+        symbol [ data %data.1 105 12 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 106 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_106_8_108_8_if_stmt:
         %tmp.3 = lgetv %data.1;
-        symbol [ data %tmp.3 100 14 18 ];
-        symbol [ Lang %tmp.4 100 30 34 ];
+        symbol [ data %tmp.3 106 14 18 ];
+        symbol [ Lang %tmp.4 106 30 34 ];
         %tmp.4 = getm $.Toybox.Lang;
-        symbol [ Dictionary %tmp.5 100 35 45 ];
+        symbol [ Dictionary %tmp.5 106 35 45 ];
         %tmp.5 = getv %tmp.4 :Dictionary;
         %tmp.6 = isa %tmp.3 %tmp.5;
         %tmp.7 = not %tmp.6;
-        bf %tmp.7 @G__code_garmiand_garmin_source_GarmiandApp_mc_100_8_102_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_100_8_102_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_100_48_102_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 101 12 ]
+        bf %tmp.7 @G__code_garmiand_garmin_source_GarmiandApp_mc_106_8_108_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_106_8_108_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_106_48_108_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 107 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_100_48_102_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_100_8_102_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_100_8_102_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 103 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_106_48_108_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_106_8_108_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_106_8_108_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 109 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_stop" ]
         %dict.2 = local;
-        symbol [ dict %dict.2 103 12 16 ];
+        symbol [ dict %dict.2 109 12 16 ];
         %tmp.8 = lgetv %data.1;
-        symbol [ data %tmp.8 103 19 23 ];
+        symbol [ data %tmp.8 109 19 23 ];
         %tmp.9 = as %tmp.8 Lang.Dictionary;
-        symbol [ Lang %tmp.9 103 27 31 ];
-        symbol [ Dictionary %tmp.9 103 32 42 ];
+        symbol [ Lang %tmp.9 109 27 31 ];
+        symbol [ Dictionary %tmp.9 109 32 42 ];
         lputv %dict.2 %tmp.9;
-        symbol [ dict %dict.2 103 12 16 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 104 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_104_8_106_8_if_stmt:
+        symbol [ dict %dict.2 109 12 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 110 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_110_8_112_8_if_stmt:
         %tmp.10 = lgetv %dict.2;
-        symbol [ dict %tmp.10 104 13 17 ];
-        symbol [ hasKey %tmp.11 104 18 24 ];
+        symbol [ dict %tmp.10 110 13 17 ];
+        symbol [ hasKey %tmp.11 110 18 24 ];
         %tmp.11 = getv function %tmp.10 :hasKey;
         %tmp.12 = "kind";
         %tmp.13 = invoke %tmp.10 %tmp.11(%tmp.12);
         %tmp.14 = not %tmp.13;
-        bf %tmp.14 @G__code_garmiand_garmin_source_GarmiandApp_mc_104_8_106_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_104_8_106_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_104_34_106_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 105 12 ]
+        bf %tmp.14 @G__code_garmiand_garmin_source_GarmiandApp_mc_110_8_112_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_110_8_112_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_110_34_112_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 111 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_104_34_106_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_104_8_106_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_104_8_106_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 108 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_110_34_112_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_110_8_112_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_110_8_112_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 114 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_stop" ]
         %kind.3 = local;
-        symbol [ kind %kind.3 108 12 16 ];
+        symbol [ kind %kind.3 114 12 16 ];
         %tmp.15 = lgetv %dict.2;
-        symbol [ dict %tmp.15 108 19 23 ];
+        symbol [ dict %tmp.15 114 19 23 ];
         %tmp.16 = "kind";
         %tmp.17 = agetv %tmp.15 %tmp.16;
         lputv %kind.3 %tmp.17;
-        symbol [ kind %kind.3 108 12 16 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 109 8 ]
-        symbol [ System %tmp.18 109 8 14 ];
+        symbol [ kind %kind.3 114 12 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 115 8 ]
+        symbol [ System %tmp.18 115 8 14 ];
         %tmp.18 = getm $.Toybox.System;
-        symbol [ println %tmp.19 109 15 22 ];
+        symbol [ println %tmp.19 115 15 22 ];
         %tmp.19 = getv function %tmp.18 :println;
         %tmp.20 = "[PhoneMsg] kind=";
         %tmp.21 = lgetv %kind.3;
-        symbol [ kind %tmp.21 109 44 48 ];
+        symbol [ kind %tmp.21 115 44 48 ];
         %tmp.22 = add %tmp.20 %tmp.21;
         invoke %tmp.18 %tmp.19(%tmp.22);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 111 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_111_8_118_8_if_stmt:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 117 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_117_8_124_8_if_stmt:
         %tmp.23 = "sync_start";
-        symbol [ equals %tmp.24 111 25 31 ];
+        symbol [ equals %tmp.24 117 25 31 ];
         %tmp.24 = getv function %tmp.23 :equals;
         %tmp.25 = lgetv %kind.3;
-        symbol [ kind %tmp.25 111 32 36 ];
+        symbol [ kind %tmp.25 117 32 36 ];
         %tmp.26 = invoke %tmp.23 %tmp.24(%tmp.25);
-        bf %tmp.26 @G__code_garmiand_garmin_source_GarmiandApp_mc_111_8_118_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_111_8_118_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_111_39_118_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 112 12 ]
-        symbol [ _route %tmp.28 112 12 18 ];
+        bf %tmp.26 @G__code_garmiand_garmin_source_GarmiandApp_mc_117_8_124_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_117_8_124_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_117_39_124_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 118 12 ]
+        symbol [ _route %tmp.28 118 12 18 ];
         %tmp.28 = getv ? :_route;
-        symbol [ reset %tmp.29 112 19 24 ];
+        symbol [ reset %tmp.29 118 19 24 ];
         %tmp.29 = getv function %tmp.28 :reset;
         invoke %tmp.28 %tmp.29();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 113 12 ]
-        symbol [ _route %tmp.30 113 12 18 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 119 12 ]
+        symbol [ _route %tmp.30 119 12 18 ];
         %tmp.30 = getv self :_route;
         %tmp.31 = lgetv %dict.2;
-        symbol [ dict %tmp.31 113 29 33 ];
+        symbol [ dict %tmp.31 119 29 33 ];
         %tmp.32 = "route_id";
         %tmp.33 = agetv %tmp.31 %tmp.32;
-        symbol [ routeId ? 113 19 26 ];
+        symbol [ routeId ? 119 19 26 ];
         putv %tmp.30 :routeId %tmp.33;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 114 12 ]
-        symbol [ _route %tmp.34 114 12 18 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 120 12 ]
+        symbol [ _route %tmp.34 120 12 18 ];
         %tmp.34 = getv self :_route;
         %tmp.35 = lgetv %dict.2;
-        symbol [ dict %tmp.35 114 31 35 ];
+        symbol [ dict %tmp.35 120 31 35 ];
         %tmp.36 = "route_name";
         %tmp.37 = agetv %tmp.35 %tmp.36;
-        symbol [ routeName ? 114 19 28 ];
+        symbol [ routeName ? 120 19 28 ];
         putv %tmp.34 :routeName %tmp.37;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 115 12 ]
-        symbol [ _route %tmp.38 115 12 18 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 121 12 ]
+        symbol [ _route %tmp.38 121 12 18 ];
         %tmp.38 = getv self :_route;
         %tmp.39 = lgetv %dict.2;
-        symbol [ dict %tmp.39 115 40 44 ];
+        symbol [ dict %tmp.39 121 40 44 ];
         %tmp.40 = "chunk_count";
         %tmp.41 = agetv %tmp.39 %tmp.40;
-        symbol [ expectedChunkCount ? 115 19 37 ];
+        symbol [ expectedChunkCount ? 121 19 37 ];
         putv %tmp.38 :expectedChunkCount %tmp.41;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 116 12 ]
-        symbol [ WatchUi %tmp.42 116 12 19 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 122 12 ]
+        symbol [ WatchUi %tmp.42 122 12 19 ];
         %tmp.42 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.43 116 20 33 ];
+        symbol [ requestUpdate %tmp.43 122 20 33 ];
         %tmp.43 = getv function %tmp.42 :requestUpdate;
         invoke %tmp.42 %tmp.43();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 117 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 123 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_111_39_118_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_111_8_118_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_111_8_118_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 120 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_120_8_124_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_117_39_124_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_117_8_124_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_117_8_124_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 126 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_130_8_if_stmt:
         %tmp.44 = "route_chunk";
-        symbol [ equals %tmp.45 120 26 32 ];
+        symbol [ equals %tmp.45 126 26 32 ];
         %tmp.45 = getv function %tmp.44 :equals;
         %tmp.46 = lgetv %kind.3;
-        symbol [ kind %tmp.46 120 33 37 ];
+        symbol [ kind %tmp.46 126 33 37 ];
         %tmp.47 = invoke %tmp.44 %tmp.45(%tmp.46);
-        bf %tmp.47 @G__code_garmiand_garmin_source_GarmiandApp_mc_120_8_124_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_120_8_124_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_120_40_124_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 121 12 ]
-        symbol [ _route %tmp.49 121 12 18 ];
+        bf %tmp.47 @G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_130_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_130_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_126_40_130_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 127 12 ]
+        symbol [ _route %tmp.49 127 12 18 ];
         %tmp.49 = getv ? :_route;
-        symbol [ addChunk %tmp.50 121 19 27 ];
+        symbol [ addChunk %tmp.50 127 19 27 ];
         %tmp.50 = getv function %tmp.49 :addChunk;
         %tmp.51 = lgetv %dict.2;
-        symbol [ dict %tmp.51 121 28 32 ];
+        symbol [ dict %tmp.51 127 28 32 ];
         %tmp.52 = "lats";
         %tmp.53 = agetv %tmp.51 %tmp.52;
         %tmp.54 = lgetv %dict.2;
-        symbol [ dict %tmp.54 121 42 46 ];
+        symbol [ dict %tmp.54 127 42 46 ];
         %tmp.55 = "lons";
         %tmp.56 = agetv %tmp.54 %tmp.55;
         invoke %tmp.49 %tmp.50(%tmp.53, %tmp.56);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 122 12 ]
-        symbol [ WatchUi %tmp.57 122 12 19 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 128 12 ]
+        symbol [ WatchUi %tmp.57 128 12 19 ];
         %tmp.57 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.58 122 20 33 ];
+        symbol [ requestUpdate %tmp.58 128 20 33 ];
         %tmp.58 = getv function %tmp.57 :requestUpdate;
         invoke %tmp.57 %tmp.58();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 123 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 129 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_120_40_124_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_120_8_124_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_120_8_124_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 126 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_133_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_126_40_130_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_130_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_130_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 132 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_132_8_139_8_if_stmt:
         %tmp.59 = "markers";
-        symbol [ equals %tmp.60 126 22 28 ];
+        symbol [ equals %tmp.60 132 22 28 ];
         %tmp.60 = getv function %tmp.59 :equals;
         %tmp.61 = lgetv %kind.3;
-        symbol [ kind %tmp.61 126 29 33 ];
+        symbol [ kind %tmp.61 132 29 33 ];
         %tmp.62 = invoke %tmp.59 %tmp.60(%tmp.61);
-        bf %tmp.62 @G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_133_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_133_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_126_36_133_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 127 12 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_126_36_133_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_126_36_133_8_stop" ]
+        bf %tmp.62 @G__code_garmiand_garmin_source_GarmiandApp_mc_132_8_139_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_132_8_139_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_132_36_139_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 133 12 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_132_36_139_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_132_36_139_8_stop" ]
         %rawMarkers.4 = local;
-        symbol [ rawMarkers %rawMarkers.4 127 16 26 ];
+        symbol [ rawMarkers %rawMarkers.4 133 16 26 ];
         %tmp.63 = lgetv %dict.2;
-        symbol [ dict %tmp.63 127 29 33 ];
+        symbol [ dict %tmp.63 133 29 33 ];
         %tmp.64 = "markers";
         %tmp.65 = agetv %tmp.63 %tmp.64;
         lputv %rawMarkers.4 %tmp.65;
-        symbol [ rawMarkers %rawMarkers.4 127 16 26 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 128 12 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_128_12_131_12_if_stmt:
+        symbol [ rawMarkers %rawMarkers.4 133 16 26 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 134 12 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_134_12_137_12_if_stmt:
         %tmp.66 = lgetv %rawMarkers.4;
-        symbol [ rawMarkers %tmp.66 128 16 26 ];
-        symbol [ Lang %tmp.67 128 38 42 ];
+        symbol [ rawMarkers %tmp.66 134 16 26 ];
+        symbol [ Lang %tmp.67 134 38 42 ];
         %tmp.67 = getm $.Toybox.Lang;
-        symbol [ Array %tmp.68 128 43 48 ];
+        symbol [ Array %tmp.68 134 43 48 ];
         %tmp.68 = getv %tmp.67 :Array;
         %tmp.69 = isa %tmp.66 %tmp.68;
-        bf %tmp.69 @G__code_garmiand_garmin_source_GarmiandApp_mc_128_12_131_12_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_128_12_131_12_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_128_50_131_12_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 129 16 ]
-        symbol [ _route %tmp.71 129 16 22 ];
+        bf %tmp.69 @G__code_garmiand_garmin_source_GarmiandApp_mc_134_12_137_12_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_134_12_137_12_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_134_50_137_12_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 135 16 ]
+        symbol [ _route %tmp.71 135 16 22 ];
         %tmp.71 = getv ? :_route;
-        symbol [ setMarkers %tmp.72 129 23 33 ];
+        symbol [ setMarkers %tmp.72 135 23 33 ];
         %tmp.72 = getv function %tmp.71 :setMarkers;
         %tmp.73 = lgetv %rawMarkers.4;
-        symbol [ rawMarkers %tmp.73 129 34 44 ];
+        symbol [ rawMarkers %tmp.73 135 34 44 ];
         %tmp.74 = as %tmp.73 { (Lang.Array) };
         %tmp.75 = as %tmp.74 Lang.Array;
-        symbol [ Lang %tmp.75 129 48 52 ];
-        symbol [ Array %tmp.75 129 53 58 ];
+        symbol [ Lang %tmp.75 135 48 52 ];
+        symbol [ Array %tmp.75 135 53 58 ];
         invoke %tmp.71 %tmp.72(%tmp.75);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 130 16 ]
-        symbol [ WatchUi %tmp.76 130 16 23 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 136 16 ]
+        symbol [ WatchUi %tmp.76 136 16 23 ];
         %tmp.76 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.77 130 24 37 ];
+        symbol [ requestUpdate %tmp.77 136 24 37 ];
         %tmp.77 = getv function %tmp.76 :requestUpdate;
         invoke %tmp.76 %tmp.77();
-G__code_garmiand_garmin_source_GarmiandApp_mc_128_50_131_12_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_128_12_131_12_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_128_12_131_12_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 132 12 ]
-        ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_126_36_133_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_133_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_126_8_133_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 135 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_135_8_139_8_if_stmt:
-        %tmp.78 = "sync_finish";
-        symbol [ equals %tmp.79 135 26 32 ];
-        %tmp.79 = getv function %tmp.78 :equals;
-        %tmp.80 = lgetv %kind.3;
-        symbol [ kind %tmp.80 135 33 37 ];
-        %tmp.81 = invoke %tmp.78 %tmp.79(%tmp.80);
-        bf %tmp.81 @G__code_garmiand_garmin_source_GarmiandApp_mc_135_8_139_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_135_8_139_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_135_40_139_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 136 12 ]
-        symbol [ _route %tmp.82 136 12 18 ];
-        %tmp.82 = getv self :_route;
-        %tmp.83 = true;
-        symbol [ isComplete ? 136 19 29 ];
-        putv %tmp.82 :isComplete %tmp.83;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 137 12 ]
-        symbol [ WatchUi %tmp.84 137 12 19 ];
-        %tmp.84 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.85 137 20 33 ];
-        %tmp.85 = getv function %tmp.84 :requestUpdate;
-        invoke %tmp.84 %tmp.85();
+G__code_garmiand_garmin_source_GarmiandApp_mc_134_50_137_12_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_134_12_137_12_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_134_12_137_12_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 138 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_135_40_139_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_135_8_139_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_135_8_139_8_if_end:
+G__code_garmiand_garmin_source_GarmiandApp_mc_132_36_139_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_132_8_139_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_132_8_139_8_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 141 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_161_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_145_8_if_stmt:
+        %tmp.78 = "sync_finish";
+        symbol [ equals %tmp.79 141 26 32 ];
+        %tmp.79 = getv function %tmp.78 :equals;
+        %tmp.80 = lgetv %kind.3;
+        symbol [ kind %tmp.80 141 33 37 ];
+        %tmp.81 = invoke %tmp.78 %tmp.79(%tmp.80);
+        bf %tmp.81 @G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_145_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_145_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_141_40_145_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 142 12 ]
+        symbol [ _route %tmp.82 142 12 18 ];
+        %tmp.82 = getv self :_route;
+        %tmp.83 = true;
+        symbol [ isComplete ? 142 19 29 ];
+        putv %tmp.82 :isComplete %tmp.83;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 143 12 ]
+        symbol [ WatchUi %tmp.84 143 12 19 ];
+        %tmp.84 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.85 143 20 33 ];
+        %tmp.85 = getv function %tmp.84 :requestUpdate;
+        invoke %tmp.84 %tmp.85();
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 144 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_GarmiandApp_mc_141_40_145_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_145_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_145_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 147 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_147_8_171_8_if_stmt:
         %tmp.86 = "map_url";
-        symbol [ equals %tmp.87 141 22 28 ];
+        symbol [ equals %tmp.87 147 22 28 ];
         %tmp.87 = getv function %tmp.86 :equals;
         %tmp.88 = lgetv %kind.3;
-        symbol [ kind %tmp.88 141 29 33 ];
+        symbol [ kind %tmp.88 147 29 33 ];
         %tmp.89 = invoke %tmp.86 %tmp.87(%tmp.88);
-        bf %tmp.89 @G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_161_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_161_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_141_36_161_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 142 12 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_141_36_161_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_141_36_161_8_stop" ]
+        bf %tmp.89 @G__code_garmiand_garmin_source_GarmiandApp_mc_147_8_171_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_147_8_171_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_147_36_171_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 148 12 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_147_36_171_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_147_36_171_8_stop" ]
         %url.5 = local;
-        symbol [ url %url.5 142 16 19 ];
+        symbol [ url %url.5 148 16 19 ];
         %tmp.90 = lgetv %dict.2;
-        symbol [ dict %tmp.90 142 22 26 ];
+        symbol [ dict %tmp.90 148 22 26 ];
         %tmp.91 = "url";
         %tmp.92 = agetv %tmp.90 %tmp.91;
         %tmp.93 = as %tmp.92 Lang.String;
-        symbol [ Lang %tmp.93 142 37 41 ];
-        symbol [ String %tmp.93 142 42 48 ];
+        symbol [ Lang %tmp.93 148 37 41 ];
+        symbol [ String %tmp.93 148 42 48 ];
         lputv %url.5 %tmp.93;
-        symbol [ url %url.5 142 16 19 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 143 12 ]
+        symbol [ url %url.5 148 16 19 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 149 12 ]
         %tmp.94 = lgetv %dict.2;
-        symbol [ dict %tmp.94 143 26 30 ];
+        symbol [ dict %tmp.94 149 26 30 ];
         %tmp.95 = "min_lat";
         %tmp.96 = agetv %tmp.94 %tmp.95;
         %tmp.97 = as %tmp.96 Lang.Numeric;
-        symbol [ Lang %tmp.97 143 45 49 ];
-        symbol [ Numeric %tmp.97 143 50 57 ];
-        symbol [ toFloat %tmp.98 143 59 66 ];
+        symbol [ Lang %tmp.97 149 45 49 ];
+        symbol [ Numeric %tmp.97 149 50 57 ];
+        symbol [ toFloat %tmp.98 149 59 66 ];
         %tmp.98 = getv function %tmp.97 :toFloat;
         %tmp.99 = invoke %tmp.97 %tmp.98();
-        symbol [ _mapMinLat ? 143 12 22 ];
+        symbol [ _mapMinLat ? 149 12 22 ];
         putv self :_mapMinLat %tmp.99;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 144 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 150 12 ]
         %tmp.100 = lgetv %dict.2;
-        symbol [ dict %tmp.100 144 26 30 ];
+        symbol [ dict %tmp.100 150 26 30 ];
         %tmp.101 = "max_lat";
         %tmp.102 = agetv %tmp.100 %tmp.101;
         %tmp.103 = as %tmp.102 Lang.Numeric;
-        symbol [ Lang %tmp.103 144 45 49 ];
-        symbol [ Numeric %tmp.103 144 50 57 ];
-        symbol [ toFloat %tmp.104 144 59 66 ];
+        symbol [ Lang %tmp.103 150 45 49 ];
+        symbol [ Numeric %tmp.103 150 50 57 ];
+        symbol [ toFloat %tmp.104 150 59 66 ];
         %tmp.104 = getv function %tmp.103 :toFloat;
         %tmp.105 = invoke %tmp.103 %tmp.104();
-        symbol [ _mapMaxLat ? 144 12 22 ];
+        symbol [ _mapMaxLat ? 150 12 22 ];
         putv self :_mapMaxLat %tmp.105;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 145 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 151 12 ]
         %tmp.106 = lgetv %dict.2;
-        symbol [ dict %tmp.106 145 26 30 ];
+        symbol [ dict %tmp.106 151 26 30 ];
         %tmp.107 = "min_lon";
         %tmp.108 = agetv %tmp.106 %tmp.107;
         %tmp.109 = as %tmp.108 Lang.Numeric;
-        symbol [ Lang %tmp.109 145 45 49 ];
-        symbol [ Numeric %tmp.109 145 50 57 ];
-        symbol [ toFloat %tmp.110 145 59 66 ];
+        symbol [ Lang %tmp.109 151 45 49 ];
+        symbol [ Numeric %tmp.109 151 50 57 ];
+        symbol [ toFloat %tmp.110 151 59 66 ];
         %tmp.110 = getv function %tmp.109 :toFloat;
         %tmp.111 = invoke %tmp.109 %tmp.110();
-        symbol [ _mapMinLon ? 145 12 22 ];
+        symbol [ _mapMinLon ? 151 12 22 ];
         putv self :_mapMinLon %tmp.111;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 146 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 152 12 ]
         %tmp.112 = lgetv %dict.2;
-        symbol [ dict %tmp.112 146 26 30 ];
+        symbol [ dict %tmp.112 152 26 30 ];
         %tmp.113 = "max_lon";
         %tmp.114 = agetv %tmp.112 %tmp.113;
         %tmp.115 = as %tmp.114 Lang.Numeric;
-        symbol [ Lang %tmp.115 146 45 49 ];
-        symbol [ Numeric %tmp.115 146 50 57 ];
-        symbol [ toFloat %tmp.116 146 59 66 ];
+        symbol [ Lang %tmp.115 152 45 49 ];
+        symbol [ Numeric %tmp.115 152 50 57 ];
+        symbol [ toFloat %tmp.116 152 59 66 ];
         %tmp.116 = getv function %tmp.115 :toFloat;
         %tmp.117 = invoke %tmp.115 %tmp.116();
-        symbol [ _mapMaxLon ? 146 12 22 ];
+        symbol [ _mapMaxLon ? 152 12 22 ];
         putv self :_mapMaxLon %tmp.117;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 147 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 153 12 ]
         %tmp.118 = lgetv %dict.2;
-        symbol [ dict %tmp.118 147 25 29 ];
+        symbol [ dict %tmp.118 153 25 29 ];
         %tmp.119 = "w";
         %tmp.120 = agetv %tmp.118 %tmp.119;
         %tmp.121 = as %tmp.120 Lang.Numeric;
-        symbol [ Lang %tmp.121 147 38 42 ];
-        symbol [ Numeric %tmp.121 147 43 50 ];
-        symbol [ toNumber %tmp.122 147 52 60 ];
+        symbol [ Lang %tmp.121 153 38 42 ];
+        symbol [ Numeric %tmp.121 153 43 50 ];
+        symbol [ toNumber %tmp.122 153 52 60 ];
         %tmp.122 = getv function %tmp.121 :toNumber;
         %tmp.123 = invoke %tmp.121 %tmp.122();
-        symbol [ _mapWidth ? 147 12 21 ];
+        symbol [ _mapWidth ? 153 12 21 ];
         putv self :_mapWidth %tmp.123;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 148 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 154 12 ]
         %tmp.124 = lgetv %dict.2;
-        symbol [ dict %tmp.124 148 26 30 ];
+        symbol [ dict %tmp.124 154 26 30 ];
         %tmp.125 = "h";
         %tmp.126 = agetv %tmp.124 %tmp.125;
         %tmp.127 = as %tmp.126 Lang.Numeric;
-        symbol [ Lang %tmp.127 148 39 43 ];
-        symbol [ Numeric %tmp.127 148 44 51 ];
-        symbol [ toNumber %tmp.128 148 53 61 ];
+        symbol [ Lang %tmp.127 154 39 43 ];
+        symbol [ Numeric %tmp.127 154 44 51 ];
+        symbol [ toNumber %tmp.128 154 53 61 ];
         %tmp.128 = getv function %tmp.127 :toNumber;
         %tmp.129 = invoke %tmp.127 %tmp.128();
-        symbol [ _mapHeight ? 148 12 22 ];
+        symbol [ _mapHeight ? 154 12 22 ];
         putv self :_mapHeight %tmp.129;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 149 12 ]
-        symbol [ System %tmp.130 149 12 18 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 155 12 ]
+        symbol [ System %tmp.130 155 12 18 ];
         %tmp.130 = getm $.Toybox.System;
-        symbol [ println %tmp.131 149 19 26 ];
+        symbol [ println %tmp.131 155 19 26 ];
         %tmp.131 = getv function %tmp.130 :println;
         %tmp.132 = "[Map] requesting ";
         %tmp.133 = lgetv %url.5;
-        symbol [ url %tmp.133 149 49 52 ];
+        symbol [ url %tmp.133 155 49 52 ];
         %tmp.134 = add %tmp.132 %tmp.133;
         invoke %tmp.130 %tmp.131(%tmp.134);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 150 12 ]
-        symbol [ Communications %tmp.135 150 12 26 ];
-        %tmp.135 = getm $.Toybox.Communications;
-        symbol [ makeImageRequest %tmp.136 150 27 43 ];
-        %tmp.136 = getv function %tmp.135 :makeImageRequest;
-        %tmp.137 = lgetv %url.5;
-        symbol [ url %tmp.137 151 16 19 ];
-        %tmp.138 = null;
-        %tmp.139 = newd 3;
-        %tmp.141 = const :maxWidth;
-        symbol [ maxWidth %tmp.141 154 21 29 const ];
-        symbol [ _mapWidth %tmp.143 154 33 42 ];
-        %tmp.143 = getv ? :_mapWidth;
-        %tmp.144 = dup %tmp.139;
-        %tmp.145 = aputv %tmp.144 %tmp.141 %tmp.143;
-        %tmp.147 = const :maxHeight;
-        symbol [ maxHeight %tmp.147 155 21 30 const ];
-        symbol [ _mapHeight %tmp.149 155 34 44 ];
-        %tmp.149 = getv ? :_mapHeight;
-        %tmp.150 = dup %tmp.145;
-        %tmp.151 = aputv %tmp.150 %tmp.147 %tmp.149;
-        %tmp.153 = const :dithering;
-        symbol [ dithering %tmp.153 156 21 30 const ];
-        symbol [ Communications %tmp.154 156 34 48 ];
-        %tmp.154 = getm $.Toybox.Communications;
-        symbol [ IMAGE_DITHERING_FLOYD_STEINBERG %tmp.155 156 49 80 ];
-        %tmp.155 = getv %tmp.154 :IMAGE_DITHERING_FLOYD_STEINBERG;
-        %tmp.156 = dup %tmp.151;
-        %tmp.157 = aputv %tmp.156 %tmp.153 %tmp.155;
-        %tmp.158 = self;
-        symbol [ method %tmp.159 158 16 22 ];
-        %tmp.159 = getv function %tmp.158 :method;
-        %tmp.161 = const :onMapImage;
-        symbol [ onMapImage %tmp.161 158 24 34 const ];
-        %tmp.162 = invoke %tmp.158 %tmp.159(%tmp.161);
-        invoke %tmp.135 %tmp.136(%tmp.137, %tmp.138, %tmp.157, %tmp.162);
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 156 12 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_147_36_171_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_147_36_171_8_stop" ]
+        %n.6 = local;
+        symbol [ n %n.6 156 16 17 ];
+        %tmp.135 = lgetv %url.5;
+        symbol [ url %tmp.135 156 20 23 ];
+        symbol [ length %tmp.136 156 24 30 ];
+        %tmp.136 = getv function %tmp.135 :length;
+        %tmp.137 = invoke %tmp.135 %tmp.136();
+        lputv %n.6 %tmp.137;
+        symbol [ n %n.6 156 16 17 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 157 12 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_begin:
+        %tmp.138 = lgetv %n.6;
+        symbol [ n %tmp.138 157 28 29 ];
+        %tmp.139 = 24;
+        %tmp.140 = gt %tmp.138 %tmp.139;
+        bf %tmp.140 @G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_else_false;
+G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_true:
+        %tmp.141 = lgetv %url.5;
+        symbol [ url %tmp.141 157 38 41 ];
+        symbol [ substring %tmp.142 157 42 51 ];
+        %tmp.142 = getv function %tmp.141 :substring;
+        %tmp.143 = lgetv %n.6;
+        symbol [ n %tmp.143 157 52 53 ];
+        %tmp.144 = 24;
+        %tmp.145 = sub %tmp.143 %tmp.144;
+        %tmp.146 = lgetv %n.6;
+        symbol [ n %tmp.146 157 60 61 ];
+        %tmp.147 = invoke %tmp.141 %tmp.142(%tmp.145, %tmp.146);
+        push %tmp.147;
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_else_false:
+        %tmp.148 = lgetv %url.5;
+        symbol [ url %tmp.148 157 65 68 ];
+        push %tmp.148;
+G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_end:
+        %tmp.149 = phi [%tmp.140 @G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_begin] [%tmp.147 @G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_true] [%tmp.148 @G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_else_false] [%tmp.149 @G__code_garmiand_garmin_source_GarmiandApp_mc_157_27_157_65_end];
+        symbol [ _lastUrlTail ? 157 12 24 ];
+        putv self :_lastUrlTail %tmp.149;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 158 12 ]
+        %tmp.150 = "requesting...";
+        symbol [ _mapDebug ? 158 12 21 ];
+        putv self :_mapDebug %tmp.150;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 159 12 ]
+        symbol [ WatchUi %tmp.151 159 12 19 ];
+        %tmp.151 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.152 159 20 33 ];
+        %tmp.152 = getv function %tmp.151 :requestUpdate;
+        invoke %tmp.151 %tmp.152();
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 160 12 ]
-        ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_141_36_161_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_161_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_141_8_161_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 163 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_163_8_177_8_if_stmt:
-        %tmp.163 = "route_full";
-        symbol [ equals %tmp.164 163 25 31 ];
-        %tmp.164 = getv function %tmp.163 :equals;
-        %tmp.165 = lgetv %kind.3;
-        symbol [ kind %tmp.165 163 32 36 ];
-        %tmp.166 = invoke %tmp.163 %tmp.164(%tmp.165);
-        bf %tmp.166 @G__code_garmiand_garmin_source_GarmiandApp_mc_163_8_177_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_163_8_177_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_163_39_177_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 164 12 ]
-        symbol [ _route %tmp.168 164 12 18 ];
-        %tmp.168 = getv ? :_route;
-        symbol [ reset %tmp.169 164 19 24 ];
-        %tmp.169 = getv function %tmp.168 :reset;
-        invoke %tmp.168 %tmp.169();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 165 12 ]
-        symbol [ _route %tmp.170 165 12 18 ];
-        %tmp.170 = getv self :_route;
-        %tmp.171 = lgetv %dict.2;
-        symbol [ dict %tmp.171 165 29 33 ];
-        %tmp.172 = "route_id";
-        %tmp.173 = agetv %tmp.171 %tmp.172;
-        symbol [ routeId ? 165 19 26 ];
-        putv %tmp.170 :routeId %tmp.173;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 166 12 ]
-        symbol [ _route %tmp.174 166 12 18 ];
-        %tmp.174 = getv self :_route;
-        %tmp.175 = lgetv %dict.2;
-        symbol [ dict %tmp.175 166 31 35 ];
-        %tmp.176 = "route_name";
-        %tmp.177 = agetv %tmp.175 %tmp.176;
-        symbol [ routeName ? 166 19 28 ];
-        putv %tmp.174 :routeName %tmp.177;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 167 12 ]
-        symbol [ _route %tmp.178 167 12 18 ];
-        %tmp.178 = getv self :_route;
-        %tmp.179 = 1;
-        symbol [ expectedChunkCount ? 167 19 37 ];
-        putv %tmp.178 :expectedChunkCount %tmp.179;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 168 12 ]
-        symbol [ _route %tmp.181 168 12 18 ];
-        %tmp.181 = getv ? :_route;
-        symbol [ addChunk %tmp.182 168 19 27 ];
-        %tmp.182 = getv function %tmp.181 :addChunk;
-        %tmp.183 = lgetv %dict.2;
-        symbol [ dict %tmp.183 168 28 32 ];
-        %tmp.184 = "lats";
-        %tmp.185 = agetv %tmp.183 %tmp.184;
-        %tmp.186 = lgetv %dict.2;
-        symbol [ dict %tmp.186 168 42 46 ];
-        %tmp.187 = "lons";
-        %tmp.188 = agetv %tmp.186 %tmp.187;
-        invoke %tmp.181 %tmp.182(%tmp.185, %tmp.188);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 169 12 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_163_39_177_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_163_39_177_8_stop" ]
-        %rawMarkers.6 = local;
-        symbol [ rawMarkers %rawMarkers.6 169 16 26 ];
-        %tmp.189 = lgetv %dict.2;
-        symbol [ dict %tmp.189 169 29 33 ];
-        %tmp.190 = "markers";
-        %tmp.191 = agetv %tmp.189 %tmp.190;
-        lputv %rawMarkers.6 %tmp.191;
-        symbol [ rawMarkers %rawMarkers.6 169 16 26 ];
+        symbol [ Communications %tmp.153 160 12 26 ];
+        %tmp.153 = getm $.Toybox.Communications;
+        symbol [ makeImageRequest %tmp.154 160 27 43 ];
+        %tmp.154 = getv function %tmp.153 :makeImageRequest;
+        %tmp.155 = lgetv %url.5;
+        symbol [ url %tmp.155 161 16 19 ];
+        %tmp.156 = null;
+        %tmp.157 = newd 3;
+        %tmp.159 = const :maxWidth;
+        symbol [ maxWidth %tmp.159 164 21 29 const ];
+        symbol [ _mapWidth %tmp.161 164 33 42 ];
+        %tmp.161 = getv ? :_mapWidth;
+        %tmp.162 = dup %tmp.157;
+        %tmp.163 = aputv %tmp.162 %tmp.159 %tmp.161;
+        %tmp.165 = const :maxHeight;
+        symbol [ maxHeight %tmp.165 165 21 30 const ];
+        symbol [ _mapHeight %tmp.167 165 34 44 ];
+        %tmp.167 = getv ? :_mapHeight;
+        %tmp.168 = dup %tmp.163;
+        %tmp.169 = aputv %tmp.168 %tmp.165 %tmp.167;
+        %tmp.171 = const :dithering;
+        symbol [ dithering %tmp.171 166 21 30 const ];
+        symbol [ Communications %tmp.172 166 34 48 ];
+        %tmp.172 = getm $.Toybox.Communications;
+        symbol [ IMAGE_DITHERING_FLOYD_STEINBERG %tmp.173 166 49 80 ];
+        %tmp.173 = getv %tmp.172 :IMAGE_DITHERING_FLOYD_STEINBERG;
+        %tmp.174 = dup %tmp.169;
+        %tmp.175 = aputv %tmp.174 %tmp.171 %tmp.173;
+        %tmp.176 = self;
+        symbol [ method %tmp.177 168 16 22 ];
+        %tmp.177 = getv function %tmp.176 :method;
+        %tmp.179 = const :onMapImage;
+        symbol [ onMapImage %tmp.179 168 24 34 const ];
+        %tmp.180 = invoke %tmp.176 %tmp.177(%tmp.179);
+        invoke %tmp.153 %tmp.154(%tmp.155, %tmp.156, %tmp.175, %tmp.180);
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 170 12 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_170_12_172_12_if_stmt:
-        %tmp.192 = lgetv %rawMarkers.6;
-        symbol [ rawMarkers %tmp.192 170 16 26 ];
-        symbol [ Lang %tmp.193 170 38 42 ];
-        %tmp.193 = getm $.Toybox.Lang;
-        symbol [ Array %tmp.194 170 43 48 ];
-        %tmp.194 = getv %tmp.193 :Array;
-        %tmp.195 = isa %tmp.192 %tmp.194;
-        bf %tmp.195 @G__code_garmiand_garmin_source_GarmiandApp_mc_170_12_172_12_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_170_12_172_12_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_170_50_172_12_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 171 16 ]
-        symbol [ _route %tmp.197 171 16 22 ];
-        %tmp.197 = getv ? :_route;
-        symbol [ setMarkers %tmp.198 171 23 33 ];
-        %tmp.198 = getv function %tmp.197 :setMarkers;
-        %tmp.199 = lgetv %rawMarkers.6;
-        symbol [ rawMarkers %tmp.199 171 34 44 ];
-        %tmp.200 = as %tmp.199 { (Lang.Array) };
-        %tmp.201 = as %tmp.200 Lang.Array;
-        symbol [ Lang %tmp.201 171 48 52 ];
-        symbol [ Array %tmp.201 171 53 58 ];
-        invoke %tmp.197 %tmp.198(%tmp.201);
-G__code_garmiand_garmin_source_GarmiandApp_mc_170_50_172_12_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_170_12_172_12_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_170_12_172_12_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 173 12 ]
-        symbol [ _route %tmp.202 173 12 18 ];
-        %tmp.202 = getv self :_route;
-        %tmp.203 = true;
-        symbol [ isComplete ? 173 19 29 ];
-        putv %tmp.202 :isComplete %tmp.203;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 174 12 ]
-        symbol [ System %tmp.204 174 12 18 ];
-        %tmp.204 = getm $.Toybox.System;
-        symbol [ println %tmp.205 174 19 26 ];
-        %tmp.205 = getv function %tmp.204 :println;
-        %tmp.206 = "[App] route_full loaded: ";
-        symbol [ _route %tmp.208 174 57 63 ];
-        %tmp.208 = getv ? :_route;
-        symbol [ lats %tmp.209 174 64 68 ];
-        %tmp.209 = getv %tmp.208 :lats;
-        symbol [ size %tmp.210 174 69 73 ];
-        %tmp.210 = getv function %tmp.209 :size;
-        %tmp.211 = invoke %tmp.209 %tmp.210();
-        %tmp.212 = add %tmp.206 %tmp.211;
-        %tmp.213 = " pts, ";
-        %tmp.214 = add %tmp.212 %tmp.213;
-        symbol [ _route %tmp.216 174 89 95 ];
-        %tmp.216 = getv ? :_route;
-        symbol [ markerLats %tmp.217 174 96 106 ];
-        %tmp.217 = getv %tmp.216 :markerLats;
-        symbol [ size %tmp.218 174 107 111 ];
-        %tmp.218 = getv function %tmp.217 :size;
-        %tmp.219 = invoke %tmp.217 %tmp.218();
-        %tmp.220 = add %tmp.214 %tmp.219;
-        %tmp.221 = " markers";
-        %tmp.222 = add %tmp.220 %tmp.221;
-        invoke %tmp.204 %tmp.205(%tmp.222);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 175 12 ]
-        symbol [ WatchUi %tmp.223 175 12 19 ];
-        %tmp.223 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.224 175 20 33 ];
-        %tmp.224 = getv function %tmp.223 :requestUpdate;
-        invoke %tmp.223 %tmp.224();
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 176 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_163_39_177_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_163_8_177_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_163_8_177_8_if_end:
-G__code_garmiand_garmin_source_GarmiandApp_mc_98_75_178_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_147_36_171_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_147_8_171_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_147_8_171_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 173 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_173_8_187_8_if_stmt:
+        %tmp.181 = "route_full";
+        symbol [ equals %tmp.182 173 25 31 ];
+        %tmp.182 = getv function %tmp.181 :equals;
+        %tmp.183 = lgetv %kind.3;
+        symbol [ kind %tmp.183 173 32 36 ];
+        %tmp.184 = invoke %tmp.181 %tmp.182(%tmp.183);
+        bf %tmp.184 @G__code_garmiand_garmin_source_GarmiandApp_mc_173_8_187_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_173_8_187_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_173_39_187_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 174 12 ]
+        symbol [ _route %tmp.186 174 12 18 ];
+        %tmp.186 = getv ? :_route;
+        symbol [ reset %tmp.187 174 19 24 ];
+        %tmp.187 = getv function %tmp.186 :reset;
+        invoke %tmp.186 %tmp.187();
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 175 12 ]
+        symbol [ _route %tmp.188 175 12 18 ];
+        %tmp.188 = getv self :_route;
+        %tmp.189 = lgetv %dict.2;
+        symbol [ dict %tmp.189 175 29 33 ];
+        %tmp.190 = "route_id";
+        %tmp.191 = agetv %tmp.189 %tmp.190;
+        symbol [ routeId ? 175 19 26 ];
+        putv %tmp.188 :routeId %tmp.191;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 176 12 ]
+        symbol [ _route %tmp.192 176 12 18 ];
+        %tmp.192 = getv self :_route;
+        %tmp.193 = lgetv %dict.2;
+        symbol [ dict %tmp.193 176 31 35 ];
+        %tmp.194 = "route_name";
+        %tmp.195 = agetv %tmp.193 %tmp.194;
+        symbol [ routeName ? 176 19 28 ];
+        putv %tmp.192 :routeName %tmp.195;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 177 12 ]
+        symbol [ _route %tmp.196 177 12 18 ];
+        %tmp.196 = getv self :_route;
+        %tmp.197 = 1;
+        symbol [ expectedChunkCount ? 177 19 37 ];
+        putv %tmp.196 :expectedChunkCount %tmp.197;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 178 12 ]
+        symbol [ _route %tmp.199 178 12 18 ];
+        %tmp.199 = getv ? :_route;
+        symbol [ addChunk %tmp.200 178 19 27 ];
+        %tmp.200 = getv function %tmp.199 :addChunk;
+        %tmp.201 = lgetv %dict.2;
+        symbol [ dict %tmp.201 178 28 32 ];
+        %tmp.202 = "lats";
+        %tmp.203 = agetv %tmp.201 %tmp.202;
+        %tmp.204 = lgetv %dict.2;
+        symbol [ dict %tmp.204 178 42 46 ];
+        %tmp.205 = "lons";
+        %tmp.206 = agetv %tmp.204 %tmp.205;
+        invoke %tmp.199 %tmp.200(%tmp.203, %tmp.206);
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 179 12 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_173_39_187_8_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_173_39_187_8_stop" ]
+        %rawMarkers.7 = local;
+        symbol [ rawMarkers %rawMarkers.7 179 16 26 ];
+        %tmp.207 = lgetv %dict.2;
+        symbol [ dict %tmp.207 179 29 33 ];
+        %tmp.208 = "markers";
+        %tmp.209 = agetv %tmp.207 %tmp.208;
+        lputv %rawMarkers.7 %tmp.209;
+        symbol [ rawMarkers %rawMarkers.7 179 16 26 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 180 12 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_180_12_182_12_if_stmt:
+        %tmp.210 = lgetv %rawMarkers.7;
+        symbol [ rawMarkers %tmp.210 180 16 26 ];
+        symbol [ Lang %tmp.211 180 38 42 ];
+        %tmp.211 = getm $.Toybox.Lang;
+        symbol [ Array %tmp.212 180 43 48 ];
+        %tmp.212 = getv %tmp.211 :Array;
+        %tmp.213 = isa %tmp.210 %tmp.212;
+        bf %tmp.213 @G__code_garmiand_garmin_source_GarmiandApp_mc_180_12_182_12_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_180_12_182_12_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_180_50_182_12_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 181 16 ]
+        symbol [ _route %tmp.215 181 16 22 ];
+        %tmp.215 = getv ? :_route;
+        symbol [ setMarkers %tmp.216 181 23 33 ];
+        %tmp.216 = getv function %tmp.215 :setMarkers;
+        %tmp.217 = lgetv %rawMarkers.7;
+        symbol [ rawMarkers %tmp.217 181 34 44 ];
+        %tmp.218 = as %tmp.217 { (Lang.Array) };
+        %tmp.219 = as %tmp.218 Lang.Array;
+        symbol [ Lang %tmp.219 181 48 52 ];
+        symbol [ Array %tmp.219 181 53 58 ];
+        invoke %tmp.215 %tmp.216(%tmp.219);
+G__code_garmiand_garmin_source_GarmiandApp_mc_180_50_182_12_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_180_12_182_12_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_180_12_182_12_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 183 12 ]
+        symbol [ _route %tmp.220 183 12 18 ];
+        %tmp.220 = getv self :_route;
+        %tmp.221 = true;
+        symbol [ isComplete ? 183 19 29 ];
+        putv %tmp.220 :isComplete %tmp.221;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 184 12 ]
+        symbol [ System %tmp.222 184 12 18 ];
+        %tmp.222 = getm $.Toybox.System;
+        symbol [ println %tmp.223 184 19 26 ];
+        %tmp.223 = getv function %tmp.222 :println;
+        %tmp.224 = "[App] route_full loaded: ";
+        symbol [ _route %tmp.226 184 57 63 ];
+        %tmp.226 = getv ? :_route;
+        symbol [ lats %tmp.227 184 64 68 ];
+        %tmp.227 = getv %tmp.226 :lats;
+        symbol [ size %tmp.228 184 69 73 ];
+        %tmp.228 = getv function %tmp.227 :size;
+        %tmp.229 = invoke %tmp.227 %tmp.228();
+        %tmp.230 = add %tmp.224 %tmp.229;
+        %tmp.231 = " pts, ";
+        %tmp.232 = add %tmp.230 %tmp.231;
+        symbol [ _route %tmp.234 184 89 95 ];
+        %tmp.234 = getv ? :_route;
+        symbol [ markerLats %tmp.235 184 96 106 ];
+        %tmp.235 = getv %tmp.234 :markerLats;
+        symbol [ size %tmp.236 184 107 111 ];
+        %tmp.236 = getv function %tmp.235 :size;
+        %tmp.237 = invoke %tmp.235 %tmp.236();
+        %tmp.238 = add %tmp.232 %tmp.237;
+        %tmp.239 = " markers";
+        %tmp.240 = add %tmp.238 %tmp.239;
+        invoke %tmp.222 %tmp.223(%tmp.240);
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 185 12 ]
+        symbol [ WatchUi %tmp.241 185 12 19 ];
+        %tmp.241 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.242 185 20 33 ];
+        %tmp.242 = getv function %tmp.241 :requestUpdate;
+        invoke %tmp.241 %tmp.242();
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 186 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_GarmiandApp_mc_173_39_187_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_173_8_187_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_173_8_187_8_if_end:
+G__code_garmiand_garmin_source_GarmiandApp_mc_104_75_188_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 1; ]

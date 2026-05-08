@@ -1,13 +1,17 @@
 package com.garmiand.ui
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.garmiand.R
 import com.garmiand.domain.RoutePackage
@@ -20,8 +24,10 @@ import com.garmiand.protocol.NativeMapEncoder
 import com.garmiand.protocol.SyncMessage
 import com.garmiand.sync.RouteSyncOrchestrator
 import com.garmiand.sync.SyncResult
+import com.garmiand.util.AppLog
 import java.util.UUID
 
+private const val TAG = "MainActivity"
 private const val REQUEST_GPX_FILE = 1001
 private const val MAP_SERVER_PORT = 8081
 private const val MAP_WIDTH = 240
@@ -34,11 +40,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnImport: Button
     private lateinit var btnSend: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var tvLog: TextView
+    private lateinit var logScroll: ScrollView
 
     private val gpxBridge = GpxFileImportBridge()
     private lateinit var garminCompanion: ConnectIQGarminCompanion
     private var loadedRoute: RoutePackage? = null
     private var mapServer: MapTileServer? = null
+
+    private val logListener: (String) -> Unit = { line ->
+        runOnUiThread {
+            if (line == "__CLEAR__") {
+                tvLog.text = ""
+            } else {
+                tvLog.append(line + "\n")
+                logScroll.post { logScroll.fullScroll(View.FOCUS_DOWN) }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,20 +67,33 @@ class MainActivity : AppCompatActivity() {
         btnImport = findViewById(R.id.btn_import)
         btnSend = findViewById(R.id.btn_send)
         progressBar = findViewById(R.id.progress_bar)
+        tvLog = findViewById(R.id.tv_log)
+        logScroll = findViewById(R.id.log_scroll)
 
         btnSend.isEnabled = false
 
         btnImport.setOnClickListener { pickGpxFile() }
         btnSend.setOnClickListener { sendRoute() }
+        findViewById<Button>(R.id.btn_clear_log).setOnClickListener { AppLog.clear() }
+        findViewById<Button>(R.id.btn_copy_log).setOnClickListener {
+            val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            cm.setPrimaryClip(ClipData.newPlainText("garmiand-log", AppLog.snapshot()))
+            Toast.makeText(this, "Log copied", Toast.LENGTH_SHORT).show()
+        }
+
+        AppLog.addListener(logListener)
+        AppLog.i(TAG, "App started")
 
         startMapServer()
 
         garminCompanion = ConnectIQGarminCompanion(this)
         tvStatus.text = "Connecting to Garmin..."
+        AppLog.i(TAG, "Initializing Connect IQ...")
         garminCompanion.initialize { ready ->
             runOnUiThread {
                 tvStatus.text = if (ready) "Garmin connected" else "Garmin not available"
             }
+            AppLog.i(TAG, "Garmin ready=$ready")
         }
     }
 
@@ -69,9 +101,9 @@ class MainActivity : AppCompatActivity() {
         try {
             mapServer = MapTileServer(MAP_SERVER_PORT).also { it.start() }
             val ip = NetworkUtil.getLocalIp() ?: "?"
-            Log.i("MainActivity", "Map server up at http://$ip:$MAP_SERVER_PORT")
+            AppLog.i(TAG, "Map server up at http://$ip:$MAP_SERVER_PORT (also 127.0.0.1)")
         } catch (e: Exception) {
-            Log.e("MainActivity", "Failed to start map server: ${e.message}")
+            AppLog.e(TAG, "Failed to start map server", e)
         }
     }
 
@@ -93,8 +125,10 @@ class MainActivity : AppCompatActivity() {
                 loadedRoute = route
                 tvStatus.text = "Loaded: ${route.name} (${route.points.size} pts)"
                 btnSend.isEnabled = true
+                AppLog.i(TAG, "GPX loaded: ${route.name} pts=${route.points.size} markers=${route.markers.size}")
             } else {
                 tvStatus.text = "Failed to parse GPX"
+                AppLog.w(TAG, "Failed to parse GPX from $uri")
             }
         }
     }
@@ -104,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         btnSend.isEnabled = false
         progressBar.visibility = View.VISIBLE
         progressBar.progress = 0
+        AppLog.i(TAG, "sendRoute: pts=${route.points.size}")
 
         Thread {
             val orchestrator = RouteSyncOrchestrator(
@@ -116,6 +151,7 @@ class MainActivity : AppCompatActivity() {
                     tvStatus.text = "Sending $sent/$total..."
                 }
             }
+            AppLog.i(TAG, "sync result: $result")
             val mapResult = if (result is SyncResult.Ok) sendMapUrl(route) else null
             runOnUiThread {
                 progressBar.visibility = View.GONE
@@ -130,7 +166,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMapUrl(route: RoutePackage): Boolean {
-        val ip = "127.0.0.1"
         if (route.points.isEmpty()) return false
 
         var minLat = Double.POSITIVE_INFINITY
@@ -149,12 +184,10 @@ class MainActivity : AppCompatActivity() {
         val pMaxLat = maxLat + padLat
         val pMinLon = minLon - padLon
         val pMaxLon = maxLon + padLon
-        val centerLat = (pMinLat + pMaxLat) / 2.0
-        val centerLon = (pMinLon + pMaxLon) / 2.0
-        val zoom = TileComposer.chooseZoomForBbox(pMinLat, pMaxLat, pMinLon, pMaxLon, MAP_WIDTH, MAP_HEIGHT)
-        val mapBbox = TileComposer.bboxForViewport(centerLat, centerLon, zoom, MAP_WIDTH, MAP_HEIGHT)
+        val tile = TileComposer.singleTileForBbox(pMinLat, pMaxLat, pMinLon, pMaxLon)
+        val mapBbox = tile.bbox
 
-        val url = "http://$ip:$MAP_SERVER_PORT/map?lat=$centerLat&lon=$centerLon&zoom=$zoom&w=$MAP_WIDTH&h=$MAP_HEIGHT"
+        val url = "https://tile.openstreetmap.org/${tile.zoom}/${tile.x}/${tile.y}.png"
         val msg = SyncMessage.MapUrl(
             sessionId = UUID.randomUUID().toString(),
             url = url,
@@ -165,13 +198,15 @@ class MainActivity : AppCompatActivity() {
             width = MAP_WIDTH,
             height = MAP_HEIGHT,
         )
-        Log.i("MainActivity", "Sending map_url: $url")
+        AppLog.i(TAG, "Sending map_url tile=z${tile.zoom}/${tile.x}/${tile.y}: $url")
         val ack = garminCompanion.send(msg)
+        AppLog.i(TAG, "map_url ack ok=${ack.ok} reason=${ack.reason}")
         return ack.ok
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        AppLog.removeListener(logListener)
         garminCompanion.shutdown()
         mapServer?.stop()
         mapServer = null

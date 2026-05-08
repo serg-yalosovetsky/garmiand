@@ -2,8 +2,7 @@ package com.garmiand.map
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Rect
-import android.util.Log
+import com.garmiand.util.AppLog
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -108,7 +107,7 @@ object TileComposer {
                 decode(bytes)
             }
         } catch (e: Exception) {
-            Log.w(TAG, "Failed to fetch tile $key: ${e.message}")
+            AppLog.w(TAG, "Failed to fetch tile $key: ${e.message}")
             null
         }
     }
@@ -169,7 +168,43 @@ object TileComposer {
         }
         return 1
     }
+
+    fun singleTileForBbox(
+        minLat: Double, maxLat: Double, minLon: Double, maxLon: Double,
+    ): SingleTile {
+        for (zoom in 18 downTo 0) {
+            val (tx0, ty0) = latLonToTileFractional(maxLat, minLon, zoom)
+            val (tx1, ty1) = latLonToTileFractional(minLat, maxLon, zoom)
+            val ix0 = floor(tx0).toInt()
+            val iy0 = floor(ty0).toInt()
+            val ix1 = floor(tx1).toInt()
+            val iy1 = floor(ty1).toInt()
+            if (ix0 == ix1 && iy0 == iy1) {
+                val (topLat, leftLon) = tileFractionalToLatLon(ix0.toDouble(), iy0.toDouble(), zoom)
+                val (botLat, rightLon) = tileFractionalToLatLon((ix0 + 1).toDouble(), (iy0 + 1).toDouble(), zoom)
+                return SingleTile(
+                    zoom = zoom,
+                    x = ix0,
+                    y = iy0,
+                    bbox = MapBbox(
+                        minLat = botLat,
+                        maxLat = topLat,
+                        minLon = leftLon,
+                        maxLon = rightLon,
+                    ),
+                )
+            }
+        }
+        return SingleTile(0, 0, 0, MapBbox(-85.0511, 85.0511, -180.0, 180.0))
+    }
 }
+
+data class SingleTile(
+    val zoom: Int,
+    val x: Int,
+    val y: Int,
+    val bbox: MapBbox,
+)
 
 data class MapBbox(
     val minLat: Double,

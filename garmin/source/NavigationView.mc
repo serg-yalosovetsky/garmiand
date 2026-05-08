@@ -97,6 +97,19 @@ class NavigationView extends WatchUi.View {
         dc.fillRectangle(0, 0, w, topBandH);
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, 3, Graphics.FONT_TINY, fitted, Graphics.TEXT_JUSTIFY_CENTER);
+
+        if (app._mapDebug != null && !app._mapDebug.equals("")) {
+            var dbgText = "MAP " + app._mapDebug;
+            if (app._lastUrlTail != null && !app._lastUrlTail.equals("")) {
+                dbgText = dbgText + " " + app._lastUrlTail;
+            }
+            var dbgFitted = fitText(dc, dbgText, Graphics.FONT_XTINY, w - 10);
+            var dbgH = dc.getFontHeight(Graphics.FONT_XTINY);
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+            dc.fillRectangle(0, h - dbgH - 4, w, dbgH + 4);
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, h - dbgH - 2, Graphics.FONT_XTINY, dbgFitted, Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 
     function fitText(dc as Graphics.Dc, text as Lang.String, font as Graphics.FontType, maxW as Lang.Number) as Lang.String {
