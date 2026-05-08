@@ -30,15 +30,16 @@ class GpsListener {
         }
     }
 
-    function onPosition(info) {
-        if (info == null) {
-            return;
-        }
+    function onPosition(info as Position.Info) as Void {
         if (info.accuracy == Position.QUALITY_NOT_AVAILABLE ||
             info.accuracy == Position.QUALITY_LAST_KNOWN) {
             return;
         }
-        var coords = info.position.toDegrees();
+        var pos = info.position;
+        if (pos == null) {
+            return;
+        }
+        var coords = pos.toDegrees();
         _onPosition.invoke(coords[0].toFloat(), coords[1].toFloat());
         WatchUi.requestUpdate();
     }

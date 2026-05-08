@@ -1,3 +1,4 @@
+using Toybox.Lang;
 using Toybox.Math;
 
 const OFF_ROUTE_THRESHOLD_M = 40.0;
@@ -5,7 +6,7 @@ const EARTH_RADIUS_M = 6371000.0;
 
 class NavigationCalculator {
 
-    static function haversineM(lat1, lon1, lat2, lon2) {
+    static function haversineM(lat1 as Lang.Float, lon1 as Lang.Float, lat2 as Lang.Float, lon2 as Lang.Float) as Lang.Float {
         var dLat = Math.toRadians(lat2 - lat1);
         var dLon = Math.toRadians(lon2 - lon1);
         var sinDLat = Math.sin(dLat / 2.0);
@@ -17,7 +18,7 @@ class NavigationCalculator {
         return (2.0 * EARTH_RADIUS_M * Math.asin(Math.sqrt(a))).toFloat();
     }
 
-    static function nearestPointIndex(route, lat, lon) {
+    static function nearestPointIndex(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Number {
         var bestIdx = 0;
         var bestDist = 999999.0;
         var size = route.lats.size();
@@ -31,7 +32,7 @@ class NavigationCalculator {
         return bestIdx;
     }
 
-    static function distanceToRoute(route, lat, lon) {
+    static function distanceToRoute(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Float {
         if (route.lats.size() == 0) {
             return 0.0;
         }
@@ -39,7 +40,7 @@ class NavigationCalculator {
         return haversineM(lat, lon, route.lats[idx], route.lons[idx]);
     }
 
-    static function isOffRoute(route, lat, lon) {
+    static function isOffRoute(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Boolean {
         return distanceToRoute(route, lat, lon) > OFF_ROUTE_THRESHOLD_M;
     }
 }

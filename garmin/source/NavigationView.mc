@@ -1,16 +1,17 @@
-using Toybox.Graphics;
-using Toybox.WatchUi;
 using Toybox.Application as App;
+using Toybox.Graphics;
+using Toybox.Lang;
+using Toybox.WatchUi;
 
 class NavigationView extends WatchUi.View {
-    var _route;
+    var _route as RouteData;
 
-    var _scale;        // градусы на пиксель
-    var _centerLat;
-    var _centerLon;
-    var _autoCenter;
+    var _scale as Lang.Float;
+    var _centerLat as Lang.Float;
+    var _centerLon as Lang.Float;
+    var _autoCenter as Lang.Boolean;
 
-    function initialize(route) {
+    function initialize(route as RouteData) {
         View.initialize();
         _route = route;
         _scale = 0.0001f;
@@ -19,7 +20,7 @@ class NavigationView extends WatchUi.View {
         _autoCenter = true;
     }
 
-    function onUpdate(dc) {
+    function onUpdate(dc as Graphics.Dc) as Void {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
 
@@ -33,7 +34,7 @@ class NavigationView extends WatchUi.View {
             return;
         }
 
-        var app = App.getApp();
+        var app = App.getApp() as GarmiandApp;
         var posLat = app._currentLat;
         var posLon = app._currentLon;
 
@@ -65,7 +66,7 @@ class NavigationView extends WatchUi.View {
         dc.drawText(cx, 5, Graphics.FONT_TINY, name, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawWaitingScreen(dc, w, h) {
+    function drawWaitingScreen(dc as Graphics.Dc, w as Lang.Number, h as Lang.Number) as Void {
         var cx = w / 2;
         dc.drawText(cx, h / 2 - 25, Graphics.FONT_MEDIUM, "Garmiand", Graphics.TEXT_JUSTIFY_CENTER);
 
@@ -79,7 +80,7 @@ class NavigationView extends WatchUi.View {
         dc.drawText(cx, h / 2 + 10, Graphics.FONT_SMALL, statusText, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawPolyline(dc, cx, cy) {
+    function drawPolyline(dc as Graphics.Dc, cx as Lang.Number, cy as Lang.Number) as Void {
         var pts = _route.lats.size();
         if (pts < 2) {
             return;
@@ -94,7 +95,7 @@ class NavigationView extends WatchUi.View {
         }
     }
 
-    function drawMarkers(dc, cx, cy) {
+    function drawMarkers(dc as Graphics.Dc, cx as Lang.Number, cy as Lang.Number) as Void {
         var cnt = _route.markerLats.size();
         for (var i = 0; i < cnt; i++) {
             var mx = lonToX(_route.markerLons[i], cx);
@@ -109,23 +110,23 @@ class NavigationView extends WatchUi.View {
         }
     }
 
-    function lonToX(lon, cx) {
+    function lonToX(lon as Lang.Float, cx as Lang.Number) as Lang.Number {
         return cx + ((lon - _centerLon) / _scale).toNumber();
     }
 
-    function latToY(lat, cy) {
+    function latToY(lat as Lang.Float, cy as Lang.Number) as Lang.Number {
         return cy - ((lat - _centerLat) / _scale).toNumber();
     }
 
-    function zoomIn() {
+    function zoomIn() as Void {
         _scale = _scale * 0.7f;
     }
 
-    function zoomOut() {
+    function zoomOut() as Void {
         _scale = _scale * 1.4f;
     }
 
-    function toggleAutoCenter() {
+    function toggleAutoCenter() as Void {
         _autoCenter = !_autoCenter;
     }
 }

@@ -5,6 +5,10 @@ using Toybox.Graphics;
 using Toybox.Graphics as Gfx;
 
 module Rez {
+    module Drawables {
+        (:initialized) var LauncherIcon as ResourceId;
+    } // Drawables
+
     module Strings {
         (:initialized) var AppName as ResourceId;
     } // Strings

@@ -1,59 +1,59 @@
 using Toybox.Lang;
 
 class RouteData {
-    var routeId;
-    var routeName;
-    var lats;
-    var lons;
-    var markerIds;
-    var markerLats;
-    var markerLons;
-    var markerTitles;
-    var expectedChunkCount;
-    var receivedChunkCount;
-    var isComplete;
+    var routeId as Lang.String?;
+    var routeName as Lang.String?;
+    var lats as Lang.Array<Lang.Float>;
+    var lons as Lang.Array<Lang.Float>;
+    var markerIds as Lang.Array<Lang.String>;
+    var markerLats as Lang.Array<Lang.Float>;
+    var markerLons as Lang.Array<Lang.Float>;
+    var markerTitles as Lang.Array<Lang.String>;
+    var expectedChunkCount as Lang.Number;
+    var receivedChunkCount as Lang.Number;
+    var isComplete as Lang.Boolean;
 
     function initialize() {
         routeId = null;
         routeName = null;
-        lats = [];
-        lons = [];
-        markerIds = [];
-        markerLats = [];
-        markerLons = [];
-        markerTitles = [];
+        lats = [] as Lang.Array<Lang.Float>;
+        lons = [] as Lang.Array<Lang.Float>;
+        markerIds = [] as Lang.Array<Lang.String>;
+        markerLats = [] as Lang.Array<Lang.Float>;
+        markerLons = [] as Lang.Array<Lang.Float>;
+        markerTitles = [] as Lang.Array<Lang.String>;
         expectedChunkCount = 0;
         receivedChunkCount = 0;
         isComplete = false;
     }
 
-    function reset() {
+    function reset() as Void {
         initialize();
     }
 
-    function addChunk(chunkLats, chunkLons) {
+    function addChunk(chunkLats as Lang.Array, chunkLons as Lang.Array) as Void {
         for (var i = 0; i < chunkLats.size(); i++) {
-            lats.add(chunkLats[i].toFloat());
-            lons.add(chunkLons[i].toFloat());
+            lats.add((chunkLats[i] as Lang.Numeric).toFloat());
+            lons.add((chunkLons[i] as Lang.Numeric).toFloat());
         }
         receivedChunkCount++;
     }
 
-    function setMarkers(rawMarkers) {
-        markerIds = [];
-        markerLats = [];
-        markerLons = [];
-        markerTitles = [];
+    function setMarkers(rawMarkers as Lang.Array) as Void {
+        markerIds = [] as Lang.Array<Lang.String>;
+        markerLats = [] as Lang.Array<Lang.Float>;
+        markerLons = [] as Lang.Array<Lang.Float>;
+        markerTitles = [] as Lang.Array<Lang.String>;
         for (var i = 0; i < rawMarkers.size(); i++) {
-            var m = rawMarkers[i];
-            markerIds.add(m["id"]);
-            markerLats.add(m["lat"].toFloat());
-            markerLons.add(m["lon"].toFloat());
-            markerTitles.add(m["title"]);
+            var m = rawMarkers[i] as Lang.Dictionary;
+            markerIds.add(m["id"] as Lang.String);
+            markerLats.add((m["lat"] as Lang.Numeric).toFloat());
+            markerLons.add((m["lon"] as Lang.Numeric).toFloat());
+            markerTitles.add(m["title"] as Lang.String);
         }
     }
 
-    function pointCount() {
+    function pointCount() as Lang.Number {
         return lats.size();
     }
 }

@@ -1,5 +1,6 @@
 using Toybox.Application as App;
 using Toybox.Communications;
+using Toybox.Lang;
 using Toybox.WatchUi;
 
 class GarmiandApp extends App.AppBase {
@@ -33,35 +34,40 @@ class GarmiandApp extends App.AppBase {
         return [view, delegate];
     }
 
-    function onPosition(lat, lon) {
+    function onPosition(lat as Lang.Float, lon as Lang.Float) as Void {
         _currentLat = lat;
         _currentLon = lon;
     }
 
-    function onPhoneMessage(msg) {
-        if (msg == null || !msg.hasKey("kind")) {
+    function onPhoneMessage(msg as Communications.PhoneAppMessage) as Void {
+        var data = msg.data;
+        if (!(data instanceof Lang.Dictionary)) {
+            return;
+        }
+        var dict = data as Lang.Dictionary;
+        if (!dict.hasKey("kind")) {
             return;
         }
 
-        var kind = msg["kind"];
+        var kind = dict["kind"];
 
         if ("sync_start".equals(kind)) {
             _route.reset();
-            _route.routeId = msg["route_id"];
-            _route.routeName = msg["route_name"];
-            _route.expectedChunkCount = msg["chunk_count"];
+            _route.routeId = dict["route_id"];
+            _route.routeName = dict["route_name"];
+            _route.expectedChunkCount = dict["chunk_count"];
             WatchUi.requestUpdate();
             return;
         }
 
         if ("route_chunk".equals(kind)) {
-            _route.addChunk(msg["lats"], msg["lons"]);
+            _route.addChunk(dict["lats"], dict["lons"]);
             WatchUi.requestUpdate();
             return;
         }
 
         if ("markers".equals(kind)) {
-            _route.setMarkers(msg["markers"]);
+            _route.setMarkers(dict["markers"]);
             return;
         }
 

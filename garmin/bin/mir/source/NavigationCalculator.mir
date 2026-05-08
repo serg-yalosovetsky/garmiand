@@ -1,353 +1,355 @@
-[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Math,1,13,17]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Lang,1,13,17]; ]
+using Toybox.Lang;
+[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [Math,2,13,17]; ]
 using Toybox.Math;
-[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 3; @position = 6; @symbol_constdef = [OFF_ROUTE_THRESHOLD_M,3,6,27]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 4; @position = 6; @symbol_constdef = [OFF_ROUTE_THRESHOLD_M,4,6,27]; ]
 const OFF_ROUTE_THRESHOLD_M = 40.0;
-[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 4; @position = 6; @symbol_constdef = [EARTH_RADIUS_M,4,6,20]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 5; @position = 6; @symbol_constdef = [EARTH_RADIUS_M,5,6,20]; ]
 const EARTH_RADIUS_M = 6371000.0;
-[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 6; @symbol_classdef = [NavigationCalculator,6,6,26]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 7; @symbol_classdef = [NavigationCalculator,7,6,26]; ]
 class NavigationCalculator {
-    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 6; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 7; ]
     <init> {
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 6; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 7; ]
     static
     <init> {
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 8; @symbol_functiondef = [haversineM,8,20,30]; @symbol_param<0> = [lat1,8,31,35]; @symbol_param<1> = [lon1,8,37,41]; @symbol_param<2> = [lat2,8,43,47]; @symbol_param<3> = [lon2,8,49,53]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 9; @symbol_functiondef = [haversineM,9,20,30]; @symbol_param<0> = [lat1,9,31,35]; @symbol_param<0>_type<0> = [Lang,9,39,43]; @symbol_param<0>_type<1> = [Float,9,44,49]; @symbol_param<1> = [lon1,9,51,55]; @symbol_param<1>_type<0> = [Lang,9,59,63]; @symbol_param<1>_type<1> = [Float,9,64,69]; @symbol_param<2> = [lat2,9,71,75]; @symbol_param<2>_type<0> = [Lang,9,79,83]; @symbol_param<2>_type<1> = [Float,9,84,89]; @symbol_param<3> = [lon2,9,91,95]; @symbol_param<3>_type<0> = [Lang,9,99,103]; @symbol_param<3>_type<1> = [Float,9,104,109]; @symbol_return<0> = [Lang,9,114,118]; @symbol_return<1> = [Float,9,119,124]; ]
     static
-    function haversineM(lat1, lon1, lat2, lon2) {
-G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 9 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_stop" ]
+    function haversineM(lat1 as Lang.Float, lon1 as Lang.Float, lat2 as Lang.Float, lon2 as Lang.Float) as Lang.Float {
+G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 10 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_stop" ]
         %dLat.1 = local;
-        symbol [ dLat %dLat.1 9 12 16 ];
-        symbol [ Math %tmp.1 9 19 23 ];
+        symbol [ dLat %dLat.1 10 12 16 ];
+        symbol [ Math %tmp.1 10 19 23 ];
         %tmp.1 = getm $.Toybox.Math;
-        symbol [ toRadians %tmp.2 9 24 33 ];
+        symbol [ toRadians %tmp.2 10 24 33 ];
         %tmp.2 = getv function %tmp.1 :toRadians;
         %tmp.3 = lgetv %lat2;
-        symbol [ lat2 %tmp.3 9 34 38 ];
+        symbol [ lat2 %tmp.3 10 34 38 ];
         %tmp.4 = lgetv %lat1;
-        symbol [ lat1 %tmp.4 9 41 45 ];
+        symbol [ lat1 %tmp.4 10 41 45 ];
         %tmp.5 = sub %tmp.3 %tmp.4;
         %tmp.6 = invoke %tmp.1 %tmp.2(%tmp.5);
         lputv %dLat.1 %tmp.6;
-        symbol [ dLat %dLat.1 9 12 16 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 10 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_stop" ]
+        symbol [ dLat %dLat.1 10 12 16 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 11 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_stop" ]
         %dLon.2 = local;
-        symbol [ dLon %dLon.2 10 12 16 ];
-        symbol [ Math %tmp.7 10 19 23 ];
+        symbol [ dLon %dLon.2 11 12 16 ];
+        symbol [ Math %tmp.7 11 19 23 ];
         %tmp.7 = getm $.Toybox.Math;
-        symbol [ toRadians %tmp.8 10 24 33 ];
+        symbol [ toRadians %tmp.8 11 24 33 ];
         %tmp.8 = getv function %tmp.7 :toRadians;
         %tmp.9 = lgetv %lon2;
-        symbol [ lon2 %tmp.9 10 34 38 ];
+        symbol [ lon2 %tmp.9 11 34 38 ];
         %tmp.10 = lgetv %lon1;
-        symbol [ lon1 %tmp.10 10 41 45 ];
+        symbol [ lon1 %tmp.10 11 41 45 ];
         %tmp.11 = sub %tmp.9 %tmp.10;
         %tmp.12 = invoke %tmp.7 %tmp.8(%tmp.11);
         lputv %dLon.2 %tmp.12;
-        symbol [ dLon %dLon.2 10 12 16 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 11 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_stop" ]
+        symbol [ dLon %dLon.2 11 12 16 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 12 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_stop" ]
         %sinDLat.3 = local;
-        symbol [ sinDLat %sinDLat.3 11 12 19 ];
-        symbol [ Math %tmp.13 11 22 26 ];
+        symbol [ sinDLat %sinDLat.3 12 12 19 ];
+        symbol [ Math %tmp.13 12 22 26 ];
         %tmp.13 = getm $.Toybox.Math;
-        symbol [ sin %tmp.14 11 27 30 ];
+        symbol [ sin %tmp.14 12 27 30 ];
         %tmp.14 = getv function %tmp.13 :sin;
         %tmp.15 = lgetv %dLat.1;
-        symbol [ dLat %tmp.15 11 31 35 ];
+        symbol [ dLat %tmp.15 12 31 35 ];
         %tmp.16 = 2.0;
         %tmp.17 = div %tmp.15 %tmp.16;
         %tmp.18 = invoke %tmp.13 %tmp.14(%tmp.17);
         lputv %sinDLat.3 %tmp.18;
-        symbol [ sinDLat %sinDLat.3 11 12 19 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 12 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_stop" ]
+        symbol [ sinDLat %sinDLat.3 12 12 19 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 13 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_stop" ]
         %sinDLon.4 = local;
-        symbol [ sinDLon %sinDLon.4 12 12 19 ];
-        symbol [ Math %tmp.19 12 22 26 ];
+        symbol [ sinDLon %sinDLon.4 13 12 19 ];
+        symbol [ Math %tmp.19 13 22 26 ];
         %tmp.19 = getm $.Toybox.Math;
-        symbol [ sin %tmp.20 12 27 30 ];
+        symbol [ sin %tmp.20 13 27 30 ];
         %tmp.20 = getv function %tmp.19 :sin;
         %tmp.21 = lgetv %dLon.2;
-        symbol [ dLon %tmp.21 12 31 35 ];
+        symbol [ dLon %tmp.21 13 31 35 ];
         %tmp.22 = 2.0;
         %tmp.23 = div %tmp.21 %tmp.22;
         %tmp.24 = invoke %tmp.19 %tmp.20(%tmp.23);
         lputv %sinDLon.4 %tmp.24;
-        symbol [ sinDLon %sinDLon.4 12 12 19 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 13 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_stop" ]
+        symbol [ sinDLon %sinDLon.4 13 12 19 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 14 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_stop" ]
         %a.5 = local;
-        symbol [ a %a.5 13 12 13 ];
+        symbol [ a %a.5 14 12 13 ];
         %tmp.25 = lgetv %sinDLat.3;
-        symbol [ sinDLat %tmp.25 13 16 23 ];
+        symbol [ sinDLat %tmp.25 14 16 23 ];
         %tmp.26 = lgetv %sinDLat.3;
-        symbol [ sinDLat %tmp.26 13 26 33 ];
+        symbol [ sinDLat %tmp.26 14 26 33 ];
         %tmp.27 = mul %tmp.25 %tmp.26;
-        symbol [ Math %tmp.28 14 16 20 ];
+        symbol [ Math %tmp.28 15 16 20 ];
         %tmp.28 = getm $.Toybox.Math;
-        symbol [ cos %tmp.29 14 21 24 ];
+        symbol [ cos %tmp.29 15 21 24 ];
         %tmp.29 = getv function %tmp.28 :cos;
-        symbol [ Math %tmp.30 14 25 29 ];
+        symbol [ Math %tmp.30 15 25 29 ];
         %tmp.30 = getm $.Toybox.Math;
-        symbol [ toRadians %tmp.31 14 30 39 ];
+        symbol [ toRadians %tmp.31 15 30 39 ];
         %tmp.31 = getv function %tmp.30 :toRadians;
         %tmp.32 = lgetv %lat1;
-        symbol [ lat1 %tmp.32 14 40 44 ];
+        symbol [ lat1 %tmp.32 15 40 44 ];
         %tmp.33 = invoke %tmp.30 %tmp.31(%tmp.32);
         %tmp.34 = invoke %tmp.28 %tmp.29(%tmp.33);
-        symbol [ Math %tmp.35 15 16 20 ];
+        symbol [ Math %tmp.35 16 16 20 ];
         %tmp.35 = getm $.Toybox.Math;
-        symbol [ cos %tmp.36 15 21 24 ];
+        symbol [ cos %tmp.36 16 21 24 ];
         %tmp.36 = getv function %tmp.35 :cos;
-        symbol [ Math %tmp.37 15 25 29 ];
+        symbol [ Math %tmp.37 16 25 29 ];
         %tmp.37 = getm $.Toybox.Math;
-        symbol [ toRadians %tmp.38 15 30 39 ];
+        symbol [ toRadians %tmp.38 16 30 39 ];
         %tmp.38 = getv function %tmp.37 :toRadians;
         %tmp.39 = lgetv %lat2;
-        symbol [ lat2 %tmp.39 15 40 44 ];
+        symbol [ lat2 %tmp.39 16 40 44 ];
         %tmp.40 = invoke %tmp.37 %tmp.38(%tmp.39);
         %tmp.41 = invoke %tmp.35 %tmp.36(%tmp.40);
         %tmp.42 = mul %tmp.34 %tmp.41;
         %tmp.43 = lgetv %sinDLon.4;
-        symbol [ sinDLon %tmp.43 16 16 23 ];
+        symbol [ sinDLon %tmp.43 17 16 23 ];
         %tmp.44 = mul %tmp.42 %tmp.43;
         %tmp.45 = lgetv %sinDLon.4;
-        symbol [ sinDLon %tmp.45 16 26 33 ];
+        symbol [ sinDLon %tmp.45 17 26 33 ];
         %tmp.46 = mul %tmp.44 %tmp.45;
         %tmp.47 = add %tmp.27 %tmp.46;
         lputv %a.5 %tmp.47;
-        symbol [ a %a.5 13 12 13 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 17 8 ]
+        symbol [ a %a.5 14 12 13 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 18 8 ]
         %tmp.48 = 2.0;
-        symbol [ EARTH_RADIUS_M %tmp.50 17 22 36 ];
+        symbol [ EARTH_RADIUS_M %tmp.50 18 22 36 ];
         %tmp.50 = getv ? :EARTH_RADIUS_M;
         %tmp.51 = mul %tmp.48 %tmp.50;
-        symbol [ Math %tmp.52 17 39 43 ];
+        symbol [ Math %tmp.52 18 39 43 ];
         %tmp.52 = getm $.Toybox.Math;
-        symbol [ asin %tmp.53 17 44 48 ];
+        symbol [ asin %tmp.53 18 44 48 ];
         %tmp.53 = getv function %tmp.52 :asin;
-        symbol [ Math %tmp.54 17 49 53 ];
+        symbol [ Math %tmp.54 18 49 53 ];
         %tmp.54 = getm $.Toybox.Math;
-        symbol [ sqrt %tmp.55 17 54 58 ];
+        symbol [ sqrt %tmp.55 18 54 58 ];
         %tmp.55 = getv function %tmp.54 :sqrt;
         %tmp.56 = lgetv %a.5;
-        symbol [ a %tmp.56 17 59 60 ];
+        symbol [ a %tmp.56 18 59 60 ];
         %tmp.57 = invoke %tmp.54 %tmp.55(%tmp.56);
         %tmp.58 = invoke %tmp.52 %tmp.53(%tmp.57);
         %tmp.59 = mul %tmp.51 %tmp.58;
-        symbol [ toFloat %tmp.60 17 64 71 ];
+        symbol [ toFloat %tmp.60 18 64 71 ];
         %tmp.60 = getv function %tmp.59 :toFloat;
         %tmp.61 = invoke %tmp.59 %tmp.60();
         ret %tmp.61;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_8_55_18_4_stop:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_9_125_19_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 20; @symbol_functiondef = [nearestPointIndex,20,20,37]; @symbol_param<0> = [route,20,38,43]; @symbol_param<1> = [lat,20,45,48]; @symbol_param<2> = [lon,20,50,53]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 21; @symbol_functiondef = [nearestPointIndex,21,20,37]; @symbol_param<0> = [route,21,38,43]; @symbol_param<0>_type<0> = [RouteData,21,47,56]; @symbol_param<1> = [lat,21,58,61]; @symbol_param<1>_type<0> = [Lang,21,65,69]; @symbol_param<1>_type<1> = [Float,21,70,75]; @symbol_param<2> = [lon,21,77,80]; @symbol_param<2>_type<0> = [Lang,21,84,88]; @symbol_param<2>_type<1> = [Float,21,89,94]; @symbol_return<0> = [Lang,21,99,103]; @symbol_return<1> = [Number,21,104,110]; ]
     static
-    function nearestPointIndex(route, lat, lon) {
-G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 21 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_stop" ]
+    function nearestPointIndex(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Number {
+G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 22 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_stop" ]
         %bestIdx.1 = local;
-        symbol [ bestIdx %bestIdx.1 21 12 19 ];
+        symbol [ bestIdx %bestIdx.1 22 12 19 ];
         %tmp.1 = 0;
         lputv %bestIdx.1 %tmp.1;
-        symbol [ bestIdx %bestIdx.1 21 12 19 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 22 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_stop" ]
+        symbol [ bestIdx %bestIdx.1 22 12 19 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 23 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_stop" ]
         %bestDist.2 = local;
-        symbol [ bestDist %bestDist.2 22 12 20 ];
+        symbol [ bestDist %bestDist.2 23 12 20 ];
         %tmp.2 = 999999.0;
         lputv %bestDist.2 %tmp.2;
-        symbol [ bestDist %bestDist.2 22 12 20 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 23 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_stop" ]
+        symbol [ bestDist %bestDist.2 23 12 20 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 24 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_stop" ]
         %size.3 = local;
-        symbol [ size %size.3 23 12 16 ];
+        symbol [ size %size.3 24 12 16 ];
         %tmp.3 = lgetv %route;
-        symbol [ route %tmp.3 23 19 24 ];
-        symbol [ lats %tmp.4 23 25 29 ];
+        symbol [ route %tmp.3 24 19 24 ];
+        symbol [ lats %tmp.4 24 25 29 ];
         %tmp.4 = getv %tmp.3 :lats;
-        symbol [ size %tmp.5 23 30 34 ];
+        symbol [ size %tmp.5 24 30 34 ];
         %tmp.5 = getv function %tmp.4 :size;
         %tmp.6 = invoke %tmp.4 %tmp.5();
         lputv %size.3 %tmp.6;
-        symbol [ size %size.3 23 12 16 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 24 8 ]
-        for @G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_test @G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_incr @G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_end;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_init:
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_begin" "G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_end" ]
+        symbol [ size %size.3 24 12 16 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 25 8 ]
+        for @G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_test @G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_incr @G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_end;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_init:
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_begin" "G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_end" ]
         %i.4 = local;
-        symbol [ i %i.4 24 17 18 ];
+        symbol [ i %i.4 25 17 18 ];
         %tmp.7 = 0;
         lputv %i.4 %tmp.7;
-        symbol [ i %i.4 24 17 18 ];
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_test:
+        symbol [ i %i.4 25 17 18 ];
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_test:
         %tmp.8 = lgetv %i.4;
-        symbol [ i %tmp.8 24 24 25 ];
+        symbol [ i %tmp.8 25 24 25 ];
         %tmp.9 = lgetv %size.3;
-        symbol [ size %tmp.9 24 28 32 ];
+        symbol [ size %tmp.9 25 28 32 ];
         %tmp.10 = lt %tmp.8 %tmp.9;
-        bf %tmp.10 @G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_end;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_begin:
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_39_30_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 25 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_24_39_30_8_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_24_39_30_8_stop" ]
+        bf %tmp.10 @G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_end;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_begin:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_39_31_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 26 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_25_39_31_8_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_25_39_31_8_stop" ]
         %d.5 = local;
-        symbol [ d %d.5 25 16 17 ];
+        symbol [ d %d.5 26 16 17 ];
         %tmp.11 = self;
-        symbol [ haversineM %tmp.12 25 20 30 ];
+        symbol [ haversineM %tmp.12 26 20 30 ];
         %tmp.12 = getv function %tmp.11 :haversineM;
         %tmp.13 = lgetv %lat;
-        symbol [ lat %tmp.13 25 31 34 ];
+        symbol [ lat %tmp.13 26 31 34 ];
         %tmp.14 = lgetv %lon;
-        symbol [ lon %tmp.14 25 36 39 ];
+        symbol [ lon %tmp.14 26 36 39 ];
         %tmp.15 = lgetv %route;
-        symbol [ route %tmp.15 25 41 46 ];
-        symbol [ lats %tmp.16 25 47 51 ];
+        symbol [ route %tmp.15 26 41 46 ];
+        symbol [ lats %tmp.16 26 47 51 ];
         %tmp.16 = getv %tmp.15 :lats;
         %tmp.17 = lgetv %i.4;
-        symbol [ i %tmp.17 25 52 53 ];
+        symbol [ i %tmp.17 26 52 53 ];
         %tmp.18 = agetv %tmp.16 %tmp.17;
         %tmp.19 = lgetv %route;
-        symbol [ route %tmp.19 25 56 61 ];
-        symbol [ lons %tmp.20 25 62 66 ];
+        symbol [ route %tmp.19 26 56 61 ];
+        symbol [ lons %tmp.20 26 62 66 ];
         %tmp.20 = getv %tmp.19 :lons;
         %tmp.21 = lgetv %i.4;
-        symbol [ i %tmp.21 25 67 68 ];
+        symbol [ i %tmp.21 26 67 68 ];
         %tmp.22 = agetv %tmp.20 %tmp.21;
         %tmp.23 = invoke %tmp.11 %tmp.12(%tmp.13, %tmp.14, %tmp.18, %tmp.22);
         lputv %d.5 %tmp.23;
-        symbol [ d %d.5 25 16 17 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 26 12 ]
-G__code_garmiand_garmin_source_NavigationCalculator_mc_26_12_29_12_if_stmt:
+        symbol [ d %d.5 26 16 17 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 27 12 ]
+G__code_garmiand_garmin_source_NavigationCalculator_mc_27_12_30_12_if_stmt:
         %tmp.24 = lgetv %d.5;
-        symbol [ d %tmp.24 26 16 17 ];
+        symbol [ d %tmp.24 27 16 17 ];
         %tmp.25 = lgetv %bestDist.2;
-        symbol [ bestDist %tmp.25 26 20 28 ];
+        symbol [ bestDist %tmp.25 27 20 28 ];
         %tmp.26 = lt %tmp.24 %tmp.25;
-        bf %tmp.26 @G__code_garmiand_garmin_source_NavigationCalculator_mc_26_12_29_12_if_end;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_26_12_29_12_if_true:
-G__code_garmiand_garmin_source_NavigationCalculator_mc_26_30_29_12_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 27 16 ]
-        %tmp.27 = lgetv %d.5;
-        symbol [ d %tmp.27 27 27 28 ];
-        lputv %bestDist.2 %tmp.27;
-        symbol [ bestDist %bestDist.2 27 16 24 ];
+        bf %tmp.26 @G__code_garmiand_garmin_source_NavigationCalculator_mc_27_12_30_12_if_end;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_27_12_30_12_if_true:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_27_30_30_12_start:
 [ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 28 16 ]
+        %tmp.27 = lgetv %d.5;
+        symbol [ d %tmp.27 28 27 28 ];
+        lputv %bestDist.2 %tmp.27;
+        symbol [ bestDist %bestDist.2 28 16 24 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 29 16 ]
         %tmp.28 = lgetv %i.4;
-        symbol [ i %tmp.28 28 26 27 ];
+        symbol [ i %tmp.28 29 26 27 ];
         lputv %bestIdx.1 %tmp.28;
-        symbol [ bestIdx %bestIdx.1 28 16 23 ];
-G__code_garmiand_garmin_source_NavigationCalculator_mc_26_30_29_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationCalculator_mc_26_12_29_12_if_end;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_26_12_29_12_if_end:
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_39_30_8_stop:
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_incr:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 24 ]
+        symbol [ bestIdx %bestIdx.1 29 16 23 ];
+G__code_garmiand_garmin_source_NavigationCalculator_mc_27_30_30_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationCalculator_mc_27_12_30_12_if_end;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_27_12_30_12_if_end:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_39_31_8_stop:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_incr:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 25 ]
         %tmp.31 = lgetv %i.4;
-        symbol [ i %tmp.31 24 34 35 ];
+        symbol [ i %tmp.31 25 34 35 ];
         %tmp.32 = add %tmp.31 1;
         lputv %i.4 %tmp.32;
-        symbol [ i %i.4 24 34 35 ];
-        goto @G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_test;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_24_8_30_8_for_end:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 31 8 ]
+        symbol [ i %i.4 25 34 35 ];
+        goto @G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_test;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_25_8_31_8_for_end:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 32 8 ]
         %tmp.33 = lgetv %bestIdx.1;
-        symbol [ bestIdx %tmp.33 31 15 22 ];
+        symbol [ bestIdx %tmp.33 32 15 22 ];
         ret %tmp.33;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_20_55_32_4_stop:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_21_111_33_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 34; @symbol_functiondef = [distanceToRoute,34,20,35]; @symbol_param<0> = [route,34,36,41]; @symbol_param<1> = [lat,34,43,46]; @symbol_param<2> = [lon,34,48,51]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 35; @symbol_functiondef = [distanceToRoute,35,20,35]; @symbol_param<0> = [route,35,36,41]; @symbol_param<0>_type<0> = [RouteData,35,45,54]; @symbol_param<1> = [lat,35,56,59]; @symbol_param<1>_type<0> = [Lang,35,63,67]; @symbol_param<1>_type<1> = [Float,35,68,73]; @symbol_param<2> = [lon,35,75,78]; @symbol_param<2>_type<0> = [Lang,35,82,86]; @symbol_param<2>_type<1> = [Float,35,87,92]; @symbol_return<0> = [Lang,35,97,101]; @symbol_return<1> = [Float,35,102,107]; ]
     static
-    function distanceToRoute(route, lat, lon) {
-G__code_garmiand_garmin_source_NavigationCalculator_mc_34_53_40_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 35 8 ]
-G__code_garmiand_garmin_source_NavigationCalculator_mc_35_8_37_8_if_stmt:
+    function distanceToRoute(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Float {
+G__code_garmiand_garmin_source_NavigationCalculator_mc_35_108_41_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 36 8 ]
+G__code_garmiand_garmin_source_NavigationCalculator_mc_36_8_38_8_if_stmt:
         %tmp.1 = lgetv %route;
-        symbol [ route %tmp.1 35 12 17 ];
-        symbol [ lats %tmp.2 35 18 22 ];
+        symbol [ route %tmp.1 36 12 17 ];
+        symbol [ lats %tmp.2 36 18 22 ];
         %tmp.2 = getv %tmp.1 :lats;
-        symbol [ size %tmp.3 35 23 27 ];
+        symbol [ size %tmp.3 36 23 27 ];
         %tmp.3 = getv function %tmp.2 :size;
         %tmp.4 = invoke %tmp.2 %tmp.3();
         %tmp.5 = 0;
         %tmp.6 = eq %tmp.4 %tmp.5;
-        bf %tmp.6 @G__code_garmiand_garmin_source_NavigationCalculator_mc_35_8_37_8_if_end;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_35_8_37_8_if_true:
-G__code_garmiand_garmin_source_NavigationCalculator_mc_35_36_37_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 36 12 ]
+        bf %tmp.6 @G__code_garmiand_garmin_source_NavigationCalculator_mc_36_8_38_8_if_end;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_36_8_38_8_if_true:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_36_36_38_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 37 12 ]
         %tmp.7 = 0.0;
         ret %tmp.7;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_35_36_37_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationCalculator_mc_35_8_37_8_if_end;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_35_8_37_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 38 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_34_53_40_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_34_53_40_4_stop" ]
+G__code_garmiand_garmin_source_NavigationCalculator_mc_36_36_38_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationCalculator_mc_36_8_38_8_if_end;
+G__code_garmiand_garmin_source_NavigationCalculator_mc_36_8_38_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 39 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationCalculator_mc_35_108_41_4_start" "G__code_garmiand_garmin_source_NavigationCalculator_mc_35_108_41_4_stop" ]
         %idx.1 = local;
-        symbol [ idx %idx.1 38 12 15 ];
+        symbol [ idx %idx.1 39 12 15 ];
         %tmp.8 = self;
-        symbol [ nearestPointIndex %tmp.9 38 18 35 ];
+        symbol [ nearestPointIndex %tmp.9 39 18 35 ];
         %tmp.9 = getv function %tmp.8 :nearestPointIndex;
         %tmp.10 = lgetv %route;
-        symbol [ route %tmp.10 38 36 41 ];
+        symbol [ route %tmp.10 39 36 41 ];
         %tmp.11 = lgetv %lat;
-        symbol [ lat %tmp.11 38 43 46 ];
+        symbol [ lat %tmp.11 39 43 46 ];
         %tmp.12 = lgetv %lon;
-        symbol [ lon %tmp.12 38 48 51 ];
+        symbol [ lon %tmp.12 39 48 51 ];
         %tmp.13 = invoke %tmp.8 %tmp.9(%tmp.10, %tmp.11, %tmp.12);
         lputv %idx.1 %tmp.13;
-        symbol [ idx %idx.1 38 12 15 ];
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 39 8 ]
+        symbol [ idx %idx.1 39 12 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 40 8 ]
         %tmp.14 = self;
-        symbol [ haversineM %tmp.15 39 15 25 ];
+        symbol [ haversineM %tmp.15 40 15 25 ];
         %tmp.15 = getv function %tmp.14 :haversineM;
         %tmp.16 = lgetv %lat;
-        symbol [ lat %tmp.16 39 26 29 ];
+        symbol [ lat %tmp.16 40 26 29 ];
         %tmp.17 = lgetv %lon;
-        symbol [ lon %tmp.17 39 31 34 ];
+        symbol [ lon %tmp.17 40 31 34 ];
         %tmp.18 = lgetv %route;
-        symbol [ route %tmp.18 39 36 41 ];
-        symbol [ lats %tmp.19 39 42 46 ];
+        symbol [ route %tmp.18 40 36 41 ];
+        symbol [ lats %tmp.19 40 42 46 ];
         %tmp.19 = getv %tmp.18 :lats;
         %tmp.20 = lgetv %idx.1;
-        symbol [ idx %tmp.20 39 47 50 ];
+        symbol [ idx %tmp.20 40 47 50 ];
         %tmp.21 = agetv %tmp.19 %tmp.20;
         %tmp.22 = lgetv %route;
-        symbol [ route %tmp.22 39 53 58 ];
-        symbol [ lons %tmp.23 39 59 63 ];
+        symbol [ route %tmp.22 40 53 58 ];
+        symbol [ lons %tmp.23 40 59 63 ];
         %tmp.23 = getv %tmp.22 :lons;
         %tmp.24 = lgetv %idx.1;
-        symbol [ idx %tmp.24 39 64 67 ];
+        symbol [ idx %tmp.24 40 64 67 ];
         %tmp.25 = agetv %tmp.23 %tmp.24;
         %tmp.26 = invoke %tmp.14 %tmp.15(%tmp.16, %tmp.17, %tmp.21, %tmp.25);
         ret %tmp.26;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_34_53_40_4_stop:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_35_108_41_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 42; @symbol_functiondef = [isOffRoute,42,20,30]; @symbol_param<0> = [route,42,31,36]; @symbol_param<1> = [lat,42,38,41]; @symbol_param<2> = [lon,42,43,46]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 43; @symbol_functiondef = [isOffRoute,43,20,30]; @symbol_param<0> = [route,43,31,36]; @symbol_param<0>_type<0> = [RouteData,43,40,49]; @symbol_param<1> = [lat,43,51,54]; @symbol_param<1>_type<0> = [Lang,43,58,62]; @symbol_param<1>_type<1> = [Float,43,63,68]; @symbol_param<2> = [lon,43,70,73]; @symbol_param<2>_type<0> = [Lang,43,77,81]; @symbol_param<2>_type<1> = [Float,43,82,87]; @symbol_return<0> = [Lang,43,92,96]; @symbol_return<1> = [Boolean,43,97,104]; ]
     static
-    function isOffRoute(route, lat, lon) {
-G__code_garmiand_garmin_source_NavigationCalculator_mc_42_48_44_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 43 8 ]
+    function isOffRoute(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Boolean {
+G__code_garmiand_garmin_source_NavigationCalculator_mc_43_105_45_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationCalculator.mc" 44 8 ]
         %tmp.1 = self;
-        symbol [ distanceToRoute %tmp.2 43 15 30 ];
+        symbol [ distanceToRoute %tmp.2 44 15 30 ];
         %tmp.2 = getv function %tmp.1 :distanceToRoute;
         %tmp.3 = lgetv %route;
-        symbol [ route %tmp.3 43 31 36 ];
+        symbol [ route %tmp.3 44 31 36 ];
         %tmp.4 = lgetv %lat;
-        symbol [ lat %tmp.4 43 38 41 ];
+        symbol [ lat %tmp.4 44 38 41 ];
         %tmp.5 = lgetv %lon;
-        symbol [ lon %tmp.5 43 43 46 ];
+        symbol [ lon %tmp.5 44 43 46 ];
         %tmp.6 = invoke %tmp.1 %tmp.2(%tmp.3, %tmp.4, %tmp.5);
-        symbol [ OFF_ROUTE_THRESHOLD_M %tmp.8 43 50 71 ];
+        symbol [ OFF_ROUTE_THRESHOLD_M %tmp.8 44 50 71 ];
         %tmp.8 = getv ? :OFF_ROUTE_THRESHOLD_M;
         %tmp.9 = gt %tmp.6 %tmp.8;
         ret %tmp.9;
-G__code_garmiand_garmin_source_NavigationCalculator_mc_42_48_44_4_stop:
+G__code_garmiand_garmin_source_NavigationCalculator_mc_43_105_45_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\NavigationCalculator.mc"; @line = 1; ]
