@@ -130,10 +130,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMapUrl(route: RoutePackage): Boolean {
-        val ip = NetworkUtil.getLocalIp() ?: run {
-            Log.w("MainActivity", "No local IP, skipping map_url")
-            return false
-        }
+        val ip = "127.0.0.1"
         if (route.points.isEmpty()) return false
 
         var minLat = Double.POSITIVE_INFINITY

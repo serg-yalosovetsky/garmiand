@@ -90,8 +90,29 @@ class NavigationView extends WatchUi.View {
         }
 
         var name = _route.routeName != null ? _route.routeName : "Route";
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(cx, 5, Graphics.FONT_TINY, name, Graphics.TEXT_JUSTIFY_CENTER);
+        var fitted = fitText(dc, name, Graphics.FONT_TINY, w - 30);
+        var th = dc.getFontHeight(Graphics.FONT_TINY);
+        var topBandH = th + 6;
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.fillRectangle(0, 0, w, topBandH);
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, 3, Graphics.FONT_TINY, fitted, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    function fitText(dc as Graphics.Dc, text as Lang.String, font as Graphics.FontType, maxW as Lang.Number) as Lang.String {
+        if (dc.getTextWidthInPixels(text, font) <= maxW) {
+            return text;
+        }
+        var ellipsis = "...";
+        var n = text.length();
+        while (n > 1) {
+            n = n - 1;
+            var candidate = text.substring(0, n) + ellipsis;
+            if (dc.getTextWidthInPixels(candidate, font) <= maxW) {
+                return candidate;
+            }
+        }
+        return ellipsis;
     }
 
     function drawWaitingScreen(dc as Graphics.Dc, w as Lang.Number, h as Lang.Number) as Void {
@@ -172,8 +193,7 @@ class NavigationView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, 6);
         if (NavigationCalculator.isOffRoute(_route, app._currentLat, app._currentLon)) {
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(cx, h - 30, Graphics.FONT_TINY, "OFF ROUTE", Graphics.TEXT_JUSTIFY_CENTER);
+            drawBanner(dc, cx, h - 28, "OFF ROUTE", Graphics.COLOR_RED);
         }
     }
 
@@ -184,9 +204,18 @@ class NavigationView extends WatchUi.View {
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(px, py, 6);
         if (NavigationCalculator.isOffRoute(_route, app._currentLat, app._currentLon)) {
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(w / 2, h - 30, Graphics.FONT_TINY, "OFF ROUTE", Graphics.TEXT_JUSTIFY_CENTER);
+            drawBanner(dc, w / 2, h - 28, "OFF ROUTE", Graphics.COLOR_RED);
         }
+    }
+
+    function drawBanner(dc as Graphics.Dc, cx as Lang.Number, cy as Lang.Number, text as Lang.String, color as Lang.Number) as Void {
+        var tw = dc.getTextWidthInPixels(text, Graphics.FONT_TINY);
+        var th = dc.getFontHeight(Graphics.FONT_TINY);
+        var pad = 6;
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.fillRectangle(cx - tw / 2 - pad, cy - 2, tw + pad * 2, th + 4);
+        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, cy, Graphics.FONT_TINY, text, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function lonToX(lon as Lang.Float, cx as Lang.Number) as Lang.Number {

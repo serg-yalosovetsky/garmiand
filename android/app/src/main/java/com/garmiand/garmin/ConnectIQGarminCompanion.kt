@@ -42,14 +42,32 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
     }
 
     private fun discoverDevice(onReady: (Boolean) -> Unit) {
-        val devices = connectIQ?.knownDevices ?: emptyList()
-        val device = devices.firstOrNull() ?: run {
-            Log.w(TAG, "No known Garmin devices")
-            onReady(false)
-            return
+        val ciq = connectIQ ?: run { onReady(false); return }
+        val known = try { ciq.knownDevices ?: emptyList() } catch (e: Exception) {
+            Log.e(TAG, "knownDevices failed: ${e.message}")
+            emptyList()
         }
+        Log.i(TAG, "knownDevices: ${known.map { "${it.friendlyName}(id=${it.deviceIdentifier}, status=${it.status})" }}")
+
+        val connected = try {
+            ciq.getConnectedDevices() ?: emptyList()
+        } catch (e: Exception) {
+            Log.w(TAG, "getConnectedDevices failed: ${e.message}; falling back to known")
+            known
+        }
+        Log.i(TAG, "connectedDevices: ${connected.map { it.friendlyName }}")
+
+        val device = connected.firstOrNull()
+            ?: known.firstOrNull { it.status == IQDevice.IQDeviceStatus.CONNECTED }
+            ?: known.firstOrNull()
+            ?: run {
+                Log.w(TAG, "No Garmin devices visible to Connect IQ. Open Garmin Connect Mobile and ensure the watch is paired and connected.")
+                onReady(false)
+                return
+            }
         connectedDevice = device
-        connectIQ!!.getApplicationInfo(
+        Log.i(TAG, "Selected device: ${device.friendlyName} status=${device.status}")
+        ciq.getApplicationInfo(
             WATCH_APP_ID,
             device,
             object : IQApplicationInfoListener {
@@ -60,7 +78,7 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
                 }
 
                 override fun onApplicationNotInstalled(applicationId: String) {
-                    Log.w(TAG, "Watch app not installed on $device")
+                    Log.w(TAG, "Watch app $applicationId is NOT installed on ${device.friendlyName}. Sideload .prg to GARMIN/APPS/ on the watch.")
                     onReady(false)
                 }
             }

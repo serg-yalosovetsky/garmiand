@@ -12,5 +12,11 @@ android/.idea/
 # Local SDK paths (machine-specific)
 android/local.properties
 
+# Garmin SDK build output
+garmin/dist/
+garmin/gen/
+*.prg
+*.prg.debug.xml
+
 # Claude Code local settings
 .claude/settings.local.json

@@ -153,14 +153,6 @@ object TileComposer {
             maxLon = rightLon,
         )
     }
-}
-
-data class MapBbox(
-    val minLat: Double,
-    val maxLat: Double,
-    val minLon: Double,
-    val maxLon: Double,
-)
 
     fun chooseZoomForBbox(
         minLat: Double, maxLat: Double, minLon: Double, maxLon: Double,
@@ -178,3 +170,10 @@ data class MapBbox(
         return 1
     }
 }
+
+data class MapBbox(
+    val minLat: Double,
+    val maxLat: Double,
+    val minLon: Double,
+    val maxLon: Double,
+)
