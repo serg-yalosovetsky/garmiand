@@ -35,4 +35,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.garmin.connectiq:ciq-companion-app-sdk:2.4.0@aar")
 }

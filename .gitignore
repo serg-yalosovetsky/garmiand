@@ -1,3 +1,16 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Gradle build cache and build output
+android/.gradle/
+android/**/build/
+
+# Android Studio / IntelliJ IDE files
+android/.idea/
+
+# Local SDK paths (machine-specific)
+android/local.properties
+
+# Claude Code local settings
+.claude/settings.local.json

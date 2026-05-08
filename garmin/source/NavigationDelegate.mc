@@ -1,10 +1,38 @@
 using Toybox.WatchUi;
 
 class NavigationDelegate extends WatchUi.BehaviorDelegate {
-    var _store;
+    var _route;
+    var _view;
 
-    function initialize(store) {
+    function initialize(route, view) {
         BehaviorDelegate.initialize();
-        _store = store;
+        _route = route;
+        _view = view;
+    }
+
+    // UP — zoom in
+    function onPreviousPage() {
+        _view.zoomIn();
+        WatchUi.requestUpdate();
+        return true;
+    }
+
+    // DOWN — zoom out
+    function onNextPage() {
+        _view.zoomOut();
+        WatchUi.requestUpdate();
+        return true;
+    }
+
+    // SELECT — toggle auto-center
+    function onSelect() {
+        _view.toggleAutoCenter();
+        WatchUi.requestUpdate();
+        return true;
+    }
+
+    // BACK — выйти из приложения
+    function onBack() {
+        return false;
     }
 }

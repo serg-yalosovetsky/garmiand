@@ -8,15 +8,20 @@ class RouteSyncOrchestrator(
     private val encoder: RouteChunkEncoder,
     private val companion: GarminCompanion,
 ) {
-    fun sync(route: RoutePackage): SyncResult {
+    fun sync(
+        route: RoutePackage,
+        onProgress: ((sent: Int, total: Int) -> Unit)? = null,
+    ): SyncResult {
         val messages = encoder.encode(route)
-        val acks = messages.map { companion.send(it) }
-        val hasError = acks.any { !it.ok }
-        return if (hasError) {
-            SyncResult.Failed(acks.firstOrNull { !it.ok }?.reason ?: "Unknown error")
-        } else {
-            SyncResult.Ok(acks.size)
+        val total = messages.size
+        messages.forEachIndexed { idx, msg ->
+            val ack = companion.send(msg)
+            onProgress?.invoke(idx + 1, total)
+            if (!ack.ok) {
+                return SyncResult.Failed(ack.reason ?: "Error at message $idx")
+            }
         }
+        return SyncResult.Ok(total)
     }
 }
 
