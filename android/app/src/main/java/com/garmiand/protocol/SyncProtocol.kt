@@ -30,6 +30,17 @@ sealed interface SyncMessage {
         val routeId: String,
         val pointCount: Int,
     ) : SyncMessage
+
+    data class MapUrl(
+        override val sessionId: String,
+        val url: String,
+        val minLat: Double,
+        val maxLat: Double,
+        val minLon: Double,
+        val maxLon: Double,
+        val width: Int,
+        val height: Int,
+    ) : SyncMessage
 }
 
 data class SyncAck(

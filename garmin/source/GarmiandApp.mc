@@ -11,12 +11,26 @@ class GarmiandApp extends App.AppBase {
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
     var _gpsTimer as Timer.Timer?;
+    var _mapBitmap as WatchUi.BitmapResource?;
+    var _mapMinLat as Lang.Float;
+    var _mapMaxLat as Lang.Float;
+    var _mapMinLon as Lang.Float;
+    var _mapMaxLon as Lang.Float;
+    var _mapWidth as Lang.Number;
+    var _mapHeight as Lang.Number;
 
     function initialize() {
         AppBase.initialize();
         _route = new RouteData();
         _currentLat = 0.0f;
         _currentLon = 0.0f;
+        _mapBitmap = null;
+        _mapMinLat = 0.0f;
+        _mapMaxLat = 0.0f;
+        _mapMinLon = 0.0f;
+        _mapMaxLon = 0.0f;
+        _mapWidth = 0;
+        _mapHeight = 0;
     }
 
     function onStart(state) {
@@ -51,6 +65,14 @@ class GarmiandApp extends App.AppBase {
     function pollGps() as Void {
         var info = Position.getInfo();
         applyPositionInfo(info, "poll");
+    }
+
+    function onMapImage(responseCode as Lang.Number, data as WatchUi.BitmapResource?) as Void {
+        System.println("[Map] image response code=" + responseCode);
+        if (responseCode == 200 && data != null) {
+            _mapBitmap = data;
+            WatchUi.requestUpdate();
+        }
     }
 
     function applyPositionInfo(info as Position.Info, source as Lang.String) as Void {
@@ -113,6 +135,28 @@ class GarmiandApp extends App.AppBase {
         if ("sync_finish".equals(kind)) {
             _route.isComplete = true;
             WatchUi.requestUpdate();
+            return;
+        }
+
+        if ("map_url".equals(kind)) {
+            var url = dict["url"] as Lang.String;
+            _mapMinLat = (dict["min_lat"] as Lang.Numeric).toFloat();
+            _mapMaxLat = (dict["max_lat"] as Lang.Numeric).toFloat();
+            _mapMinLon = (dict["min_lon"] as Lang.Numeric).toFloat();
+            _mapMaxLon = (dict["max_lon"] as Lang.Numeric).toFloat();
+            _mapWidth = (dict["w"] as Lang.Numeric).toNumber();
+            _mapHeight = (dict["h"] as Lang.Numeric).toNumber();
+            System.println("[Map] requesting " + url);
+            Communications.makeImageRequest(
+                url,
+                null,
+                {
+                    :maxWidth => _mapWidth,
+                    :maxHeight => _mapHeight,
+                    :dithering => Communications.IMAGE_DITHERING_FLOYD_STEINBERG,
+                },
+                method(:onMapImage)
+            );
             return;
         }
 

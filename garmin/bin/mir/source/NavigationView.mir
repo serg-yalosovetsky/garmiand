@@ -475,301 +475,351 @@ G__code_garmiand_garmin_source_NavigationView_mc_58_32_61_8_stop:
         goto @G__code_garmiand_garmin_source_NavigationView_mc_58_8_61_8_if_end;
 G__code_garmiand_garmin_source_NavigationView_mc_58_8_61_8_if_end:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 63 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_63_8_66_8_if_stmt:
-        symbol [ _lastFittedSize %tmp.31 63 12 27 ];
-        %tmp.31 = getv ? :_lastFittedSize;
-        symbol [ _route %tmp.33 63 31 37 ];
-        %tmp.33 = getv ? :_route;
-        symbol [ lats %tmp.34 63 38 42 ];
-        %tmp.34 = getv %tmp.33 :lats;
-        symbol [ size %tmp.35 63 43 47 ];
-        %tmp.35 = getv function %tmp.34 :size;
-        %tmp.36 = invoke %tmp.34 %tmp.35();
-        %tmp.37 = ne %tmp.31 %tmp.36;
-        bf %tmp.37 @G__code_garmiand_garmin_source_NavigationView_mc_63_8_66_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_63_8_66_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_63_51_66_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 64 12 ]
-        %tmp.38 = self;
-        symbol [ fitRoute %tmp.39 64 12 20 ];
-        %tmp.39 = getv function %tmp.38 :fitRoute;
-        invoke %tmp.38 %tmp.39();
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 65 12 ]
-        symbol [ _route %tmp.41 65 30 36 ];
-        %tmp.41 = getv ? :_route;
-        symbol [ lats %tmp.42 65 37 41 ];
-        %tmp.42 = getv %tmp.41 :lats;
-        symbol [ size %tmp.43 65 42 46 ];
-        %tmp.43 = getv function %tmp.42 :size;
-        %tmp.44 = invoke %tmp.42 %tmp.43();
-        symbol [ _lastFittedSize ? 65 12 27 ];
-        putv self :_lastFittedSize %tmp.44;
-G__code_garmiand_garmin_source_NavigationView_mc_63_51_66_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_63_8_66_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_63_8_66_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 68 8 ]
         [ "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop" ]
         %app.5 = local;
-        symbol [ app %app.5 68 12 15 ];
-        symbol [ App %tmp.45 68 18 21 ];
-        %tmp.45 = getm $.Toybox.Application;
-        symbol [ getApp %tmp.46 68 22 28 ];
-        %tmp.46 = getv function %tmp.45 :getApp;
-        %tmp.47 = invoke %tmp.45 %tmp.46();
-        %tmp.48 = as %tmp.47 GarmiandApp;
-        symbol [ GarmiandApp %tmp.48 68 34 45 ];
-        lputv %app.5 %tmp.48;
-        symbol [ app %app.5 68 12 15 ];
+        symbol [ app %app.5 63 12 15 ];
+        symbol [ App %tmp.30 63 18 21 ];
+        %tmp.30 = getm $.Toybox.Application;
+        symbol [ getApp %tmp.31 63 22 28 ];
+        %tmp.31 = getv function %tmp.30 :getApp;
+        %tmp.32 = invoke %tmp.30 %tmp.31();
+        %tmp.33 = as %tmp.32 GarmiandApp;
+        symbol [ GarmiandApp %tmp.33 63 34 45 ];
+        lputv %app.5 %tmp.33;
+        symbol [ app %app.5 63 12 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 64 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop" ]
+        %mapBitmap.6 = local;
+        symbol [ mapBitmap %mapBitmap.6 64 12 21 ];
+        %tmp.34 = lgetv %app.5;
+        symbol [ app %tmp.34 64 24 27 ];
+        symbol [ _mapBitmap %tmp.35 64 28 38 ];
+        %tmp.35 = getv %tmp.34 :_mapBitmap;
+        lputv %mapBitmap.6 %tmp.35;
+        symbol [ mapBitmap %mapBitmap.6 64 12 21 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 65 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop" ]
+        %hasMap.7 = local;
+        symbol [ hasMap %hasMap.7 65 12 18 ];
+G__code_garmiand_garmin_source_NavigationView_mc_65_21_67_36_begin:
+G__code_garmiand_garmin_source_NavigationView_mc_65_21_66_36_begin:
+        %tmp.36 = lgetv %mapBitmap.6;
+        symbol [ mapBitmap %tmp.36 65 21 30 ];
+        %tmp.37 = null;
+        %tmp.38 = ne %tmp.36 %tmp.37;
+        %tmp.39 = dup %tmp.38;
+        bf %tmp.39 @G__code_garmiand_garmin_source_NavigationView_mc_66_15_66_36_end;
+G__code_garmiand_garmin_source_NavigationView_mc_66_15_66_36_true:
+        %tmp.40 = lgetv %app.5;
+        symbol [ app %tmp.40 66 15 18 ];
+        symbol [ _mapMaxLat %tmp.41 66 19 29 ];
+        %tmp.41 = getv %tmp.40 :_mapMaxLat;
+        %tmp.42 = lgetv %app.5;
+        symbol [ app %tmp.42 66 32 35 ];
+        symbol [ _mapMinLat %tmp.43 66 36 46 ];
+        %tmp.43 = getv %tmp.42 :_mapMinLat;
+        %tmp.44 = gt %tmp.41 %tmp.43;
+        %tmp.45 = and %tmp.38 %tmp.44;
+        push %tmp.45;
+G__code_garmiand_garmin_source_NavigationView_mc_66_15_66_36_end:
+        %tmp.46 = phi [%tmp.39 @G__code_garmiand_garmin_source_NavigationView_mc_65_21_66_36_begin] [%tmp.45 @G__code_garmiand_garmin_source_NavigationView_mc_66_15_66_36_true] [%tmp.46 @G__code_garmiand_garmin_source_NavigationView_mc_66_15_66_36_end];
+        %tmp.47 = dup %tmp.46;
+        bf %tmp.47 @G__code_garmiand_garmin_source_NavigationView_mc_67_15_67_36_end;
+G__code_garmiand_garmin_source_NavigationView_mc_67_15_67_36_true:
+        %tmp.48 = lgetv %app.5;
+        symbol [ app %tmp.48 67 15 18 ];
+        symbol [ _mapMaxLon %tmp.49 67 19 29 ];
+        %tmp.49 = getv %tmp.48 :_mapMaxLon;
+        %tmp.50 = lgetv %app.5;
+        symbol [ app %tmp.50 67 32 35 ];
+        symbol [ _mapMinLon %tmp.51 67 36 46 ];
+        %tmp.51 = getv %tmp.50 :_mapMinLon;
+        %tmp.52 = gt %tmp.49 %tmp.51;
+        %tmp.53 = and %tmp.46 %tmp.52;
+        push %tmp.53;
+G__code_garmiand_garmin_source_NavigationView_mc_67_15_67_36_end:
+        %tmp.54 = phi [%tmp.47 @G__code_garmiand_garmin_source_NavigationView_mc_65_21_67_36_begin] [%tmp.53 @G__code_garmiand_garmin_source_NavigationView_mc_67_15_67_36_true] [%tmp.54 @G__code_garmiand_garmin_source_NavigationView_mc_67_15_67_36_end];
+        lputv %hasMap.7 %tmp.54;
+        symbol [ hasMap %hasMap.7 65 12 18 ];
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 69 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop" ]
-        %posLat.6 = local;
-        symbol [ posLat %posLat.6 69 12 18 ];
-        %tmp.49 = lgetv %app.5;
-        symbol [ app %tmp.49 69 21 24 ];
-        symbol [ _currentLat %tmp.50 69 25 36 ];
-        %tmp.50 = getv %tmp.49 :_currentLat;
-        lputv %posLat.6 %tmp.50;
-        symbol [ posLat %posLat.6 69 12 18 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 70 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop" ]
-        %posLon.7 = local;
-        symbol [ posLon %posLon.7 70 12 18 ];
-        %tmp.51 = lgetv %app.5;
-        symbol [ app %tmp.51 70 21 24 ];
-        symbol [ _currentLon %tmp.52 70 25 36 ];
-        %tmp.52 = getv %tmp.51 :_currentLon;
-        lputv %posLon.7 %tmp.52;
-        symbol [ posLon %posLon.7 70 12 18 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 72 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_72_8_75_8_if_stmt:
-G__code_garmiand_garmin_source_NavigationView_mc_72_12_72_37_begin:
-        symbol [ _autoCenter %tmp.54 72 12 23 ];
-        %tmp.54 = getv ? :_autoCenter;
-        bf %tmp.54 @G__code_garmiand_garmin_source_NavigationView_mc_72_8_75_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_72_27_72_37_true:
-        %tmp.55 = lgetv %posLat.6;
-        symbol [ posLat %tmp.55 72 27 33 ];
-        %tmp.56 = 0.0f;
-        %tmp.57 = ne %tmp.55 %tmp.56;
-        push %tmp.57;
-G__code_garmiand_garmin_source_NavigationView_mc_72_27_72_37_end:
-        %tmp.58 = phi [%tmp.54 @G__code_garmiand_garmin_source_NavigationView_mc_72_12_72_37_begin] [%tmp.57 @G__code_garmiand_garmin_source_NavigationView_mc_72_27_72_37_true] [%tmp.58 @G__code_garmiand_garmin_source_NavigationView_mc_72_27_72_37_end];
-        bf %tmp.58 @G__code_garmiand_garmin_source_NavigationView_mc_72_8_75_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_72_8_75_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_72_43_75_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 73 12 ]
-        %tmp.59 = lgetv %posLat.6;
-        symbol [ posLat %tmp.59 73 25 31 ];
-        symbol [ _centerLat ? 73 12 22 ];
-        putv self :_centerLat %tmp.59;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 74 12 ]
-        %tmp.60 = lgetv %posLon.7;
-        symbol [ posLon %tmp.60 74 25 31 ];
-        symbol [ _centerLon ? 74 12 22 ];
-        putv self :_centerLon %tmp.60;
-G__code_garmiand_garmin_source_NavigationView_mc_72_43_75_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_72_8_75_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_72_8_75_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 77 8 ]
-        %tmp.61 = self;
-        symbol [ drawPolyline %tmp.62 77 8 20 ];
-        %tmp.62 = getv function %tmp.61 :drawPolyline;
-        %tmp.63 = lgetv %dc;
-        symbol [ dc %tmp.63 77 21 23 ];
-        %tmp.64 = lgetv %cx.3;
-        symbol [ cx %tmp.64 77 25 27 ];
-        %tmp.65 = lgetv %cy.4;
-        symbol [ cy %tmp.65 77 29 31 ];
-        invoke %tmp.61 %tmp.62(%tmp.63, %tmp.64, %tmp.65);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 78 8 ]
-        %tmp.66 = self;
-        symbol [ drawMarkers %tmp.67 78 8 19 ];
-        %tmp.67 = getv function %tmp.66 :drawMarkers;
+G__code_garmiand_garmin_source_NavigationView_mc_69_8_90_8_if_stmt:
+        %tmp.55 = lgetv %hasMap.7;
+        symbol [ hasMap %tmp.55 69 12 18 ];
+        bf %tmp.55 @G__code_garmiand_garmin_source_NavigationView_mc_69_8_90_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_69_8_90_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_69_20_76_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 70 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_69_20_76_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_69_20_76_8_stop" ]
+        %mx.8 = local;
+        symbol [ mx %mx.8 70 16 18 ];
+        %tmp.56 = lgetv %w.1;
+        symbol [ w %tmp.56 70 22 23 ];
+        %tmp.57 = lgetv %app.5;
+        symbol [ app %tmp.57 70 26 29 ];
+        symbol [ _mapWidth %tmp.58 70 30 39 ];
+        %tmp.58 = getv %tmp.57 :_mapWidth;
+        %tmp.59 = sub %tmp.56 %tmp.58;
+        %tmp.60 = 2;
+        %tmp.61 = div %tmp.59 %tmp.60;
+        lputv %mx.8 %tmp.61;
+        symbol [ mx %mx.8 70 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 71 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_69_20_76_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_69_20_76_8_stop" ]
+        %my.9 = local;
+        symbol [ my %my.9 71 16 18 ];
+        %tmp.62 = lgetv %h.2;
+        symbol [ h %tmp.62 71 22 23 ];
+        %tmp.63 = lgetv %app.5;
+        symbol [ app %tmp.63 71 26 29 ];
+        symbol [ _mapHeight %tmp.64 71 30 40 ];
+        %tmp.64 = getv %tmp.63 :_mapHeight;
+        %tmp.65 = sub %tmp.62 %tmp.64;
+        %tmp.66 = 2;
+        %tmp.67 = div %tmp.65 %tmp.66;
+        lputv %my.9 %tmp.67;
+        symbol [ my %my.9 71 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 72 12 ]
         %tmp.68 = lgetv %dc;
-        symbol [ dc %tmp.68 78 20 22 ];
-        %tmp.69 = lgetv %cx.3;
-        symbol [ cx %tmp.69 78 24 26 ];
-        %tmp.70 = lgetv %cy.4;
-        symbol [ cy %tmp.70 78 28 30 ];
-        invoke %tmp.66 %tmp.67(%tmp.68, %tmp.69, %tmp.70);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 80 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_80_8_90_8_if_stmt:
-        %tmp.71 = lgetv %posLat.6;
-        symbol [ posLat %tmp.71 80 12 18 ];
-        %tmp.72 = 0.0f;
-        %tmp.73 = ne %tmp.71 %tmp.72;
-        bf %tmp.73 @G__code_garmiand_garmin_source_NavigationView_mc_80_8_90_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_80_8_90_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_80_28_90_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 81 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_80_28_90_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_80_28_90_8_stop" ]
-        %px.8 = local;
-        symbol [ px %px.8 81 16 18 ];
-        %tmp.74 = self;
-        symbol [ lonToX %tmp.75 81 21 27 ];
-        %tmp.75 = getv function %tmp.74 :lonToX;
-        %tmp.76 = lgetv %posLon.7;
-        symbol [ posLon %tmp.76 81 28 34 ];
-        %tmp.77 = lgetv %cx.3;
-        symbol [ cx %tmp.77 81 36 38 ];
-        %tmp.78 = invoke %tmp.74 %tmp.75(%tmp.76, %tmp.77);
-        lputv %px.8 %tmp.78;
-        symbol [ px %px.8 81 16 18 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 82 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_80_28_90_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_80_28_90_8_stop" ]
-        %py.9 = local;
-        symbol [ py %py.9 82 16 18 ];
+        symbol [ dc %tmp.68 72 12 14 ];
+        symbol [ drawBitmap %tmp.69 72 15 25 ];
+        %tmp.69 = getv function %tmp.68 :drawBitmap;
+        %tmp.70 = lgetv %mx.8;
+        symbol [ mx %tmp.70 72 26 28 ];
+        %tmp.71 = lgetv %my.9;
+        symbol [ my %tmp.71 72 30 32 ];
+        %tmp.72 = lgetv %mapBitmap.6;
+        symbol [ mapBitmap %tmp.72 72 34 43 ];
+        invoke %tmp.68 %tmp.69(%tmp.70, %tmp.71, %tmp.72);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 73 12 ]
+        %tmp.73 = self;
+        symbol [ drawPolylineMap %tmp.74 73 12 27 ];
+        %tmp.74 = getv function %tmp.73 :drawPolylineMap;
+        %tmp.75 = lgetv %dc;
+        symbol [ dc %tmp.75 73 28 30 ];
+        %tmp.76 = lgetv %app.5;
+        symbol [ app %tmp.76 73 32 35 ];
+        %tmp.77 = lgetv %mx.8;
+        symbol [ mx %tmp.77 73 37 39 ];
+        %tmp.78 = lgetv %my.9;
+        symbol [ my %tmp.78 73 41 43 ];
+        invoke %tmp.73 %tmp.74(%tmp.75, %tmp.76, %tmp.77, %tmp.78);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 74 12 ]
         %tmp.79 = self;
-        symbol [ latToY %tmp.80 82 21 27 ];
-        %tmp.80 = getv function %tmp.79 :latToY;
-        %tmp.81 = lgetv %posLat.6;
-        symbol [ posLat %tmp.81 82 28 34 ];
-        %tmp.82 = lgetv %cy.4;
-        symbol [ cy %tmp.82 82 36 38 ];
-        %tmp.83 = invoke %tmp.79 %tmp.80(%tmp.81, %tmp.82);
-        lputv %py.9 %tmp.83;
-        symbol [ py %py.9 82 16 18 ];
+        symbol [ drawMarkersMap %tmp.80 74 12 26 ];
+        %tmp.80 = getv function %tmp.79 :drawMarkersMap;
+        %tmp.81 = lgetv %dc;
+        symbol [ dc %tmp.81 74 27 29 ];
+        %tmp.82 = lgetv %app.5;
+        symbol [ app %tmp.82 74 31 34 ];
+        %tmp.83 = lgetv %mx.8;
+        symbol [ mx %tmp.83 74 36 38 ];
+        %tmp.84 = lgetv %my.9;
+        symbol [ my %tmp.84 74 40 42 ];
+        invoke %tmp.79 %tmp.80(%tmp.81, %tmp.82, %tmp.83, %tmp.84);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 75 12 ]
+        %tmp.85 = self;
+        symbol [ drawPositionMap %tmp.86 75 12 27 ];
+        %tmp.86 = getv function %tmp.85 :drawPositionMap;
+        %tmp.87 = lgetv %dc;
+        symbol [ dc %tmp.87 75 28 30 ];
+        %tmp.88 = lgetv %app.5;
+        symbol [ app %tmp.88 75 32 35 ];
+        %tmp.89 = lgetv %mx.8;
+        symbol [ mx %tmp.89 75 37 39 ];
+        %tmp.90 = lgetv %my.9;
+        symbol [ my %tmp.90 75 41 43 ];
+        %tmp.91 = lgetv %w.1;
+        symbol [ w %tmp.91 75 45 46 ];
+        %tmp.92 = lgetv %h.2;
+        symbol [ h %tmp.92 75 48 49 ];
+        invoke %tmp.85 %tmp.86(%tmp.87, %tmp.88, %tmp.89, %tmp.90, %tmp.91, %tmp.92);
+G__code_garmiand_garmin_source_NavigationView_mc_69_20_76_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_69_8_90_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_69_8_90_8_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_76_15_90_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 77 12 ]
+G__code_garmiand_garmin_source_NavigationView_mc_77_12_80_12_if_stmt:
+        symbol [ _lastFittedSize %tmp.94 77 16 31 ];
+        %tmp.94 = getv ? :_lastFittedSize;
+        symbol [ _route %tmp.96 77 35 41 ];
+        %tmp.96 = getv ? :_route;
+        symbol [ lats %tmp.97 77 42 46 ];
+        %tmp.97 = getv %tmp.96 :lats;
+        symbol [ size %tmp.98 77 47 51 ];
+        %tmp.98 = getv function %tmp.97 :size;
+        %tmp.99 = invoke %tmp.97 %tmp.98();
+        %tmp.100 = ne %tmp.94 %tmp.99;
+        bf %tmp.100 @G__code_garmiand_garmin_source_NavigationView_mc_77_12_80_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_77_12_80_12_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_77_55_80_12_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 78 16 ]
+        %tmp.101 = self;
+        symbol [ fitRoute %tmp.102 78 16 24 ];
+        %tmp.102 = getv function %tmp.101 :fitRoute;
+        invoke %tmp.101 %tmp.102();
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 79 16 ]
+        symbol [ _route %tmp.104 79 34 40 ];
+        %tmp.104 = getv ? :_route;
+        symbol [ lats %tmp.105 79 41 45 ];
+        %tmp.105 = getv %tmp.104 :lats;
+        symbol [ size %tmp.106 79 46 50 ];
+        %tmp.106 = getv function %tmp.105 :size;
+        %tmp.107 = invoke %tmp.105 %tmp.106();
+        symbol [ _lastFittedSize ? 79 16 31 ];
+        putv self :_lastFittedSize %tmp.107;
+G__code_garmiand_garmin_source_NavigationView_mc_77_55_80_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_77_12_80_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_77_12_80_12_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 81 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_76_15_90_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_76_15_90_8_stop" ]
+        %posLat.10 = local;
+        symbol [ posLat %posLat.10 81 16 22 ];
+        %tmp.108 = lgetv %app.5;
+        symbol [ app %tmp.108 81 25 28 ];
+        symbol [ _currentLat %tmp.109 81 29 40 ];
+        %tmp.109 = getv %tmp.108 :_currentLat;
+        lputv %posLat.10 %tmp.109;
+        symbol [ posLat %posLat.10 81 16 22 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 82 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_76_15_90_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_76_15_90_8_stop" ]
+        %posLon.11 = local;
+        symbol [ posLon %posLon.11 82 16 22 ];
+        %tmp.110 = lgetv %app.5;
+        symbol [ app %tmp.110 82 25 28 ];
+        symbol [ _currentLon %tmp.111 82 29 40 ];
+        %tmp.111 = getv %tmp.110 :_currentLon;
+        lputv %posLon.11 %tmp.111;
+        symbol [ posLon %posLon.11 82 16 22 ];
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 83 12 ]
-        %tmp.84 = lgetv %dc;
-        symbol [ dc %tmp.84 83 12 14 ];
-        symbol [ setColor %tmp.85 83 15 23 ];
-        %tmp.85 = getv function %tmp.84 :setColor;
-        symbol [ Graphics %tmp.86 83 24 32 ];
-        %tmp.86 = getm $.Toybox.Graphics;
-        symbol [ COLOR_BLUE %tmp.87 83 33 43 ];
-        %tmp.87 = getv %tmp.86 :COLOR_BLUE;
-        symbol [ Graphics %tmp.88 83 45 53 ];
-        %tmp.88 = getm $.Toybox.Graphics;
-        symbol [ COLOR_TRANSPARENT %tmp.89 83 54 71 ];
-        %tmp.89 = getv %tmp.88 :COLOR_TRANSPARENT;
-        invoke %tmp.84 %tmp.85(%tmp.87, %tmp.89);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 84 12 ]
-        %tmp.90 = lgetv %dc;
-        symbol [ dc %tmp.90 84 12 14 ];
-        symbol [ fillCircle %tmp.91 84 15 25 ];
-        %tmp.91 = getv function %tmp.90 :fillCircle;
-        %tmp.92 = lgetv %px.8;
-        symbol [ px %tmp.92 84 26 28 ];
-        %tmp.93 = lgetv %py.9;
-        symbol [ py %tmp.93 84 30 32 ];
-        %tmp.94 = 6;
-        invoke %tmp.90 %tmp.91(%tmp.92, %tmp.93, %tmp.94);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 86 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_86_12_89_12_if_stmt:
-        symbol [ NavigationCalculator %tmp.96 86 16 36 ];
-        %tmp.96 = getv ? :NavigationCalculator;
-        symbol [ isOffRoute %tmp.97 86 37 47 ];
-        %tmp.97 = getv function %tmp.96 :isOffRoute;
-        symbol [ _route %tmp.99 86 48 54 ];
-        %tmp.99 = getv ? :_route;
-        %tmp.100 = lgetv %posLat.6;
-        symbol [ posLat %tmp.100 86 56 62 ];
-        %tmp.101 = lgetv %posLon.7;
-        symbol [ posLon %tmp.101 86 64 70 ];
-        %tmp.102 = invoke %tmp.96 %tmp.97(%tmp.99, %tmp.100, %tmp.101);
-        bf %tmp.102 @G__code_garmiand_garmin_source_NavigationView_mc_86_12_89_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_86_12_89_12_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_86_73_89_12_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 87 16 ]
-        %tmp.103 = lgetv %dc;
-        symbol [ dc %tmp.103 87 16 18 ];
-        symbol [ setColor %tmp.104 87 19 27 ];
-        %tmp.104 = getv function %tmp.103 :setColor;
-        symbol [ Graphics %tmp.105 87 28 36 ];
-        %tmp.105 = getm $.Toybox.Graphics;
-        symbol [ COLOR_RED %tmp.106 87 37 46 ];
-        %tmp.106 = getv %tmp.105 :COLOR_RED;
-        symbol [ Graphics %tmp.107 87 48 56 ];
-        %tmp.107 = getm $.Toybox.Graphics;
-        symbol [ COLOR_TRANSPARENT %tmp.108 87 57 74 ];
-        %tmp.108 = getv %tmp.107 :COLOR_TRANSPARENT;
-        invoke %tmp.103 %tmp.104(%tmp.106, %tmp.108);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 88 16 ]
-        %tmp.109 = lgetv %dc;
-        symbol [ dc %tmp.109 88 16 18 ];
-        symbol [ drawText %tmp.110 88 19 27 ];
-        %tmp.110 = getv function %tmp.109 :drawText;
-        %tmp.111 = lgetv %cx.3;
-        symbol [ cx %tmp.111 88 28 30 ];
-        %tmp.112 = lgetv %h.2;
-        symbol [ h %tmp.112 88 32 33 ];
-        %tmp.113 = 30;
-        %tmp.114 = sub %tmp.112 %tmp.113;
-        symbol [ Graphics %tmp.115 88 40 48 ];
-        %tmp.115 = getm $.Toybox.Graphics;
-        symbol [ FONT_TINY %tmp.116 88 49 58 ];
-        %tmp.116 = getv %tmp.115 :FONT_TINY;
-        %tmp.117 = "OFF ROUTE";
-        symbol [ Graphics %tmp.118 88 73 81 ];
-        %tmp.118 = getm $.Toybox.Graphics;
-        symbol [ TEXT_JUSTIFY_CENTER %tmp.119 88 82 101 ];
-        %tmp.119 = getv %tmp.118 :TEXT_JUSTIFY_CENTER;
-        invoke %tmp.109 %tmp.110(%tmp.111, %tmp.114, %tmp.116, %tmp.117, %tmp.119);
-G__code_garmiand_garmin_source_NavigationView_mc_86_73_89_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_86_12_89_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_86_12_89_12_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_80_28_90_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_80_8_90_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_80_8_90_8_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_83_12_86_12_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_83_16_83_41_begin:
+        symbol [ _autoCenter %tmp.113 83 16 27 ];
+        %tmp.113 = getv ? :_autoCenter;
+        bf %tmp.113 @G__code_garmiand_garmin_source_NavigationView_mc_83_12_86_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_83_31_83_41_true:
+        %tmp.114 = lgetv %posLat.10;
+        symbol [ posLat %tmp.114 83 31 37 ];
+        %tmp.115 = 0.0f;
+        %tmp.116 = ne %tmp.114 %tmp.115;
+        push %tmp.116;
+G__code_garmiand_garmin_source_NavigationView_mc_83_31_83_41_end:
+        %tmp.117 = phi [%tmp.113 @G__code_garmiand_garmin_source_NavigationView_mc_83_16_83_41_begin] [%tmp.116 @G__code_garmiand_garmin_source_NavigationView_mc_83_31_83_41_true] [%tmp.117 @G__code_garmiand_garmin_source_NavigationView_mc_83_31_83_41_end];
+        bf %tmp.117 @G__code_garmiand_garmin_source_NavigationView_mc_83_12_86_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_83_12_86_12_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_83_47_86_12_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 84 16 ]
+        %tmp.118 = lgetv %posLat.10;
+        symbol [ posLat %tmp.118 84 29 35 ];
+        symbol [ _centerLat ? 84 16 26 ];
+        putv self :_centerLat %tmp.118;
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 85 16 ]
+        %tmp.119 = lgetv %posLon.11;
+        symbol [ posLon %tmp.119 85 29 35 ];
+        symbol [ _centerLon ? 85 16 26 ];
+        putv self :_centerLon %tmp.119;
+G__code_garmiand_garmin_source_NavigationView_mc_83_47_86_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_83_12_86_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_83_12_86_12_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 87 12 ]
+        %tmp.120 = self;
+        symbol [ drawPolyline %tmp.121 87 12 24 ];
+        %tmp.121 = getv function %tmp.120 :drawPolyline;
+        %tmp.122 = lgetv %dc;
+        symbol [ dc %tmp.122 87 25 27 ];
+        %tmp.123 = lgetv %cx.3;
+        symbol [ cx %tmp.123 87 29 31 ];
+        %tmp.124 = lgetv %cy.4;
+        symbol [ cy %tmp.124 87 33 35 ];
+        invoke %tmp.120 %tmp.121(%tmp.122, %tmp.123, %tmp.124);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 88 12 ]
+        %tmp.125 = self;
+        symbol [ drawMarkers %tmp.126 88 12 23 ];
+        %tmp.126 = getv function %tmp.125 :drawMarkers;
+        %tmp.127 = lgetv %dc;
+        symbol [ dc %tmp.127 88 24 26 ];
+        %tmp.128 = lgetv %cx.3;
+        symbol [ cx %tmp.128 88 28 30 ];
+        %tmp.129 = lgetv %cy.4;
+        symbol [ cy %tmp.129 88 32 34 ];
+        invoke %tmp.125 %tmp.126(%tmp.127, %tmp.128, %tmp.129);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 89 12 ]
+        %tmp.130 = self;
+        symbol [ drawPositionScale %tmp.131 89 12 29 ];
+        %tmp.131 = getv function %tmp.130 :drawPositionScale;
+        %tmp.132 = lgetv %dc;
+        symbol [ dc %tmp.132 89 30 32 ];
+        %tmp.133 = lgetv %app.5;
+        symbol [ app %tmp.133 89 34 37 ];
+        %tmp.134 = lgetv %cx.3;
+        symbol [ cx %tmp.134 89 39 41 ];
+        %tmp.135 = lgetv %cy.4;
+        symbol [ cy %tmp.135 89 43 45 ];
+        %tmp.136 = lgetv %w.1;
+        symbol [ w %tmp.136 89 47 48 ];
+        %tmp.137 = lgetv %h.2;
+        symbol [ h %tmp.137 89 50 51 ];
+        invoke %tmp.130 %tmp.131(%tmp.132, %tmp.133, %tmp.134, %tmp.135, %tmp.136, %tmp.137);
+G__code_garmiand_garmin_source_NavigationView_mc_76_15_90_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_69_8_90_8_if_end:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 92 8 ]
         [ "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop" ]
-        %name.10 = local;
-        symbol [ name %name.10 92 12 16 ];
+        %name.12 = local;
+        symbol [ name %name.12 92 12 16 ];
 G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_begin:
-        symbol [ _route %tmp.121 92 19 25 ];
-        %tmp.121 = getv ? :_route;
-        symbol [ routeName %tmp.122 92 26 35 ];
-        %tmp.122 = getv %tmp.121 :routeName;
-        %tmp.123 = null;
-        %tmp.124 = ne %tmp.122 %tmp.123;
-        bf %tmp.124 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_else_false;
+        symbol [ _route %tmp.139 92 19 25 ];
+        %tmp.139 = getv ? :_route;
+        symbol [ routeName %tmp.140 92 26 35 ];
+        %tmp.140 = getv %tmp.139 :routeName;
+        %tmp.141 = null;
+        %tmp.142 = ne %tmp.140 %tmp.141;
+        bf %tmp.142 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_else_false;
 G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_true:
-        symbol [ _route %tmp.126 92 46 52 ];
-        %tmp.126 = getv ? :_route;
-        symbol [ routeName %tmp.127 92 53 62 ];
-        %tmp.127 = getv %tmp.126 :routeName;
-        push %tmp.127;
+        symbol [ _route %tmp.144 92 46 52 ];
+        %tmp.144 = getv ? :_route;
+        symbol [ routeName %tmp.145 92 53 62 ];
+        %tmp.145 = getv %tmp.144 :routeName;
+        push %tmp.145;
         goto @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_end;
 G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_else_false:
-        %tmp.128 = "Route";
-        push %tmp.128;
+        %tmp.146 = "Route";
+        push %tmp.146;
 G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_end:
-        %tmp.129 = phi [%tmp.124 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_begin] [%tmp.127 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_true] [%tmp.128 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_else_false] [%tmp.129 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_end];
-        lputv %name.10 %tmp.129;
-        symbol [ name %name.10 92 12 16 ];
+        %tmp.147 = phi [%tmp.142 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_begin] [%tmp.145 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_true] [%tmp.146 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_else_false] [%tmp.147 @G__code_garmiand_garmin_source_NavigationView_mc_92_19_92_65_end];
+        lputv %name.12 %tmp.147;
+        symbol [ name %name.12 92 12 16 ];
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 93 8 ]
-        %tmp.130 = lgetv %dc;
-        symbol [ dc %tmp.130 93 8 10 ];
-        symbol [ setColor %tmp.131 93 11 19 ];
-        %tmp.131 = getv function %tmp.130 :setColor;
-        symbol [ Graphics %tmp.132 93 20 28 ];
-        %tmp.132 = getm $.Toybox.Graphics;
-        symbol [ COLOR_WHITE %tmp.133 93 29 40 ];
-        %tmp.133 = getv %tmp.132 :COLOR_WHITE;
-        symbol [ Graphics %tmp.134 93 42 50 ];
-        %tmp.134 = getm $.Toybox.Graphics;
-        symbol [ COLOR_TRANSPARENT %tmp.135 93 51 68 ];
-        %tmp.135 = getv %tmp.134 :COLOR_TRANSPARENT;
-        invoke %tmp.130 %tmp.131(%tmp.133, %tmp.135);
+        %tmp.148 = lgetv %dc;
+        symbol [ dc %tmp.148 93 8 10 ];
+        symbol [ setColor %tmp.149 93 11 19 ];
+        %tmp.149 = getv function %tmp.148 :setColor;
+        symbol [ Graphics %tmp.150 93 20 28 ];
+        %tmp.150 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.151 93 29 40 ];
+        %tmp.151 = getv %tmp.150 :COLOR_WHITE;
+        symbol [ Graphics %tmp.152 93 42 50 ];
+        %tmp.152 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLACK %tmp.153 93 51 62 ];
+        %tmp.153 = getv %tmp.152 :COLOR_BLACK;
+        invoke %tmp.148 %tmp.149(%tmp.151, %tmp.153);
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 94 8 ]
-        %tmp.136 = lgetv %dc;
-        symbol [ dc %tmp.136 94 8 10 ];
-        symbol [ drawText %tmp.137 94 11 19 ];
-        %tmp.137 = getv function %tmp.136 :drawText;
-        %tmp.138 = lgetv %cx.3;
-        symbol [ cx %tmp.138 94 20 22 ];
-        %tmp.139 = 5;
-        symbol [ Graphics %tmp.140 94 27 35 ];
-        %tmp.140 = getm $.Toybox.Graphics;
-        symbol [ FONT_TINY %tmp.141 94 36 45 ];
-        %tmp.141 = getv %tmp.140 :FONT_TINY;
-        %tmp.142 = lgetv %name.10;
-        symbol [ name %tmp.142 94 47 51 ];
-        symbol [ Graphics %tmp.143 94 53 61 ];
-        %tmp.143 = getm $.Toybox.Graphics;
-        symbol [ TEXT_JUSTIFY_CENTER %tmp.144 94 62 81 ];
-        %tmp.144 = getv %tmp.143 :TEXT_JUSTIFY_CENTER;
-        invoke %tmp.136 %tmp.137(%tmp.138, %tmp.139, %tmp.141, %tmp.142, %tmp.144);
+        %tmp.154 = lgetv %dc;
+        symbol [ dc %tmp.154 94 8 10 ];
+        symbol [ drawText %tmp.155 94 11 19 ];
+        %tmp.155 = getv function %tmp.154 :drawText;
+        %tmp.156 = lgetv %cx.3;
+        symbol [ cx %tmp.156 94 20 22 ];
+        %tmp.157 = 5;
+        symbol [ Graphics %tmp.158 94 27 35 ];
+        %tmp.158 = getm $.Toybox.Graphics;
+        symbol [ FONT_TINY %tmp.159 94 36 45 ];
+        %tmp.159 = getv %tmp.158 :FONT_TINY;
+        %tmp.160 = lgetv %name.12;
+        symbol [ name %tmp.160 94 47 51 ];
+        symbol [ Graphics %tmp.161 94 53 61 ];
+        %tmp.161 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.162 94 62 81 ];
+        %tmp.162 = getv %tmp.161 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.154 %tmp.155(%tmp.156, %tmp.157, %tmp.159, %tmp.160, %tmp.162);
 G__code_garmiand_garmin_source_NavigationView_mc_49_49_95_4_stop:
     }
     [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 97; @symbol_functiondef = [drawWaitingScreen,97,13,30]; @symbol_param<0> = [dc,97,31,33]; @symbol_param<0>_type<0> = [Graphics,97,37,45]; @symbol_param<0>_type<1> = [Dc,97,46,48]; @symbol_param<1> = [w,97,50,51]; @symbol_param<1>_type<0> = [Lang,97,55,59]; @symbol_param<1>_type<1> = [Number,97,60,66]; @symbol_param<2> = [h,97,68,69]; @symbol_param<2>_type<0> = [Lang,97,73,77]; @symbol_param<2>_type<1> = [Number,97,78,84]; ]
@@ -1058,284 +1108,974 @@ G__code_garmiand_garmin_source_NavigationView_mc_117_8_123_8_for_incr:
 G__code_garmiand_garmin_source_NavigationView_mc_117_8_123_8_for_end:
 G__code_garmiand_garmin_source_NavigationView_mc_111_91_124_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 126; @symbol_functiondef = [drawMarkers,126,13,24]; @symbol_param<0> = [dc,126,25,27]; @symbol_param<0>_type<0> = [Graphics,126,31,39]; @symbol_param<0>_type<1> = [Dc,126,40,42]; @symbol_param<1> = [cx,126,44,46]; @symbol_param<1>_type<0> = [Lang,126,50,54]; @symbol_param<1>_type<1> = [Number,126,55,61]; @symbol_param<2> = [cy,126,63,65]; @symbol_param<2>_type<0> = [Lang,126,69,73]; @symbol_param<2>_type<1> = [Number,126,74,80]; ]
-    function drawMarkers(dc as Graphics.Dc, cx as Lang.Number, cy as Lang.Number) as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_126_90_139_4_start:
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 126; @symbol_functiondef = [drawPolylineMap,126,13,28]; @symbol_param<0> = [dc,126,29,31]; @symbol_param<0>_type<0> = [Graphics,126,35,43]; @symbol_param<0>_type<1> = [Dc,126,44,46]; @symbol_param<1> = [app,126,48,51]; @symbol_param<1>_type<0> = [GarmiandApp,126,55,66]; @symbol_param<2> = [mx,126,68,70]; @symbol_param<2>_type<0> = [Lang,126,74,78]; @symbol_param<2>_type<1> = [Number,126,79,85]; @symbol_param<3> = [my,126,87,89]; @symbol_param<3>_type<0> = [Lang,126,93,97]; @symbol_param<3>_type<1> = [Number,126,98,104]; ]
+    function drawPolylineMap(dc as Graphics.Dc, app as GarmiandApp, mx as Lang.Number, my as Lang.Number) as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_126_114_139_4_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 127 8 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_126_90_139_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_126_90_139_4_stop" ]
-        %cnt.1 = local;
-        symbol [ cnt %cnt.1 127 12 15 ];
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_126_114_139_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_126_114_139_4_stop" ]
+        %pts.1 = local;
+        symbol [ pts %pts.1 127 12 15 ];
         symbol [ _route %tmp.2 127 18 24 ];
         %tmp.2 = getv ? :_route;
-        symbol [ markerLats %tmp.3 127 25 35 ];
+        symbol [ lats %tmp.3 127 25 29 ];
+        %tmp.3 = getv %tmp.2 :lats;
+        symbol [ size %tmp.4 127 30 34 ];
+        %tmp.4 = getv function %tmp.3 :size;
+        %tmp.5 = invoke %tmp.3 %tmp.4();
+        lputv %pts.1 %tmp.5;
+        symbol [ pts %pts.1 127 12 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 128 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_128_8_130_8_if_stmt:
+        %tmp.6 = lgetv %pts.1;
+        symbol [ pts %tmp.6 128 12 15 ];
+        %tmp.7 = 2;
+        %tmp.8 = lt %tmp.6 %tmp.7;
+        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_128_8_130_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_128_8_130_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_128_21_130_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 129 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_NavigationView_mc_128_21_130_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_128_8_130_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_128_8_130_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 131 8 ]
+        %tmp.9 = lgetv %dc;
+        symbol [ dc %tmp.9 131 8 10 ];
+        symbol [ setColor %tmp.10 131 11 19 ];
+        %tmp.10 = getv function %tmp.9 :setColor;
+        symbol [ Graphics %tmp.11 131 20 28 ];
+        %tmp.11 = getm $.Toybox.Graphics;
+        symbol [ COLOR_RED %tmp.12 131 29 38 ];
+        %tmp.12 = getv %tmp.11 :COLOR_RED;
+        symbol [ Graphics %tmp.13 131 40 48 ];
+        %tmp.13 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.14 131 49 66 ];
+        %tmp.14 = getv %tmp.13 :COLOR_TRANSPARENT;
+        invoke %tmp.9 %tmp.10(%tmp.12, %tmp.14);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 132 8 ]
+        for @G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_test @G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_incr @G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_end;
+G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_init:
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_begin" "G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 132 17 18 ];
+        %tmp.15 = 0;
+        lputv %i.2 %tmp.15;
+        symbol [ i %i.2 132 17 18 ];
+G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_test:
+        %tmp.16 = lgetv %i.2;
+        symbol [ i %tmp.16 132 24 25 ];
+        %tmp.17 = lgetv %pts.1;
+        symbol [ pts %tmp.17 132 28 31 ];
+        %tmp.18 = 1;
+        %tmp.19 = sub %tmp.17 %tmp.18;
+        %tmp.20 = lt %tmp.16 %tmp.19;
+        bf %tmp.20 @G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_end;
+G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_begin:
+G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 133 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_stop" ]
+        %x1.3 = local;
+        symbol [ x1 %x1.3 133 16 18 ];
+        %tmp.21 = self;
+        symbol [ mapLonToX %tmp.22 133 21 30 ];
+        %tmp.22 = getv function %tmp.21 :mapLonToX;
+        symbol [ _route %tmp.24 133 31 37 ];
+        %tmp.24 = getv ? :_route;
+        symbol [ lons %tmp.25 133 38 42 ];
+        %tmp.25 = getv %tmp.24 :lons;
+        %tmp.26 = lgetv %i.2;
+        symbol [ i %tmp.26 133 43 44 ];
+        %tmp.27 = agetv %tmp.25 %tmp.26;
+        %tmp.28 = lgetv %app;
+        symbol [ app %tmp.28 133 47 50 ];
+        %tmp.29 = lgetv %mx;
+        symbol [ mx %tmp.29 133 52 54 ];
+        %tmp.30 = invoke %tmp.21 %tmp.22(%tmp.27, %tmp.28, %tmp.29);
+        lputv %x1.3 %tmp.30;
+        symbol [ x1 %x1.3 133 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 134 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_stop" ]
+        %y1.4 = local;
+        symbol [ y1 %y1.4 134 16 18 ];
+        %tmp.31 = self;
+        symbol [ mapLatToY %tmp.32 134 21 30 ];
+        %tmp.32 = getv function %tmp.31 :mapLatToY;
+        symbol [ _route %tmp.34 134 31 37 ];
+        %tmp.34 = getv ? :_route;
+        symbol [ lats %tmp.35 134 38 42 ];
+        %tmp.35 = getv %tmp.34 :lats;
+        %tmp.36 = lgetv %i.2;
+        symbol [ i %tmp.36 134 43 44 ];
+        %tmp.37 = agetv %tmp.35 %tmp.36;
+        %tmp.38 = lgetv %app;
+        symbol [ app %tmp.38 134 47 50 ];
+        %tmp.39 = lgetv %my;
+        symbol [ my %tmp.39 134 52 54 ];
+        %tmp.40 = invoke %tmp.31 %tmp.32(%tmp.37, %tmp.38, %tmp.39);
+        lputv %y1.4 %tmp.40;
+        symbol [ y1 %y1.4 134 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 135 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_stop" ]
+        %x2.5 = local;
+        symbol [ x2 %x2.5 135 16 18 ];
+        %tmp.41 = self;
+        symbol [ mapLonToX %tmp.42 135 21 30 ];
+        %tmp.42 = getv function %tmp.41 :mapLonToX;
+        symbol [ _route %tmp.44 135 31 37 ];
+        %tmp.44 = getv ? :_route;
+        symbol [ lons %tmp.45 135 38 42 ];
+        %tmp.45 = getv %tmp.44 :lons;
+        %tmp.46 = lgetv %i.2;
+        symbol [ i %tmp.46 135 43 44 ];
+        %tmp.47 = 1;
+        %tmp.48 = add %tmp.46 %tmp.47;
+        %tmp.49 = agetv %tmp.45 %tmp.48;
+        %tmp.50 = lgetv %app;
+        symbol [ app %tmp.50 135 51 54 ];
+        %tmp.51 = lgetv %mx;
+        symbol [ mx %tmp.51 135 56 58 ];
+        %tmp.52 = invoke %tmp.41 %tmp.42(%tmp.49, %tmp.50, %tmp.51);
+        lputv %x2.5 %tmp.52;
+        symbol [ x2 %x2.5 135 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 136 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_stop" ]
+        %y2.6 = local;
+        symbol [ y2 %y2.6 136 16 18 ];
+        %tmp.53 = self;
+        symbol [ mapLatToY %tmp.54 136 21 30 ];
+        %tmp.54 = getv function %tmp.53 :mapLatToY;
+        symbol [ _route %tmp.56 136 31 37 ];
+        %tmp.56 = getv ? :_route;
+        symbol [ lats %tmp.57 136 38 42 ];
+        %tmp.57 = getv %tmp.56 :lats;
+        %tmp.58 = lgetv %i.2;
+        symbol [ i %tmp.58 136 43 44 ];
+        %tmp.59 = 1;
+        %tmp.60 = add %tmp.58 %tmp.59;
+        %tmp.61 = agetv %tmp.57 %tmp.60;
+        %tmp.62 = lgetv %app;
+        symbol [ app %tmp.62 136 51 54 ];
+        %tmp.63 = lgetv %my;
+        symbol [ my %tmp.63 136 56 58 ];
+        %tmp.64 = invoke %tmp.53 %tmp.54(%tmp.61, %tmp.62, %tmp.63);
+        lputv %y2.6 %tmp.64;
+        symbol [ y2 %y2.6 136 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 137 12 ]
+        %tmp.65 = lgetv %dc;
+        symbol [ dc %tmp.65 137 12 14 ];
+        symbol [ drawLine %tmp.66 137 15 23 ];
+        %tmp.66 = getv function %tmp.65 :drawLine;
+        %tmp.67 = lgetv %x1.3;
+        symbol [ x1 %tmp.67 137 24 26 ];
+        %tmp.68 = lgetv %y1.4;
+        symbol [ y1 %tmp.68 137 28 30 ];
+        %tmp.69 = lgetv %x2.5;
+        symbol [ x2 %tmp.69 137 32 34 ];
+        %tmp.70 = lgetv %y2.6;
+        symbol [ y2 %tmp.70 137 36 38 ];
+        invoke %tmp.65 %tmp.66(%tmp.67, %tmp.68, %tmp.69, %tmp.70);
+G__code_garmiand_garmin_source_NavigationView_mc_132_42_138_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_incr:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 132 ]
+        %tmp.73 = lgetv %i.2;
+        symbol [ i %tmp.73 132 37 38 ];
+        %tmp.74 = add %tmp.73 1;
+        lputv %i.2 %tmp.74;
+        symbol [ i %i.2 132 37 38 ];
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_test;
+G__code_garmiand_garmin_source_NavigationView_mc_132_8_138_8_for_end:
+G__code_garmiand_garmin_source_NavigationView_mc_126_114_139_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 141; @symbol_functiondef = [drawMarkers,141,13,24]; @symbol_param<0> = [dc,141,25,27]; @symbol_param<0>_type<0> = [Graphics,141,31,39]; @symbol_param<0>_type<1> = [Dc,141,40,42]; @symbol_param<1> = [cx,141,44,46]; @symbol_param<1>_type<0> = [Lang,141,50,54]; @symbol_param<1>_type<1> = [Number,141,55,61]; @symbol_param<2> = [cy,141,63,65]; @symbol_param<2>_type<0> = [Lang,141,69,73]; @symbol_param<2>_type<1> = [Number,141,74,80]; ]
+    function drawMarkers(dc as Graphics.Dc, cx as Lang.Number, cy as Lang.Number) as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_141_90_148_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 142 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_141_90_148_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_141_90_148_4_stop" ]
+        %cnt.1 = local;
+        symbol [ cnt %cnt.1 142 12 15 ];
+        symbol [ _route %tmp.2 142 18 24 ];
+        %tmp.2 = getv ? :_route;
+        symbol [ markerLats %tmp.3 142 25 35 ];
         %tmp.3 = getv %tmp.2 :markerLats;
-        symbol [ size %tmp.4 127 36 40 ];
+        symbol [ size %tmp.4 142 36 40 ];
         %tmp.4 = getv function %tmp.3 :size;
         %tmp.5 = invoke %tmp.3 %tmp.4();
         lputv %cnt.1 %tmp.5;
-        symbol [ cnt %cnt.1 127 12 15 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 128 8 ]
-        for @G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_test @G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_incr @G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_end;
-G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_init:
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_begin" "G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_end" ]
+        symbol [ cnt %cnt.1 142 12 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 143 8 ]
+        for @G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_test @G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_incr @G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_end;
+G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_init:
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_begin" "G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_end" ]
         %i.2 = local;
-        symbol [ i %i.2 128 17 18 ];
+        symbol [ i %i.2 143 17 18 ];
         %tmp.6 = 0;
         lputv %i.2 %tmp.6;
-        symbol [ i %i.2 128 17 18 ];
-G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_test:
+        symbol [ i %i.2 143 17 18 ];
+G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_test:
         %tmp.7 = lgetv %i.2;
-        symbol [ i %tmp.7 128 24 25 ];
+        symbol [ i %tmp.7 143 24 25 ];
         %tmp.8 = lgetv %cnt.1;
-        symbol [ cnt %tmp.8 128 28 31 ];
+        symbol [ cnt %tmp.8 143 28 31 ];
         %tmp.9 = lt %tmp.7 %tmp.8;
-        bf %tmp.9 @G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_end;
-G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_begin:
-G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 129 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_stop" ]
-        %mx.3 = local;
-        symbol [ mx %mx.3 129 16 18 ];
+        bf %tmp.9 @G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_end;
+G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_begin:
+G__code_garmiand_garmin_source_NavigationView_mc_143_38_147_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 144 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_143_38_147_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_143_38_147_8_stop" ]
+        %px.3 = local;
+        symbol [ px %px.3 144 16 18 ];
         %tmp.10 = self;
-        symbol [ lonToX %tmp.11 129 21 27 ];
+        symbol [ lonToX %tmp.11 144 21 27 ];
         %tmp.11 = getv function %tmp.10 :lonToX;
-        symbol [ _route %tmp.13 129 28 34 ];
+        symbol [ _route %tmp.13 144 28 34 ];
         %tmp.13 = getv ? :_route;
-        symbol [ markerLons %tmp.14 129 35 45 ];
+        symbol [ markerLons %tmp.14 144 35 45 ];
         %tmp.14 = getv %tmp.13 :markerLons;
         %tmp.15 = lgetv %i.2;
-        symbol [ i %tmp.15 129 46 47 ];
+        symbol [ i %tmp.15 144 46 47 ];
         %tmp.16 = agetv %tmp.14 %tmp.15;
         %tmp.17 = lgetv %cx;
-        symbol [ cx %tmp.17 129 50 52 ];
+        symbol [ cx %tmp.17 144 50 52 ];
         %tmp.18 = invoke %tmp.10 %tmp.11(%tmp.16, %tmp.17);
-        lputv %mx.3 %tmp.18;
-        symbol [ mx %mx.3 129 16 18 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 130 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_stop" ]
-        %my.4 = local;
-        symbol [ my %my.4 130 16 18 ];
+        lputv %px.3 %tmp.18;
+        symbol [ px %px.3 144 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 145 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_143_38_147_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_143_38_147_8_stop" ]
+        %py.4 = local;
+        symbol [ py %py.4 145 16 18 ];
         %tmp.19 = self;
-        symbol [ latToY %tmp.20 130 21 27 ];
+        symbol [ latToY %tmp.20 145 21 27 ];
         %tmp.20 = getv function %tmp.19 :latToY;
-        symbol [ _route %tmp.22 130 28 34 ];
+        symbol [ _route %tmp.22 145 28 34 ];
         %tmp.22 = getv ? :_route;
-        symbol [ markerLats %tmp.23 130 35 45 ];
+        symbol [ markerLats %tmp.23 145 35 45 ];
         %tmp.23 = getv %tmp.22 :markerLats;
         %tmp.24 = lgetv %i.2;
-        symbol [ i %tmp.24 130 46 47 ];
+        symbol [ i %tmp.24 145 46 47 ];
         %tmp.25 = agetv %tmp.23 %tmp.24;
         %tmp.26 = lgetv %cy;
-        symbol [ cy %tmp.26 130 50 52 ];
+        symbol [ cy %tmp.26 145 50 52 ];
         %tmp.27 = invoke %tmp.19 %tmp.20(%tmp.25, %tmp.26);
-        lputv %my.4 %tmp.27;
-        symbol [ my %my.4 130 16 18 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 131 12 ]
-        %tmp.28 = lgetv %dc;
-        symbol [ dc %tmp.28 131 12 14 ];
-        symbol [ setColor %tmp.29 131 15 23 ];
-        %tmp.29 = getv function %tmp.28 :setColor;
-        symbol [ Graphics %tmp.30 131 24 32 ];
-        %tmp.30 = getm $.Toybox.Graphics;
-        symbol [ COLOR_YELLOW %tmp.31 131 33 45 ];
-        %tmp.31 = getv %tmp.30 :COLOR_YELLOW;
-        symbol [ Graphics %tmp.32 131 47 55 ];
-        %tmp.32 = getm $.Toybox.Graphics;
-        symbol [ COLOR_TRANSPARENT %tmp.33 131 56 73 ];
-        %tmp.33 = getv %tmp.32 :COLOR_TRANSPARENT;
-        invoke %tmp.28 %tmp.29(%tmp.31, %tmp.33);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 132 12 ]
-        %tmp.34 = lgetv %dc;
-        symbol [ dc %tmp.34 132 12 14 ];
-        symbol [ fillCircle %tmp.35 132 15 25 ];
-        %tmp.35 = getv function %tmp.34 :fillCircle;
-        %tmp.36 = lgetv %mx.3;
-        symbol [ mx %tmp.36 132 26 28 ];
-        %tmp.37 = lgetv %my.4;
-        symbol [ my %tmp.37 132 30 32 ];
-        %tmp.38 = 4;
-        invoke %tmp.34 %tmp.35(%tmp.36, %tmp.37, %tmp.38);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 133 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_stop" ]
-        %title.5 = local;
-        symbol [ title %title.5 133 16 21 ];
-        symbol [ _route %tmp.40 133 24 30 ];
-        %tmp.40 = getv ? :_route;
-        symbol [ markerTitles %tmp.41 133 31 43 ];
-        %tmp.41 = getv %tmp.40 :markerTitles;
-        %tmp.42 = lgetv %i.2;
-        symbol [ i %tmp.42 133 44 45 ];
-        %tmp.43 = agetv %tmp.41 %tmp.42;
-        lputv %title.5 %tmp.43;
-        symbol [ title %title.5 133 16 21 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 134 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_134_12_137_12_if_stmt:
-G__code_garmiand_garmin_source_NavigationView_mc_134_16_134_62_begin:
-        %tmp.44 = "Start";
-        symbol [ equals %tmp.45 134 24 30 ];
-        %tmp.45 = getv function %tmp.44 :equals;
-        %tmp.46 = lgetv %title.5;
-        symbol [ title %tmp.46 134 31 36 ];
-        %tmp.47 = invoke %tmp.44 %tmp.45(%tmp.46);
-        bt %tmp.47 @G__code_garmiand_garmin_source_NavigationView_mc_134_12_137_12_if_true;
-G__code_garmiand_garmin_source_NavigationView_mc_134_41_134_62_false:
-        %tmp.48 = "Finish";
-        symbol [ equals %tmp.49 134 50 56 ];
-        %tmp.49 = getv function %tmp.48 :equals;
-        %tmp.50 = lgetv %title.5;
-        symbol [ title %tmp.50 134 57 62 ];
-        %tmp.51 = invoke %tmp.48 %tmp.49(%tmp.50);
-        push %tmp.51;
-G__code_garmiand_garmin_source_NavigationView_mc_134_41_134_62_end:
-        %tmp.52 = phi [%tmp.47 @G__code_garmiand_garmin_source_NavigationView_mc_134_16_134_62_begin] [%tmp.51 @G__code_garmiand_garmin_source_NavigationView_mc_134_41_134_62_false] [%tmp.52 @G__code_garmiand_garmin_source_NavigationView_mc_134_41_134_62_end];
-        bf %tmp.52 @G__code_garmiand_garmin_source_NavigationView_mc_134_12_137_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_134_12_137_12_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_134_65_137_12_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 135 16 ]
-        %tmp.53 = lgetv %dc;
-        symbol [ dc %tmp.53 135 16 18 ];
-        symbol [ setColor %tmp.54 135 19 27 ];
-        %tmp.54 = getv function %tmp.53 :setColor;
-        symbol [ Graphics %tmp.55 135 28 36 ];
-        %tmp.55 = getm $.Toybox.Graphics;
-        symbol [ COLOR_WHITE %tmp.56 135 37 48 ];
-        %tmp.56 = getv %tmp.55 :COLOR_WHITE;
-        symbol [ Graphics %tmp.57 135 50 58 ];
-        %tmp.57 = getm $.Toybox.Graphics;
-        symbol [ COLOR_TRANSPARENT %tmp.58 135 59 76 ];
-        %tmp.58 = getv %tmp.57 :COLOR_TRANSPARENT;
-        invoke %tmp.53 %tmp.54(%tmp.56, %tmp.58);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 136 16 ]
-        %tmp.59 = lgetv %dc;
-        symbol [ dc %tmp.59 136 16 18 ];
-        symbol [ drawText %tmp.60 136 19 27 ];
-        %tmp.60 = getv function %tmp.59 :drawText;
-        %tmp.61 = lgetv %mx.3;
-        symbol [ mx %tmp.61 136 28 30 ];
-        %tmp.62 = 6;
-        %tmp.63 = add %tmp.61 %tmp.62;
-        %tmp.64 = lgetv %my.4;
-        symbol [ my %tmp.64 136 36 38 ];
-        %tmp.65 = 8;
-        %tmp.66 = sub %tmp.64 %tmp.65;
-        symbol [ Graphics %tmp.67 136 44 52 ];
-        %tmp.67 = getm $.Toybox.Graphics;
-        symbol [ FONT_TINY %tmp.68 136 53 62 ];
-        %tmp.68 = getv %tmp.67 :FONT_TINY;
-        %tmp.69 = lgetv %title.5;
-        symbol [ title %tmp.69 136 64 69 ];
-        symbol [ Graphics %tmp.70 136 71 79 ];
-        %tmp.70 = getm $.Toybox.Graphics;
-        symbol [ TEXT_JUSTIFY_LEFT %tmp.71 136 80 97 ];
-        %tmp.71 = getv %tmp.70 :TEXT_JUSTIFY_LEFT;
-        invoke %tmp.59 %tmp.60(%tmp.63, %tmp.66, %tmp.68, %tmp.69, %tmp.71);
-G__code_garmiand_garmin_source_NavigationView_mc_134_65_137_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_134_12_137_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_134_12_137_12_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_128_38_138_8_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_incr:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 128 ]
-        %tmp.74 = lgetv %i.2;
-        symbol [ i %tmp.74 128 33 34 ];
-        %tmp.75 = add %tmp.74 1;
-        lputv %i.2 %tmp.75;
-        symbol [ i %i.2 128 33 34 ];
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_test;
-G__code_garmiand_garmin_source_NavigationView_mc_128_8_138_8_for_end:
-G__code_garmiand_garmin_source_NavigationView_mc_126_90_139_4_stop:
+        lputv %py.4 %tmp.27;
+        symbol [ py %py.4 145 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 146 12 ]
+        %tmp.28 = self;
+        symbol [ drawMarkerAt %tmp.29 146 12 24 ];
+        %tmp.29 = getv function %tmp.28 :drawMarkerAt;
+        %tmp.30 = lgetv %dc;
+        symbol [ dc %tmp.30 146 25 27 ];
+        %tmp.31 = lgetv %px.3;
+        symbol [ px %tmp.31 146 29 31 ];
+        %tmp.32 = lgetv %py.4;
+        symbol [ py %tmp.32 146 33 35 ];
+        symbol [ _route %tmp.34 146 37 43 ];
+        %tmp.34 = getv ? :_route;
+        symbol [ markerTitles %tmp.35 146 44 56 ];
+        %tmp.35 = getv %tmp.34 :markerTitles;
+        %tmp.36 = lgetv %i.2;
+        symbol [ i %tmp.36 146 57 58 ];
+        %tmp.37 = agetv %tmp.35 %tmp.36;
+        invoke %tmp.28 %tmp.29(%tmp.30, %tmp.31, %tmp.32, %tmp.37);
+G__code_garmiand_garmin_source_NavigationView_mc_143_38_147_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_incr:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 143 ]
+        %tmp.40 = lgetv %i.2;
+        symbol [ i %tmp.40 143 33 34 ];
+        %tmp.41 = add %tmp.40 1;
+        lputv %i.2 %tmp.41;
+        symbol [ i %i.2 143 33 34 ];
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_test;
+G__code_garmiand_garmin_source_NavigationView_mc_143_8_147_8_for_end:
+G__code_garmiand_garmin_source_NavigationView_mc_141_90_148_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 141; @symbol_functiondef = [lonToX,141,13,19]; @symbol_param<0> = [lon,141,20,23]; @symbol_param<0>_type<0> = [Lang,141,27,31]; @symbol_param<0>_type<1> = [Float,141,32,37]; @symbol_param<1> = [cx,141,39,41]; @symbol_param<1>_type<0> = [Lang,141,45,49]; @symbol_param<1>_type<1> = [Number,141,50,56]; @symbol_return<0> = [Lang,141,61,65]; @symbol_return<1> = [Number,141,66,72]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 150; @symbol_functiondef = [drawMarkersMap,150,13,27]; @symbol_param<0> = [dc,150,28,30]; @symbol_param<0>_type<0> = [Graphics,150,34,42]; @symbol_param<0>_type<1> = [Dc,150,43,45]; @symbol_param<1> = [app,150,47,50]; @symbol_param<1>_type<0> = [GarmiandApp,150,54,65]; @symbol_param<2> = [mx,150,67,69]; @symbol_param<2>_type<0> = [Lang,150,73,77]; @symbol_param<2>_type<1> = [Number,150,78,84]; @symbol_param<3> = [my,150,86,88]; @symbol_param<3>_type<0> = [Lang,150,92,96]; @symbol_param<3>_type<1> = [Number,150,97,103]; ]
+    function drawMarkersMap(dc as Graphics.Dc, app as GarmiandApp, mx as Lang.Number, my as Lang.Number) as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_150_113_157_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 151 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_150_113_157_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_150_113_157_4_stop" ]
+        %cnt.1 = local;
+        symbol [ cnt %cnt.1 151 12 15 ];
+        symbol [ _route %tmp.2 151 18 24 ];
+        %tmp.2 = getv ? :_route;
+        symbol [ markerLats %tmp.3 151 25 35 ];
+        %tmp.3 = getv %tmp.2 :markerLats;
+        symbol [ size %tmp.4 151 36 40 ];
+        %tmp.4 = getv function %tmp.3 :size;
+        %tmp.5 = invoke %tmp.3 %tmp.4();
+        lputv %cnt.1 %tmp.5;
+        symbol [ cnt %cnt.1 151 12 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 152 8 ]
+        for @G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_test @G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_incr @G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_end;
+G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_init:
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_begin" "G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 152 17 18 ];
+        %tmp.6 = 0;
+        lputv %i.2 %tmp.6;
+        symbol [ i %i.2 152 17 18 ];
+G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_test:
+        %tmp.7 = lgetv %i.2;
+        symbol [ i %tmp.7 152 24 25 ];
+        %tmp.8 = lgetv %cnt.1;
+        symbol [ cnt %tmp.8 152 28 31 ];
+        %tmp.9 = lt %tmp.7 %tmp.8;
+        bf %tmp.9 @G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_end;
+G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_begin:
+G__code_garmiand_garmin_source_NavigationView_mc_152_38_156_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 153 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_152_38_156_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_152_38_156_8_stop" ]
+        %px.3 = local;
+        symbol [ px %px.3 153 16 18 ];
+        %tmp.10 = self;
+        symbol [ mapLonToX %tmp.11 153 21 30 ];
+        %tmp.11 = getv function %tmp.10 :mapLonToX;
+        symbol [ _route %tmp.13 153 31 37 ];
+        %tmp.13 = getv ? :_route;
+        symbol [ markerLons %tmp.14 153 38 48 ];
+        %tmp.14 = getv %tmp.13 :markerLons;
+        %tmp.15 = lgetv %i.2;
+        symbol [ i %tmp.15 153 49 50 ];
+        %tmp.16 = agetv %tmp.14 %tmp.15;
+        %tmp.17 = lgetv %app;
+        symbol [ app %tmp.17 153 53 56 ];
+        %tmp.18 = lgetv %mx;
+        symbol [ mx %tmp.18 153 58 60 ];
+        %tmp.19 = invoke %tmp.10 %tmp.11(%tmp.16, %tmp.17, %tmp.18);
+        lputv %px.3 %tmp.19;
+        symbol [ px %px.3 153 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 154 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_152_38_156_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_152_38_156_8_stop" ]
+        %py.4 = local;
+        symbol [ py %py.4 154 16 18 ];
+        %tmp.20 = self;
+        symbol [ mapLatToY %tmp.21 154 21 30 ];
+        %tmp.21 = getv function %tmp.20 :mapLatToY;
+        symbol [ _route %tmp.23 154 31 37 ];
+        %tmp.23 = getv ? :_route;
+        symbol [ markerLats %tmp.24 154 38 48 ];
+        %tmp.24 = getv %tmp.23 :markerLats;
+        %tmp.25 = lgetv %i.2;
+        symbol [ i %tmp.25 154 49 50 ];
+        %tmp.26 = agetv %tmp.24 %tmp.25;
+        %tmp.27 = lgetv %app;
+        symbol [ app %tmp.27 154 53 56 ];
+        %tmp.28 = lgetv %my;
+        symbol [ my %tmp.28 154 58 60 ];
+        %tmp.29 = invoke %tmp.20 %tmp.21(%tmp.26, %tmp.27, %tmp.28);
+        lputv %py.4 %tmp.29;
+        symbol [ py %py.4 154 16 18 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 155 12 ]
+        %tmp.30 = self;
+        symbol [ drawMarkerAt %tmp.31 155 12 24 ];
+        %tmp.31 = getv function %tmp.30 :drawMarkerAt;
+        %tmp.32 = lgetv %dc;
+        symbol [ dc %tmp.32 155 25 27 ];
+        %tmp.33 = lgetv %px.3;
+        symbol [ px %tmp.33 155 29 31 ];
+        %tmp.34 = lgetv %py.4;
+        symbol [ py %tmp.34 155 33 35 ];
+        symbol [ _route %tmp.36 155 37 43 ];
+        %tmp.36 = getv ? :_route;
+        symbol [ markerTitles %tmp.37 155 44 56 ];
+        %tmp.37 = getv %tmp.36 :markerTitles;
+        %tmp.38 = lgetv %i.2;
+        symbol [ i %tmp.38 155 57 58 ];
+        %tmp.39 = agetv %tmp.37 %tmp.38;
+        invoke %tmp.30 %tmp.31(%tmp.32, %tmp.33, %tmp.34, %tmp.39);
+G__code_garmiand_garmin_source_NavigationView_mc_152_38_156_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_incr:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 152 ]
+        %tmp.42 = lgetv %i.2;
+        symbol [ i %tmp.42 152 33 34 ];
+        %tmp.43 = add %tmp.42 1;
+        lputv %i.2 %tmp.43;
+        symbol [ i %i.2 152 33 34 ];
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_test;
+G__code_garmiand_garmin_source_NavigationView_mc_152_8_156_8_for_end:
+G__code_garmiand_garmin_source_NavigationView_mc_150_113_157_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 159; @symbol_functiondef = [drawMarkerAt,159,13,25]; @symbol_param<0> = [dc,159,26,28]; @symbol_param<0>_type<0> = [Graphics,159,32,40]; @symbol_param<0>_type<1> = [Dc,159,41,43]; @symbol_param<1> = [px,159,45,47]; @symbol_param<1>_type<0> = [Lang,159,51,55]; @symbol_param<1>_type<1> = [Number,159,56,62]; @symbol_param<2> = [py,159,64,66]; @symbol_param<2>_type<0> = [Lang,159,70,74]; @symbol_param<2>_type<1> = [Number,159,75,81]; @symbol_param<3> = [title,159,83,88]; @symbol_param<3>_type<0> = [Lang,159,92,96]; @symbol_param<3>_type<1> = [String,159,97,103]; ]
+    function drawMarkerAt(dc as Graphics.Dc, px as Lang.Number, py as Lang.Number, title as Lang.String) as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_159_113_166_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 160 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 160 8 10 ];
+        symbol [ setColor %tmp.2 160 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 160 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_YELLOW %tmp.4 160 29 41 ];
+        %tmp.4 = getv %tmp.3 :COLOR_YELLOW;
+        symbol [ Graphics %tmp.5 160 43 51 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.6 160 52 69 ];
+        %tmp.6 = getv %tmp.5 :COLOR_TRANSPARENT;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 161 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 161 8 10 ];
+        symbol [ fillCircle %tmp.8 161 11 21 ];
+        %tmp.8 = getv function %tmp.7 :fillCircle;
+        %tmp.9 = lgetv %px;
+        symbol [ px %tmp.9 161 22 24 ];
+        %tmp.10 = lgetv %py;
+        symbol [ py %tmp.10 161 26 28 ];
+        %tmp.11 = 4;
+        invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10, %tmp.11);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 162 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_162_8_165_8_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_162_12_162_58_begin:
+        %tmp.12 = "Start";
+        symbol [ equals %tmp.13 162 20 26 ];
+        %tmp.13 = getv function %tmp.12 :equals;
+        %tmp.14 = lgetv %title;
+        symbol [ title %tmp.14 162 27 32 ];
+        %tmp.15 = invoke %tmp.12 %tmp.13(%tmp.14);
+        bt %tmp.15 @G__code_garmiand_garmin_source_NavigationView_mc_162_8_165_8_if_true;
+G__code_garmiand_garmin_source_NavigationView_mc_162_37_162_58_false:
+        %tmp.16 = "Finish";
+        symbol [ equals %tmp.17 162 46 52 ];
+        %tmp.17 = getv function %tmp.16 :equals;
+        %tmp.18 = lgetv %title;
+        symbol [ title %tmp.18 162 53 58 ];
+        %tmp.19 = invoke %tmp.16 %tmp.17(%tmp.18);
+        push %tmp.19;
+G__code_garmiand_garmin_source_NavigationView_mc_162_37_162_58_end:
+        %tmp.20 = phi [%tmp.15 @G__code_garmiand_garmin_source_NavigationView_mc_162_12_162_58_begin] [%tmp.19 @G__code_garmiand_garmin_source_NavigationView_mc_162_37_162_58_false] [%tmp.20 @G__code_garmiand_garmin_source_NavigationView_mc_162_37_162_58_end];
+        bf %tmp.20 @G__code_garmiand_garmin_source_NavigationView_mc_162_8_165_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_162_8_165_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_162_61_165_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 163 12 ]
+        %tmp.21 = lgetv %dc;
+        symbol [ dc %tmp.21 163 12 14 ];
+        symbol [ setColor %tmp.22 163 15 23 ];
+        %tmp.22 = getv function %tmp.21 :setColor;
+        symbol [ Graphics %tmp.23 163 24 32 ];
+        %tmp.23 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLACK %tmp.24 163 33 44 ];
+        %tmp.24 = getv %tmp.23 :COLOR_BLACK;
+        symbol [ Graphics %tmp.25 163 46 54 ];
+        %tmp.25 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.26 163 55 72 ];
+        %tmp.26 = getv %tmp.25 :COLOR_TRANSPARENT;
+        invoke %tmp.21 %tmp.22(%tmp.24, %tmp.26);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 164 12 ]
+        %tmp.27 = lgetv %dc;
+        symbol [ dc %tmp.27 164 12 14 ];
+        symbol [ drawText %tmp.28 164 15 23 ];
+        %tmp.28 = getv function %tmp.27 :drawText;
+        %tmp.29 = lgetv %px;
+        symbol [ px %tmp.29 164 24 26 ];
+        %tmp.30 = 6;
+        %tmp.31 = add %tmp.29 %tmp.30;
+        %tmp.32 = lgetv %py;
+        symbol [ py %tmp.32 164 32 34 ];
+        %tmp.33 = 8;
+        %tmp.34 = sub %tmp.32 %tmp.33;
+        symbol [ Graphics %tmp.35 164 40 48 ];
+        %tmp.35 = getm $.Toybox.Graphics;
+        symbol [ FONT_TINY %tmp.36 164 49 58 ];
+        %tmp.36 = getv %tmp.35 :FONT_TINY;
+        %tmp.37 = lgetv %title;
+        symbol [ title %tmp.37 164 60 65 ];
+        symbol [ Graphics %tmp.38 164 67 75 ];
+        %tmp.38 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_LEFT %tmp.39 164 76 93 ];
+        %tmp.39 = getv %tmp.38 :TEXT_JUSTIFY_LEFT;
+        invoke %tmp.27 %tmp.28(%tmp.31, %tmp.34, %tmp.36, %tmp.37, %tmp.39);
+G__code_garmiand_garmin_source_NavigationView_mc_162_61_165_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_162_8_165_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_162_8_165_8_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_159_113_166_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 168; @symbol_functiondef = [drawPositionScale,168,13,30]; @symbol_param<0> = [dc,168,31,33]; @symbol_param<0>_type<0> = [Graphics,168,37,45]; @symbol_param<0>_type<1> = [Dc,168,46,48]; @symbol_param<1> = [app,168,50,53]; @symbol_param<1>_type<0> = [GarmiandApp,168,57,68]; @symbol_param<2> = [cx,168,70,72]; @symbol_param<2>_type<0> = [Lang,168,76,80]; @symbol_param<2>_type<1> = [Number,168,81,87]; @symbol_param<3> = [cy,168,89,91]; @symbol_param<3>_type<0> = [Lang,168,95,99]; @symbol_param<3>_type<1> = [Number,168,100,106]; @symbol_param<4> = [w,168,108,109]; @symbol_param<4>_type<0> = [Lang,168,113,117]; @symbol_param<4>_type<1> = [Number,168,118,124]; @symbol_param<5> = [h,168,126,127]; @symbol_param<5>_type<0> = [Lang,168,131,135]; @symbol_param<5>_type<1> = [Number,168,136,142]; ]
+    function drawPositionScale(dc as Graphics.Dc, app as GarmiandApp, cx as Lang.Number, cy as Lang.Number, w as Lang.Number, h as Lang.Number) as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_168_152_178_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 169 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_169_8_169_47_if_stmt:
+        %tmp.1 = lgetv %app;
+        symbol [ app %tmp.1 169 12 15 ];
+        symbol [ _currentLat %tmp.2 169 16 27 ];
+        %tmp.2 = getv %tmp.1 :_currentLat;
+        %tmp.3 = 0.0f;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @G__code_garmiand_garmin_source_NavigationView_mc_169_8_169_47_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_169_8_169_47_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_169_37_169_47_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 169 39 ]
+        ret ?;
+G__code_garmiand_garmin_source_NavigationView_mc_169_37_169_47_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_169_8_169_47_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_169_8_169_47_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 170 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_168_152_178_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_168_152_178_4_stop" ]
+        %px.1 = local;
+        symbol [ px %px.1 170 12 14 ];
+        %tmp.5 = self;
+        symbol [ lonToX %tmp.6 170 17 23 ];
+        %tmp.6 = getv function %tmp.5 :lonToX;
+        %tmp.7 = lgetv %app;
+        symbol [ app %tmp.7 170 24 27 ];
+        symbol [ _currentLon %tmp.8 170 28 39 ];
+        %tmp.8 = getv %tmp.7 :_currentLon;
+        %tmp.9 = lgetv %cx;
+        symbol [ cx %tmp.9 170 41 43 ];
+        %tmp.10 = invoke %tmp.5 %tmp.6(%tmp.8, %tmp.9);
+        lputv %px.1 %tmp.10;
+        symbol [ px %px.1 170 12 14 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 171 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_168_152_178_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_168_152_178_4_stop" ]
+        %py.2 = local;
+        symbol [ py %py.2 171 12 14 ];
+        %tmp.11 = self;
+        symbol [ latToY %tmp.12 171 17 23 ];
+        %tmp.12 = getv function %tmp.11 :latToY;
+        %tmp.13 = lgetv %app;
+        symbol [ app %tmp.13 171 24 27 ];
+        symbol [ _currentLat %tmp.14 171 28 39 ];
+        %tmp.14 = getv %tmp.13 :_currentLat;
+        %tmp.15 = lgetv %cy;
+        symbol [ cy %tmp.15 171 41 43 ];
+        %tmp.16 = invoke %tmp.11 %tmp.12(%tmp.14, %tmp.15);
+        lputv %py.2 %tmp.16;
+        symbol [ py %py.2 171 12 14 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 172 8 ]
+        %tmp.17 = lgetv %dc;
+        symbol [ dc %tmp.17 172 8 10 ];
+        symbol [ setColor %tmp.18 172 11 19 ];
+        %tmp.18 = getv function %tmp.17 :setColor;
+        symbol [ Graphics %tmp.19 172 20 28 ];
+        %tmp.19 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLUE %tmp.20 172 29 39 ];
+        %tmp.20 = getv %tmp.19 :COLOR_BLUE;
+        symbol [ Graphics %tmp.21 172 41 49 ];
+        %tmp.21 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.22 172 50 67 ];
+        %tmp.22 = getv %tmp.21 :COLOR_TRANSPARENT;
+        invoke %tmp.17 %tmp.18(%tmp.20, %tmp.22);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 173 8 ]
+        %tmp.23 = lgetv %dc;
+        symbol [ dc %tmp.23 173 8 10 ];
+        symbol [ fillCircle %tmp.24 173 11 21 ];
+        %tmp.24 = getv function %tmp.23 :fillCircle;
+        %tmp.25 = lgetv %px.1;
+        symbol [ px %tmp.25 173 22 24 ];
+        %tmp.26 = lgetv %py.2;
+        symbol [ py %tmp.26 173 26 28 ];
+        %tmp.27 = 6;
+        invoke %tmp.23 %tmp.24(%tmp.25, %tmp.26, %tmp.27);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 174 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_174_8_177_8_if_stmt:
+        symbol [ NavigationCalculator %tmp.29 174 12 32 ];
+        %tmp.29 = getv ? :NavigationCalculator;
+        symbol [ isOffRoute %tmp.30 174 33 43 ];
+        %tmp.30 = getv function %tmp.29 :isOffRoute;
+        symbol [ _route %tmp.32 174 44 50 ];
+        %tmp.32 = getv ? :_route;
+        %tmp.33 = lgetv %app;
+        symbol [ app %tmp.33 174 52 55 ];
+        symbol [ _currentLat %tmp.34 174 56 67 ];
+        %tmp.34 = getv %tmp.33 :_currentLat;
+        %tmp.35 = lgetv %app;
+        symbol [ app %tmp.35 174 69 72 ];
+        symbol [ _currentLon %tmp.36 174 73 84 ];
+        %tmp.36 = getv %tmp.35 :_currentLon;
+        %tmp.37 = invoke %tmp.29 %tmp.30(%tmp.32, %tmp.34, %tmp.36);
+        bf %tmp.37 @G__code_garmiand_garmin_source_NavigationView_mc_174_8_177_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_174_8_177_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_174_87_177_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 175 12 ]
+        %tmp.38 = lgetv %dc;
+        symbol [ dc %tmp.38 175 12 14 ];
+        symbol [ setColor %tmp.39 175 15 23 ];
+        %tmp.39 = getv function %tmp.38 :setColor;
+        symbol [ Graphics %tmp.40 175 24 32 ];
+        %tmp.40 = getm $.Toybox.Graphics;
+        symbol [ COLOR_RED %tmp.41 175 33 42 ];
+        %tmp.41 = getv %tmp.40 :COLOR_RED;
+        symbol [ Graphics %tmp.42 175 44 52 ];
+        %tmp.42 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.43 175 53 70 ];
+        %tmp.43 = getv %tmp.42 :COLOR_TRANSPARENT;
+        invoke %tmp.38 %tmp.39(%tmp.41, %tmp.43);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 176 12 ]
+        %tmp.44 = lgetv %dc;
+        symbol [ dc %tmp.44 176 12 14 ];
+        symbol [ drawText %tmp.45 176 15 23 ];
+        %tmp.45 = getv function %tmp.44 :drawText;
+        %tmp.46 = lgetv %cx;
+        symbol [ cx %tmp.46 176 24 26 ];
+        %tmp.47 = lgetv %h;
+        symbol [ h %tmp.47 176 28 29 ];
+        %tmp.48 = 30;
+        %tmp.49 = sub %tmp.47 %tmp.48;
+        symbol [ Graphics %tmp.50 176 36 44 ];
+        %tmp.50 = getm $.Toybox.Graphics;
+        symbol [ FONT_TINY %tmp.51 176 45 54 ];
+        %tmp.51 = getv %tmp.50 :FONT_TINY;
+        %tmp.52 = "OFF ROUTE";
+        symbol [ Graphics %tmp.53 176 69 77 ];
+        %tmp.53 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.54 176 78 97 ];
+        %tmp.54 = getv %tmp.53 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.44 %tmp.45(%tmp.46, %tmp.49, %tmp.51, %tmp.52, %tmp.54);
+G__code_garmiand_garmin_source_NavigationView_mc_174_87_177_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_174_8_177_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_174_8_177_8_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_168_152_178_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 180; @symbol_functiondef = [drawPositionMap,180,13,28]; @symbol_param<0> = [dc,180,29,31]; @symbol_param<0>_type<0> = [Graphics,180,35,43]; @symbol_param<0>_type<1> = [Dc,180,44,46]; @symbol_param<1> = [app,180,48,51]; @symbol_param<1>_type<0> = [GarmiandApp,180,55,66]; @symbol_param<2> = [mx,180,68,70]; @symbol_param<2>_type<0> = [Lang,180,74,78]; @symbol_param<2>_type<1> = [Number,180,79,85]; @symbol_param<3> = [my,180,87,89]; @symbol_param<3>_type<0> = [Lang,180,93,97]; @symbol_param<3>_type<1> = [Number,180,98,104]; @symbol_param<4> = [w,180,106,107]; @symbol_param<4>_type<0> = [Lang,180,111,115]; @symbol_param<4>_type<1> = [Number,180,116,122]; @symbol_param<5> = [h,180,124,125]; @symbol_param<5>_type<0> = [Lang,180,129,133]; @symbol_param<5>_type<1> = [Number,180,134,140]; ]
+    function drawPositionMap(dc as Graphics.Dc, app as GarmiandApp, mx as Lang.Number, my as Lang.Number, w as Lang.Number, h as Lang.Number) as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_180_150_190_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 181 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_181_8_181_47_if_stmt:
+        %tmp.1 = lgetv %app;
+        symbol [ app %tmp.1 181 12 15 ];
+        symbol [ _currentLat %tmp.2 181 16 27 ];
+        %tmp.2 = getv %tmp.1 :_currentLat;
+        %tmp.3 = 0.0f;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @G__code_garmiand_garmin_source_NavigationView_mc_181_8_181_47_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_181_8_181_47_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_181_37_181_47_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 181 39 ]
+        ret ?;
+G__code_garmiand_garmin_source_NavigationView_mc_181_37_181_47_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_181_8_181_47_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_181_8_181_47_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 182 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_180_150_190_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_180_150_190_4_stop" ]
+        %px.1 = local;
+        symbol [ px %px.1 182 12 14 ];
+        %tmp.5 = self;
+        symbol [ mapLonToX %tmp.6 182 17 26 ];
+        %tmp.6 = getv function %tmp.5 :mapLonToX;
+        %tmp.7 = lgetv %app;
+        symbol [ app %tmp.7 182 27 30 ];
+        symbol [ _currentLon %tmp.8 182 31 42 ];
+        %tmp.8 = getv %tmp.7 :_currentLon;
+        %tmp.9 = lgetv %app;
+        symbol [ app %tmp.9 182 44 47 ];
+        %tmp.10 = lgetv %mx;
+        symbol [ mx %tmp.10 182 49 51 ];
+        %tmp.11 = invoke %tmp.5 %tmp.6(%tmp.8, %tmp.9, %tmp.10);
+        lputv %px.1 %tmp.11;
+        symbol [ px %px.1 182 12 14 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 183 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_180_150_190_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_180_150_190_4_stop" ]
+        %py.2 = local;
+        symbol [ py %py.2 183 12 14 ];
+        %tmp.12 = self;
+        symbol [ mapLatToY %tmp.13 183 17 26 ];
+        %tmp.13 = getv function %tmp.12 :mapLatToY;
+        %tmp.14 = lgetv %app;
+        symbol [ app %tmp.14 183 27 30 ];
+        symbol [ _currentLat %tmp.15 183 31 42 ];
+        %tmp.15 = getv %tmp.14 :_currentLat;
+        %tmp.16 = lgetv %app;
+        symbol [ app %tmp.16 183 44 47 ];
+        %tmp.17 = lgetv %my;
+        symbol [ my %tmp.17 183 49 51 ];
+        %tmp.18 = invoke %tmp.12 %tmp.13(%tmp.15, %tmp.16, %tmp.17);
+        lputv %py.2 %tmp.18;
+        symbol [ py %py.2 183 12 14 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 184 8 ]
+        %tmp.19 = lgetv %dc;
+        symbol [ dc %tmp.19 184 8 10 ];
+        symbol [ setColor %tmp.20 184 11 19 ];
+        %tmp.20 = getv function %tmp.19 :setColor;
+        symbol [ Graphics %tmp.21 184 20 28 ];
+        %tmp.21 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLUE %tmp.22 184 29 39 ];
+        %tmp.22 = getv %tmp.21 :COLOR_BLUE;
+        symbol [ Graphics %tmp.23 184 41 49 ];
+        %tmp.23 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.24 184 50 67 ];
+        %tmp.24 = getv %tmp.23 :COLOR_TRANSPARENT;
+        invoke %tmp.19 %tmp.20(%tmp.22, %tmp.24);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 185 8 ]
+        %tmp.25 = lgetv %dc;
+        symbol [ dc %tmp.25 185 8 10 ];
+        symbol [ fillCircle %tmp.26 185 11 21 ];
+        %tmp.26 = getv function %tmp.25 :fillCircle;
+        %tmp.27 = lgetv %px.1;
+        symbol [ px %tmp.27 185 22 24 ];
+        %tmp.28 = lgetv %py.2;
+        symbol [ py %tmp.28 185 26 28 ];
+        %tmp.29 = 6;
+        invoke %tmp.25 %tmp.26(%tmp.27, %tmp.28, %tmp.29);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 186 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_186_8_189_8_if_stmt:
+        symbol [ NavigationCalculator %tmp.31 186 12 32 ];
+        %tmp.31 = getv ? :NavigationCalculator;
+        symbol [ isOffRoute %tmp.32 186 33 43 ];
+        %tmp.32 = getv function %tmp.31 :isOffRoute;
+        symbol [ _route %tmp.34 186 44 50 ];
+        %tmp.34 = getv ? :_route;
+        %tmp.35 = lgetv %app;
+        symbol [ app %tmp.35 186 52 55 ];
+        symbol [ _currentLat %tmp.36 186 56 67 ];
+        %tmp.36 = getv %tmp.35 :_currentLat;
+        %tmp.37 = lgetv %app;
+        symbol [ app %tmp.37 186 69 72 ];
+        symbol [ _currentLon %tmp.38 186 73 84 ];
+        %tmp.38 = getv %tmp.37 :_currentLon;
+        %tmp.39 = invoke %tmp.31 %tmp.32(%tmp.34, %tmp.36, %tmp.38);
+        bf %tmp.39 @G__code_garmiand_garmin_source_NavigationView_mc_186_8_189_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_186_8_189_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_186_87_189_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 187 12 ]
+        %tmp.40 = lgetv %dc;
+        symbol [ dc %tmp.40 187 12 14 ];
+        symbol [ setColor %tmp.41 187 15 23 ];
+        %tmp.41 = getv function %tmp.40 :setColor;
+        symbol [ Graphics %tmp.42 187 24 32 ];
+        %tmp.42 = getm $.Toybox.Graphics;
+        symbol [ COLOR_RED %tmp.43 187 33 42 ];
+        %tmp.43 = getv %tmp.42 :COLOR_RED;
+        symbol [ Graphics %tmp.44 187 44 52 ];
+        %tmp.44 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.45 187 53 70 ];
+        %tmp.45 = getv %tmp.44 :COLOR_TRANSPARENT;
+        invoke %tmp.40 %tmp.41(%tmp.43, %tmp.45);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 188 12 ]
+        %tmp.46 = lgetv %dc;
+        symbol [ dc %tmp.46 188 12 14 ];
+        symbol [ drawText %tmp.47 188 15 23 ];
+        %tmp.47 = getv function %tmp.46 :drawText;
+        %tmp.48 = lgetv %w;
+        symbol [ w %tmp.48 188 24 25 ];
+        %tmp.49 = 2;
+        %tmp.50 = div %tmp.48 %tmp.49;
+        %tmp.51 = lgetv %h;
+        symbol [ h %tmp.51 188 31 32 ];
+        %tmp.52 = 30;
+        %tmp.53 = sub %tmp.51 %tmp.52;
+        symbol [ Graphics %tmp.54 188 39 47 ];
+        %tmp.54 = getm $.Toybox.Graphics;
+        symbol [ FONT_TINY %tmp.55 188 48 57 ];
+        %tmp.55 = getv %tmp.54 :FONT_TINY;
+        %tmp.56 = "OFF ROUTE";
+        symbol [ Graphics %tmp.57 188 72 80 ];
+        %tmp.57 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.58 188 81 100 ];
+        %tmp.58 = getv %tmp.57 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.46 %tmp.47(%tmp.50, %tmp.53, %tmp.55, %tmp.56, %tmp.58);
+G__code_garmiand_garmin_source_NavigationView_mc_186_87_189_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_186_8_189_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_186_8_189_8_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_180_150_190_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 192; @symbol_functiondef = [lonToX,192,13,19]; @symbol_param<0> = [lon,192,20,23]; @symbol_param<0>_type<0> = [Lang,192,27,31]; @symbol_param<0>_type<1> = [Float,192,32,37]; @symbol_param<1> = [cx,192,39,41]; @symbol_param<1>_type<0> = [Lang,192,45,49]; @symbol_param<1>_type<1> = [Number,192,50,56]; @symbol_return<0> = [Lang,192,61,65]; @symbol_return<1> = [Number,192,66,72]; ]
     function lonToX(lon as Lang.Float, cx as Lang.Number) as Lang.Number {
-G__code_garmiand_garmin_source_NavigationView_mc_141_73_143_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 142 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_192_73_194_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 193 8 ]
         %tmp.1 = lgetv %cx;
-        symbol [ cx %tmp.1 142 15 17 ];
+        symbol [ cx %tmp.1 193 15 17 ];
         %tmp.2 = lgetv %lon;
-        symbol [ lon %tmp.2 142 22 25 ];
-        symbol [ _centerLon %tmp.4 142 28 38 ];
+        symbol [ lon %tmp.2 193 22 25 ];
+        symbol [ _centerLon %tmp.4 193 28 38 ];
         %tmp.4 = getv ? :_centerLon;
         %tmp.5 = sub %tmp.2 %tmp.4;
-        symbol [ _scale %tmp.7 142 42 48 ];
+        symbol [ _scale %tmp.7 193 42 48 ];
         %tmp.7 = getv ? :_scale;
         %tmp.8 = div %tmp.5 %tmp.7;
-        symbol [ toNumber %tmp.9 142 50 58 ];
+        symbol [ toNumber %tmp.9 193 50 58 ];
         %tmp.9 = getv function %tmp.8 :toNumber;
         %tmp.10 = invoke %tmp.8 %tmp.9();
         %tmp.11 = add %tmp.1 %tmp.10;
         ret %tmp.11;
-G__code_garmiand_garmin_source_NavigationView_mc_141_73_143_4_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_192_73_194_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 145; @symbol_functiondef = [latToY,145,13,19]; @symbol_param<0> = [lat,145,20,23]; @symbol_param<0>_type<0> = [Lang,145,27,31]; @symbol_param<0>_type<1> = [Float,145,32,37]; @symbol_param<1> = [cy,145,39,41]; @symbol_param<1>_type<0> = [Lang,145,45,49]; @symbol_param<1>_type<1> = [Number,145,50,56]; @symbol_return<0> = [Lang,145,61,65]; @symbol_return<1> = [Number,145,66,72]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 196; @symbol_functiondef = [latToY,196,13,19]; @symbol_param<0> = [lat,196,20,23]; @symbol_param<0>_type<0> = [Lang,196,27,31]; @symbol_param<0>_type<1> = [Float,196,32,37]; @symbol_param<1> = [cy,196,39,41]; @symbol_param<1>_type<0> = [Lang,196,45,49]; @symbol_param<1>_type<1> = [Number,196,50,56]; @symbol_return<0> = [Lang,196,61,65]; @symbol_return<1> = [Number,196,66,72]; ]
     function latToY(lat as Lang.Float, cy as Lang.Number) as Lang.Number {
-G__code_garmiand_garmin_source_NavigationView_mc_145_73_147_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 146 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_196_73_198_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 197 8 ]
         %tmp.1 = lgetv %cy;
-        symbol [ cy %tmp.1 146 15 17 ];
+        symbol [ cy %tmp.1 197 15 17 ];
         %tmp.2 = lgetv %lat;
-        symbol [ lat %tmp.2 146 22 25 ];
-        symbol [ _centerLat %tmp.4 146 28 38 ];
+        symbol [ lat %tmp.2 197 22 25 ];
+        symbol [ _centerLat %tmp.4 197 28 38 ];
         %tmp.4 = getv ? :_centerLat;
         %tmp.5 = sub %tmp.2 %tmp.4;
-        symbol [ _scale %tmp.7 146 42 48 ];
+        symbol [ _scale %tmp.7 197 42 48 ];
         %tmp.7 = getv ? :_scale;
         %tmp.8 = div %tmp.5 %tmp.7;
-        symbol [ toNumber %tmp.9 146 50 58 ];
+        symbol [ toNumber %tmp.9 197 50 58 ];
         %tmp.9 = getv function %tmp.8 :toNumber;
         %tmp.10 = invoke %tmp.8 %tmp.9();
         %tmp.11 = sub %tmp.1 %tmp.10;
         ret %tmp.11;
-G__code_garmiand_garmin_source_NavigationView_mc_145_73_147_4_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_196_73_198_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 149; @symbol_functiondef = [zoomIn,149,13,19]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 200; @symbol_functiondef = [mapLonToX,200,13,22]; @symbol_param<0> = [lon,200,23,26]; @symbol_param<0>_type<0> = [Lang,200,30,34]; @symbol_param<0>_type<1> = [Float,200,35,40]; @symbol_param<1> = [app,200,42,45]; @symbol_param<1>_type<0> = [GarmiandApp,200,49,60]; @symbol_param<2> = [mx,200,62,64]; @symbol_param<2>_type<0> = [Lang,200,68,72]; @symbol_param<2>_type<1> = [Number,200,73,79]; @symbol_return<0> = [Lang,200,84,88]; @symbol_return<1> = [Number,200,89,95]; ]
+    function mapLonToX(lon as Lang.Float, app as GarmiandApp, mx as Lang.Number) as Lang.Number {
+G__code_garmiand_garmin_source_NavigationView_mc_200_96_204_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 201 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_200_96_204_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_200_96_204_4_stop" ]
+        %span.1 = local;
+        symbol [ span %span.1 201 12 16 ];
+        %tmp.1 = lgetv %app;
+        symbol [ app %tmp.1 201 19 22 ];
+        symbol [ _mapMaxLon %tmp.2 201 23 33 ];
+        %tmp.2 = getv %tmp.1 :_mapMaxLon;
+        %tmp.3 = lgetv %app;
+        symbol [ app %tmp.3 201 36 39 ];
+        symbol [ _mapMinLon %tmp.4 201 40 50 ];
+        %tmp.4 = getv %tmp.3 :_mapMinLon;
+        %tmp.5 = sub %tmp.2 %tmp.4;
+        lputv %span.1 %tmp.5;
+        symbol [ span %span.1 201 12 16 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 202 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_202_8_202_38_if_stmt:
+        %tmp.6 = lgetv %span.1;
+        symbol [ span %tmp.6 202 12 16 ];
+        %tmp.7 = 0.0;
+        %tmp.8 = eq %tmp.6 %tmp.7;
+        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_202_8_202_38_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_202_8_202_38_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_202_25_202_38_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 202 27 ]
+        %tmp.9 = lgetv %mx;
+        symbol [ mx %tmp.9 202 34 36 ];
+        ret %tmp.9;
+G__code_garmiand_garmin_source_NavigationView_mc_202_25_202_38_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_202_8_202_38_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_202_8_202_38_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 203 8 ]
+        %tmp.10 = lgetv %mx;
+        symbol [ mx %tmp.10 203 15 17 ];
+        %tmp.11 = lgetv %lon;
+        symbol [ lon %tmp.11 203 22 25 ];
+        %tmp.12 = lgetv %app;
+        symbol [ app %tmp.12 203 28 31 ];
+        symbol [ _mapMinLon %tmp.13 203 32 42 ];
+        %tmp.13 = getv %tmp.12 :_mapMinLon;
+        %tmp.14 = sub %tmp.11 %tmp.13;
+        %tmp.15 = lgetv %span.1;
+        symbol [ span %tmp.15 203 46 50 ];
+        %tmp.16 = div %tmp.14 %tmp.15;
+        %tmp.17 = lgetv %app;
+        symbol [ app %tmp.17 203 53 56 ];
+        symbol [ _mapWidth %tmp.18 203 57 66 ];
+        %tmp.18 = getv %tmp.17 :_mapWidth;
+        %tmp.19 = mul %tmp.16 %tmp.18;
+        symbol [ toNumber %tmp.20 203 68 76 ];
+        %tmp.20 = getv function %tmp.19 :toNumber;
+        %tmp.21 = invoke %tmp.19 %tmp.20();
+        %tmp.22 = add %tmp.10 %tmp.21;
+        ret %tmp.22;
+G__code_garmiand_garmin_source_NavigationView_mc_200_96_204_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 206; @symbol_functiondef = [mapLatToY,206,13,22]; @symbol_param<0> = [lat,206,23,26]; @symbol_param<0>_type<0> = [Lang,206,30,34]; @symbol_param<0>_type<1> = [Float,206,35,40]; @symbol_param<1> = [app,206,42,45]; @symbol_param<1>_type<0> = [GarmiandApp,206,49,60]; @symbol_param<2> = [my,206,62,64]; @symbol_param<2>_type<0> = [Lang,206,68,72]; @symbol_param<2>_type<1> = [Number,206,73,79]; @symbol_return<0> = [Lang,206,84,88]; @symbol_return<1> = [Number,206,89,95]; ]
+    function mapLatToY(lat as Lang.Float, app as GarmiandApp, my as Lang.Number) as Lang.Number {
+G__code_garmiand_garmin_source_NavigationView_mc_206_96_210_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 207 8 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_206_96_210_4_start" "G__code_garmiand_garmin_source_NavigationView_mc_206_96_210_4_stop" ]
+        %span.1 = local;
+        symbol [ span %span.1 207 12 16 ];
+        %tmp.1 = lgetv %app;
+        symbol [ app %tmp.1 207 19 22 ];
+        symbol [ _mapMaxLat %tmp.2 207 23 33 ];
+        %tmp.2 = getv %tmp.1 :_mapMaxLat;
+        %tmp.3 = lgetv %app;
+        symbol [ app %tmp.3 207 36 39 ];
+        symbol [ _mapMinLat %tmp.4 207 40 50 ];
+        %tmp.4 = getv %tmp.3 :_mapMinLat;
+        %tmp.5 = sub %tmp.2 %tmp.4;
+        lputv %span.1 %tmp.5;
+        symbol [ span %span.1 207 12 16 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 208 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_208_8_208_38_if_stmt:
+        %tmp.6 = lgetv %span.1;
+        symbol [ span %tmp.6 208 12 16 ];
+        %tmp.7 = 0.0;
+        %tmp.8 = eq %tmp.6 %tmp.7;
+        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_208_8_208_38_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_208_8_208_38_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_208_25_208_38_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 208 27 ]
+        %tmp.9 = lgetv %my;
+        symbol [ my %tmp.9 208 34 36 ];
+        ret %tmp.9;
+G__code_garmiand_garmin_source_NavigationView_mc_208_25_208_38_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_208_8_208_38_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_208_8_208_38_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 209 8 ]
+        %tmp.10 = lgetv %my;
+        symbol [ my %tmp.10 209 15 17 ];
+        %tmp.11 = lgetv %app;
+        symbol [ app %tmp.11 209 22 25 ];
+        symbol [ _mapMaxLat %tmp.12 209 26 36 ];
+        %tmp.12 = getv %tmp.11 :_mapMaxLat;
+        %tmp.13 = lgetv %lat;
+        symbol [ lat %tmp.13 209 39 42 ];
+        %tmp.14 = sub %tmp.12 %tmp.13;
+        %tmp.15 = lgetv %span.1;
+        symbol [ span %tmp.15 209 46 50 ];
+        %tmp.16 = div %tmp.14 %tmp.15;
+        %tmp.17 = lgetv %app;
+        symbol [ app %tmp.17 209 53 56 ];
+        symbol [ _mapHeight %tmp.18 209 57 67 ];
+        %tmp.18 = getv %tmp.17 :_mapHeight;
+        %tmp.19 = mul %tmp.16 %tmp.18;
+        symbol [ toNumber %tmp.20 209 69 77 ];
+        %tmp.20 = getv function %tmp.19 :toNumber;
+        %tmp.21 = invoke %tmp.19 %tmp.20();
+        %tmp.22 = add %tmp.10 %tmp.21;
+        ret %tmp.22;
+G__code_garmiand_garmin_source_NavigationView_mc_206_96_210_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 212; @symbol_functiondef = [zoomIn,212,13,19]; ]
     function zoomIn() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_149_30_151_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 150 8 ]
-        symbol [ _scale %tmp.2 150 17 23 ];
+G__code_garmiand_garmin_source_NavigationView_mc_212_30_214_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 213 8 ]
+        symbol [ _scale %tmp.2 213 17 23 ];
         %tmp.2 = getv ? :_scale;
         %tmp.3 = 0.7f;
         %tmp.4 = mul %tmp.2 %tmp.3;
-        symbol [ _scale ? 150 8 14 ];
+        symbol [ _scale ? 213 8 14 ];
         putv self :_scale %tmp.4;
-G__code_garmiand_garmin_source_NavigationView_mc_149_30_151_4_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_212_30_214_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 153; @symbol_functiondef = [zoomOut,153,13,20]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 216; @symbol_functiondef = [zoomOut,216,13,20]; ]
     function zoomOut() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_153_31_155_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 154 8 ]
-        symbol [ _scale %tmp.2 154 17 23 ];
+G__code_garmiand_garmin_source_NavigationView_mc_216_31_218_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 217 8 ]
+        symbol [ _scale %tmp.2 217 17 23 ];
         %tmp.2 = getv ? :_scale;
         %tmp.3 = 1.4f;
         %tmp.4 = mul %tmp.2 %tmp.3;
-        symbol [ _scale ? 154 8 14 ];
+        symbol [ _scale ? 217 8 14 ];
         putv self :_scale %tmp.4;
-G__code_garmiand_garmin_source_NavigationView_mc_153_31_155_4_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_216_31_218_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 157; @symbol_functiondef = [toggleAutoCenter,157,13,29]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 220; @symbol_functiondef = [toggleAutoCenter,220,13,29]; ]
     function toggleAutoCenter() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_157_40_162_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 158 8 ]
-        symbol [ _autoCenter %tmp.2 158 23 34 ];
+G__code_garmiand_garmin_source_NavigationView_mc_220_40_225_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 221 8 ]
+        symbol [ _autoCenter %tmp.2 221 23 34 ];
         %tmp.2 = getv ? :_autoCenter;
         %tmp.3 = not %tmp.2;
-        symbol [ _autoCenter ? 158 8 19 ];
+        symbol [ _autoCenter ? 221 8 19 ];
         putv self :_autoCenter %tmp.3;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 159 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_159_8_161_8_if_stmt:
-        symbol [ _autoCenter %tmp.5 159 13 24 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 222 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_222_8_224_8_if_stmt:
+        symbol [ _autoCenter %tmp.5 222 13 24 ];
         %tmp.5 = getv ? :_autoCenter;
         %tmp.6 = not %tmp.5;
-        bf %tmp.6 @G__code_garmiand_garmin_source_NavigationView_mc_159_8_161_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_159_8_161_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_159_26_161_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 160 12 ]
+        bf %tmp.6 @G__code_garmiand_garmin_source_NavigationView_mc_222_8_224_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_222_8_224_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_222_26_224_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 223 12 ]
         %tmp.7 = self;
-        symbol [ fitRoute %tmp.8 160 12 20 ];
+        symbol [ fitRoute %tmp.8 223 12 20 ];
         %tmp.8 = getv function %tmp.7 :fitRoute;
         invoke %tmp.7 %tmp.8();
-G__code_garmiand_garmin_source_NavigationView_mc_159_26_161_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_159_8_161_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_159_8_161_8_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_157_40_162_4_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_222_26_224_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_222_8_224_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_222_8_224_8_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_220_40_225_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 1; ]

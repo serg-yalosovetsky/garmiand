@@ -21,10 +21,19 @@ object PhoneMessageEnvelope {
     const val KEY_MARKER_LON = "lon"
     const val KEY_MARKER_TITLE = "title"
 
+    const val KEY_URL = "url"
+    const val KEY_MIN_LAT = "min_lat"
+    const val KEY_MAX_LAT = "max_lat"
+    const val KEY_MIN_LON = "min_lon"
+    const val KEY_MAX_LON = "max_lon"
+    const val KEY_WIDTH = "w"
+    const val KEY_HEIGHT = "h"
+
     const val KIND_SYNC_START = "sync_start"
     const val KIND_ROUTE_CHUNK = "route_chunk"
     const val KIND_MARKERS = "markers"
     const val KIND_SYNC_FINISH = "sync_finish"
+    const val KIND_MAP_URL = "map_url"
 }
 
 typealias PhoneEnvelope = Map<String, Any>

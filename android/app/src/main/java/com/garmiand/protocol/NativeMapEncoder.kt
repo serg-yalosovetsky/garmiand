@@ -70,6 +70,18 @@ object SyncMessageSerializer {
             PhoneMessageEnvelope.KEY_ROUTE_ID to msg.routeId,
             PhoneMessageEnvelope.KEY_POINT_COUNT to msg.pointCount,
         )
+        is SyncMessage.MapUrl -> mapOf(
+            PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,
+            PhoneMessageEnvelope.KEY_KIND to PhoneMessageEnvelope.KIND_MAP_URL,
+            PhoneMessageEnvelope.KEY_SESSION_ID to msg.sessionId,
+            PhoneMessageEnvelope.KEY_URL to msg.url,
+            PhoneMessageEnvelope.KEY_MIN_LAT to msg.minLat,
+            PhoneMessageEnvelope.KEY_MAX_LAT to msg.maxLat,
+            PhoneMessageEnvelope.KEY_MIN_LON to msg.minLon,
+            PhoneMessageEnvelope.KEY_MAX_LON to msg.maxLon,
+            PhoneMessageEnvelope.KEY_WIDTH to msg.width,
+            PhoneMessageEnvelope.KEY_HEIGHT to msg.height,
+        )
     }
 
     private fun markerToMap(m: Marker): Map<String, Any> = mapOf(

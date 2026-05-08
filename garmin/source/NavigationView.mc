@@ -60,37 +60,37 @@ class NavigationView extends WatchUi.View {
             return;
         }
 
-        if (_lastFittedSize != _route.lats.size()) {
-            fitRoute();
-            _lastFittedSize = _route.lats.size();
-        }
-
         var app = App.getApp() as GarmiandApp;
-        var posLat = app._currentLat;
-        var posLon = app._currentLon;
+        var mapBitmap = app._mapBitmap;
+        var hasMap = mapBitmap != null
+            && app._mapMaxLat > app._mapMinLat
+            && app._mapMaxLon > app._mapMinLon;
 
-        if (_autoCenter && posLat != 0.0f) {
-            _centerLat = posLat;
-            _centerLon = posLon;
-        }
-
-        drawPolyline(dc, cx, cy);
-        drawMarkers(dc, cx, cy);
-
-        if (posLat != 0.0f) {
-            var px = lonToX(posLon, cx);
-            var py = latToY(posLat, cy);
-            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
-            dc.fillCircle(px, py, 6);
-
-            if (NavigationCalculator.isOffRoute(_route, posLat, posLon)) {
-                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-                dc.drawText(cx, h - 30, Graphics.FONT_TINY, "OFF ROUTE", Graphics.TEXT_JUSTIFY_CENTER);
+        if (hasMap) {
+            var mx = (w - app._mapWidth) / 2;
+            var my = (h - app._mapHeight) / 2;
+            dc.drawBitmap(mx, my, mapBitmap);
+            drawPolylineMap(dc, app, mx, my);
+            drawMarkersMap(dc, app, mx, my);
+            drawPositionMap(dc, app, mx, my, w, h);
+        } else {
+            if (_lastFittedSize != _route.lats.size()) {
+                fitRoute();
+                _lastFittedSize = _route.lats.size();
             }
+            var posLat = app._currentLat;
+            var posLon = app._currentLon;
+            if (_autoCenter && posLat != 0.0f) {
+                _centerLat = posLat;
+                _centerLon = posLon;
+            }
+            drawPolyline(dc, cx, cy);
+            drawMarkers(dc, cx, cy);
+            drawPositionScale(dc, app, cx, cy, w, h);
         }
 
         var name = _route.routeName != null ? _route.routeName : "Route";
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.drawText(cx, 5, Graphics.FONT_TINY, name, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
@@ -123,18 +123,69 @@ class NavigationView extends WatchUi.View {
         }
     }
 
+    function drawPolylineMap(dc as Graphics.Dc, app as GarmiandApp, mx as Lang.Number, my as Lang.Number) as Void {
+        var pts = _route.lats.size();
+        if (pts < 2) {
+            return;
+        }
+        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+        for (var i = 0; i < pts - 1; i++) {
+            var x1 = mapLonToX(_route.lons[i], app, mx);
+            var y1 = mapLatToY(_route.lats[i], app, my);
+            var x2 = mapLonToX(_route.lons[i + 1], app, mx);
+            var y2 = mapLatToY(_route.lats[i + 1], app, my);
+            dc.drawLine(x1, y1, x2, y2);
+        }
+    }
+
     function drawMarkers(dc as Graphics.Dc, cx as Lang.Number, cy as Lang.Number) as Void {
         var cnt = _route.markerLats.size();
         for (var i = 0; i < cnt; i++) {
-            var mx = lonToX(_route.markerLons[i], cx);
-            var my = latToY(_route.markerLats[i], cy);
-            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-            dc.fillCircle(mx, my, 4);
-            var title = _route.markerTitles[i];
-            if ("Start".equals(title) || "Finish".equals(title)) {
-                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                dc.drawText(mx + 6, my - 8, Graphics.FONT_TINY, title, Graphics.TEXT_JUSTIFY_LEFT);
-            }
+            var px = lonToX(_route.markerLons[i], cx);
+            var py = latToY(_route.markerLats[i], cy);
+            drawMarkerAt(dc, px, py, _route.markerTitles[i]);
+        }
+    }
+
+    function drawMarkersMap(dc as Graphics.Dc, app as GarmiandApp, mx as Lang.Number, my as Lang.Number) as Void {
+        var cnt = _route.markerLats.size();
+        for (var i = 0; i < cnt; i++) {
+            var px = mapLonToX(_route.markerLons[i], app, mx);
+            var py = mapLatToY(_route.markerLats[i], app, my);
+            drawMarkerAt(dc, px, py, _route.markerTitles[i]);
+        }
+    }
+
+    function drawMarkerAt(dc as Graphics.Dc, px as Lang.Number, py as Lang.Number, title as Lang.String) as Void {
+        dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(px, py, 4);
+        if ("Start".equals(title) || "Finish".equals(title)) {
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(px + 6, py - 8, Graphics.FONT_TINY, title, Graphics.TEXT_JUSTIFY_LEFT);
+        }
+    }
+
+    function drawPositionScale(dc as Graphics.Dc, app as GarmiandApp, cx as Lang.Number, cy as Lang.Number, w as Lang.Number, h as Lang.Number) as Void {
+        if (app._currentLat == 0.0f) { return; }
+        var px = lonToX(app._currentLon, cx);
+        var py = latToY(app._currentLat, cy);
+        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(px, py, 6);
+        if (NavigationCalculator.isOffRoute(_route, app._currentLat, app._currentLon)) {
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(cx, h - 30, Graphics.FONT_TINY, "OFF ROUTE", Graphics.TEXT_JUSTIFY_CENTER);
+        }
+    }
+
+    function drawPositionMap(dc as Graphics.Dc, app as GarmiandApp, mx as Lang.Number, my as Lang.Number, w as Lang.Number, h as Lang.Number) as Void {
+        if (app._currentLat == 0.0f) { return; }
+        var px = mapLonToX(app._currentLon, app, mx);
+        var py = mapLatToY(app._currentLat, app, my);
+        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+        dc.fillCircle(px, py, 6);
+        if (NavigationCalculator.isOffRoute(_route, app._currentLat, app._currentLon)) {
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(w / 2, h - 30, Graphics.FONT_TINY, "OFF ROUTE", Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
 
@@ -144,6 +195,18 @@ class NavigationView extends WatchUi.View {
 
     function latToY(lat as Lang.Float, cy as Lang.Number) as Lang.Number {
         return cy - ((lat - _centerLat) / _scale).toNumber();
+    }
+
+    function mapLonToX(lon as Lang.Float, app as GarmiandApp, mx as Lang.Number) as Lang.Number {
+        var span = app._mapMaxLon - app._mapMinLon;
+        if (span == 0.0) { return mx; }
+        return mx + ((lon - app._mapMinLon) / span * app._mapWidth).toNumber();
+    }
+
+    function mapLatToY(lat as Lang.Float, app as GarmiandApp, my as Lang.Number) as Lang.Number {
+        var span = app._mapMaxLat - app._mapMinLat;
+        if (span == 0.0) { return my; }
+        return my + ((app._mapMaxLat - lat) / span * app._mapHeight).toNumber();
     }
 
     function zoomIn() as Void {

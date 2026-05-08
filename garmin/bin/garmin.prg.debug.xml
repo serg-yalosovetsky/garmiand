@@ -24,467 +24,608 @@
         <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationDelegate.mc" id="9" lineNum="29" parent="globals/NavigationDelegate" pc="268435609" symbol="onSelect"/>
         <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationDelegate.mc" id="9" lineNum="30" parent="globals/NavigationDelegate" pc="268435621" symbol="onSelect"/>
         <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationDelegate.mc" id="9" lineNum="31" parent="globals/NavigationDelegate" pc="268435632" symbol="onSelect"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="97" parent="globals/NavigationView" pc="268435634" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="98" parent="globals/NavigationView" pc="268435637" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="99" parent="globals/NavigationView" pc="268435644" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="102" parent="globals/NavigationView" pc="268435673" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="103" parent="globals/NavigationView" pc="268435688" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="104" parent="globals/NavigationView" pc="268435726" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="106" parent="globals/NavigationView" pc="268435739" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="108" parent="globals/NavigationView" pc="268435746" symbol="drawWaitingScreen"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="157" parent="globals/NavigationView" pc="268435773" symbol="toggleAutoCenter"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="158" parent="globals/NavigationView" pc="268435775" symbol="toggleAutoCenter"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="159" parent="globals/NavigationView" pc="268435788" symbol="toggleAutoCenter"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="160" parent="globals/NavigationView" pc="268435797" symbol="toggleAutoCenter"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="145" parent="globals/NavigationView" pc="268435808" symbol="latToY"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="146" parent="globals/NavigationView" pc="268435810" symbol="latToY"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="149" parent="globals/NavigationView" pc="268435834" symbol="zoomIn"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="150" parent="globals/NavigationView" pc="268435836" symbol="zoomIn"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="25" parent="globals/NavigationView" pc="268435855" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="26" parent="globals/NavigationView" pc="268435858" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="27" parent="globals/NavigationView" pc="268435876" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="28" parent="globals/NavigationView" pc="268435883" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="30" parent="globals/NavigationView" pc="268435887" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="31" parent="globals/NavigationView" pc="268435901" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="32" parent="globals/NavigationView" pc="268435915" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="33" parent="globals/NavigationView" pc="268435929" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="34" parent="globals/NavigationView" pc="268435943" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="35" parent="globals/NavigationView" pc="268435955" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="35" parent="globals/NavigationView" pc="268435974" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="36" parent="globals/NavigationView" pc="268435992" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="36" parent="globals/NavigationView" pc="268436011" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="37" parent="globals/NavigationView" pc="268436029" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="37" parent="globals/NavigationView" pc="268436048" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="38" parent="globals/NavigationView" pc="268436066" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="38" parent="globals/NavigationView" pc="268436085" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="40" parent="globals/NavigationView" pc="268436113" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="41" parent="globals/NavigationView" pc="268436137" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="42" parent="globals/NavigationView" pc="268436161" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="43" parent="globals/NavigationView" pc="268436168" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="44" parent="globals/NavigationView" pc="268436175" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="45" parent="globals/NavigationView" pc="268436192" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="45" parent="globals/NavigationView" pc="268436203" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="46" parent="globals/NavigationView" pc="268436213" symbol="fitRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="141" parent="globals/NavigationView" pc="268436241" symbol="lonToX"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="142" parent="globals/NavigationView" pc="268436243" symbol="lonToX"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="16" lineNum="153" parent="globals/NavigationView" pc="268436267" symbol="zoomOut"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="16" lineNum="154" parent="globals/NavigationView" pc="268436269" symbol="zoomOut"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="126" parent="globals/NavigationView" pc="268436288" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="127" parent="globals/NavigationView" pc="268436291" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="128" parent="globals/NavigationView" pc="268436309" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="129" parent="globals/NavigationView" pc="268436320" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="130" parent="globals/NavigationView" pc="268436345" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="131" parent="globals/NavigationView" pc="268436370" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="132" parent="globals/NavigationView" pc="268436387" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="133" parent="globals/NavigationView" pc="268436403" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="134" parent="globals/NavigationView" pc="268436418" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="135" parent="globals/NavigationView" pc="268436454" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="136" parent="globals/NavigationView" pc="268436471" symbol="drawMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="15" parent="globals/NavigationView" pc="268436511" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="16" parent="globals/NavigationView" pc="268436513" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="17" parent="globals/NavigationView" pc="268436525" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="18" parent="globals/NavigationView" pc="268436534" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="19" parent="globals/NavigationView" pc="268436546" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="20" parent="globals/NavigationView" pc="268436554" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="21" parent="globals/NavigationView" pc="268436562" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="22" parent="globals/NavigationView" pc="268436570" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="111" parent="globals/NavigationView" pc="268436580" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="112" parent="globals/NavigationView" pc="268436583" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="113" parent="globals/NavigationView" pc="268436601" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="114" parent="globals/NavigationView" pc="268436609" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="116" parent="globals/NavigationView" pc="268436613" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="117" parent="globals/NavigationView" pc="268436629" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="118" parent="globals/NavigationView" pc="268436643" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="119" parent="globals/NavigationView" pc="268436668" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="120" parent="globals/NavigationView" pc="268436693" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="121" parent="globals/NavigationView" pc="268436721" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="122" parent="globals/NavigationView" pc="268436749" symbol="drawPolyline"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="49" parent="globals/NavigationView" pc="268436778" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="50" parent="globals/NavigationView" pc="268436781" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="51" parent="globals/NavigationView" pc="268436797" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="53" parent="globals/NavigationView" pc="268436805" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="54" parent="globals/NavigationView" pc="268436814" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="55" parent="globals/NavigationView" pc="268436823" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="56" parent="globals/NavigationView" pc="268436830" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="58" parent="globals/NavigationView" pc="268436837" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="59" parent="globals/NavigationView" pc="268436851" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="60" parent="globals/NavigationView" pc="268436866" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="63" parent="globals/NavigationView" pc="268436870" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="64" parent="globals/NavigationView" pc="268436895" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="65" parent="globals/NavigationView" pc="268436902" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="68" parent="globals/NavigationView" pc="268436928" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="69" parent="globals/NavigationView" pc="268436940" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="70" parent="globals/NavigationView" pc="268436948" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="72" parent="globals/NavigationView" pc="268436956" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="73" parent="globals/NavigationView" pc="268436971" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="74" parent="globals/NavigationView" pc="268436980" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="77" parent="globals/NavigationView" pc="268436992" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="78" parent="globals/NavigationView" pc="268437007" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="80" parent="globals/NavigationView" pc="268437022" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="81" parent="globals/NavigationView" pc="268437029" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="82" parent="globals/NavigationView" pc="268437043" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="83" parent="globals/NavigationView" pc="268437057" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="84" parent="globals/NavigationView" pc="268437073" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="86" parent="globals/NavigationView" pc="268437089" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="87" parent="globals/NavigationView" pc="268437114" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="88" parent="globals/NavigationView" pc="268437131" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="92" parent="globals/NavigationView" pc="268437163" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="93" parent="globals/NavigationView" pc="268437197" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="94" parent="globals/NavigationView" pc="268437214" symbol="onUpdate"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="21" lineNum="22" parent="globals/GarmiandApp" pc="268437235" symbol="onStart"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="21" lineNum="23" parent="globals/GarmiandApp" pc="268437237" symbol="onStart"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="21" lineNum="25" parent="globals/GarmiandApp" pc="268437263" symbol="onStart"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="21" lineNum="26" parent="globals/GarmiandApp" pc="268437281" symbol="onStart"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="21" lineNum="28" parent="globals/GarmiandApp" pc="268437309" symbol="onStart"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="21" lineNum="29" parent="globals/GarmiandApp" pc="268437338" symbol="onStart"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="76" parent="globals/GarmiandApp" pc="268437370" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="77" parent="globals/GarmiandApp" pc="268437373" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="78" parent="globals/GarmiandApp" pc="268437381" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="79" parent="globals/GarmiandApp" pc="268437397" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="81" parent="globals/GarmiandApp" pc="268437401" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="82" parent="globals/GarmiandApp" pc="268437405" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="83" parent="globals/GarmiandApp" pc="268437423" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="86" parent="globals/GarmiandApp" pc="268437427" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="87" parent="globals/GarmiandApp" pc="268437437" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="89" parent="globals/GarmiandApp" pc="268437458" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="90" parent="globals/GarmiandApp" pc="268437476" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="91" parent="globals/GarmiandApp" pc="268437488" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="92" parent="globals/GarmiandApp" pc="268437507" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="93" parent="globals/GarmiandApp" pc="268437526" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="94" parent="globals/GarmiandApp" pc="268437545" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="95" parent="globals/GarmiandApp" pc="268437556" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="98" parent="globals/GarmiandApp" pc="268437560" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="99" parent="globals/GarmiandApp" pc="268437578" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="100" parent="globals/GarmiandApp" pc="268437608" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="101" parent="globals/GarmiandApp" pc="268437619" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="104" parent="globals/GarmiandApp" pc="268437623" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="105" parent="globals/GarmiandApp" pc="268437641" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="106" parent="globals/GarmiandApp" pc="268437651" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="107" parent="globals/GarmiandApp" pc="268437666" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="108" parent="globals/GarmiandApp" pc="268437682" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="110" parent="globals/GarmiandApp" pc="268437696" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="113" parent="globals/GarmiandApp" pc="268437700" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="114" parent="globals/GarmiandApp" pc="268437718" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="115" parent="globals/GarmiandApp" pc="268437730" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="116" parent="globals/GarmiandApp" pc="268437741" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="119" parent="globals/GarmiandApp" pc="268437745" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="120" parent="globals/GarmiandApp" pc="268437763" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="121" parent="globals/GarmiandApp" pc="268437775" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="122" parent="globals/GarmiandApp" pc="268437794" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="123" parent="globals/GarmiandApp" pc="268437813" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="124" parent="globals/GarmiandApp" pc="268437826" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="125" parent="globals/GarmiandApp" pc="268437856" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="126" parent="globals/GarmiandApp" pc="268437866" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="127" parent="globals/GarmiandApp" pc="268437881" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="129" parent="globals/GarmiandApp" pc="268437900" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="130" parent="globals/GarmiandApp" pc="268437912" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="131" parent="globals/GarmiandApp" pc="268437976" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="22" lineNum="132" parent="globals/GarmiandApp" pc="268437987" symbol="onPhoneMessage"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="23" lineNum="40" parent="globals/GarmiandApp" pc="268437992" symbol="getInitialView"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="23" lineNum="41" parent="globals/GarmiandApp" pc="268437995" symbol="getInitialView"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="23" lineNum="42" parent="globals/GarmiandApp" pc="268438020" symbol="getInitialView"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="23" lineNum="43" parent="globals/GarmiandApp" pc="268438047" symbol="getInitialView"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="24" lineNum="46" parent="globals/GarmiandApp" pc="268438062" symbol="onGpsPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="24" lineNum="47" parent="globals/GarmiandApp" pc="268438064" symbol="onGpsPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="24" lineNum="48" parent="globals/GarmiandApp" pc="268438089" symbol="onGpsPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="25" lineNum="15" parent="globals/GarmiandApp" pc="268438106" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="25" lineNum="16" parent="globals/GarmiandApp" pc="268438108" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="25" lineNum="17" parent="globals/GarmiandApp" pc="268438120" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="25" lineNum="18" parent="globals/GarmiandApp" pc="268438145" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="25" lineNum="19" parent="globals/GarmiandApp" pc="268438153" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="26" lineNum="51" parent="globals/GarmiandApp" pc="268438162" symbol="pollGps"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="26" lineNum="52" parent="globals/GarmiandApp" pc="268438165" symbol="pollGps"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="26" lineNum="53" parent="globals/GarmiandApp" pc="268438177" symbol="pollGps"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="56" parent="globals/GarmiandApp" pc="268438194" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="57" parent="globals/GarmiandApp" pc="268438197" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="58" parent="globals/GarmiandApp" pc="268438208" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="60" parent="globals/GarmiandApp" pc="268438212" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="61" parent="globals/GarmiandApp" pc="268438220" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="62" parent="globals/GarmiandApp" pc="268438226" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="64" parent="globals/GarmiandApp" pc="268438230" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="65" parent="globals/GarmiandApp" pc="268438239" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="66" parent="globals/GarmiandApp" pc="268438251" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="67" parent="globals/GarmiandApp" pc="268438264" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="68" parent="globals/GarmiandApp" pc="268438286" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="70" parent="globals/GarmiandApp" pc="268438290" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="71" parent="globals/GarmiandApp" pc="268438342" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="72" parent="globals/GarmiandApp" pc="268438351" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="27" lineNum="73" parent="globals/GarmiandApp" pc="268438360" symbol="applyPositionInfo"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="32" parent="globals/GarmiandApp" pc="268438372" symbol="onStop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="33" parent="globals/GarmiandApp" pc="268438374" symbol="onStop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="34" parent="globals/GarmiandApp" pc="268438383" symbol="onStop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="35" parent="globals/GarmiandApp" pc="268438395" symbol="onStop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="37" parent="globals/GarmiandApp" pc="268438406" symbol="onStop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="29" lineNum="25" parent="globals/GpsListener" pc="268438435" symbol="stop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="29" lineNum="26" parent="globals/GpsListener" pc="268438437" symbol="stop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="29" lineNum="27" parent="globals/GpsListener" pc="268438445" symbol="stop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="29" lineNum="31" parent="globals/GpsListener" pc="268438473" symbol="stop"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="35" parent="globals/GpsListener" pc="268438485" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="36" parent="globals/GpsListener" pc="268438488" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="37" parent="globals/GpsListener" pc="268438513" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="39" parent="globals/GpsListener" pc="268438536" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="40" parent="globals/GpsListener" pc="268438554" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="42" parent="globals/GpsListener" pc="268438558" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="43" parent="globals/GpsListener" pc="268438566" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="44" parent="globals/GpsListener" pc="268438572" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="45" parent="globals/GpsListener" pc="268438590" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="47" parent="globals/GpsListener" pc="268438594" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="48" parent="globals/GpsListener" pc="268438603" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="49" parent="globals/GpsListener" pc="268438638" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="30" lineNum="50" parent="globals/GpsListener" pc="268438673" symbol="onPosition"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="31" lineNum="14" parent="globals/GpsListener" pc="268438685" symbol="start"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="31" lineNum="15" parent="globals/GpsListener" pc="268438687" symbol="start"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="31" lineNum="16" parent="globals/GpsListener" pc="268438696" symbol="start"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="31" lineNum="17" parent="globals/GpsListener" pc="268438714" symbol="start"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="31" lineNum="21" parent="globals/GpsListener" pc="268438742" symbol="start"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="32" lineNum="9" parent="globals/GpsListener" pc="268438754" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="32" lineNum="10" parent="globals/GpsListener" pc="268438756" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="32" lineNum="11" parent="globals/GpsListener" pc="268438765" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="33" lineNum="34" parent="globals/RouteData" pc="268438774" symbol="addChunk"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="33" lineNum="35" parent="globals/RouteData" pc="268438777" symbol="addChunk"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="33" lineNum="36" parent="globals/RouteData" pc="268438793" symbol="addChunk"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="33" lineNum="37" parent="globals/RouteData" pc="268438818" symbol="addChunk"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="33" lineNum="39" parent="globals/RouteData" pc="268438853" symbol="addChunk"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="34" lineNum="56" parent="globals/RouteData" pc="268438869" symbol="pointCount"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="34" lineNum="57" parent="globals/RouteData" pc="268438871" symbol="pointCount"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="42" parent="globals/RouteData" pc="268438883" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="43" parent="globals/RouteData" pc="268438886" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="44" parent="globals/RouteData" pc="268438895" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="45" parent="globals/RouteData" pc="268438904" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="46" parent="globals/RouteData" pc="268438913" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="47" parent="globals/RouteData" pc="268438922" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="48" parent="globals/RouteData" pc="268438938" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="49" parent="globals/RouteData" pc="268438945" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="50" parent="globals/RouteData" pc="268438967" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="51" parent="globals/RouteData" pc="268438995" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="35" lineNum="52" parent="globals/RouteData" pc="268439023" symbol="setMarkers"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="36" lineNum="30" parent="globals/RouteData" pc="268439056" symbol="reset"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="36" lineNum="31" parent="globals/RouteData" pc="268439058" symbol="reset"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="16" parent="globals/RouteData" pc="268439066" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="17" parent="globals/RouteData" pc="268439068" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="18" parent="globals/RouteData" pc="268439076" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="19" parent="globals/RouteData" pc="268439084" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="20" parent="globals/RouteData" pc="268439093" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="21" parent="globals/RouteData" pc="268439102" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="22" parent="globals/RouteData" pc="268439111" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="23" parent="globals/RouteData" pc="268439120" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="24" parent="globals/RouteData" pc="268439129" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="25" parent="globals/RouteData" pc="268439138" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="26" parent="globals/RouteData" pc="268439146" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="37" lineNum="27" parent="globals/RouteData" pc="268439154" symbol="initialize"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="38" lineNum="35" parent="globals/NavigationCalculator" pc="268439163" symbol="distanceToRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="38" lineNum="36" parent="globals/NavigationCalculator" pc="268439166" symbol="distanceToRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="38" lineNum="37" parent="globals/NavigationCalculator" pc="268439183" symbol="distanceToRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="38" lineNum="39" parent="globals/NavigationCalculator" pc="268439188" symbol="distanceToRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="38" lineNum="40" parent="globals/NavigationCalculator" pc="268439204" symbol="distanceToRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="21" parent="globals/NavigationCalculator" pc="268439235" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="22" parent="globals/NavigationCalculator" pc="268439238" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="23" parent="globals/NavigationCalculator" pc="268439241" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="24" parent="globals/NavigationCalculator" pc="268439248" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="25" parent="globals/NavigationCalculator" pc="268439262" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="26" parent="globals/NavigationCalculator" pc="268439273" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="27" parent="globals/NavigationCalculator" pc="268439305" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="28" parent="globals/NavigationCalculator" pc="268439313" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="29" parent="globals/NavigationCalculator" pc="268439317" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="39" lineNum="32" parent="globals/NavigationCalculator" pc="268439334" symbol="nearestPointIndex"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="9" parent="globals/NavigationCalculator" pc="268439337" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="10" parent="globals/NavigationCalculator" pc="268439340" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="11" parent="globals/NavigationCalculator" pc="268439359" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="12" parent="globals/NavigationCalculator" pc="268439378" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="13" parent="globals/NavigationCalculator" pc="268439400" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="14" parent="globals/NavigationCalculator" pc="268439422" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="40" lineNum="18" parent="globals/NavigationCalculator" pc="268439489" symbol="haversineM"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="42" lineNum="43" parent="globals/NavigationCalculator" pc="268439528" symbol="isOffRoute"/>
-        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="42" lineNum="44" parent="globals/NavigationCalculator" pc="268439530" symbol="isOffRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="200" parent="globals/NavigationView" pc="268435634" symbol="mapLonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="201" parent="globals/NavigationView" pc="268435637" symbol="mapLonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="202" parent="globals/NavigationView" pc="268435652" symbol="mapLonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="202" parent="globals/NavigationView" pc="268435659" symbol="mapLonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="10" lineNum="203" parent="globals/NavigationView" pc="268435665" symbol="mapLonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="126" parent="globals/NavigationView" pc="268435694" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="127" parent="globals/NavigationView" pc="268435697" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="128" parent="globals/NavigationView" pc="268435715" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="129" parent="globals/NavigationView" pc="268435723" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="131" parent="globals/NavigationView" pc="268435727" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="132" parent="globals/NavigationView" pc="268435744" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="133" parent="globals/NavigationView" pc="268435758" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="134" parent="globals/NavigationView" pc="268435785" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="135" parent="globals/NavigationView" pc="268435812" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="136" parent="globals/NavigationView" pc="268435842" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="11" lineNum="137" parent="globals/NavigationView" pc="268435872" symbol="drawPolylineMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="97" parent="globals/NavigationView" pc="268435901" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="98" parent="globals/NavigationView" pc="268435904" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="99" parent="globals/NavigationView" pc="268435911" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="102" parent="globals/NavigationView" pc="268435940" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="103" parent="globals/NavigationView" pc="268435955" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="104" parent="globals/NavigationView" pc="268435993" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="106" parent="globals/NavigationView" pc="268436006" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="12" lineNum="108" parent="globals/NavigationView" pc="268436013" symbol="drawWaitingScreen"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="159" parent="globals/NavigationView" pc="268436040" symbol="drawMarkerAt"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="160" parent="globals/NavigationView" pc="268436042" symbol="drawMarkerAt"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="161" parent="globals/NavigationView" pc="268436059" symbol="drawMarkerAt"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="162" parent="globals/NavigationView" pc="268436075" symbol="drawMarkerAt"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="163" parent="globals/NavigationView" pc="268436111" symbol="drawMarkerAt"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="13" lineNum="164" parent="globals/NavigationView" pc="268436124" symbol="drawMarkerAt"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="220" parent="globals/NavigationView" pc="268436154" symbol="toggleAutoCenter"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="221" parent="globals/NavigationView" pc="268436156" symbol="toggleAutoCenter"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="222" parent="globals/NavigationView" pc="268436169" symbol="toggleAutoCenter"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="14" lineNum="223" parent="globals/NavigationView" pc="268436178" symbol="toggleAutoCenter"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="180" parent="globals/NavigationView" pc="268436189" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="181" parent="globals/NavigationView" pc="268436192" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="181" parent="globals/NavigationView" pc="268436203" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="182" parent="globals/NavigationView" pc="268436207" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="183" parent="globals/NavigationView" pc="268436227" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="184" parent="globals/NavigationView" pc="268436247" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="185" parent="globals/NavigationView" pc="268436263" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="186" parent="globals/NavigationView" pc="268436279" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="187" parent="globals/NavigationView" pc="268436312" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="15" lineNum="188" parent="globals/NavigationView" pc="268436329" symbol="drawPositionMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="16" lineNum="196" parent="globals/NavigationView" pc="268436362" symbol="latToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="16" lineNum="197" parent="globals/NavigationView" pc="268436364" symbol="latToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="212" parent="globals/NavigationView" pc="268436388" symbol="zoomIn"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="17" lineNum="213" parent="globals/NavigationView" pc="268436390" symbol="zoomIn"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="25" parent="globals/NavigationView" pc="268436409" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="26" parent="globals/NavigationView" pc="268436412" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="27" parent="globals/NavigationView" pc="268436430" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="28" parent="globals/NavigationView" pc="268436437" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="30" parent="globals/NavigationView" pc="268436441" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="31" parent="globals/NavigationView" pc="268436455" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="32" parent="globals/NavigationView" pc="268436469" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="33" parent="globals/NavigationView" pc="268436483" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="34" parent="globals/NavigationView" pc="268436497" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="35" parent="globals/NavigationView" pc="268436509" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="35" parent="globals/NavigationView" pc="268436528" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="36" parent="globals/NavigationView" pc="268436546" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="36" parent="globals/NavigationView" pc="268436565" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="37" parent="globals/NavigationView" pc="268436583" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="37" parent="globals/NavigationView" pc="268436602" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="38" parent="globals/NavigationView" pc="268436620" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="38" parent="globals/NavigationView" pc="268436639" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="40" parent="globals/NavigationView" pc="268436667" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="41" parent="globals/NavigationView" pc="268436691" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="42" parent="globals/NavigationView" pc="268436715" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="43" parent="globals/NavigationView" pc="268436722" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="44" parent="globals/NavigationView" pc="268436729" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="45" parent="globals/NavigationView" pc="268436746" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="45" parent="globals/NavigationView" pc="268436757" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="18" lineNum="46" parent="globals/NavigationView" pc="268436767" symbol="fitRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="192" parent="globals/NavigationView" pc="268436795" symbol="lonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="19" lineNum="193" parent="globals/NavigationView" pc="268436797" symbol="lonToX"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="216" parent="globals/NavigationView" pc="268436821" symbol="zoomOut"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="20" lineNum="217" parent="globals/NavigationView" pc="268436823" symbol="zoomOut"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="21" lineNum="150" parent="globals/NavigationView" pc="268436842" symbol="drawMarkersMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="21" lineNum="151" parent="globals/NavigationView" pc="268436845" symbol="drawMarkersMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="21" lineNum="152" parent="globals/NavigationView" pc="268436863" symbol="drawMarkersMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="21" lineNum="153" parent="globals/NavigationView" pc="268436874" symbol="drawMarkersMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="21" lineNum="154" parent="globals/NavigationView" pc="268436901" symbol="drawMarkersMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="21" lineNum="155" parent="globals/NavigationView" pc="268436928" symbol="drawMarkersMap"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="22" lineNum="141" parent="globals/NavigationView" pc="268436967" symbol="drawMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="22" lineNum="142" parent="globals/NavigationView" pc="268436970" symbol="drawMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="22" lineNum="143" parent="globals/NavigationView" pc="268436988" symbol="drawMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="22" lineNum="144" parent="globals/NavigationView" pc="268436999" symbol="drawMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="22" lineNum="145" parent="globals/NavigationView" pc="268437024" symbol="drawMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="22" lineNum="146" parent="globals/NavigationView" pc="268437049" symbol="drawMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="23" lineNum="206" parent="globals/NavigationView" pc="268437088" symbol="mapLatToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="23" lineNum="207" parent="globals/NavigationView" pc="268437091" symbol="mapLatToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="23" lineNum="208" parent="globals/NavigationView" pc="268437106" symbol="mapLatToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="23" lineNum="208" parent="globals/NavigationView" pc="268437113" symbol="mapLatToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="23" lineNum="209" parent="globals/NavigationView" pc="268437119" symbol="mapLatToY"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="15" parent="globals/NavigationView" pc="268437148" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="16" parent="globals/NavigationView" pc="268437150" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="17" parent="globals/NavigationView" pc="268437162" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="18" parent="globals/NavigationView" pc="268437171" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="19" parent="globals/NavigationView" pc="268437183" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="20" parent="globals/NavigationView" pc="268437191" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="21" parent="globals/NavigationView" pc="268437199" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="24" lineNum="22" parent="globals/NavigationView" pc="268437207" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="168" parent="globals/NavigationView" pc="268437217" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="169" parent="globals/NavigationView" pc="268437220" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="169" parent="globals/NavigationView" pc="268437231" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="170" parent="globals/NavigationView" pc="268437235" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="171" parent="globals/NavigationView" pc="268437253" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="172" parent="globals/NavigationView" pc="268437271" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="173" parent="globals/NavigationView" pc="268437287" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="174" parent="globals/NavigationView" pc="268437303" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="175" parent="globals/NavigationView" pc="268437336" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="25" lineNum="176" parent="globals/NavigationView" pc="268437353" symbol="drawPositionScale"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="111" parent="globals/NavigationView" pc="268437383" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="112" parent="globals/NavigationView" pc="268437386" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="113" parent="globals/NavigationView" pc="268437404" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="114" parent="globals/NavigationView" pc="268437412" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="116" parent="globals/NavigationView" pc="268437416" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="117" parent="globals/NavigationView" pc="268437432" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="118" parent="globals/NavigationView" pc="268437446" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="119" parent="globals/NavigationView" pc="268437471" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="120" parent="globals/NavigationView" pc="268437496" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="121" parent="globals/NavigationView" pc="268437524" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="26" lineNum="122" parent="globals/NavigationView" pc="268437552" symbol="drawPolyline"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="49" parent="globals/NavigationView" pc="268437581" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="50" parent="globals/NavigationView" pc="268437584" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="51" parent="globals/NavigationView" pc="268437600" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="53" parent="globals/NavigationView" pc="268437608" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="54" parent="globals/NavigationView" pc="268437617" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="55" parent="globals/NavigationView" pc="268437626" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="56" parent="globals/NavigationView" pc="268437633" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="58" parent="globals/NavigationView" pc="268437640" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="59" parent="globals/NavigationView" pc="268437654" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="60" parent="globals/NavigationView" pc="268437669" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="63" parent="globals/NavigationView" pc="268437673" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="64" parent="globals/NavigationView" pc="268437685" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="65" parent="globals/NavigationView" pc="268437693" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="69" parent="globals/NavigationView" pc="268437736" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="70" parent="globals/NavigationView" pc="268437741" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="71" parent="globals/NavigationView" pc="268437755" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="72" parent="globals/NavigationView" pc="268437769" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="73" parent="globals/NavigationView" pc="268437785" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="74" parent="globals/NavigationView" pc="268437802" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="75" parent="globals/NavigationView" pc="268437819" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="77" parent="globals/NavigationView" pc="268437843" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="78" parent="globals/NavigationView" pc="268437868" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="79" parent="globals/NavigationView" pc="268437875" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="81" parent="globals/NavigationView" pc="268437901" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="82" parent="globals/NavigationView" pc="268437909" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="83" parent="globals/NavigationView" pc="268437917" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="84" parent="globals/NavigationView" pc="268437932" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="85" parent="globals/NavigationView" pc="268437941" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="87" parent="globals/NavigationView" pc="268437953" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="88" parent="globals/NavigationView" pc="268437968" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="89" parent="globals/NavigationView" pc="268437983" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="92" parent="globals/NavigationView" pc="268438004" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="93" parent="globals/NavigationView" pc="268438038" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationView.mc" id="27" lineNum="94" parent="globals/NavigationView" pc="268438054" symbol="onUpdate"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="98" parent="globals/GarmiandApp" pc="268438075" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="99" parent="globals/GarmiandApp" pc="268438078" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="100" parent="globals/GarmiandApp" pc="268438086" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="101" parent="globals/GarmiandApp" pc="268438102" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="103" parent="globals/GarmiandApp" pc="268438106" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="104" parent="globals/GarmiandApp" pc="268438110" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="105" parent="globals/GarmiandApp" pc="268438128" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="108" parent="globals/GarmiandApp" pc="268438132" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="109" parent="globals/GarmiandApp" pc="268438142" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="111" parent="globals/GarmiandApp" pc="268438163" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="112" parent="globals/GarmiandApp" pc="268438181" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="113" parent="globals/GarmiandApp" pc="268438193" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="114" parent="globals/GarmiandApp" pc="268438212" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="115" parent="globals/GarmiandApp" pc="268438231" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="116" parent="globals/GarmiandApp" pc="268438250" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="117" parent="globals/GarmiandApp" pc="268438261" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="120" parent="globals/GarmiandApp" pc="268438265" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="121" parent="globals/GarmiandApp" pc="268438283" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="122" parent="globals/GarmiandApp" pc="268438313" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="123" parent="globals/GarmiandApp" pc="268438324" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="126" parent="globals/GarmiandApp" pc="268438328" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="127" parent="globals/GarmiandApp" pc="268438346" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="128" parent="globals/GarmiandApp" pc="268438356" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="129" parent="globals/GarmiandApp" pc="268438371" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="130" parent="globals/GarmiandApp" pc="268438387" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="132" parent="globals/GarmiandApp" pc="268438401" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="135" parent="globals/GarmiandApp" pc="268438405" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="136" parent="globals/GarmiandApp" pc="268438423" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="137" parent="globals/GarmiandApp" pc="268438435" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="138" parent="globals/GarmiandApp" pc="268438446" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="141" parent="globals/GarmiandApp" pc="268438450" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="142" parent="globals/GarmiandApp" pc="268438468" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="143" parent="globals/GarmiandApp" pc="268438478" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="144" parent="globals/GarmiandApp" pc="268438499" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="145" parent="globals/GarmiandApp" pc="268438520" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="146" parent="globals/GarmiandApp" pc="268438541" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="147" parent="globals/GarmiandApp" pc="268438562" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="148" parent="globals/GarmiandApp" pc="268438583" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="149" parent="globals/GarmiandApp" pc="268438604" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="150" parent="globals/GarmiandApp" pc="268438625" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="160" parent="globals/GarmiandApp" pc="268438689" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="163" parent="globals/GarmiandApp" pc="268438693" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="164" parent="globals/GarmiandApp" pc="268438711" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="165" parent="globals/GarmiandApp" pc="268438723" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="166" parent="globals/GarmiandApp" pc="268438742" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="167" parent="globals/GarmiandApp" pc="268438761" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="168" parent="globals/GarmiandApp" pc="268438774" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="169" parent="globals/GarmiandApp" pc="268438804" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="170" parent="globals/GarmiandApp" pc="268438814" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="171" parent="globals/GarmiandApp" pc="268438829" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="173" parent="globals/GarmiandApp" pc="268438848" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="174" parent="globals/GarmiandApp" pc="268438860" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="175" parent="globals/GarmiandApp" pc="268438924" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="28" lineNum="176" parent="globals/GarmiandApp" pc="268438935" symbol="onPhoneMessage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="29" lineNum="54" parent="globals/GarmiandApp" pc="268438940" symbol="getInitialView"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="29" lineNum="55" parent="globals/GarmiandApp" pc="268438943" symbol="getInitialView"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="29" lineNum="56" parent="globals/GarmiandApp" pc="268438968" symbol="getInitialView"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="29" lineNum="57" parent="globals/GarmiandApp" pc="268438995" symbol="getInitialView"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="30" lineNum="60" parent="globals/GarmiandApp" pc="268439010" symbol="onGpsPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="30" lineNum="61" parent="globals/GarmiandApp" pc="268439012" symbol="onGpsPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="30" lineNum="62" parent="globals/GarmiandApp" pc="268439037" symbol="onGpsPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="31" lineNum="65" parent="globals/GarmiandApp" pc="268439054" symbol="pollGps"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="31" lineNum="66" parent="globals/GarmiandApp" pc="268439057" symbol="pollGps"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="31" lineNum="67" parent="globals/GarmiandApp" pc="268439069" symbol="pollGps"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="32" lineNum="36" parent="globals/GarmiandApp" pc="268439086" symbol="onStart"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="32" lineNum="37" parent="globals/GarmiandApp" pc="268439088" symbol="onStart"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="32" lineNum="39" parent="globals/GarmiandApp" pc="268439114" symbol="onStart"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="32" lineNum="40" parent="globals/GarmiandApp" pc="268439132" symbol="onStart"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="32" lineNum="42" parent="globals/GarmiandApp" pc="268439160" symbol="onStart"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="32" lineNum="43" parent="globals/GarmiandApp" pc="268439189" symbol="onStart"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="33" lineNum="70" parent="globals/GarmiandApp" pc="268439221" symbol="onMapImage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="33" lineNum="71" parent="globals/GarmiandApp" pc="268439223" symbol="onMapImage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="33" lineNum="72" parent="globals/GarmiandApp" pc="268439244" symbol="onMapImage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="33" lineNum="73" parent="globals/GarmiandApp" pc="268439259" symbol="onMapImage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="33" lineNum="74" parent="globals/GarmiandApp" pc="268439268" symbol="onMapImage"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="22" parent="globals/GarmiandApp" pc="268439283" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="23" parent="globals/GarmiandApp" pc="268439285" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="24" parent="globals/GarmiandApp" pc="268439297" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="25" parent="globals/GarmiandApp" pc="268439322" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="26" parent="globals/GarmiandApp" pc="268439330" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="27" parent="globals/GarmiandApp" pc="268439338" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="28" parent="globals/GarmiandApp" pc="268439346" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="29" parent="globals/GarmiandApp" pc="268439354" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="30" parent="globals/GarmiandApp" pc="268439362" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="31" parent="globals/GarmiandApp" pc="268439370" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="32" parent="globals/GarmiandApp" pc="268439378" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="34" lineNum="33" parent="globals/GarmiandApp" pc="268439386" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="78" parent="globals/GarmiandApp" pc="268439395" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="79" parent="globals/GarmiandApp" pc="268439398" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="80" parent="globals/GarmiandApp" pc="268439409" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="82" parent="globals/GarmiandApp" pc="268439413" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="83" parent="globals/GarmiandApp" pc="268439421" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="84" parent="globals/GarmiandApp" pc="268439427" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="86" parent="globals/GarmiandApp" pc="268439431" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="87" parent="globals/GarmiandApp" pc="268439440" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="88" parent="globals/GarmiandApp" pc="268439452" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="89" parent="globals/GarmiandApp" pc="268439465" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="90" parent="globals/GarmiandApp" pc="268439487" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="92" parent="globals/GarmiandApp" pc="268439491" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="93" parent="globals/GarmiandApp" pc="268439543" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="94" parent="globals/GarmiandApp" pc="268439552" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="35" lineNum="95" parent="globals/GarmiandApp" pc="268439561" symbol="applyPositionInfo"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="36" lineNum="46" parent="globals/GarmiandApp" pc="268439573" symbol="onStop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="36" lineNum="47" parent="globals/GarmiandApp" pc="268439575" symbol="onStop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="36" lineNum="48" parent="globals/GarmiandApp" pc="268439584" symbol="onStop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="36" lineNum="49" parent="globals/GarmiandApp" pc="268439596" symbol="onStop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GarmiandApp.mc" id="36" lineNum="51" parent="globals/GarmiandApp" pc="268439607" symbol="onStop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="37" lineNum="25" parent="globals/GpsListener" pc="268439636" symbol="stop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="37" lineNum="26" parent="globals/GpsListener" pc="268439638" symbol="stop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="37" lineNum="27" parent="globals/GpsListener" pc="268439646" symbol="stop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="37" lineNum="31" parent="globals/GpsListener" pc="268439674" symbol="stop"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="35" parent="globals/GpsListener" pc="268439686" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="36" parent="globals/GpsListener" pc="268439689" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="37" parent="globals/GpsListener" pc="268439714" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="39" parent="globals/GpsListener" pc="268439737" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="40" parent="globals/GpsListener" pc="268439755" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="42" parent="globals/GpsListener" pc="268439759" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="43" parent="globals/GpsListener" pc="268439767" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="44" parent="globals/GpsListener" pc="268439773" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="45" parent="globals/GpsListener" pc="268439791" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="47" parent="globals/GpsListener" pc="268439795" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="48" parent="globals/GpsListener" pc="268439804" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="49" parent="globals/GpsListener" pc="268439839" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="38" lineNum="50" parent="globals/GpsListener" pc="268439874" symbol="onPosition"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="39" lineNum="14" parent="globals/GpsListener" pc="268439886" symbol="start"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="39" lineNum="15" parent="globals/GpsListener" pc="268439888" symbol="start"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="39" lineNum="16" parent="globals/GpsListener" pc="268439897" symbol="start"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="39" lineNum="17" parent="globals/GpsListener" pc="268439915" symbol="start"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="39" lineNum="21" parent="globals/GpsListener" pc="268439943" symbol="start"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="40" lineNum="9" parent="globals/GpsListener" pc="268439955" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="40" lineNum="10" parent="globals/GpsListener" pc="268439957" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\GpsListener.mc" id="40" lineNum="11" parent="globals/GpsListener" pc="268439966" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="41" lineNum="34" parent="globals/RouteData" pc="268439975" symbol="addChunk"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="41" lineNum="35" parent="globals/RouteData" pc="268439978" symbol="addChunk"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="41" lineNum="36" parent="globals/RouteData" pc="268439994" symbol="addChunk"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="41" lineNum="37" parent="globals/RouteData" pc="268440019" symbol="addChunk"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="41" lineNum="39" parent="globals/RouteData" pc="268440054" symbol="addChunk"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="42" lineNum="56" parent="globals/RouteData" pc="268440070" symbol="pointCount"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="42" lineNum="57" parent="globals/RouteData" pc="268440072" symbol="pointCount"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="42" parent="globals/RouteData" pc="268440084" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="43" parent="globals/RouteData" pc="268440087" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="44" parent="globals/RouteData" pc="268440096" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="45" parent="globals/RouteData" pc="268440105" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="46" parent="globals/RouteData" pc="268440114" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="47" parent="globals/RouteData" pc="268440123" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="48" parent="globals/RouteData" pc="268440139" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="49" parent="globals/RouteData" pc="268440146" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="50" parent="globals/RouteData" pc="268440168" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="51" parent="globals/RouteData" pc="268440196" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="43" lineNum="52" parent="globals/RouteData" pc="268440224" symbol="setMarkers"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="44" lineNum="30" parent="globals/RouteData" pc="268440257" symbol="reset"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="44" lineNum="31" parent="globals/RouteData" pc="268440259" symbol="reset"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="16" parent="globals/RouteData" pc="268440267" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="17" parent="globals/RouteData" pc="268440269" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="18" parent="globals/RouteData" pc="268440277" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="19" parent="globals/RouteData" pc="268440285" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="20" parent="globals/RouteData" pc="268440294" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="21" parent="globals/RouteData" pc="268440303" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="22" parent="globals/RouteData" pc="268440312" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="23" parent="globals/RouteData" pc="268440321" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="24" parent="globals/RouteData" pc="268440330" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="25" parent="globals/RouteData" pc="268440339" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="26" parent="globals/RouteData" pc="268440347" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\RouteData.mc" id="45" lineNum="27" parent="globals/RouteData" pc="268440355" symbol="initialize"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="46" lineNum="35" parent="globals/NavigationCalculator" pc="268440364" symbol="distanceToRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="46" lineNum="36" parent="globals/NavigationCalculator" pc="268440367" symbol="distanceToRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="46" lineNum="37" parent="globals/NavigationCalculator" pc="268440384" symbol="distanceToRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="46" lineNum="39" parent="globals/NavigationCalculator" pc="268440389" symbol="distanceToRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="46" lineNum="40" parent="globals/NavigationCalculator" pc="268440405" symbol="distanceToRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="21" parent="globals/NavigationCalculator" pc="268440436" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="22" parent="globals/NavigationCalculator" pc="268440439" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="23" parent="globals/NavigationCalculator" pc="268440442" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="24" parent="globals/NavigationCalculator" pc="268440449" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="25" parent="globals/NavigationCalculator" pc="268440463" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="26" parent="globals/NavigationCalculator" pc="268440474" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="27" parent="globals/NavigationCalculator" pc="268440506" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="28" parent="globals/NavigationCalculator" pc="268440514" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="29" parent="globals/NavigationCalculator" pc="268440518" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="47" lineNum="32" parent="globals/NavigationCalculator" pc="268440535" symbol="nearestPointIndex"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="9" parent="globals/NavigationCalculator" pc="268440538" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="10" parent="globals/NavigationCalculator" pc="268440541" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="11" parent="globals/NavigationCalculator" pc="268440560" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="12" parent="globals/NavigationCalculator" pc="268440579" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="13" parent="globals/NavigationCalculator" pc="268440601" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="14" parent="globals/NavigationCalculator" pc="268440623" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="48" lineNum="18" parent="globals/NavigationCalculator" pc="268440690" symbol="haversineM"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="50" lineNum="43" parent="globals/NavigationCalculator" pc="268440729" symbol="isOffRoute"/>
+        <entry filename="G:\\code\\garmiand\\garmin\\source\\NavigationCalculator.mc" id="50" lineNum="44" parent="globals/NavigationCalculator" pc="268440731" symbol="isOffRoute"/>
     </pcToLineNum>
     <symbolTable>
         <entry id="8388639" module="true" symbol="Graphics"/>
-        <entry id="26" method="true" symbol="zoomIn"/>
-        <entry field="true" id="45" symbol="markerLons"/>
+        <entry id="33" method="true" symbol="zoomIn"/>
+        <entry field="true" id="60" symbol="markerLons"/>
         <entry id="8388632" method="true" symbol="&lt;init&gt;"/>
-        <entry id="25" method="true" symbol="toggleAutoCenter"/>
-        <entry field="true" id="39" symbol="expectedChunkCount"/>
-        <entry field="true" id="48" symbol="receivedChunkCount"/>
-        <entry id="20" method="true" symbol="drawPolyline"/>
-        <entry field="true" id="43" symbol="markerIds"/>
+        <entry field="true" id="39" symbol="_mapHeight"/>
+        <entry id="8389661" symbol="maxWidth"/>
+        <entry id="32" method="true" symbol="toggleAutoCenter"/>
+        <entry id="23" method="true" symbol="drawPolylineMap"/>
+        <entry field="true" id="54" symbol="expectedChunkCount"/>
+        <entry field="true" id="63" symbol="receivedChunkCount"/>
+        <entry id="31" method="true" symbol="mapLonToX"/>
+        <entry id="22" method="true" symbol="drawPolyline"/>
+        <entry field="true" id="58" symbol="markerIds"/>
         <entry field="true" id="17" symbol="_lastFittedSize"/>
         <entry id="2" module="true" symbol="globals/NavigationCalculator/&lt;statics&gt;"/>
-        <entry id="37" method="true" symbol="onPosition"/>
-        <entry field="true" id="44" symbol="markerLats"/>
+        <entry field="true" id="38" symbol="_mapBitmap"/>
+        <entry id="52" method="true" symbol="onPosition"/>
+        <entry field="true" id="59" symbol="markerLats"/>
         <entry field="true" id="8388611" module="true" symbol="Toybox"/>
         <entry id="8392382" method="true" symbol="reset"/>
-        <entry id="47" method="true" symbol="pointCount"/>
-        <entry field="true" id="29" symbol="_currentLon"/>
-        <entry field="true" id="57" symbol="AppName"/>
-        <entry id="22" method="true" symbol="fitRoute"/>
+        <entry id="62" method="true" symbol="pointCount"/>
+        <entry field="true" id="36" symbol="_currentLon"/>
+        <entry field="true" id="72" symbol="AppName"/>
+        <entry id="27" method="true" symbol="fitRoute"/>
         <entry id="5" module="true" symbol="globals/Rez/Strings"/>
-        <entry field="true" id="46" symbol="markerTitles"/>
+        <entry field="true" id="61" symbol="markerTitles"/>
         <entry id="7" object="true" symbol="GpsListener"/>
-        <entry field="true" id="42" symbol="lons"/>
+        <entry field="true" id="57" symbol="lons"/>
         <entry id="8388648" module="true" symbol="WatchUi"/>
+        <entry id="25" method="true" symbol="drawPositionScale"/>
         <entry id="8389081" method="true" symbol="onBack"/>
-        <entry field="true" id="28" symbol="_currentLat"/>
+        <entry field="true" id="35" symbol="_currentLat"/>
         <entry id="3" module="true" symbol="globals/Rez"/>
-        <entry id="51" method="true" symbol="setMarkers"/>
-        <entry field="true" id="36" symbol="_onPosition"/>
+        <entry id="66" method="true" symbol="setMarkers"/>
+        <entry field="true" id="51" symbol="_onPosition"/>
         <entry field="true" id="16" symbol="_centerLon"/>
         <entry id="8389124" method="true" symbol="onUpdate"/>
+        <entry id="21" method="true" symbol="drawMarkersMap"/>
         <entry id="8388771" module="true" object="true" symbol="Drawables"/>
+        <entry field="true" id="43" symbol="_mapMinLon"/>
         <entry id="8389079" method="true" symbol="onPreviousPage"/>
         <entry field="true" id="15" symbol="_centerLat"/>
-        <entry id="31" method="true" symbol="applyPositionInfo"/>
-        <entry field="true" id="35" symbol="_isActive"/>
-        <entry field="true" id="41" symbol="lats"/>
+        <entry id="45" method="true" symbol="applyPositionInfo"/>
+        <entry field="true" id="50" symbol="_isActive"/>
+        <entry id="8389657" symbol="maxHeight"/>
+        <entry field="true" id="56" symbol="lats"/>
+        <entry field="true" id="42" symbol="_mapMinLat"/>
+        <entry id="24" method="true" symbol="drawPositionMap"/>
         <entry id="8388637" module="true" symbol="Communications"/>
-        <entry id="55" method="true" symbol="nearestPointIndex"/>
+        <entry id="70" method="true" symbol="nearestPointIndex"/>
         <entry id="4" module="true" symbol="globals/Rez/Drawables"/>
-        <entry id="23" method="true" symbol="latToY"/>
+        <entry id="28" method="true" symbol="latToY"/>
         <entry id="8" object="true" symbol="NavigationCalculator"/>
-        <entry id="54" method="true" symbol="isOffRoute"/>
-        <entry id="53" method="true" symbol="haversineM"/>
+        <entry id="69" method="true" symbol="isOffRoute"/>
+        <entry id="68" method="true" symbol="haversineM"/>
         <entry id="8388699" method="true" symbol="stop"/>
-        <entry id="38" method="true" symbol="addChunk"/>
+        <entry field="true" id="44" symbol="_mapWidth"/>
+        <entry id="53" method="true" symbol="addChunk"/>
+        <entry field="true" id="41" symbol="_mapMaxLon"/>
         <entry id="8388644" module="true" symbol="System"/>
         <entry field="true" id="14" symbol="_autoCenter"/>
+        <entry id="47" method="true" symbol="onMapImage"/>
         <entry id="8389619" method="true" symbol="onSelect"/>
         <entry id="8388769" module="true" object="true" symbol="Rez"/>
         <entry id="11" object="true" symbol="RouteData"/>
-        <entry field="true" id="40" symbol="isComplete"/>
+        <entry field="true" id="55" symbol="isComplete"/>
         <entry id="9" object="true" symbol="NavigationDelegate"/>
-        <entry field="true" id="30" symbol="_gpsTimer"/>
+        <entry field="true" id="37" symbol="_gpsTimer"/>
+        <entry field="true" id="40" symbol="_mapMaxLat"/>
         <entry id="8388640" module="true" symbol="Lang"/>
-        <entry id="33" method="true" symbol="onPhoneMessage"/>
-        <entry field="true" id="56" symbol="LauncherIcon"/>
+        <entry id="48" method="true" symbol="onPhoneMessage"/>
+        <entry field="true" id="71" symbol="LauncherIcon"/>
         <entry id="8388610" symbol="statics"/>
-        <entry field="true" id="50" symbol="routeName"/>
-        <entry field="true" id="49" symbol="routeId"/>
+        <entry field="true" id="65" symbol="routeName"/>
+        <entry field="true" id="64" symbol="routeId"/>
         <entry field="true" id="12" symbol="_route"/>
         <entry id="8389350" module="true" symbol="globals"/>
-        <entry id="27" method="true" symbol="zoomOut"/>
+        <entry id="34" method="true" symbol="zoomOut"/>
         <entry id="8388770" module="true" object="true" symbol="Strings"/>
         <entry field="true" id="18" symbol="_scale"/>
         <entry field="true" id="13" symbol="_view"/>
+        <entry id="30" method="true" symbol="mapLatToY"/>
         <entry id="8388702" method="true" symbol="initialize"/>
         <entry id="8389279" method="true" symbol="onStart"/>
-        <entry id="34" method="true" symbol="pollGps"/>
+        <entry id="49" method="true" symbol="pollGps"/>
         <entry id="8388641" module="true" symbol="Math"/>
         <entry id="8389280" method="true" symbol="getInitialView"/>
-        <entry id="52" method="true" symbol="distanceToRoute"/>
+        <entry id="67" method="true" symbol="distanceToRoute"/>
         <entry id="8389281" method="true" symbol="onStop"/>
-        <entry id="32" method="true" symbol="onGpsPosition"/>
-        <entry id="19" method="true" symbol="drawMarkers"/>
-        <entry id="21" method="true" symbol="drawWaitingScreen"/>
+        <entry id="46" method="true" symbol="onGpsPosition"/>
+        <entry id="20" method="true" symbol="drawMarkers"/>
+        <entry id="26" method="true" symbol="drawWaitingScreen"/>
         <entry id="8388646" module="true" object="true" symbol="Timer"/>
+        <entry id="8389694" symbol="dithering"/>
         <entry id="8388698" method="true" symbol="start"/>
         <entry id="6" object="true" symbol="GarmiandApp"/>
         <entry id="8388642" module="true" symbol="Position"/>
-        <entry id="24" method="true" symbol="lonToX"/>
+        <entry id="29" method="true" symbol="lonToX"/>
         <entry id="8389078" method="true" symbol="onNextPage"/>
+        <entry id="19" method="true" symbol="drawMarkerAt"/>
         <entry id="10" object="true" symbol="NavigationView"/>
     </symbolTable>
     <localVars>
         <entry arg="true" endPc="268435579" name="route" stackId="1" startPc="268435547"/>
         <entry arg="true" endPc="268435579" name="view" stackId="2" startPc="268435547"/>
-        <entry arg="true" endPc="268435772" name="dc" stackId="1" startPc="268435634"/>
-        <entry arg="true" endPc="268435772" name="w" stackId="2" startPc="268435634"/>
-        <entry arg="true" endPc="268435772" name="h" stackId="3" startPc="268435634"/>
-        <entry endPc="268435771" name="cx" stackId="4" startPc="268435637"/>
-        <entry endPc="268435771" name="statusText" stackId="5" startPc="268435637"/>
-        <entry endPc="268435735" name="pct" stackId="6" startPc="268435688"/>
-        <entry arg="true" endPc="268435833" name="lat" stackId="1" startPc="268435808"/>
-        <entry arg="true" endPc="268435833" name="cy" stackId="2" startPc="268435808"/>
-        <entry endPc="268436239" name="n" stackId="1" startPc="268435858"/>
-        <entry endPc="268436239" name="minLat" stackId="2" startPc="268435858"/>
-        <entry endPc="268436239" name="maxLat" stackId="3" startPc="268435858"/>
-        <entry endPc="268436239" name="minLon" stackId="4" startPc="268435858"/>
-        <entry endPc="268436239" name="maxLon" stackId="5" startPc="268435858"/>
-        <entry endPc="268436112" name="i" stackId="6" startPc="268435955"/>
-        <entry endPc="268436239" name="spanLat" stackId="7" startPc="268435858"/>
-        <entry endPc="268436239" name="spanLon" stackId="8" startPc="268435858"/>
-        <entry endPc="268436239" name="span" stackId="9" startPc="268435858"/>
-        <entry arg="true" endPc="268436266" name="lon" stackId="1" startPc="268436241"/>
-        <entry arg="true" endPc="268436266" name="cx" stackId="2" startPc="268436241"/>
-        <entry arg="true" endPc="268436510" name="dc" stackId="1" startPc="268436288"/>
-        <entry arg="true" endPc="268436510" name="cx" stackId="2" startPc="268436288"/>
-        <entry arg="true" endPc="268436510" name="cy" stackId="3" startPc="268436288"/>
-        <entry endPc="268436509" name="cnt" stackId="4" startPc="268436291"/>
-        <entry endPc="268436509" name="i" stackId="5" startPc="268436320"/>
-        <entry endPc="268436499" name="mx" stackId="6" startPc="268436320"/>
-        <entry endPc="268436499" name="my" stackId="7" startPc="268436320"/>
-        <entry endPc="268436499" name="title" stackId="8" startPc="268436320"/>
-        <entry arg="true" endPc="268436579" name="route" stackId="1" startPc="268436511"/>
-        <entry arg="true" endPc="268436777" name="dc" stackId="1" startPc="268436580"/>
-        <entry arg="true" endPc="268436777" name="cx" stackId="2" startPc="268436580"/>
-        <entry arg="true" endPc="268436777" name="cy" stackId="3" startPc="268436580"/>
-        <entry endPc="268436776" name="pts" stackId="4" startPc="268436583"/>
-        <entry endPc="268436776" name="i" stackId="5" startPc="268436643"/>
-        <entry endPc="268436766" name="x1" stackId="6" startPc="268436643"/>
-        <entry endPc="268436766" name="y1" stackId="7" startPc="268436643"/>
-        <entry endPc="268436766" name="x2" stackId="8" startPc="268436643"/>
-        <entry endPc="268436766" name="y2" stackId="9" startPc="268436643"/>
-        <entry arg="true" endPc="268437234" name="dc" stackId="1" startPc="268436778"/>
-        <entry endPc="268437233" name="w" stackId="2" startPc="268436781"/>
-        <entry endPc="268437233" name="h" stackId="3" startPc="268436781"/>
-        <entry endPc="268437233" name="cx" stackId="4" startPc="268436781"/>
-        <entry endPc="268437233" name="cy" stackId="5" startPc="268436781"/>
-        <entry endPc="268437233" name="app" stackId="6" startPc="268436781"/>
-        <entry endPc="268437233" name="posLat" stackId="7" startPc="268436781"/>
-        <entry endPc="268437233" name="posLon" stackId="8" startPc="268436781"/>
-        <entry endPc="268437159" name="px" stackId="9" startPc="268437029"/>
-        <entry endPc="268437159" name="py" stackId="10" startPc="268437029"/>
-        <entry endPc="268437233" name="name" stackId="11" startPc="268436781"/>
-        <entry arg="true" endPc="268437369" name="state" stackId="1" startPc="268437235"/>
-        <entry arg="true" endPc="268437991" name="msg" stackId="1" startPc="268437370"/>
-        <entry endPc="268437990" name="data" stackId="2" startPc="268437373"/>
-        <entry endPc="268437990" name="dict" stackId="3" startPc="268437373"/>
-        <entry endPc="268437990" name="kind" stackId="4" startPc="268437373"/>
-        <entry endPc="268437696" name="rawMarkers" stackId="5" startPc="268437641"/>
-        <entry endPc="268437987" name="rawMarkers" stackId="6" startPc="268437763"/>
-        <entry endPc="268438061" name="view" stackId="1" startPc="268437995"/>
-        <entry endPc="268438061" name="delegate" stackId="2" startPc="268437995"/>
-        <entry arg="true" endPc="268438105" name="info" stackId="1" startPc="268438062"/>
-        <entry endPc="268438192" name="info" stackId="1" startPc="268438165"/>
-        <entry arg="true" endPc="268438371" name="info" stackId="1" startPc="268438194"/>
-        <entry arg="true" endPc="268438371" name="source" stackId="2" startPc="268438194"/>
-        <entry endPc="268438370" name="pos" stackId="3" startPc="268438197"/>
-        <entry endPc="268438370" name="coords" stackId="4" startPc="268438197"/>
-        <entry endPc="268438370" name="lat" stackId="5" startPc="268438197"/>
-        <entry endPc="268438370" name="lon" stackId="6" startPc="268438197"/>
-        <entry arg="true" endPc="268438434" name="state" stackId="1" startPc="268438372"/>
-        <entry arg="true" endPc="268438684" name="info" stackId="1" startPc="268438485"/>
-        <entry endPc="268438683" name="pos" stackId="2" startPc="268438488"/>
-        <entry endPc="268438683" name="coords" stackId="3" startPc="268438488"/>
-        <entry arg="true" endPc="268438773" name="onPosition" stackId="1" startPc="268438754"/>
-        <entry arg="true" endPc="268438868" name="chunkLats" stackId="1" startPc="268438774"/>
-        <entry arg="true" endPc="268438868" name="chunkLons" stackId="2" startPc="268438774"/>
-        <entry endPc="268438852" name="i" stackId="3" startPc="268438793"/>
-        <entry arg="true" endPc="268439055" name="rawMarkers" stackId="1" startPc="268438883"/>
-        <entry endPc="268439054" name="i" stackId="2" startPc="268438938"/>
-        <entry endPc="268439044" name="m" stackId="3" startPc="268438938"/>
-        <entry arg="true" endPc="268439234" name="route" stackId="1" startPc="268439163"/>
-        <entry arg="true" endPc="268439234" name="lat" stackId="2" startPc="268439163"/>
-        <entry arg="true" endPc="268439234" name="lon" stackId="3" startPc="268439163"/>
-        <entry endPc="268439234" name="idx" stackId="4" startPc="268439166"/>
-        <entry arg="true" endPc="268439336" name="route" stackId="1" startPc="268439235"/>
-        <entry arg="true" endPc="268439336" name="lat" stackId="2" startPc="268439235"/>
-        <entry arg="true" endPc="268439336" name="lon" stackId="3" startPc="268439235"/>
-        <entry endPc="268439336" name="bestIdx" stackId="4" startPc="268439238"/>
-        <entry endPc="268439336" name="bestDist" stackId="5" startPc="268439238"/>
-        <entry endPc="268439336" name="size" stackId="6" startPc="268439238"/>
-        <entry endPc="268439333" name="i" stackId="7" startPc="268439273"/>
-        <entry endPc="268439323" name="d" stackId="8" startPc="268439273"/>
-        <entry arg="true" endPc="268439527" name="lat1" stackId="1" startPc="268439337"/>
-        <entry arg="true" endPc="268439527" name="lon1" stackId="2" startPc="268439337"/>
-        <entry arg="true" endPc="268439527" name="lat2" stackId="3" startPc="268439337"/>
-        <entry arg="true" endPc="268439527" name="lon2" stackId="4" startPc="268439337"/>
-        <entry endPc="268439527" name="dLat" stackId="5" startPc="268439340"/>
-        <entry endPc="268439527" name="dLon" stackId="6" startPc="268439340"/>
-        <entry endPc="268439527" name="sinDLat" stackId="7" startPc="268439340"/>
-        <entry endPc="268439527" name="sinDLon" stackId="8" startPc="268439340"/>
-        <entry endPc="268439527" name="a" stackId="9" startPc="268439340"/>
-        <entry arg="true" endPc="268439550" name="route" stackId="1" startPc="268439528"/>
-        <entry arg="true" endPc="268439550" name="lat" stackId="2" startPc="268439528"/>
-        <entry arg="true" endPc="268439550" name="lon" stackId="3" startPc="268439528"/>
+        <entry arg="true" endPc="268435693" name="lon" stackId="1" startPc="268435634"/>
+        <entry arg="true" endPc="268435693" name="app" stackId="2" startPc="268435634"/>
+        <entry arg="true" endPc="268435693" name="mx" stackId="3" startPc="268435634"/>
+        <entry endPc="268435693" name="span" stackId="4" startPc="268435637"/>
+        <entry arg="true" endPc="268435900" name="dc" stackId="1" startPc="268435694"/>
+        <entry arg="true" endPc="268435900" name="app" stackId="2" startPc="268435694"/>
+        <entry arg="true" endPc="268435900" name="mx" stackId="3" startPc="268435694"/>
+        <entry arg="true" endPc="268435900" name="my" stackId="4" startPc="268435694"/>
+        <entry endPc="268435899" name="pts" stackId="5" startPc="268435697"/>
+        <entry endPc="268435899" name="i" stackId="6" startPc="268435758"/>
+        <entry endPc="268435889" name="x1" stackId="7" startPc="268435758"/>
+        <entry endPc="268435889" name="y1" stackId="8" startPc="268435758"/>
+        <entry endPc="268435889" name="x2" stackId="9" startPc="268435758"/>
+        <entry endPc="268435889" name="y2" stackId="10" startPc="268435758"/>
+        <entry arg="true" endPc="268436039" name="dc" stackId="1" startPc="268435901"/>
+        <entry arg="true" endPc="268436039" name="w" stackId="2" startPc="268435901"/>
+        <entry arg="true" endPc="268436039" name="h" stackId="3" startPc="268435901"/>
+        <entry endPc="268436038" name="cx" stackId="4" startPc="268435904"/>
+        <entry endPc="268436038" name="statusText" stackId="5" startPc="268435904"/>
+        <entry endPc="268436002" name="pct" stackId="6" startPc="268435955"/>
+        <entry arg="true" endPc="268436153" name="dc" stackId="1" startPc="268436040"/>
+        <entry arg="true" endPc="268436153" name="px" stackId="2" startPc="268436040"/>
+        <entry arg="true" endPc="268436153" name="py" stackId="3" startPc="268436040"/>
+        <entry arg="true" endPc="268436153" name="title" stackId="4" startPc="268436040"/>
+        <entry arg="true" endPc="268436361" name="dc" stackId="1" startPc="268436189"/>
+        <entry arg="true" endPc="268436361" name="app" stackId="2" startPc="268436189"/>
+        <entry arg="true" endPc="268436361" name="mx" stackId="3" startPc="268436189"/>
+        <entry arg="true" endPc="268436361" name="my" stackId="4" startPc="268436189"/>
+        <entry arg="true" endPc="268436361" name="w" stackId="5" startPc="268436189"/>
+        <entry arg="true" endPc="268436361" name="h" stackId="6" startPc="268436189"/>
+        <entry endPc="268436360" name="px" stackId="7" startPc="268436192"/>
+        <entry endPc="268436360" name="py" stackId="8" startPc="268436192"/>
+        <entry arg="true" endPc="268436387" name="lat" stackId="1" startPc="268436362"/>
+        <entry arg="true" endPc="268436387" name="cy" stackId="2" startPc="268436362"/>
+        <entry endPc="268436793" name="n" stackId="1" startPc="268436412"/>
+        <entry endPc="268436793" name="minLat" stackId="2" startPc="268436412"/>
+        <entry endPc="268436793" name="maxLat" stackId="3" startPc="268436412"/>
+        <entry endPc="268436793" name="minLon" stackId="4" startPc="268436412"/>
+        <entry endPc="268436793" name="maxLon" stackId="5" startPc="268436412"/>
+        <entry endPc="268436666" name="i" stackId="6" startPc="268436509"/>
+        <entry endPc="268436793" name="spanLat" stackId="7" startPc="268436412"/>
+        <entry endPc="268436793" name="spanLon" stackId="8" startPc="268436412"/>
+        <entry endPc="268436793" name="span" stackId="9" startPc="268436412"/>
+        <entry arg="true" endPc="268436820" name="lon" stackId="1" startPc="268436795"/>
+        <entry arg="true" endPc="268436820" name="cx" stackId="2" startPc="268436795"/>
+        <entry arg="true" endPc="268436966" name="dc" stackId="1" startPc="268436842"/>
+        <entry arg="true" endPc="268436966" name="app" stackId="2" startPc="268436842"/>
+        <entry arg="true" endPc="268436966" name="mx" stackId="3" startPc="268436842"/>
+        <entry arg="true" endPc="268436966" name="my" stackId="4" startPc="268436842"/>
+        <entry endPc="268436965" name="cnt" stackId="5" startPc="268436845"/>
+        <entry endPc="268436965" name="i" stackId="6" startPc="268436874"/>
+        <entry endPc="268436955" name="px" stackId="7" startPc="268436874"/>
+        <entry endPc="268436955" name="py" stackId="8" startPc="268436874"/>
+        <entry arg="true" endPc="268437087" name="dc" stackId="1" startPc="268436967"/>
+        <entry arg="true" endPc="268437087" name="cx" stackId="2" startPc="268436967"/>
+        <entry arg="true" endPc="268437087" name="cy" stackId="3" startPc="268436967"/>
+        <entry endPc="268437086" name="cnt" stackId="4" startPc="268436970"/>
+        <entry endPc="268437086" name="i" stackId="5" startPc="268436999"/>
+        <entry endPc="268437076" name="px" stackId="6" startPc="268436999"/>
+        <entry endPc="268437076" name="py" stackId="7" startPc="268436999"/>
+        <entry arg="true" endPc="268437147" name="lat" stackId="1" startPc="268437088"/>
+        <entry arg="true" endPc="268437147" name="app" stackId="2" startPc="268437088"/>
+        <entry arg="true" endPc="268437147" name="my" stackId="3" startPc="268437088"/>
+        <entry endPc="268437147" name="span" stackId="4" startPc="268437091"/>
+        <entry arg="true" endPc="268437216" name="route" stackId="1" startPc="268437148"/>
+        <entry arg="true" endPc="268437382" name="dc" stackId="1" startPc="268437217"/>
+        <entry arg="true" endPc="268437382" name="app" stackId="2" startPc="268437217"/>
+        <entry arg="true" endPc="268437382" name="cx" stackId="3" startPc="268437217"/>
+        <entry arg="true" endPc="268437382" name="cy" stackId="4" startPc="268437217"/>
+        <entry arg="true" endPc="268437382" name="w" stackId="5" startPc="268437217"/>
+        <entry arg="true" endPc="268437382" name="h" stackId="6" startPc="268437217"/>
+        <entry endPc="268437381" name="px" stackId="7" startPc="268437220"/>
+        <entry endPc="268437381" name="py" stackId="8" startPc="268437220"/>
+        <entry arg="true" endPc="268437580" name="dc" stackId="1" startPc="268437383"/>
+        <entry arg="true" endPc="268437580" name="cx" stackId="2" startPc="268437383"/>
+        <entry arg="true" endPc="268437580" name="cy" stackId="3" startPc="268437383"/>
+        <entry endPc="268437579" name="pts" stackId="4" startPc="268437386"/>
+        <entry endPc="268437579" name="i" stackId="5" startPc="268437446"/>
+        <entry endPc="268437569" name="x1" stackId="6" startPc="268437446"/>
+        <entry endPc="268437569" name="y1" stackId="7" startPc="268437446"/>
+        <entry endPc="268437569" name="x2" stackId="8" startPc="268437446"/>
+        <entry endPc="268437569" name="y2" stackId="9" startPc="268437446"/>
+        <entry arg="true" endPc="268438074" name="dc" stackId="1" startPc="268437581"/>
+        <entry endPc="268438073" name="w" stackId="2" startPc="268437584"/>
+        <entry endPc="268438073" name="h" stackId="3" startPc="268437584"/>
+        <entry endPc="268438073" name="cx" stackId="4" startPc="268437584"/>
+        <entry endPc="268438073" name="cy" stackId="5" startPc="268437584"/>
+        <entry endPc="268438073" name="app" stackId="6" startPc="268437584"/>
+        <entry endPc="268438073" name="mapBitmap" stackId="7" startPc="268437584"/>
+        <entry endPc="268438073" name="hasMap" stackId="8" startPc="268437584"/>
+        <entry endPc="268437839" name="mx" stackId="9" startPc="268437741"/>
+        <entry endPc="268437839" name="my" stackId="10" startPc="268437741"/>
+        <entry endPc="268438003" name="posLat" stackId="11" startPc="268437843"/>
+        <entry endPc="268438003" name="posLon" stackId="12" startPc="268437843"/>
+        <entry endPc="268438073" name="name" stackId="13" startPc="268437584"/>
+        <entry arg="true" endPc="268438939" name="msg" stackId="1" startPc="268438075"/>
+        <entry endPc="268438938" name="data" stackId="2" startPc="268438078"/>
+        <entry endPc="268438938" name="dict" stackId="3" startPc="268438078"/>
+        <entry endPc="268438938" name="kind" stackId="4" startPc="268438078"/>
+        <entry endPc="268438401" name="rawMarkers" stackId="5" startPc="268438346"/>
+        <entry endPc="268438689" name="url" stackId="6" startPc="268438468"/>
+        <entry endPc="268438935" name="rawMarkers" stackId="7" startPc="268438711"/>
+        <entry endPc="268439009" name="view" stackId="1" startPc="268438943"/>
+        <entry endPc="268439009" name="delegate" stackId="2" startPc="268438943"/>
+        <entry arg="true" endPc="268439053" name="info" stackId="1" startPc="268439010"/>
+        <entry endPc="268439084" name="info" stackId="1" startPc="268439057"/>
+        <entry arg="true" endPc="268439220" name="state" stackId="1" startPc="268439086"/>
+        <entry arg="true" endPc="268439282" name="responseCode" stackId="1" startPc="268439221"/>
+        <entry arg="true" endPc="268439282" name="data" stackId="2" startPc="268439221"/>
+        <entry arg="true" endPc="268439572" name="info" stackId="1" startPc="268439395"/>
+        <entry arg="true" endPc="268439572" name="source" stackId="2" startPc="268439395"/>
+        <entry endPc="268439571" name="pos" stackId="3" startPc="268439398"/>
+        <entry endPc="268439571" name="coords" stackId="4" startPc="268439398"/>
+        <entry endPc="268439571" name="lat" stackId="5" startPc="268439398"/>
+        <entry endPc="268439571" name="lon" stackId="6" startPc="268439398"/>
+        <entry arg="true" endPc="268439635" name="state" stackId="1" startPc="268439573"/>
+        <entry arg="true" endPc="268439885" name="info" stackId="1" startPc="268439686"/>
+        <entry endPc="268439884" name="pos" stackId="2" startPc="268439689"/>
+        <entry endPc="268439884" name="coords" stackId="3" startPc="268439689"/>
+        <entry arg="true" endPc="268439974" name="onPosition" stackId="1" startPc="268439955"/>
+        <entry arg="true" endPc="268440069" name="chunkLats" stackId="1" startPc="268439975"/>
+        <entry arg="true" endPc="268440069" name="chunkLons" stackId="2" startPc="268439975"/>
+        <entry endPc="268440053" name="i" stackId="3" startPc="268439994"/>
+        <entry arg="true" endPc="268440256" name="rawMarkers" stackId="1" startPc="268440084"/>
+        <entry endPc="268440255" name="i" stackId="2" startPc="268440139"/>
+        <entry endPc="268440245" name="m" stackId="3" startPc="268440139"/>
+        <entry arg="true" endPc="268440435" name="route" stackId="1" startPc="268440364"/>
+        <entry arg="true" endPc="268440435" name="lat" stackId="2" startPc="268440364"/>
+        <entry arg="true" endPc="268440435" name="lon" stackId="3" startPc="268440364"/>
+        <entry endPc="268440435" name="idx" stackId="4" startPc="268440367"/>
+        <entry arg="true" endPc="268440537" name="route" stackId="1" startPc="268440436"/>
+        <entry arg="true" endPc="268440537" name="lat" stackId="2" startPc="268440436"/>
+        <entry arg="true" endPc="268440537" name="lon" stackId="3" startPc="268440436"/>
+        <entry endPc="268440537" name="bestIdx" stackId="4" startPc="268440439"/>
+        <entry endPc="268440537" name="bestDist" stackId="5" startPc="268440439"/>
+        <entry endPc="268440537" name="size" stackId="6" startPc="268440439"/>
+        <entry endPc="268440534" name="i" stackId="7" startPc="268440474"/>
+        <entry endPc="268440524" name="d" stackId="8" startPc="268440474"/>
+        <entry arg="true" endPc="268440728" name="lat1" stackId="1" startPc="268440538"/>
+        <entry arg="true" endPc="268440728" name="lon1" stackId="2" startPc="268440538"/>
+        <entry arg="true" endPc="268440728" name="lat2" stackId="3" startPc="268440538"/>
+        <entry arg="true" endPc="268440728" name="lon2" stackId="4" startPc="268440538"/>
+        <entry endPc="268440728" name="dLat" stackId="5" startPc="268440541"/>
+        <entry endPc="268440728" name="dLon" stackId="6" startPc="268440541"/>
+        <entry endPc="268440728" name="sinDLat" stackId="7" startPc="268440541"/>
+        <entry endPc="268440728" name="sinDLon" stackId="8" startPc="268440541"/>
+        <entry endPc="268440728" name="a" stackId="9" startPc="268440541"/>
+        <entry arg="true" endPc="268440751" name="route" stackId="1" startPc="268440729"/>
+        <entry arg="true" endPc="268440751" name="lat" stackId="2" startPc="268440729"/>
+        <entry arg="true" endPc="268440751" name="lon" stackId="3" startPc="268440729"/>
     </localVars>
     <deviceInfo deviceVersion="45fe3cbb0de8ea0a70e12628d2697915f1272301" partNumber="006-B3906-00"/>
     <annotations>
@@ -495,14 +636,14 @@
         <dataEntry label="globals" offset="58" parentId="" symbolId="globals" type="module"/>
         <dataEntry label="globals/NavigationDelegate" offset="152" parentId="globals" symbolId="NavigationDelegate" type="class"/>
         <dataEntry label="globals/NavigationView" offset="250" parentId="globals" symbolId="NavigationView" type="class"/>
-        <dataEntry label="globals/GarmiandApp" offset="438" parentId="globals" symbolId="GarmiandApp" type="class"/>
-        <dataEntry label="globals/Rez" offset="581" parentId="globals" symbolId="Rez" type="module"/>
-        <dataEntry label="globals/GpsListener" offset="625" parentId="globals" symbolId="GpsListener" type="class"/>
-        <dataEntry label="globals/RouteData" offset="714" parentId="globals" symbolId="RouteData" type="class"/>
-        <dataEntry label="globals/NavigationCalculator" offset="893" parentId="globals" symbolId="NavigationCalculator" type="class"/>
-        <dataEntry label="globals/NavigationCalculator/&lt;statics&gt;" offset="941" parentId="NavigationCalculator" symbolId="&lt;statics&gt;" type="module"/>
-        <dataEntry label="globals/Rez/Drawables" offset="999" parentId="Rez" symbolId="Drawables" type="module"/>
-        <dataEntry label="globals/Rez/Strings" offset="1034" parentId="Rez" symbolId="Strings" type="module"/>
+        <dataEntry label="globals/GarmiandApp" offset="501" parentId="globals" symbolId="GarmiandApp" type="class"/>
+        <dataEntry label="globals/Rez" offset="716" parentId="globals" symbolId="Rez" type="module"/>
+        <dataEntry label="globals/GpsListener" offset="760" parentId="globals" symbolId="GpsListener" type="class"/>
+        <dataEntry label="globals/RouteData" offset="849" parentId="globals" symbolId="RouteData" type="class"/>
+        <dataEntry label="globals/NavigationCalculator" offset="1028" parentId="globals" symbolId="NavigationCalculator" type="class"/>
+        <dataEntry label="globals/NavigationCalculator/&lt;statics&gt;" offset="1076" parentId="NavigationCalculator" symbolId="&lt;statics&gt;" type="module"/>
+        <dataEntry label="globals/Rez/Drawables" offset="1134" parentId="Rez" symbolId="Drawables" type="module"/>
+        <dataEntry label="globals/Rez/Strings" offset="1169" parentId="Rez" symbolId="Strings" type="module"/>
     </dataEntryOffsetMappings>
     <functions>
         <functionEntry accessMode="public" endPc="268435471" name="&lt;init&gt;" parent="NavigationDelegate" startPc="268435460">
@@ -546,81 +687,137 @@
         <functionEntry accessMode="public" endPc="268435633" name="onSelect" parent="NavigationDelegate" startPc="268435607">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268435772" name="drawWaitingScreen" parent="NavigationView" startPc="268435634">
+        <functionEntry accessMode="public" endPc="268435693" name="mapLonToX" parent="NavigationView" startPc="268435634">
+            <param id="lon"/>
+            <param id="app"/>
+            <param id="mx"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435900" name="drawPolylineMap" parent="NavigationView" startPc="268435694">
+            <param id="dc"/>
+            <param id="app"/>
+            <param id="mx"/>
+            <param id="my"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436039" name="drawWaitingScreen" parent="NavigationView" startPc="268435901">
             <param id="dc"/>
             <param id="w"/>
             <param id="h"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268435807" name="toggleAutoCenter" parent="NavigationView" startPc="268435773">
+        <functionEntry accessMode="public" endPc="268436153" name="drawMarkerAt" parent="NavigationView" startPc="268436040">
+            <param id="dc"/>
+            <param id="px"/>
+            <param id="py"/>
+            <param id="title"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268435833" name="latToY" parent="NavigationView" startPc="268435808">
+        <functionEntry accessMode="public" endPc="268436188" name="toggleAutoCenter" parent="NavigationView" startPc="268436154">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436361" name="drawPositionMap" parent="NavigationView" startPc="268436189">
+            <param id="dc"/>
+            <param id="app"/>
+            <param id="mx"/>
+            <param id="my"/>
+            <param id="w"/>
+            <param id="h"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436387" name="latToY" parent="NavigationView" startPc="268436362">
             <param id="lat"/>
             <param id="cy"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268435854" name="zoomIn" parent="NavigationView" startPc="268435834">
+        <functionEntry accessMode="public" endPc="268436408" name="zoomIn" parent="NavigationView" startPc="268436388">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268436240" name="fitRoute" parent="NavigationView" startPc="268435855">
+        <functionEntry accessMode="public" endPc="268436794" name="fitRoute" parent="NavigationView" startPc="268436409">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268436266" name="lonToX" parent="NavigationView" startPc="268436241">
+        <functionEntry accessMode="public" endPc="268436820" name="lonToX" parent="NavigationView" startPc="268436795">
             <param id="lon"/>
             <param id="cx"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268436287" name="zoomOut" parent="NavigationView" startPc="268436267">
+        <functionEntry accessMode="public" endPc="268436841" name="zoomOut" parent="NavigationView" startPc="268436821">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268436510" name="drawMarkers" parent="NavigationView" startPc="268436288">
+        <functionEntry accessMode="public" endPc="268436966" name="drawMarkersMap" parent="NavigationView" startPc="268436842">
+            <param id="dc"/>
+            <param id="app"/>
+            <param id="mx"/>
+            <param id="my"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437087" name="drawMarkers" parent="NavigationView" startPc="268436967">
             <param id="dc"/>
             <param id="cx"/>
             <param id="cy"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268436579" name="initialize" parent="NavigationView" startPc="268436511">
+        <functionEntry accessMode="public" endPc="268437147" name="mapLatToY" parent="NavigationView" startPc="268437088">
+            <param id="lat"/>
+            <param id="app"/>
+            <param id="my"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437216" name="initialize" parent="NavigationView" startPc="268437148">
             <param id="route"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268436777" name="drawPolyline" parent="NavigationView" startPc="268436580">
+        <functionEntry accessMode="public" endPc="268437382" name="drawPositionScale" parent="NavigationView" startPc="268437217">
+            <param id="dc"/>
+            <param id="app"/>
+            <param id="cx"/>
+            <param id="cy"/>
+            <param id="w"/>
+            <param id="h"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437580" name="drawPolyline" parent="NavigationView" startPc="268437383">
             <param id="dc"/>
             <param id="cx"/>
             <param id="cy"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268437234" name="onUpdate" parent="NavigationView" startPc="268436778">
+        <functionEntry accessMode="public" endPc="268438074" name="onUpdate" parent="NavigationView" startPc="268437581">
             <param id="dc"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268437369" name="onStart" parent="GarmiandApp" startPc="268437235">
-            <param id="state"/>
-            <documentation/>
-        </functionEntry>
-        <functionEntry accessMode="public" endPc="268437991" name="onPhoneMessage" parent="GarmiandApp" startPc="268437370">
+        <functionEntry accessMode="public" endPc="268438939" name="onPhoneMessage" parent="GarmiandApp" startPc="268438075">
             <param id="msg"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438061" name="getInitialView" parent="GarmiandApp" startPc="268437992">
+        <functionEntry accessMode="public" endPc="268439009" name="getInitialView" parent="GarmiandApp" startPc="268438940">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438105" name="onGpsPosition" parent="GarmiandApp" startPc="268438062">
+        <functionEntry accessMode="public" endPc="268439053" name="onGpsPosition" parent="GarmiandApp" startPc="268439010">
             <param id="info"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438161" name="initialize" parent="GarmiandApp" startPc="268438106">
+        <functionEntry accessMode="public" endPc="268439085" name="pollGps" parent="GarmiandApp" startPc="268439054">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438193" name="pollGps" parent="GarmiandApp" startPc="268438162">
+        <functionEntry accessMode="public" endPc="268439220" name="onStart" parent="GarmiandApp" startPc="268439086">
+            <param id="state"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438371" name="applyPositionInfo" parent="GarmiandApp" startPc="268438194">
+        <functionEntry accessMode="public" endPc="268439282" name="onMapImage" parent="GarmiandApp" startPc="268439221">
+            <param id="responseCode"/>
+            <param id="data"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268439394" name="initialize" parent="GarmiandApp" startPc="268439283">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268439572" name="applyPositionInfo" parent="GarmiandApp" startPc="268439395">
             <param id="info"/>
             <param id="source"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438434" name="onStop" parent="GarmiandApp" startPc="268438372">
+        <functionEntry accessMode="public" endPc="268439635" name="onStop" parent="GarmiandApp" startPc="268439573">
             <param id="state"/>
             <documentation/>
         </functionEntry>
@@ -630,51 +827,51 @@
         <functionEntry accessMode="public" name="&lt;init&gt;" parent="Strings">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438484" name="stop" parent="GpsListener" startPc="268438435">
+        <functionEntry accessMode="public" endPc="268439685" name="stop" parent="GpsListener" startPc="268439636">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438684" name="onPosition" parent="GpsListener" startPc="268438485">
+        <functionEntry accessMode="public" endPc="268439885" name="onPosition" parent="GpsListener" startPc="268439686">
             <param id="info"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438753" name="start" parent="GpsListener" startPc="268438685">
+        <functionEntry accessMode="public" endPc="268439954" name="start" parent="GpsListener" startPc="268439886">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438773" name="initialize" parent="GpsListener" startPc="268438754">
+        <functionEntry accessMode="public" endPc="268439974" name="initialize" parent="GpsListener" startPc="268439955">
             <param id="onPosition"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438868" name="addChunk" parent="RouteData" startPc="268438774">
+        <functionEntry accessMode="public" endPc="268440069" name="addChunk" parent="RouteData" startPc="268439975">
             <param id="chunkLats"/>
             <param id="chunkLons"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268438882" name="pointCount" parent="RouteData" startPc="268438869">
+        <functionEntry accessMode="public" endPc="268440083" name="pointCount" parent="RouteData" startPc="268440070">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439055" name="setMarkers" parent="RouteData" startPc="268438883">
+        <functionEntry accessMode="public" endPc="268440256" name="setMarkers" parent="RouteData" startPc="268440084">
             <param id="rawMarkers"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439065" name="reset" parent="RouteData" startPc="268439056">
+        <functionEntry accessMode="public" endPc="268440266" name="reset" parent="RouteData" startPc="268440257">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439162" name="initialize" parent="RouteData" startPc="268439066">
+        <functionEntry accessMode="public" endPc="268440363" name="initialize" parent="RouteData" startPc="268440267">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439234" name="distanceToRoute" parent="NavigationCalculator" startPc="268439163">
+        <functionEntry accessMode="public" endPc="268440435" name="distanceToRoute" parent="NavigationCalculator" startPc="268440364">
             <param id="route"/>
             <param id="lat"/>
             <param id="lon"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439336" name="nearestPointIndex" parent="NavigationCalculator" startPc="268439235">
+        <functionEntry accessMode="public" endPc="268440537" name="nearestPointIndex" parent="NavigationCalculator" startPc="268440436">
             <param id="route"/>
             <param id="lat"/>
             <param id="lon"/>
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439527" name="haversineM" parent="NavigationCalculator" startPc="268439337">
+        <functionEntry accessMode="public" endPc="268440728" name="haversineM" parent="NavigationCalculator" startPc="268440538">
             <param id="lat1"/>
             <param id="lon1"/>
             <param id="lat2"/>
@@ -684,7 +881,7 @@
         <functionEntry accessMode="public" name="initialize" parent="NavigationCalculator">
             <documentation/>
         </functionEntry>
-        <functionEntry accessMode="public" endPc="268439550" name="isOffRoute" parent="NavigationCalculator" startPc="268439528">
+        <functionEntry accessMode="public" endPc="268440751" name="isOffRoute" parent="NavigationCalculator" startPc="268440729">
             <param id="route"/>
             <param id="lat"/>
             <param id="lon"/>
