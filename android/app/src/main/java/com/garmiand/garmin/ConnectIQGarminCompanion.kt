@@ -3,14 +3,15 @@ package com.garmiand.garmin
 import android.content.Context
 import android.util.Log
 import com.garmin.android.connectiq.ConnectIQ
+import com.garmin.android.connectiq.ConnectIQ.IQApplicationInfoListener
+import com.garmin.android.connectiq.ConnectIQ.IQMessageStatus
+import com.garmin.android.connectiq.ConnectIQ.IQSendMessageListener
 import com.garmin.android.connectiq.IQApp
-import com.garmin.android.connectiq.IQApplicationInfoListener
 import com.garmin.android.connectiq.IQDevice
-import com.garmin.android.connectiq.IQMessageStatus
-import com.garmin.android.connectiq.IQSendMessageListener
 import com.garmiand.protocol.SyncAck
 import com.garmiand.protocol.SyncMessage
 import com.garmiand.protocol.SyncMessageSerializer
+import java.util.concurrent.atomic.AtomicReference
 
 private const val TAG = "ConnectIQCompanion"
 private const val WATCH_APP_ID = "com.garmiand.watch"
@@ -76,23 +77,25 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
 
         val payload: Map<String, Any> = SyncMessageSerializer.toMap(message)
 
-        @Volatile var result: SyncAck? = null
+        val result = AtomicReference<SyncAck?>(null)
 
         ciq.sendMessage(device, app, payload, object : IQSendMessageListener {
             override fun onMessageStatus(dev: IQDevice, iqApp: IQApp, status: IQMessageStatus) {
-                result = SyncAck(
-                    sessionId = message.sessionId,
-                    ok = status == IQMessageStatus.SUCCESS,
-                    reason = if (status != IQMessageStatus.SUCCESS) "IQ status $status" else null,
+                result.set(
+                    SyncAck(
+                        sessionId = message.sessionId,
+                        ok = status == IQMessageStatus.SUCCESS,
+                        reason = if (status != IQMessageStatus.SUCCESS) "IQ status $status" else null,
+                    )
                 )
             }
         })
 
         val deadline = System.currentTimeMillis() + SEND_TIMEOUT_MS
-        while (result == null && System.currentTimeMillis() < deadline) {
+        while (result.get() == null && System.currentTimeMillis() < deadline) {
             Thread.sleep(50)
         }
-        return result ?: SyncAck(message.sessionId, ok = false, reason = "Send timeout")
+        return result.get() ?: SyncAck(message.sessionId, ok = false, reason = "Send timeout")
     }
 
     fun shutdown() {

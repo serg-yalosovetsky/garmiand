@@ -10,7 +10,7 @@ import org.xmlpull.v1.XmlPullParserFactory
 import java.io.InputStream
 import java.util.UUID
 
-class GpxFileImportBridge : OsmAndBridge {
+class GpxFileImportBridge {
 
     fun loadFromUri(context: Context, uri: Uri, routeName: String? = null): RoutePackage? {
         return try {
@@ -24,8 +24,6 @@ class GpxFileImportBridge : OsmAndBridge {
             null
         }
     }
-
-    override fun loadActiveRoute(context: Context): RoutePackage? = null
 
     private fun parseGpx(stream: InputStream, name: String): RoutePackage {
         val factory = XmlPullParserFactory.newInstance()
