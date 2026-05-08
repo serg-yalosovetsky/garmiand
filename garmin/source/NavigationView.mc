@@ -10,6 +10,7 @@ class NavigationView extends WatchUi.View {
     var _centerLat as Lang.Float;
     var _centerLon as Lang.Float;
     var _autoCenter as Lang.Boolean;
+    var _lastFittedSize as Lang.Number;
 
     function initialize(route as RouteData) {
         View.initialize();
@@ -17,7 +18,32 @@ class NavigationView extends WatchUi.View {
         _scale = 0.0001f;
         _centerLat = 0.0f;
         _centerLon = 0.0f;
-        _autoCenter = true;
+        _autoCenter = false;
+        _lastFittedSize = -1;
+    }
+
+    function fitRoute() as Void {
+        var n = _route.lats.size();
+        if (n == 0) {
+            return;
+        }
+        var minLat = _route.lats[0];
+        var maxLat = _route.lats[0];
+        var minLon = _route.lons[0];
+        var maxLon = _route.lons[0];
+        for (var i = 1; i < n; i++) {
+            if (_route.lats[i] < minLat) { minLat = _route.lats[i]; }
+            if (_route.lats[i] > maxLat) { maxLat = _route.lats[i]; }
+            if (_route.lons[i] < minLon) { minLon = _route.lons[i]; }
+            if (_route.lons[i] > maxLon) { maxLon = _route.lons[i]; }
+        }
+        _centerLat = ((minLat + maxLat) / 2.0).toFloat();
+        _centerLon = ((minLon + maxLon) / 2.0).toFloat();
+        var spanLat = maxLat - minLat;
+        var spanLon = maxLon - minLon;
+        var span = (spanLat > spanLon) ? spanLat : spanLon;
+        if (span < 0.0001) { span = 0.0001; }
+        _scale = (span * 1.3 / 200.0).toFloat();
     }
 
     function onUpdate(dc as Graphics.Dc) as Void {
@@ -34,6 +60,11 @@ class NavigationView extends WatchUi.View {
             return;
         }
 
+        if (_lastFittedSize != _route.lats.size()) {
+            fitRoute();
+            _lastFittedSize = _route.lats.size();
+        }
+
         var app = App.getApp() as GarmiandApp;
         var posLat = app._currentLat;
         var posLon = app._currentLon;
@@ -41,9 +72,6 @@ class NavigationView extends WatchUi.View {
         if (_autoCenter && posLat != 0.0f) {
             _centerLat = posLat;
             _centerLon = posLon;
-        } else if (_centerLat == 0.0f && _route.lats.size() > 0) {
-            _centerLat = _route.lats[_route.lats.size() / 2];
-            _centerLon = _route.lons[_route.lons.size() / 2];
         }
 
         drawPolyline(dc, cx, cy);
@@ -128,5 +156,8 @@ class NavigationView extends WatchUi.View {
 
     function toggleAutoCenter() as Void {
         _autoCenter = !_autoCenter;
+        if (!_autoCenter) {
+            fitRoute();
+        }
     }
 }

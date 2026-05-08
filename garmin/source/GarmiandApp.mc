@@ -1,13 +1,16 @@
 using Toybox.Application as App;
 using Toybox.Communications;
 using Toybox.Lang;
+using Toybox.Position;
+using Toybox.System;
+using Toybox.Timer;
 using Toybox.WatchUi;
 
 class GarmiandApp extends App.AppBase {
-    var _route;
-    var _gpsListener;
-    var _currentLat;
-    var _currentLon;
+    var _route as RouteData;
+    var _currentLat as Lang.Float;
+    var _currentLon as Lang.Float;
+    var _gpsTimer as Timer.Timer?;
 
     function initialize() {
         AppBase.initialize();
@@ -18,14 +21,20 @@ class GarmiandApp extends App.AppBase {
 
     function onStart(state) {
         Communications.registerForPhoneAppMessages(method(:onPhoneMessage));
-        _gpsListener = new GpsListener(method(:onPosition));
-        _gpsListener.start();
+
+        System.println("[GPS] enableLocationEvents(CONTINUOUS) at AppBase");
+        Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onGpsPosition));
+
+        _gpsTimer = new Timer.Timer();
+        _gpsTimer.start(method(:pollGps), 1000, true);
     }
 
     function onStop(state) {
-        if (_gpsListener != null) {
-            _gpsListener.stop();
+        if (_gpsTimer != null) {
+            _gpsTimer.stop();
+            _gpsTimer = null;
         }
+        Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onGpsPosition));
     }
 
     function getInitialView() {
@@ -34,9 +43,34 @@ class GarmiandApp extends App.AppBase {
         return [view, delegate];
     }
 
-    function onPosition(lat as Lang.Float, lon as Lang.Float) as Void {
+    function onGpsPosition(info as Position.Info) as Void {
+        System.println("[GPS] onGpsPosition fired, accuracy=" + info.accuracy);
+        applyPositionInfo(info, "callback");
+    }
+
+    function pollGps() as Void {
+        var info = Position.getInfo();
+        applyPositionInfo(info, "poll");
+    }
+
+    function applyPositionInfo(info as Position.Info, source as Lang.String) as Void {
+        if (info.accuracy == Position.QUALITY_NOT_AVAILABLE) {
+            return;
+        }
+        var pos = info.position;
+        if (pos == null) {
+            return;
+        }
+        var coords = pos.toDegrees();
+        var lat = coords[0].toFloat();
+        var lon = coords[1].toFloat();
+        if (lat == _currentLat && lon == _currentLon) {
+            return;
+        }
+        System.println("[GPS:" + source + "] lat=" + lat + " lon=" + lon + " acc=" + info.accuracy);
         _currentLat = lat;
         _currentLon = lon;
+        WatchUi.requestUpdate();
     }
 
     function onPhoneMessage(msg as Communications.PhoneAppMessage) as Void {
@@ -50,6 +84,7 @@ class GarmiandApp extends App.AppBase {
         }
 
         var kind = dict["kind"];
+        System.println("[PhoneMsg] kind=" + kind);
 
         if ("sync_start".equals(kind)) {
             _route.reset();
@@ -67,12 +102,32 @@ class GarmiandApp extends App.AppBase {
         }
 
         if ("markers".equals(kind)) {
-            _route.setMarkers(dict["markers"]);
+            var rawMarkers = dict["markers"];
+            if (rawMarkers instanceof Lang.Array) {
+                _route.setMarkers(rawMarkers as Lang.Array);
+                WatchUi.requestUpdate();
+            }
             return;
         }
 
         if ("sync_finish".equals(kind)) {
             _route.isComplete = true;
+            WatchUi.requestUpdate();
+            return;
+        }
+
+        if ("route_full".equals(kind)) {
+            _route.reset();
+            _route.routeId = dict["route_id"];
+            _route.routeName = dict["route_name"];
+            _route.expectedChunkCount = 1;
+            _route.addChunk(dict["lats"], dict["lons"]);
+            var rawMarkers = dict["markers"];
+            if (rawMarkers instanceof Lang.Array) {
+                _route.setMarkers(rawMarkers as Lang.Array);
+            }
+            _route.isComplete = true;
+            System.println("[App] route_full loaded: " + _route.lats.size() + " pts, " + _route.markerLats.size() + " markers");
             WatchUi.requestUpdate();
             return;
         }
