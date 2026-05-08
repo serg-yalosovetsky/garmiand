@@ -1,0 +1,287 @@
+[ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Lang,1,13,17]; ]
+using Toybox.Lang;
+[ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 3; @symbol_classdef = [RouteData,3,6,15]; ]
+class RouteData {
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 3; ]
+    <init> {
+    }
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 3; ]
+    static
+    <init> {
+    }
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 4; @position = 8; @symbol_vardef = [routeId,4,8,15]; ]
+    var routeId;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 5; @position = 8; @symbol_vardef = [routeName,5,8,17]; ]
+    var routeName;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 6; @position = 8; @symbol_vardef = [lats,6,8,12]; ]
+    var lats;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 7; @position = 8; @symbol_vardef = [lons,7,8,12]; ]
+    var lons;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 8; @position = 8; @symbol_vardef = [markerIds,8,8,17]; ]
+    var markerIds;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 9; @position = 8; @symbol_vardef = [markerLats,9,8,18]; ]
+    var markerLats;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 10; @position = 8; @symbol_vardef = [markerLons,10,8,18]; ]
+    var markerLons;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 11; @position = 8; @symbol_vardef = [markerTitles,11,8,20]; ]
+    var markerTitles;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 12; @position = 8; @symbol_vardef = [expectedChunkCount,12,8,26]; ]
+    var expectedChunkCount;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 13; @position = 8; @symbol_vardef = [receivedChunkCount,13,8,26]; ]
+    var receivedChunkCount;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 14; @position = 8; @symbol_vardef = [isComplete,14,8,18]; ]
+    var isComplete;
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 16; @symbol_functiondef = [initialize,16,13,23]; ]
+    function initialize() as Void {
+G__code_garmiand_garmin_source_RouteData_mc_16_26_28_4_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 17 8 ]
+        %tmp.1 = null;
+        symbol [ routeId ? 17 8 15 ];
+        putv self :routeId %tmp.1;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 18 8 ]
+        %tmp.2 = null;
+        symbol [ routeName ? 18 8 17 ];
+        putv self :routeName %tmp.2;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 19 8 ]
+        %tmp.3 = newa 0;
+        symbol [ lats ? 19 8 12 ];
+        putv self :lats %tmp.3;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 20 8 ]
+        %tmp.4 = newa 0;
+        symbol [ lons ? 20 8 12 ];
+        putv self :lons %tmp.4;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 21 8 ]
+        %tmp.5 = newa 0;
+        symbol [ markerIds ? 21 8 17 ];
+        putv self :markerIds %tmp.5;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 22 8 ]
+        %tmp.6 = newa 0;
+        symbol [ markerLats ? 22 8 18 ];
+        putv self :markerLats %tmp.6;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 23 8 ]
+        %tmp.7 = newa 0;
+        symbol [ markerLons ? 23 8 18 ];
+        putv self :markerLons %tmp.7;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 24 8 ]
+        %tmp.8 = newa 0;
+        symbol [ markerTitles ? 24 8 20 ];
+        putv self :markerTitles %tmp.8;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 25 8 ]
+        %tmp.9 = 0;
+        symbol [ expectedChunkCount ? 25 8 26 ];
+        putv self :expectedChunkCount %tmp.9;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 26 8 ]
+        %tmp.10 = 0;
+        symbol [ receivedChunkCount ? 26 8 26 ];
+        putv self :receivedChunkCount %tmp.10;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 27 8 ]
+        %tmp.11 = false;
+        symbol [ isComplete ? 27 8 18 ];
+        putv self :isComplete %tmp.11;
+G__code_garmiand_garmin_source_RouteData_mc_16_26_28_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 30; @symbol_functiondef = [reset,30,13,18]; ]
+    function reset() {
+G__code_garmiand_garmin_source_RouteData_mc_30_21_32_4_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 31 8 ]
+        %tmp.1 = self;
+        symbol [ initialize %tmp.2 31 8 18 ];
+        %tmp.2 = getv function %tmp.1 :initialize;
+        invoke %tmp.1 %tmp.2();
+G__code_garmiand_garmin_source_RouteData_mc_30_21_32_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 34; @symbol_functiondef = [addChunk,34,13,21]; @symbol_param<0> = [chunkLats,34,22,31]; @symbol_param<1> = [chunkLons,34,33,42]; ]
+    function addChunk(chunkLats, chunkLons) {
+G__code_garmiand_garmin_source_RouteData_mc_34_44_40_4_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 35 8 ]
+        for @G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_test @G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_incr @G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_end;
+G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_init:
+        [ "G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_begin" "G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_end" ]
+        %i.1 = local;
+        symbol [ i %i.1 35 17 18 ];
+        %tmp.1 = 0;
+        lputv %i.1 %tmp.1;
+        symbol [ i %i.1 35 17 18 ];
+G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_test:
+        %tmp.2 = lgetv %i.1;
+        symbol [ i %tmp.2 35 24 25 ];
+        %tmp.3 = lgetv %chunkLats;
+        symbol [ chunkLats %tmp.3 35 28 37 ];
+        symbol [ size %tmp.4 35 38 42 ];
+        %tmp.4 = getv function %tmp.3 :size;
+        %tmp.5 = invoke %tmp.3 %tmp.4();
+        %tmp.6 = lt %tmp.2 %tmp.5;
+        bf %tmp.6 @G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_end;
+G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_begin:
+G__code_garmiand_garmin_source_RouteData_mc_35_51_38_8_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 36 12 ]
+        symbol [ lats %tmp.8 36 12 16 ];
+        %tmp.8 = getv ? :lats;
+        symbol [ add %tmp.9 36 17 20 ];
+        %tmp.9 = getv function %tmp.8 :add;
+        %tmp.10 = lgetv %chunkLats;
+        symbol [ chunkLats %tmp.10 36 21 30 ];
+        %tmp.11 = lgetv %i.1;
+        symbol [ i %tmp.11 36 31 32 ];
+        %tmp.12 = agetv %tmp.10 %tmp.11;
+        symbol [ toFloat %tmp.13 36 34 41 ];
+        %tmp.13 = getv function %tmp.12 :toFloat;
+        %tmp.14 = invoke %tmp.12 %tmp.13();
+        invoke %tmp.8 %tmp.9(%tmp.14);
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 37 12 ]
+        symbol [ lons %tmp.16 37 12 16 ];
+        %tmp.16 = getv ? :lons;
+        symbol [ add %tmp.17 37 17 20 ];
+        %tmp.17 = getv function %tmp.16 :add;
+        %tmp.18 = lgetv %chunkLons;
+        symbol [ chunkLons %tmp.18 37 21 30 ];
+        %tmp.19 = lgetv %i.1;
+        symbol [ i %tmp.19 37 31 32 ];
+        %tmp.20 = agetv %tmp.18 %tmp.19;
+        symbol [ toFloat %tmp.21 37 34 41 ];
+        %tmp.21 = getv function %tmp.20 :toFloat;
+        %tmp.22 = invoke %tmp.20 %tmp.21();
+        invoke %tmp.16 %tmp.17(%tmp.22);
+G__code_garmiand_garmin_source_RouteData_mc_35_51_38_8_stop:
+G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_incr:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 35 ]
+        %tmp.25 = lgetv %i.1;
+        symbol [ i %tmp.25 35 46 47 ];
+        %tmp.26 = add %tmp.25 1;
+        lputv %i.1 %tmp.26;
+        symbol [ i %i.1 35 46 47 ];
+        goto @G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_test;
+G__code_garmiand_garmin_source_RouteData_mc_35_8_38_8_for_end:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 39 8 ]
+        symbol [ receivedChunkCount %tmp.29 39 8 26 ];
+        %tmp.29 = getv ? :receivedChunkCount;
+        %tmp.30 = add %tmp.29 1;
+        symbol [ receivedChunkCount ? 39 8 26 ];
+        putv self :receivedChunkCount dup %tmp.30;
+G__code_garmiand_garmin_source_RouteData_mc_34_44_40_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 42; @symbol_functiondef = [setMarkers,42,13,23]; @symbol_param<0> = [rawMarkers,42,24,34]; ]
+    function setMarkers(rawMarkers) {
+G__code_garmiand_garmin_source_RouteData_mc_42_36_54_4_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 43 8 ]
+        %tmp.1 = newa 0;
+        symbol [ markerIds ? 43 8 17 ];
+        putv self :markerIds %tmp.1;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 44 8 ]
+        %tmp.2 = newa 0;
+        symbol [ markerLats ? 44 8 18 ];
+        putv self :markerLats %tmp.2;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 45 8 ]
+        %tmp.3 = newa 0;
+        symbol [ markerLons ? 45 8 18 ];
+        putv self :markerLons %tmp.3;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 46 8 ]
+        %tmp.4 = newa 0;
+        symbol [ markerTitles ? 46 8 20 ];
+        putv self :markerTitles %tmp.4;
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 47 8 ]
+        for @G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_test @G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_incr @G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_end;
+G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_init:
+        [ "G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_begin" "G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_end" ]
+        %i.1 = local;
+        symbol [ i %i.1 47 17 18 ];
+        %tmp.5 = 0;
+        lputv %i.1 %tmp.5;
+        symbol [ i %i.1 47 17 18 ];
+G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_test:
+        %tmp.6 = lgetv %i.1;
+        symbol [ i %tmp.6 47 24 25 ];
+        %tmp.7 = lgetv %rawMarkers;
+        symbol [ rawMarkers %tmp.7 47 28 38 ];
+        symbol [ size %tmp.8 47 39 43 ];
+        %tmp.8 = getv function %tmp.7 :size;
+        %tmp.9 = invoke %tmp.7 %tmp.8();
+        %tmp.10 = lt %tmp.6 %tmp.9;
+        bf %tmp.10 @G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_end;
+G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_begin:
+G__code_garmiand_garmin_source_RouteData_mc_47_52_53_8_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 48 12 ]
+        [ "G__code_garmiand_garmin_source_RouteData_mc_47_52_53_8_start" "G__code_garmiand_garmin_source_RouteData_mc_47_52_53_8_stop" ]
+        %m.2 = local;
+        symbol [ m %m.2 48 16 17 ];
+        %tmp.11 = lgetv %rawMarkers;
+        symbol [ rawMarkers %tmp.11 48 20 30 ];
+        %tmp.12 = lgetv %i.1;
+        symbol [ i %tmp.12 48 31 32 ];
+        %tmp.13 = agetv %tmp.11 %tmp.12;
+        lputv %m.2 %tmp.13;
+        symbol [ m %m.2 48 16 17 ];
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 49 12 ]
+        symbol [ markerIds %tmp.15 49 12 21 ];
+        %tmp.15 = getv ? :markerIds;
+        symbol [ add %tmp.16 49 22 25 ];
+        %tmp.16 = getv function %tmp.15 :add;
+        %tmp.17 = lgetv %m.2;
+        symbol [ m %tmp.17 49 26 27 ];
+        %tmp.18 = "id";
+        %tmp.19 = agetv %tmp.17 %tmp.18;
+        invoke %tmp.15 %tmp.16(%tmp.19);
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 50 12 ]
+        symbol [ markerLats %tmp.21 50 12 22 ];
+        %tmp.21 = getv ? :markerLats;
+        symbol [ add %tmp.22 50 23 26 ];
+        %tmp.22 = getv function %tmp.21 :add;
+        %tmp.23 = lgetv %m.2;
+        symbol [ m %tmp.23 50 27 28 ];
+        %tmp.24 = "lat";
+        %tmp.25 = agetv %tmp.23 %tmp.24;
+        symbol [ toFloat %tmp.26 50 36 43 ];
+        %tmp.26 = getv function %tmp.25 :toFloat;
+        %tmp.27 = invoke %tmp.25 %tmp.26();
+        invoke %tmp.21 %tmp.22(%tmp.27);
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 51 12 ]
+        symbol [ markerLons %tmp.29 51 12 22 ];
+        %tmp.29 = getv ? :markerLons;
+        symbol [ add %tmp.30 51 23 26 ];
+        %tmp.30 = getv function %tmp.29 :add;
+        %tmp.31 = lgetv %m.2;
+        symbol [ m %tmp.31 51 27 28 ];
+        %tmp.32 = "lon";
+        %tmp.33 = agetv %tmp.31 %tmp.32;
+        symbol [ toFloat %tmp.34 51 36 43 ];
+        %tmp.34 = getv function %tmp.33 :toFloat;
+        %tmp.35 = invoke %tmp.33 %tmp.34();
+        invoke %tmp.29 %tmp.30(%tmp.35);
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 52 12 ]
+        symbol [ markerTitles %tmp.37 52 12 24 ];
+        %tmp.37 = getv ? :markerTitles;
+        symbol [ add %tmp.38 52 25 28 ];
+        %tmp.38 = getv function %tmp.37 :add;
+        %tmp.39 = lgetv %m.2;
+        symbol [ m %tmp.39 52 29 30 ];
+        %tmp.40 = "title";
+        %tmp.41 = agetv %tmp.39 %tmp.40;
+        invoke %tmp.37 %tmp.38(%tmp.41);
+G__code_garmiand_garmin_source_RouteData_mc_47_52_53_8_stop:
+G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_incr:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 47 ]
+        %tmp.44 = lgetv %i.1;
+        symbol [ i %tmp.44 47 47 48 ];
+        %tmp.45 = add %tmp.44 1;
+        lputv %i.1 %tmp.45;
+        symbol [ i %i.1 47 47 48 ];
+        goto @G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_test;
+G__code_garmiand_garmin_source_RouteData_mc_47_8_53_8_for_end:
+G__code_garmiand_garmin_source_RouteData_mc_42_36_54_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 56; @symbol_functiondef = [pointCount,56,13,23]; ]
+    function pointCount() {
+G__code_garmiand_garmin_source_RouteData_mc_56_26_58_4_start:
+[ "G:\code\garmiand\garmin\source\RouteData.mc" 57 8 ]
+        symbol [ lats %tmp.2 57 15 19 ];
+        %tmp.2 = getv ? :lats;
+        symbol [ size %tmp.3 57 20 24 ];
+        %tmp.3 = getv function %tmp.2 :size;
+        %tmp.4 = invoke %tmp.2 %tmp.3();
+        ret %tmp.4;
+G__code_garmiand_garmin_source_RouteData_mc_56_26_58_4_stop:
+    }
+}
+[ @file = "G:\code\garmiand\garmin\source\RouteData.mc"; @line = 1; ]
+<init> {
+}

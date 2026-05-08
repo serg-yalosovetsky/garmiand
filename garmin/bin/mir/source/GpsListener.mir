@@ -1,0 +1,198 @@
+[ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Position,1,13,21]; ]
+using Toybox.Position;
+[ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [WatchUi,2,13,20]; ]
+using Toybox.WatchUi;
+[ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 4; @symbol_classdef = [GpsListener,4,6,17]; ]
+class GpsListener {
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 4; ]
+    <init> {
+    }
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 4; ]
+    static
+    <init> {
+    }
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 5; @position = 8; @symbol_vardef = [_onPosition,5,8,19]; ]
+    var _onPosition;
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 6; @position = 8; @symbol_vardef = [_isActive,6,8,17]; ]
+    var _isActive;
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 8; @symbol_functiondef = [initialize,8,13,23]; @symbol_param<0> = [onPosition,8,24,34]; ]
+    function initialize(onPosition) as Void {
+G__code_garmiand_garmin_source_GpsListener_mc_8_36_11_4_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 9 8 ]
+        %tmp.1 = lgetv %onPosition;
+        symbol [ onPosition %tmp.1 9 22 32 ];
+        symbol [ _onPosition ? 9 8 19 ];
+        putv self :_onPosition %tmp.1;
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 10 8 ]
+        %tmp.2 = false;
+        symbol [ _isActive ? 10 8 17 ];
+        putv self :_isActive %tmp.2;
+G__code_garmiand_garmin_source_GpsListener_mc_8_36_11_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 13; @symbol_functiondef = [start,13,13,18]; ]
+    function start() {
+G__code_garmiand_garmin_source_GpsListener_mc_13_21_21_4_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 14 8 ]
+G__code_garmiand_garmin_source_GpsListener_mc_14_8_20_8_if_stmt:
+        symbol [ _isActive %tmp.2 14 13 22 ];
+        %tmp.2 = getv ? :_isActive;
+        %tmp.3 = not %tmp.2;
+        bf %tmp.3 @G__code_garmiand_garmin_source_GpsListener_mc_14_8_20_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_14_8_20_8_if_true:
+G__code_garmiand_garmin_source_GpsListener_mc_14_24_20_8_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 15 12 ]
+        symbol [ Position %tmp.4 15 12 20 ];
+        %tmp.4 = getm $.Toybox.Position;
+        symbol [ enableLocationEvents %tmp.5 15 21 41 ];
+        %tmp.5 = getv function %tmp.4 :enableLocationEvents;
+        symbol [ Position %tmp.6 16 16 24 ];
+        %tmp.6 = getm $.Toybox.Position;
+        symbol [ LOCATION_CONTINUOUS %tmp.7 16 25 44 ];
+        %tmp.7 = getv %tmp.6 :LOCATION_CONTINUOUS;
+        %tmp.8 = self;
+        symbol [ method %tmp.9 17 16 22 ];
+        %tmp.9 = getv function %tmp.8 :method;
+        %tmp.11 = const :onPosition;
+        symbol [ onPosition %tmp.11 17 24 34 const ];
+        %tmp.12 = invoke %tmp.8 %tmp.9(%tmp.11);
+        invoke %tmp.4 %tmp.5(%tmp.7, %tmp.12);
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 19 12 ]
+        %tmp.13 = true;
+        symbol [ _isActive ? 19 12 21 ];
+        putv self :_isActive %tmp.13;
+G__code_garmiand_garmin_source_GpsListener_mc_14_24_20_8_stop:
+        goto @G__code_garmiand_garmin_source_GpsListener_mc_14_8_20_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_14_8_20_8_if_end:
+G__code_garmiand_garmin_source_GpsListener_mc_13_21_21_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 23; @symbol_functiondef = [stop,23,13,17]; ]
+    function stop() {
+G__code_garmiand_garmin_source_GpsListener_mc_23_20_31_4_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 24 8 ]
+G__code_garmiand_garmin_source_GpsListener_mc_24_8_30_8_if_stmt:
+        symbol [ _isActive %tmp.2 24 12 21 ];
+        %tmp.2 = getv ? :_isActive;
+        bf %tmp.2 @G__code_garmiand_garmin_source_GpsListener_mc_24_8_30_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_24_8_30_8_if_true:
+G__code_garmiand_garmin_source_GpsListener_mc_24_23_30_8_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 25 12 ]
+        symbol [ Position %tmp.3 25 12 20 ];
+        %tmp.3 = getm $.Toybox.Position;
+        symbol [ enableLocationEvents %tmp.4 25 21 41 ];
+        %tmp.4 = getv function %tmp.3 :enableLocationEvents;
+        symbol [ Position %tmp.5 26 16 24 ];
+        %tmp.5 = getm $.Toybox.Position;
+        symbol [ LOCATION_DISABLE %tmp.6 26 25 41 ];
+        %tmp.6 = getv %tmp.5 :LOCATION_DISABLE;
+        %tmp.7 = self;
+        symbol [ method %tmp.8 27 16 22 ];
+        %tmp.8 = getv function %tmp.7 :method;
+        %tmp.10 = const :onPosition;
+        symbol [ onPosition %tmp.10 27 24 34 const ];
+        %tmp.11 = invoke %tmp.7 %tmp.8(%tmp.10);
+        invoke %tmp.3 %tmp.4(%tmp.6, %tmp.11);
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 29 12 ]
+        %tmp.12 = false;
+        symbol [ _isActive ? 29 12 21 ];
+        putv self :_isActive %tmp.12;
+G__code_garmiand_garmin_source_GpsListener_mc_24_23_30_8_stop:
+        goto @G__code_garmiand_garmin_source_GpsListener_mc_24_8_30_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_24_8_30_8_if_end:
+G__code_garmiand_garmin_source_GpsListener_mc_23_20_31_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 33; @symbol_functiondef = [onPosition,33,13,23]; @symbol_param<0> = [info,33,24,28]; ]
+    function onPosition(info) {
+G__code_garmiand_garmin_source_GpsListener_mc_33_30_44_4_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 34 8 ]
+G__code_garmiand_garmin_source_GpsListener_mc_34_8_36_8_if_stmt:
+        %tmp.1 = lgetv %info;
+        symbol [ info %tmp.1 34 12 16 ];
+        %tmp.2 = null;
+        %tmp.3 = eq %tmp.1 %tmp.2;
+        bf %tmp.3 @G__code_garmiand_garmin_source_GpsListener_mc_34_8_36_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_34_8_36_8_if_true:
+G__code_garmiand_garmin_source_GpsListener_mc_34_26_36_8_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 35 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_GpsListener_mc_34_26_36_8_stop:
+        goto @G__code_garmiand_garmin_source_GpsListener_mc_34_8_36_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_34_8_36_8_if_end:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 37 8 ]
+G__code_garmiand_garmin_source_GpsListener_mc_37_8_40_8_if_stmt:
+G__code_garmiand_garmin_source_GpsListener_mc_37_12_38_38_begin:
+        %tmp.4 = lgetv %info;
+        symbol [ info %tmp.4 37 12 16 ];
+        symbol [ accuracy %tmp.5 37 17 25 ];
+        %tmp.5 = getv %tmp.4 :accuracy;
+        symbol [ Position %tmp.6 37 29 37 ];
+        %tmp.6 = getm $.Toybox.Position;
+        symbol [ QUALITY_NOT_AVAILABLE %tmp.7 37 38 59 ];
+        %tmp.7 = getv %tmp.6 :QUALITY_NOT_AVAILABLE;
+        %tmp.8 = eq %tmp.5 %tmp.7;
+        bt %tmp.8 @G__code_garmiand_garmin_source_GpsListener_mc_37_8_40_8_if_true;
+G__code_garmiand_garmin_source_GpsListener_mc_38_12_38_38_false:
+        %tmp.9 = lgetv %info;
+        symbol [ info %tmp.9 38 12 16 ];
+        symbol [ accuracy %tmp.10 38 17 25 ];
+        %tmp.10 = getv %tmp.9 :accuracy;
+        symbol [ Position %tmp.11 38 29 37 ];
+        %tmp.11 = getm $.Toybox.Position;
+        symbol [ QUALITY_LAST_KNOWN %tmp.12 38 38 56 ];
+        %tmp.12 = getv %tmp.11 :QUALITY_LAST_KNOWN;
+        %tmp.13 = eq %tmp.10 %tmp.12;
+        push %tmp.13;
+G__code_garmiand_garmin_source_GpsListener_mc_38_12_38_38_end:
+        %tmp.14 = phi [%tmp.8 @G__code_garmiand_garmin_source_GpsListener_mc_37_12_38_38_begin] [%tmp.13 @G__code_garmiand_garmin_source_GpsListener_mc_38_12_38_38_false] [%tmp.14 @G__code_garmiand_garmin_source_GpsListener_mc_38_12_38_38_end];
+        bf %tmp.14 @G__code_garmiand_garmin_source_GpsListener_mc_37_8_40_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_37_8_40_8_if_true:
+G__code_garmiand_garmin_source_GpsListener_mc_38_58_40_8_start:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 39 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_GpsListener_mc_38_58_40_8_stop:
+        goto @G__code_garmiand_garmin_source_GpsListener_mc_37_8_40_8_if_end;
+G__code_garmiand_garmin_source_GpsListener_mc_37_8_40_8_if_end:
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 41 8 ]
+        [ "G__code_garmiand_garmin_source_GpsListener_mc_33_30_44_4_start" "G__code_garmiand_garmin_source_GpsListener_mc_33_30_44_4_stop" ]
+        %coords.1 = local;
+        symbol [ coords %coords.1 41 12 18 ];
+        %tmp.15 = lgetv %info;
+        symbol [ info %tmp.15 41 21 25 ];
+        symbol [ position %tmp.16 41 26 34 ];
+        %tmp.16 = getv %tmp.15 :position;
+        symbol [ toDegrees %tmp.17 41 35 44 ];
+        %tmp.17 = getv function %tmp.16 :toDegrees;
+        %tmp.18 = invoke %tmp.16 %tmp.17();
+        lputv %coords.1 %tmp.18;
+        symbol [ coords %coords.1 41 12 18 ];
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 42 8 ]
+        symbol [ _onPosition %tmp.20 42 8 19 ];
+        %tmp.20 = getv ? :_onPosition;
+        symbol [ invoke %tmp.21 42 20 26 ];
+        %tmp.21 = getv function %tmp.20 :invoke;
+        %tmp.22 = lgetv %coords.1;
+        symbol [ coords %tmp.22 42 27 33 ];
+        %tmp.23 = 0;
+        %tmp.24 = agetv %tmp.22 %tmp.23;
+        symbol [ toFloat %tmp.25 42 37 44 ];
+        %tmp.25 = getv function %tmp.24 :toFloat;
+        %tmp.26 = invoke %tmp.24 %tmp.25();
+        %tmp.27 = lgetv %coords.1;
+        symbol [ coords %tmp.27 42 48 54 ];
+        %tmp.28 = 1;
+        %tmp.29 = agetv %tmp.27 %tmp.28;
+        symbol [ toFloat %tmp.30 42 58 65 ];
+        %tmp.30 = getv function %tmp.29 :toFloat;
+        %tmp.31 = invoke %tmp.29 %tmp.30();
+        invoke %tmp.20 %tmp.21(%tmp.26, %tmp.31);
+[ "G:\code\garmiand\garmin\source\GpsListener.mc" 43 8 ]
+        symbol [ WatchUi %tmp.32 43 8 15 ];
+        %tmp.32 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.33 43 16 29 ];
+        %tmp.33 = getv function %tmp.32 :requestUpdate;
+        invoke %tmp.32 %tmp.33();
+G__code_garmiand_garmin_source_GpsListener_mc_33_30_44_4_stop:
+    }
+}
+[ @file = "G:\code\garmiand\garmin\source\GpsListener.mc"; @line = 1; ]
+<init> {
+}
