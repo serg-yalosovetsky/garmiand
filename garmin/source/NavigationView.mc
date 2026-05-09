@@ -321,10 +321,14 @@ class NavigationView extends WatchUi.View {
             dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
             dc.drawText(w / 2, h - th - 4, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
         }
+        // Fetch status — рисуем сверху (под title band), чтобы не перекрывался
+        // OFF ROUTE баннером и режимным лейблом внизу.
         if (_fetchStatus != null) {
+            var bandH = dc.getFontHeight(Graphics.FONT_TINY) + 8;
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+            dc.fillRectangle(0, bandH, w, th + 4);
             dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-            var y = !label.equals("") ? (h - th * 2 - 6) : (h - th - 4);
-            dc.drawText(w / 2, y, Graphics.FONT_XTINY, _fetchStatus as Lang.String, Graphics.TEXT_JUSTIFY_CENTER);
+            dc.drawText(w / 2, bandH + 2, Graphics.FONT_XTINY, _fetchStatus as Lang.String, Graphics.TEXT_JUSTIFY_CENTER);
         }
     }
 

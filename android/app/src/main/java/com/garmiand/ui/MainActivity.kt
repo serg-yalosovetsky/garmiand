@@ -24,6 +24,7 @@ import com.garmiand.map.TileQuantizer
 import com.garmiand.osmand.GpxFileImportBridge
 import com.garmiand.protocol.NativeMapEncoder
 import com.garmiand.protocol.SyncMessage
+import com.garmiand.sync.BleChunkSizeProber
 import com.garmiand.sync.MapBundleBleSender
 import com.garmiand.sync.MapBundleUploadError
 import com.garmiand.sync.MapBundleUploader
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var logScroll: ScrollView
     private lateinit var switchCacheMap: SwitchCompat
     private lateinit var switchOnlineMode: SwitchCompat
+    private lateinit var btnProbeBle: Button
 
     private val gpxBridge = GpxFileImportBridge()
     private lateinit var garminCompanion: ConnectIQGarminCompanion
@@ -74,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         logScroll = findViewById(R.id.log_scroll)
         switchCacheMap = findViewById(R.id.switch_cache_map)
         switchOnlineMode = findViewById(R.id.switch_online_mode)
+        btnProbeBle = findViewById(R.id.btn_probe_ble)
 
         switchCacheMap.setOnCheckedChangeListener { _, checked ->
             switchOnlineMode.isEnabled = checked
@@ -84,6 +87,7 @@ class MainActivity : AppCompatActivity() {
 
         btnImport.setOnClickListener { pickGpxFile() }
         btnSend.setOnClickListener { sendRoute() }
+        btnProbeBle.setOnClickListener { probeBleChunkSize() }
         findViewById<Button>(R.id.btn_clear_log).setOnClickListener { AppLog.clear() }
         findViewById<Button>(R.id.btn_copy_log).setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -255,6 +259,34 @@ class MainActivity : AppCompatActivity() {
         val padLat = (maxLat - minLat).coerceAtLeast(0.001) * paddingFraction
         val padLon = (maxLon - minLon).coerceAtLeast(0.001) * paddingFraction
         return Bbox(minLat - padLat, maxLat + padLat, minLon - padLon, maxLon + padLon)
+    }
+
+    private fun probeBleChunkSize() {
+        btnProbeBle.isEnabled = false
+        btnSend.isEnabled = false
+        progressBar.visibility = View.VISIBLE
+        progressBar.progress = 0
+        AppLog.i(TAG, "BLE chunk-size probe starting...")
+        val sizes = BleChunkSizeProber.DEFAULT_SIZES_KB
+        Thread {
+            val prober = BleChunkSizeProber(garminCompanion)
+            var done = 0
+            val results = prober.probe { kb, ok, reason ->
+                done++
+                runOnUiThread {
+                    progressBar.progress = done * 100 / sizes.size
+                    tvStatus.text = "${kb}KB ${if (ok) "ok" else "FAIL"} ($done/${sizes.size})"
+                }
+            }
+            val maxOk = results.entries.lastOrNull { it.value }?.key
+            val firstFail = results.entries.firstOrNull { !it.value }?.key
+            runOnUiThread {
+                progressBar.visibility = View.GONE
+                btnProbeBle.isEnabled = true
+                btnSend.isEnabled = loadedRoute != null
+                tvStatus.text = "BLE limit: maxOk=${maxOk?.toString() ?: "-"}KB firstFail=${firstFail?.toString() ?: "-"}KB"
+            }
+        }.start()
     }
 
     override fun onDestroy() {

@@ -1,0 +1,1450 @@
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 1; @symbol_importdef<0> = [Toybox,1,7,13]; @symbol_importdef<1> = [Lang,1,14,18]; ]
+import Toybox.Lang;
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [WatchUi,2,13,20]; ]
+using Toybox.WatchUi;
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [WatchUi,3,13,20]; @symbol_usingAlias = [Ui,3,24,26]; ]
+using Toybox.WatchUi as :Ui;
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 4; @symbol_usingdef<0> = [Toybox,4,6,12]; @symbol_usingdef<1> = [Graphics,4,13,21]; ]
+using Toybox.Graphics;
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 5; @symbol_usingdef<0> = [Toybox,5,6,12]; @symbol_usingdef<1> = [Graphics,5,13,21]; @symbol_usingAlias = [Gfx,5,25,28]; ]
+using Toybox.Graphics as :Gfx;
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 7; @symbol_moduledef = [Rez,7,7,10]; ]
+module Rez {
+    [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 7; ]
+    <init> {
+    }
+    [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 8; @symbol_moduledef = [Drawables,8,11,20]; ]
+    module Drawables {
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 8; ]
+        <init> {
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 9; @position = 27; initialized = true; @symbol_vardef = [LauncherIcon,9,27,39]; @symbol_type<0> = [ResourceId,9,43,53]; ]
+        var LauncherIcon as ResourceId;
+    }
+    [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 12; @symbol_moduledef = [Strings,12,11,18]; ]
+    module Strings {
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 12; ]
+        <init> {
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 13; @position = 27; initialized = true; @symbol_vardef = [MapMode_None,13,27,39]; @symbol_type<0> = [ResourceId,13,43,53]; ]
+        var MapMode_None as ResourceId;
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 14; @position = 27; initialized = true; @symbol_vardef = [MapMode_Tiles,14,27,40]; @symbol_type<0> = [ResourceId,14,44,54]; ]
+        var MapMode_Tiles as ResourceId;
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 15; @position = 27; initialized = true; @symbol_vardef = [MapMode_Label,15,27,40]; @symbol_type<0> = [ResourceId,15,44,54]; ]
+        var MapMode_Label as ResourceId;
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 16; @position = 27; initialized = true; @symbol_vardef = [MapMode_Native,16,27,41]; @symbol_type<0> = [ResourceId,16,45,55]; ]
+        var MapMode_Native as ResourceId;
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 17; @position = 27; initialized = true; @symbol_vardef = [LastBundleId_Label,17,27,45]; @symbol_type<0> = [ResourceId,17,49,59]; ]
+        var LastBundleId_Label as ResourceId;
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 18; @position = 27; initialized = true; @symbol_vardef = [OnlineMode_Label,18,27,43]; @symbol_type<0> = [ResourceId,18,47,57]; ]
+        var OnlineMode_Label as ResourceId;
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 19; @position = 27; initialized = true; @symbol_vardef = [AppName,19,27,34]; @symbol_type<0> = [ResourceId,19,38,48]; ]
+        var AppName as ResourceId;
+    }
+    [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 22; @symbol_moduledef = [Styles,22,11,17]; ]
+    module Styles {
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 22; ]
+        <init> {
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 23; @symbol_moduledef = [prompt_font_enhanced_readability__body_with_title,23,15,64]; ]
+        module prompt_font_enhanced_readability__body_with_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 23; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 24; @position = 18; @symbol_constdef = [exclude,24,18,25]; @symbol_type<0> = [Boolean,24,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 27; @symbol_moduledef = [system_size__menu_header,27,15,39]; ]
+        module system_size__menu_header {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 27; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 28; @position = 18; @symbol_constdef = [width,28,18,23]; @symbol_type<0> = [Number,28,27,33]; ]
+            const width as Number = 260;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 29; @position = 18; @symbol_constdef = [height,29,18,24]; @symbol_type<0> = [Number,29,28,34]; ]
+            const height as Number = 81;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 32; @symbol_moduledef = [system_loc__hint_button_left_bottom,32,15,50]; ]
+        module system_loc__hint_button_left_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 32; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 33; @position = 18; @symbol_constdef = [x,33,18,19]; @symbol_type<0> = [Number,33,23,29]; ]
+            const x as Number = 10;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 34; @position = 18; @symbol_constdef = [y,34,18,19]; @symbol_type<0> = [Number,34,23,29]; ]
+            const y as Number = 172;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 37; @symbol_moduledef = [prompt_font_enhanced_readability__body_no_title,37,15,62]; ]
+        module prompt_font_enhanced_readability__body_no_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 37; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 38; @position = 18; @symbol_constdef = [exclude,38,18,25]; @symbol_type<0> = [Boolean,38,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 41; @symbol_moduledef = [prompt_loc__body_no_title,41,15,40]; ]
+        module prompt_loc__body_no_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 41; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 42; @position = 18; @symbol_constdef = [x,42,18,19]; @symbol_type<0> = [Number,42,23,29]; ]
+            const x as Number = 26;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 43; @position = 18; @symbol_constdef = [y,43,18,19]; @symbol_type<0> = [Number,43,23,29]; ]
+            const y as Number = 26;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 46; @symbol_moduledef = [system_icon_dark__about,46,15,38]; ]
+        module system_icon_dark__about {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 46; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 47; @position = 18; @symbol_constdef = [filename,47,18,26]; @symbol_type<0> = [String,47,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__about.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 48; @position = 18; @symbol_constdef = [compress,48,18,26]; @symbol_type<0> = [String,48,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 49; @position = 18; @symbol_constdef = [dithering,49,18,27]; @symbol_type<0> = [String,49,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 50; @position = 18; @symbol_constdef = [automaticPalette,50,18,34]; @symbol_type<0> = [String,50,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 53; @symbol_moduledef = [system_icon_light__question,53,15,42]; ]
+        module system_icon_light__question {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 53; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 54; @position = 18; @symbol_constdef = [filename,54,18,26]; @symbol_type<0> = [String,54,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__question.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 55; @position = 18; @symbol_constdef = [dithering,55,18,27]; @symbol_type<0> = [String,55,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 58; @symbol_moduledef = [system_loc__hint_button_left_top,58,15,47]; ]
+        module system_loc__hint_button_left_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 58; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 59; @position = 18; @symbol_constdef = [exclude,59,18,25]; @symbol_type<0> = [Boolean,59,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 62; @symbol_moduledef = [prompt_font__title,62,15,33]; ]
+        module prompt_font__title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 62; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 63 18 ]
+                symbol [ Graphics %tmp.1 63 34 42 ];
+                %tmp.1 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_CENTER %tmp.2 63 43 62 ];
+                %tmp.2 = getv %tmp.1 :TEXT_JUSTIFY_CENTER;
+                symbol [ Graphics %tmp.3 63 63 71 ];
+                %tmp.3 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_VCENTER %tmp.4 63 72 92 ];
+                %tmp.4 = getv %tmp.3 :TEXT_JUSTIFY_VCENTER;
+                %tmp.5 = bitor %tmp.2 %tmp.4;
+                putv self :justification %tmp.5;
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 64 18 ]
+                symbol [ Graphics %tmp.6 64 25 33 ];
+                %tmp.6 = getm $.Toybox.Graphics;
+                symbol [ FONT_XTINY %tmp.7 64 34 44 ];
+                %tmp.7 = getv %tmp.6 :FONT_XTINY;
+                putv self :font %tmp.7;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 63; @position = 18; @symbol_constdef = [justification,63,18,31]; ]
+            const justification;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 64; @position = 18; @symbol_constdef = [font,64,18,22]; ]
+            const font;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 67; @symbol_moduledef = [system_icon_dark__discard,67,15,40]; ]
+        module system_icon_dark__discard {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 67; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 68; @position = 18; @symbol_constdef = [filename,68,18,26]; @symbol_type<0> = [String,68,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__discard.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 69; @position = 18; @symbol_constdef = [compress,69,18,26]; @symbol_type<0> = [String,69,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 70; @position = 18; @symbol_constdef = [dithering,70,18,27]; @symbol_type<0> = [String,70,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 71; @position = 18; @symbol_constdef = [automaticPalette,71,18,34]; @symbol_type<0> = [String,71,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 74; @symbol_moduledef = [system_size__menu_item,74,15,37]; ]
+        module system_size__menu_item {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 74; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 75; @position = 18; @symbol_constdef = [width,75,18,23]; @symbol_type<0> = [Number,75,27,33]; ]
+            const width as Number = 260;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 76; @position = 18; @symbol_constdef = [height,76,18,24]; @symbol_type<0> = [Number,76,28,34]; ]
+            const height as Number = 68;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 79; @symbol_moduledef = [system_color_dark__text,79,15,38]; ]
+        module system_color_dark__text {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 79; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 81 18 ]
+                symbol [ Graphics %tmp.8 81 31 39 ];
+                %tmp.8 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.9 81 40 57 ];
+                %tmp.9 = getv %tmp.8 :COLOR_TRANSPARENT;
+                putv self :background %tmp.9;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 80; @position = 18; @symbol_constdef = [color,80,18,23]; @symbol_type<0> = [Number,80,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 81; @position = 18; @symbol_constdef = [background,81,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 84; @symbol_moduledef = [system_icon_destructive__discard,84,15,47]; ]
+        module system_icon_destructive__discard {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 84; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 85; @position = 18; @symbol_constdef = [filename,85,18,26]; @symbol_type<0> = [String,85,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__discard.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 86; @position = 18; @symbol_constdef = [dithering,86,18,27]; @symbol_type<0> = [String,86,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 89; @symbol_moduledef = [system_icon_dark__hint_action_menu,89,15,49]; ]
+        module system_icon_dark__hint_action_menu {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 89; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 90; @position = 18; @symbol_constdef = [filename,90,18,26]; @symbol_type<0> = [String,90,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 91; @position = 18; @symbol_constdef = [dithering,91,18,27]; @symbol_type<0> = [String,91,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 94; @symbol_moduledef = [prompt_size__title,94,15,33]; ]
+        module prompt_size__title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 94; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 95; @position = 18; @symbol_constdef = [width,95,18,23]; @symbol_type<0> = [Number,95,27,33]; ]
+            const width as Number = 208;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 96; @position = 18; @symbol_constdef = [height,96,18,24]; @symbol_type<0> = [Number,96,28,34]; ]
+            const height as Number = 39;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 99; @symbol_moduledef = [confirmation_font__body,99,15,38]; ]
+        module confirmation_font__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 99; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 100 18 ]
+                symbol [ Graphics %tmp.10 100 34 42 ];
+                %tmp.10 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_CENTER %tmp.11 100 43 62 ];
+                %tmp.11 = getv %tmp.10 :TEXT_JUSTIFY_CENTER;
+                symbol [ Graphics %tmp.12 100 63 71 ];
+                %tmp.12 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_VCENTER %tmp.13 100 72 92 ];
+                %tmp.13 = getv %tmp.12 :TEXT_JUSTIFY_VCENTER;
+                %tmp.14 = bitor %tmp.11 %tmp.13;
+                putv self :justification %tmp.14;
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 101 18 ]
+                symbol [ Graphics %tmp.15 101 25 33 ];
+                %tmp.15 = getm $.Toybox.Graphics;
+                symbol [ FONT_TINY %tmp.16 101 34 43 ];
+                %tmp.16 = getv %tmp.15 :FONT_TINY;
+                putv self :font %tmp.16;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 100; @position = 18; @symbol_constdef = [justification,100,18,31]; ]
+            const justification;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 101; @position = 18; @symbol_constdef = [font,101,18,22]; ]
+            const font;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 104; @symbol_moduledef = [system_color_dark__background,104,15,44]; ]
+        module system_color_dark__background {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 104; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 105; @position = 18; @symbol_constdef = [color,105,18,23]; @symbol_type<0> = [Number,105,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 106; @position = 18; @symbol_constdef = [background,106,18,28]; @symbol_type<0> = [Number,106,32,38]; ]
+            const background as Number = 0x000000;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 109; @symbol_moduledef = [system_icon_destructive__hint_button_left_top,109,15,60]; ]
+        module system_icon_destructive__hint_button_left_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 109; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 110; @position = 18; @symbol_constdef = [filename,110,18,26]; @symbol_type<0> = [String,110,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__hint_button_left_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 111; @position = 18; @symbol_constdef = [dithering,111,18,27]; @symbol_type<0> = [String,111,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 114; @symbol_moduledef = [system_size__launch_icon,114,15,39]; ]
+        module system_size__launch_icon {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 114; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 115; @position = 18; @symbol_constdef = [scaleX,115,18,24]; @symbol_type<0> = [Number,115,28,34]; ]
+            const scaleX as Number = 40;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 116; @position = 18; @symbol_constdef = [scaleY,116,18,24]; @symbol_type<0> = [Number,116,28,34]; ]
+            const scaleY as Number = 40;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 117; @position = 18; @symbol_constdef = [scaleRelativeTo,117,18,33]; @symbol_type<0> = [String,117,37,43]; ]
+            const scaleRelativeTo as String = "screen";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 120; @symbol_moduledef = [confirmation_input__confirm,120,15,42]; ]
+        module confirmation_input__confirm {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 120; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 121 18 ]
+                symbol [ WatchUi %tmp.17 121 27 34 ];
+                %tmp.17 = getm $.Toybox.WatchUi;
+                symbol [ KEY_ENTER %tmp.18 121 35 44 ];
+                %tmp.18 = getv %tmp.17 :KEY_ENTER;
+                putv self :button %tmp.18;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 121; @position = 18; @symbol_constdef = [button,121,18,24]; ]
+            const button;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 124; @symbol_moduledef = [prompt_font__body_with_title,124,15,43]; ]
+        module prompt_font__body_with_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 124; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 125 18 ]
+                symbol [ Graphics %tmp.19 125 34 42 ];
+                %tmp.19 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_CENTER %tmp.20 125 43 62 ];
+                %tmp.20 = getv %tmp.19 :TEXT_JUSTIFY_CENTER;
+                putv self :justification %tmp.20;
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 126 18 ]
+                symbol [ Graphics %tmp.21 126 25 33 ];
+                %tmp.21 = getm $.Toybox.Graphics;
+                symbol [ FONT_TINY %tmp.22 126 34 43 ];
+                %tmp.22 = getv %tmp.21 :FONT_TINY;
+                putv self :font %tmp.22;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 125; @position = 18; @symbol_constdef = [justification,125,18,31]; ]
+            const justification;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 126; @position = 18; @symbol_constdef = [font,126,18,22]; ]
+            const font;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 129; @symbol_moduledef = [confirmation_loc__body,129,15,37]; ]
+        module confirmation_loc__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 129; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 130; @position = 18; @symbol_constdef = [x,130,18,19]; @symbol_type<0> = [Number,130,23,29]; ]
+            const x as Number = 52;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 131; @position = 18; @symbol_constdef = [y,131,18,19]; @symbol_type<0> = [Number,131,23,29]; ]
+            const y as Number = 52;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 134; @symbol_moduledef = [system_icon_destructive__hint_button_left_bottom,134,15,63]; ]
+        module system_icon_destructive__hint_button_left_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 134; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 135; @position = 18; @symbol_constdef = [filename,135,18,26]; @symbol_type<0> = [String,135,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__hint_button_left_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 136; @position = 18; @symbol_constdef = [dithering,136,18,27]; @symbol_type<0> = [String,136,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 139; @symbol_moduledef = [prompt_color_dark__background,139,15,44]; ]
+        module prompt_color_dark__background {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 139; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 140; @position = 18; @symbol_constdef = [color,140,18,23]; @symbol_type<0> = [Number,140,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 141; @position = 18; @symbol_constdef = [background,141,18,28]; @symbol_type<0> = [Number,141,32,38]; ]
+            const background as Number = 0x000000;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 144; @symbol_moduledef = [system_icon_destructive__hint_action_menu,144,15,56]; ]
+        module system_icon_destructive__hint_action_menu {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 144; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 145; @position = 18; @symbol_constdef = [filename,145,18,26]; @symbol_type<0> = [String,145,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 146; @position = 18; @symbol_constdef = [dithering,146,18,27]; @symbol_type<0> = [String,146,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 149; @symbol_moduledef = [system_loc__hint_action_menu,149,15,43]; ]
+        module system_loc__hint_action_menu {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 149; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 150; @position = 18; @symbol_constdef = [x,150,18,19]; @symbol_type<0> = [Number,150,23,29]; ]
+            const x as Number = 225;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 151; @position = 18; @symbol_constdef = [y,151,18,19]; @symbol_type<0> = [Number,151,23,29]; ]
+            const y as Number = 48;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 154; @symbol_moduledef = [confirmation_icon__hint_confirm,154,15,46]; ]
+        module confirmation_icon__hint_confirm {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 154; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 155; @position = 18; @symbol_constdef = [filename,155,18,26]; @symbol_type<0> = [String,155,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_completion.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 156; @position = 18; @symbol_constdef = [dithering,156,18,27]; @symbol_type<0> = [String,156,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 159; @symbol_moduledef = [system_loc__hint_button_left_middle,159,15,50]; ]
+        module system_loc__hint_button_left_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 159; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 160; @position = 18; @symbol_constdef = [x,160,18,19]; @symbol_type<0> = [Number,160,23,29]; ]
+            const x as Number = 3;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 161; @position = 18; @symbol_constdef = [y,161,18,19]; @symbol_type<0> = [Number,161,23,29]; ]
+            const y as Number = 108;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 164; @symbol_moduledef = [prompt_size__body_no_title,164,15,41]; ]
+        module prompt_size__body_no_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 164; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 165; @position = 18; @symbol_constdef = [width,165,18,23]; @symbol_type<0> = [Number,165,27,33]; ]
+            const width as Number = 208;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 166; @position = 18; @symbol_constdef = [height,166,18,24]; @symbol_type<0> = [Number,166,28,34]; ]
+            const height as Number = 208;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 169; @symbol_moduledef = [system_icon_light__hint_button_left_top,169,15,54]; ]
+        module system_icon_light__hint_button_left_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 169; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 170; @position = 18; @symbol_constdef = [filename,170,18,26]; @symbol_type<0> = [String,170,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__hint_button_left_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 171; @position = 18; @symbol_constdef = [dithering,171,18,27]; @symbol_type<0> = [String,171,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 174; @symbol_moduledef = [prompt_color_light__background,174,15,45]; ]
+        module prompt_color_light__background {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 174; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 175; @position = 18; @symbol_constdef = [color,175,18,23]; @symbol_type<0> = [Number,175,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 176; @position = 18; @symbol_constdef = [background,176,18,28]; @symbol_type<0> = [Number,176,32,38]; ]
+            const background as Number = 0xFFFFFF;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 179; @symbol_moduledef = [confirmation_input__delete,179,15,41]; ]
+        module confirmation_input__delete {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 179; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 180 18 ]
+                symbol [ WatchUi %tmp.23 180 27 34 ];
+                %tmp.23 = getm $.Toybox.WatchUi;
+                symbol [ KEY_ENTER %tmp.24 180 35 44 ];
+                %tmp.24 = getv %tmp.23 :KEY_ENTER;
+                putv self :button %tmp.24;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 180; @position = 18; @symbol_constdef = [button,180,18,24]; ]
+            const button;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 183; @symbol_moduledef = [system_icon_dark__hint_button_left_top,183,15,53]; ]
+        module system_icon_dark__hint_button_left_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 183; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 184; @position = 18; @symbol_constdef = [filename,184,18,26]; @symbol_type<0> = [String,184,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__hint_button_left_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 185; @position = 18; @symbol_constdef = [dithering,185,18,27]; @symbol_type<0> = [String,185,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 188; @symbol_moduledef = [system_input__action_menu,188,15,40]; ]
+        module system_input__action_menu {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 188; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 189 18 ]
+                symbol [ WatchUi %tmp.25 189 27 34 ];
+                %tmp.25 = getm $.Toybox.WatchUi;
+                symbol [ KEY_ENTER %tmp.26 189 35 44 ];
+                %tmp.26 = getv %tmp.25 :KEY_ENTER;
+                putv self :button %tmp.26;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 189; @position = 18; @symbol_constdef = [button,189,18,24]; ]
+            const button;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 192; @symbol_moduledef = [system_icon_light__save,192,15,38]; ]
+        module system_icon_light__save {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 192; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 193; @position = 18; @symbol_constdef = [filename,193,18,26]; @symbol_type<0> = [String,193,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__save.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 194; @position = 18; @symbol_constdef = [dithering,194,18,27]; @symbol_type<0> = [String,194,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 197; @symbol_moduledef = [prompt_color_light__body,197,15,39]; ]
+        module prompt_color_light__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 197; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 199 18 ]
+                symbol [ Graphics %tmp.27 199 31 39 ];
+                %tmp.27 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.28 199 40 57 ];
+                %tmp.28 = getv %tmp.27 :COLOR_TRANSPARENT;
+                putv self :background %tmp.28;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 198; @position = 18; @symbol_constdef = [color,198,18,23]; @symbol_type<0> = [Number,198,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 199; @position = 18; @symbol_constdef = [background,199,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 202; @symbol_moduledef = [system_loc__subwindow,202,15,36]; ]
+        module system_loc__subwindow {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 202; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 203; @position = 18; @symbol_constdef = [exclude,203,18,25]; @symbol_type<0> = [Boolean,203,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 206; @symbol_moduledef = [system_icon_light__warning,206,15,41]; ]
+        module system_icon_light__warning {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 206; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 207; @position = 18; @symbol_constdef = [filename,207,18,26]; @symbol_type<0> = [String,207,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__warning.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 208; @position = 18; @symbol_constdef = [dithering,208,18,27]; @symbol_type<0> = [String,208,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 211; @symbol_moduledef = [confirmation_color_light__body,211,15,45]; ]
+        module confirmation_color_light__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 211; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 213 18 ]
+                symbol [ Graphics %tmp.29 213 31 39 ];
+                %tmp.29 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.30 213 40 57 ];
+                %tmp.30 = getv %tmp.29 :COLOR_TRANSPARENT;
+                putv self :background %tmp.30;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 212; @position = 18; @symbol_constdef = [color,212,18,23]; @symbol_type<0> = [Number,212,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 213; @position = 18; @symbol_constdef = [background,213,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 216; @symbol_moduledef = [confirmation_icon_light__hint_keep,216,15,49]; ]
+        module confirmation_icon_light__hint_keep {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 216; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 217; @position = 18; @symbol_constdef = [filename,217,18,26]; @symbol_type<0> = [String,217,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_keep.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 218; @position = 18; @symbol_constdef = [dithering,218,18,27]; @symbol_type<0> = [String,218,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 221; @symbol_moduledef = [activity_color_light__background,221,15,47]; ]
+        module activity_color_light__background {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 221; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 222; @position = 18; @symbol_constdef = [color,222,18,23]; @symbol_type<0> = [Number,222,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 223; @position = 18; @symbol_constdef = [background,223,18,28]; @symbol_type<0> = [Number,223,32,38]; ]
+            const background as Number = 0xFFFFFF;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 226; @symbol_moduledef = [system_icon_positive__hint_button_right_top,226,15,58]; ]
+        module system_icon_positive__hint_button_right_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 226; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 227; @position = 18; @symbol_constdef = [filename,227,18,26]; @symbol_type<0> = [String,227,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 228; @position = 18; @symbol_constdef = [dithering,228,18,27]; @symbol_type<0> = [String,228,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 231; @symbol_moduledef = [system_size__screen,231,15,34]; ]
+        module system_size__screen {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 231; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 232; @position = 18; @symbol_constdef = [width,232,18,23]; @symbol_type<0> = [Number,232,27,33]; ]
+            const width as Number = 260;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 233; @position = 18; @symbol_constdef = [height,233,18,24]; @symbol_type<0> = [Number,233,28,34]; ]
+            const height as Number = 260;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 236; @symbol_moduledef = [system_icon_destructive__hint_button_right_bottom,236,15,64]; ]
+        module system_icon_destructive__hint_button_right_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 236; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 237; @position = 18; @symbol_constdef = [filename,237,18,26]; @symbol_type<0> = [String,237,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__hint_button_right_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 238; @position = 18; @symbol_constdef = [dithering,238,18,27]; @symbol_type<0> = [String,238,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 241; @symbol_moduledef = [system_color_light__background,241,15,45]; ]
+        module system_color_light__background {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 241; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 242; @position = 18; @symbol_constdef = [color,242,18,23]; @symbol_type<0> = [Number,242,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 243; @position = 18; @symbol_constdef = [background,243,18,28]; @symbol_type<0> = [Number,243,32,38]; ]
+            const background as Number = 0xFFFFFF;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 246; @symbol_moduledef = [system_icon_destructive__hint_button_right_top,246,15,61]; ]
+        module system_icon_destructive__hint_button_right_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 246; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 247; @position = 18; @symbol_constdef = [filename,247,18,26]; @symbol_type<0> = [String,247,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 248; @position = 18; @symbol_constdef = [dithering,248,18,27]; @symbol_type<0> = [String,248,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 251; @symbol_moduledef = [confirmation_loc__hint_confirm,251,15,45]; ]
+        module confirmation_loc__hint_confirm {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 251; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 252; @position = 18; @symbol_constdef = [x,252,18,19]; @symbol_type<0> = [Number,252,23,29]; ]
+            const x as Number = 210;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 253; @position = 18; @symbol_constdef = [y,253,18,19]; @symbol_type<0> = [Number,253,23,29]; ]
+            const y as Number = 48;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 256; @symbol_moduledef = [activity_color_dark__text,256,15,40]; ]
+        module activity_color_dark__text {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 256; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 258 18 ]
+                symbol [ Graphics %tmp.31 258 31 39 ];
+                %tmp.31 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.32 258 40 57 ];
+                %tmp.32 = getv %tmp.31 :COLOR_TRANSPARENT;
+                putv self :background %tmp.32;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 257; @position = 18; @symbol_constdef = [color,257,18,23]; @symbol_type<0> = [Number,257,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 258; @position = 18; @symbol_constdef = [background,258,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 261; @symbol_moduledef = [confirmation_input__keep,261,15,39]; ]
+        module confirmation_input__keep {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 261; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 262 18 ]
+                symbol [ WatchUi %tmp.33 262 27 34 ];
+                %tmp.33 = getm $.Toybox.WatchUi;
+                symbol [ KEY_DOWN %tmp.34 262 35 43 ];
+                %tmp.34 = getv %tmp.33 :KEY_DOWN;
+                putv self :button %tmp.34;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 262; @position = 18; @symbol_constdef = [button,262,18,24]; ]
+            const button;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 265; @symbol_moduledef = [prompt_loc__body_with_title,265,15,42]; ]
+        module prompt_loc__body_with_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 265; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 266; @position = 18; @symbol_constdef = [x,266,18,19]; @symbol_type<0> = [Number,266,23,29]; ]
+            const x as Number = 26;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 267; @position = 18; @symbol_constdef = [y,267,18,19]; @symbol_type<0> = [Number,267,23,29]; ]
+            const y as Number = 78;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 270; @symbol_moduledef = [system_icon_dark__search,270,15,39]; ]
+        module system_icon_dark__search {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 270; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 271; @position = 18; @symbol_constdef = [filename,271,18,26]; @symbol_type<0> = [String,271,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__search.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 272; @position = 18; @symbol_constdef = [compress,272,18,26]; @symbol_type<0> = [String,272,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 273; @position = 18; @symbol_constdef = [dithering,273,18,27]; @symbol_type<0> = [String,273,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 274; @position = 18; @symbol_constdef = [automaticPalette,274,18,34]; @symbol_type<0> = [String,274,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 277; @symbol_moduledef = [activity_color_light__text,277,15,41]; ]
+        module activity_color_light__text {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 277; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 279 18 ]
+                symbol [ Graphics %tmp.35 279 31 39 ];
+                %tmp.35 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.36 279 40 57 ];
+                %tmp.36 = getv %tmp.35 :COLOR_TRANSPARENT;
+                putv self :background %tmp.36;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 278; @position = 18; @symbol_constdef = [color,278,18,23]; @symbol_type<0> = [Number,278,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 279; @position = 18; @symbol_constdef = [background,279,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 282; @symbol_moduledef = [confirmation_icon__hint_keep,282,15,43]; ]
+        module confirmation_icon__hint_keep {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 282; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 283; @position = 18; @symbol_constdef = [filename,283,18,26]; @symbol_type<0> = [String,283,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_keep.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 284; @position = 18; @symbol_constdef = [dithering,284,18,27]; @symbol_type<0> = [String,284,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 287; @symbol_moduledef = [system_icon_dark__save,287,15,37]; ]
+        module system_icon_dark__save {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 287; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 288; @position = 18; @symbol_constdef = [filename,288,18,26]; @symbol_type<0> = [String,288,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__save.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 289; @position = 18; @symbol_constdef = [compress,289,18,26]; @symbol_type<0> = [String,289,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 290; @position = 18; @symbol_constdef = [dithering,290,18,27]; @symbol_type<0> = [String,290,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 291; @position = 18; @symbol_constdef = [automaticPalette,291,18,34]; @symbol_type<0> = [String,291,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 294; @symbol_moduledef = [system_icon_destructive__hint_button_left_middle,294,15,63]; ]
+        module system_icon_destructive__hint_button_left_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 294; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 295; @position = 18; @symbol_constdef = [filename,295,18,26]; @symbol_type<0> = [String,295,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__hint_button_left_middle.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 296; @position = 18; @symbol_constdef = [dithering,296,18,27]; @symbol_type<0> = [String,296,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 299; @symbol_moduledef = [system_icon_light__search,299,15,40]; ]
+        module system_icon_light__search {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 299; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 300; @position = 18; @symbol_constdef = [filename,300,18,26]; @symbol_type<0> = [String,300,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__search.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 301; @position = 18; @symbol_constdef = [dithering,301,18,27]; @symbol_type<0> = [String,301,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 304; @symbol_moduledef = [system_icon_dark__hint_button_left_bottom,304,15,56]; ]
+        module system_icon_dark__hint_button_left_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 304; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 305; @position = 18; @symbol_constdef = [filename,305,18,26]; @symbol_type<0> = [String,305,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__hint_button_left_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 306; @position = 18; @symbol_constdef = [dithering,306,18,27]; @symbol_type<0> = [String,306,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 309; @symbol_moduledef = [system_icon_positive__hint_button_left_top,309,15,57]; ]
+        module system_icon_positive__hint_button_left_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 309; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 310; @position = 18; @symbol_constdef = [filename,310,18,26]; @symbol_type<0> = [String,310,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__hint_button_left_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 311; @position = 18; @symbol_constdef = [dithering,311,18,27]; @symbol_type<0> = [String,311,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 314; @symbol_moduledef = [system_loc__hint_button_right_bottom,314,15,51]; ]
+        module system_loc__hint_button_right_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 314; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 315; @position = 18; @symbol_constdef = [x,315,18,19]; @symbol_type<0> = [Number,315,23,29]; ]
+            const x as Number = 225;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 316; @position = 18; @symbol_constdef = [y,316,18,19]; @symbol_type<0> = [Number,316,23,29]; ]
+            const y as Number = 172;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 319; @symbol_moduledef = [confirmation_icon_dark__hint_reject,319,15,50]; ]
+        module confirmation_icon_dark__hint_reject {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 319; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 320; @position = 18; @symbol_constdef = [filename,320,18,26]; @symbol_type<0> = [String,320,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_reject.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 321; @position = 18; @symbol_constdef = [dithering,321,18,27]; @symbol_type<0> = [String,321,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 324; @symbol_moduledef = [confirmation_color_dark__body,324,15,44]; ]
+        module confirmation_color_dark__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 324; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 326 18 ]
+                symbol [ Graphics %tmp.37 326 31 39 ];
+                %tmp.37 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.38 326 40 57 ];
+                %tmp.38 = getv %tmp.37 :COLOR_TRANSPARENT;
+                putv self :background %tmp.38;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 325; @position = 18; @symbol_constdef = [color,325,18,23]; @symbol_type<0> = [Number,325,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 326; @position = 18; @symbol_constdef = [background,326,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 329; @symbol_moduledef = [confirmation_icon_light__hint_confirm,329,15,52]; ]
+        module confirmation_icon_light__hint_confirm {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 329; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 330; @position = 18; @symbol_constdef = [filename,330,18,26]; @symbol_type<0> = [String,330,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_completion.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 331; @position = 18; @symbol_constdef = [dithering,331,18,27]; @symbol_type<0> = [String,331,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 334; @symbol_moduledef = [prompt_color_dark__title,334,15,39]; ]
+        module prompt_color_dark__title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 334; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 336 18 ]
+                symbol [ Graphics %tmp.39 336 31 39 ];
+                %tmp.39 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.40 336 40 57 ];
+                %tmp.40 = getv %tmp.39 :COLOR_TRANSPARENT;
+                putv self :background %tmp.40;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 335; @position = 18; @symbol_constdef = [color,335,18,23]; @symbol_type<0> = [Number,335,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 336; @position = 18; @symbol_constdef = [background,336,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 339; @symbol_moduledef = [system_icon_destructive__cancel,339,15,46]; ]
+        module system_icon_destructive__cancel {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 339; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 340; @position = 18; @symbol_constdef = [filename,340,18,26]; @symbol_type<0> = [String,340,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__cancel.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 341; @position = 18; @symbol_constdef = [dithering,341,18,27]; @symbol_type<0> = [String,341,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 344; @symbol_moduledef = [system_icon_light__hint_button_right_bottom,344,15,58]; ]
+        module system_icon_light__hint_button_right_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 344; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 345; @position = 18; @symbol_constdef = [filename,345,18,26]; @symbol_type<0> = [String,345,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__hint_button_right_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 346; @position = 18; @symbol_constdef = [dithering,346,18,27]; @symbol_type<0> = [String,346,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 349; @symbol_moduledef = [prompt_loc__title,349,15,32]; ]
+        module prompt_loc__title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 349; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 350; @position = 18; @symbol_constdef = [x,350,18,19]; @symbol_type<0> = [Number,350,23,29]; ]
+            const x as Number = 26;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 351; @position = 18; @symbol_constdef = [y,351,18,19]; @symbol_type<0> = [Number,351,23,29]; ]
+            const y as Number = 19;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 354; @symbol_moduledef = [confirmation_font_enhanced_readability__body,354,15,59]; ]
+        module confirmation_font_enhanced_readability__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 354; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 355; @position = 18; @symbol_constdef = [exclude,355,18,25]; @symbol_type<0> = [Boolean,355,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 358; @symbol_moduledef = [prompt_color_light__title,358,15,40]; ]
+        module prompt_color_light__title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 358; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 360 18 ]
+                symbol [ Graphics %tmp.41 360 31 39 ];
+                %tmp.41 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.42 360 40 57 ];
+                %tmp.42 = getv %tmp.41 :COLOR_TRANSPARENT;
+                putv self :background %tmp.42;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 359; @position = 18; @symbol_constdef = [color,359,18,23]; @symbol_type<0> = [Number,359,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 360; @position = 18; @symbol_constdef = [background,360,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 363; @symbol_moduledef = [system_icon_dark__hint_button_right_top,363,15,54]; ]
+        module system_icon_dark__hint_button_right_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 363; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 364; @position = 18; @symbol_constdef = [filename,364,18,26]; @symbol_type<0> = [String,364,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 365; @position = 18; @symbol_constdef = [dithering,365,18,27]; @symbol_type<0> = [String,365,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 368; @symbol_moduledef = [system_icon_dark__hint_button_left_middle,368,15,56]; ]
+        module system_icon_dark__hint_button_left_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 368; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 369; @position = 18; @symbol_constdef = [filename,369,18,26]; @symbol_type<0> = [String,369,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__hint_button_left_middle.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 370; @position = 18; @symbol_constdef = [dithering,370,18,27]; @symbol_type<0> = [String,370,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 373; @symbol_moduledef = [confirmation_icon_dark__hint_keep,373,15,48]; ]
+        module confirmation_icon_dark__hint_keep {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 373; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 374; @position = 18; @symbol_constdef = [filename,374,18,26]; @symbol_type<0> = [String,374,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_keep.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 375; @position = 18; @symbol_constdef = [dithering,375,18,27]; @symbol_type<0> = [String,375,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 378; @symbol_moduledef = [system_icon_light__cancel,378,15,40]; ]
+        module system_icon_light__cancel {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 378; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 379; @position = 18; @symbol_constdef = [filename,379,18,26]; @symbol_type<0> = [String,379,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__cancel.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 380; @position = 18; @symbol_constdef = [dithering,380,18,27]; @symbol_type<0> = [String,380,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 383; @symbol_moduledef = [confirmation_icon_light__hint_reject,383,15,51]; ]
+        module confirmation_icon_light__hint_reject {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 383; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 384; @position = 18; @symbol_constdef = [filename,384,18,26]; @symbol_type<0> = [String,384,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_reject.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 385; @position = 18; @symbol_constdef = [dithering,385,18,27]; @symbol_type<0> = [String,385,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 388; @symbol_moduledef = [system_icon_light__about,388,15,39]; ]
+        module system_icon_light__about {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 388; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 389; @position = 18; @symbol_constdef = [filename,389,18,26]; @symbol_type<0> = [String,389,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__about.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 390; @position = 18; @symbol_constdef = [dithering,390,18,27]; @symbol_type<0> = [String,390,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 393; @symbol_moduledef = [system_size__toast_icon,393,15,38]; ]
+        module system_size__toast_icon {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 393; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 394; @position = 18; @symbol_constdef = [scaleX,394,18,24]; @symbol_type<0> = [Number,394,28,34]; ]
+            const scaleX as Number = 40;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 395; @position = 18; @symbol_constdef = [scaleY,395,18,24]; @symbol_type<0> = [Number,395,28,34]; ]
+            const scaleY as Number = 40;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 396; @position = 18; @symbol_constdef = [scaleRelativeTo,396,18,33]; @symbol_type<0> = [String,396,37,43]; ]
+            const scaleRelativeTo as String = "screen";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 399; @symbol_moduledef = [system_icon_dark__hint_button_right_middle,399,15,57]; ]
+        module system_icon_dark__hint_button_right_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 399; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 400; @position = 18; @symbol_constdef = [exclude,400,18,25]; @symbol_type<0> = [Boolean,400,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 403; @symbol_moduledef = [confirmation_icon__hint_reject,403,15,45]; ]
+        module confirmation_icon__hint_reject {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 403; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 404; @position = 18; @symbol_constdef = [filename,404,18,26]; @symbol_type<0> = [String,404,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_reject.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 405; @position = 18; @symbol_constdef = [dithering,405,18,27]; @symbol_type<0> = [String,405,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 408; @symbol_moduledef = [system_icon_light__hint_action_menu,408,15,50]; ]
+        module system_icon_light__hint_action_menu {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 408; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 409; @position = 18; @symbol_constdef = [filename,409,18,26]; @symbol_type<0> = [String,409,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 410; @position = 18; @symbol_constdef = [dithering,410,18,27]; @symbol_type<0> = [String,410,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 413; @symbol_moduledef = [system_icon_light__hint_button_right_middle,413,15,58]; ]
+        module system_icon_light__hint_button_right_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 413; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 414; @position = 18; @symbol_constdef = [exclude,414,18,25]; @symbol_type<0> = [Boolean,414,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 417; @symbol_moduledef = [system_icon_destructive__hint_button_right_middle,417,15,64]; ]
+        module system_icon_destructive__hint_button_right_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 417; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 418; @position = 18; @symbol_constdef = [exclude,418,18,25]; @symbol_type<0> = [Boolean,418,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 421; @symbol_moduledef = [confirmation_loc__hint_reject,421,15,44]; ]
+        module confirmation_loc__hint_reject {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 421; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 422; @position = 18; @symbol_constdef = [x,422,18,19]; @symbol_type<0> = [Number,422,23,29]; ]
+            const x as Number = 10;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 423; @position = 18; @symbol_constdef = [y,423,18,19]; @symbol_type<0> = [Number,423,23,29]; ]
+            const y as Number = 172;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 424; @position = 18; @symbol_constdef = [horizontalJustification,424,18,41]; @symbol_type<0> = [String,424,45,51]; ]
+            const horizontalJustification as String = "left";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 427; @symbol_moduledef = [confirmation_icon_dark__hint_delete,427,15,50]; ]
+        module confirmation_icon_dark__hint_delete {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 427; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 428; @position = 18; @symbol_constdef = [filename,428,18,26]; @symbol_type<0> = [String,428,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_delete.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 429; @position = 18; @symbol_constdef = [dithering,429,18,27]; @symbol_type<0> = [String,429,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 432; @symbol_moduledef = [activity_color_dark__background,432,15,46]; ]
+        module activity_color_dark__background {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 432; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 433; @position = 18; @symbol_constdef = [color,433,18,23]; @symbol_type<0> = [Number,433,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 434; @position = 18; @symbol_constdef = [background,434,18,28]; @symbol_type<0> = [Number,434,32,38]; ]
+            const background as Number = 0x000000;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 437; @symbol_moduledef = [system_icon_light__hint_button_left_bottom,437,15,57]; ]
+        module system_icon_light__hint_button_left_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 437; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 438; @position = 18; @symbol_constdef = [filename,438,18,26]; @symbol_type<0> = [String,438,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__hint_button_left_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 439; @position = 18; @symbol_constdef = [dithering,439,18,27]; @symbol_type<0> = [String,439,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 442; @symbol_moduledef = [system_icon_positive__hint_button_left_middle,442,15,60]; ]
+        module system_icon_positive__hint_button_left_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 442; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 443; @position = 18; @symbol_constdef = [filename,443,18,26]; @symbol_type<0> = [String,443,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__hint_button_left_middle.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 444; @position = 18; @symbol_constdef = [dithering,444,18,27]; @symbol_type<0> = [String,444,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 447; @symbol_moduledef = [system_size__menu_icon,447,15,37]; ]
+        module system_size__menu_icon {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 447; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 448; @position = 18; @symbol_constdef = [scaleX,448,18,24]; @symbol_type<0> = [Number,448,28,34]; ]
+            const scaleX as Number = 40;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 449; @position = 18; @symbol_constdef = [scaleY,449,18,24]; @symbol_type<0> = [Number,449,28,34]; ]
+            const scaleY as Number = 40;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 450; @position = 18; @symbol_constdef = [scaleRelativeTo,450,18,33]; @symbol_type<0> = [String,450,37,43]; ]
+            const scaleRelativeTo as String = "screen";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 453; @symbol_moduledef = [system_icon_destructive__warning,453,15,47]; ]
+        module system_icon_destructive__warning {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 453; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 454; @position = 18; @symbol_constdef = [filename,454,18,26]; @symbol_type<0> = [String,454,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_destructive__warning.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 455; @position = 18; @symbol_constdef = [dithering,455,18,27]; @symbol_type<0> = [String,455,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 458; @symbol_moduledef = [system_loc__hint_button_right_middle,458,15,51]; ]
+        module system_loc__hint_button_right_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 458; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 459; @position = 18; @symbol_constdef = [exclude,459,18,25]; @symbol_type<0> = [Boolean,459,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 462; @symbol_moduledef = [system_icon_dark__cancel,462,15,39]; ]
+        module system_icon_dark__cancel {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 462; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 463; @position = 18; @symbol_constdef = [filename,463,18,26]; @symbol_type<0> = [String,463,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__cancel.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 464; @position = 18; @symbol_constdef = [compress,464,18,26]; @symbol_type<0> = [String,464,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 465; @position = 18; @symbol_constdef = [dithering,465,18,27]; @symbol_type<0> = [String,465,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 466; @position = 18; @symbol_constdef = [automaticPalette,466,18,34]; @symbol_type<0> = [String,466,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 469; @symbol_moduledef = [prompt_size__body_with_title,469,15,43]; ]
+        module prompt_size__body_with_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 469; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 470; @position = 18; @symbol_constdef = [width,470,18,23]; @symbol_type<0> = [Number,470,27,33]; ]
+            const width as Number = 208;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 471; @position = 18; @symbol_constdef = [height,471,18,24]; @symbol_type<0> = [Number,471,28,34]; ]
+            const height as Number = 156;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 474; @symbol_moduledef = [system_loc__hint_button_right_top,474,15,48]; ]
+        module system_loc__hint_button_right_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 474; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 475; @position = 18; @symbol_constdef = [x,475,18,19]; @symbol_type<0> = [Number,475,23,29]; ]
+            const x as Number = 225;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 476; @position = 18; @symbol_constdef = [y,476,18,19]; @symbol_type<0> = [Number,476,23,29]; ]
+            const y as Number = 48;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 479; @symbol_moduledef = [system_color_light__text,479,15,39]; ]
+        module system_color_light__text {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 479; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 481 18 ]
+                symbol [ Graphics %tmp.43 481 31 39 ];
+                %tmp.43 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.44 481 40 57 ];
+                %tmp.44 = getv %tmp.43 :COLOR_TRANSPARENT;
+                putv self :background %tmp.44;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 480; @position = 18; @symbol_constdef = [color,480,18,23]; @symbol_type<0> = [Number,480,27,33]; ]
+            const color as Number = 0x000000;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 481; @position = 18; @symbol_constdef = [background,481,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 484; @symbol_moduledef = [system_icon_light__check,484,15,39]; ]
+        module system_icon_light__check {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 484; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 485; @position = 18; @symbol_constdef = [filename,485,18,26]; @symbol_type<0> = [String,485,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__check.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 486; @position = 18; @symbol_constdef = [dithering,486,18,27]; @symbol_type<0> = [String,486,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 489; @symbol_moduledef = [confirmation_input__reject,489,15,41]; ]
+        module confirmation_input__reject {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 489; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 490 18 ]
+                symbol [ WatchUi %tmp.45 490 27 34 ];
+                %tmp.45 = getm $.Toybox.WatchUi;
+                symbol [ KEY_DOWN %tmp.46 490 35 43 ];
+                %tmp.46 = getv %tmp.45 :KEY_DOWN;
+                putv self :button %tmp.46;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 490; @position = 18; @symbol_constdef = [button,490,18,24]; ]
+            const button;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 493; @symbol_moduledef = [system_icon_light__revert,493,15,40]; ]
+        module system_icon_light__revert {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 493; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 494; @position = 18; @symbol_constdef = [filename,494,18,26]; @symbol_type<0> = [String,494,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__revert.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 495; @position = 18; @symbol_constdef = [dithering,495,18,27]; @symbol_type<0> = [String,495,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 498; @symbol_moduledef = [system_size__subwindow,498,15,37]; ]
+        module system_size__subwindow {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 498; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 499; @position = 18; @symbol_constdef = [exclude,499,18,25]; @symbol_type<0> = [Boolean,499,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 502; @symbol_moduledef = [system_icon_positive__hint_button_left_bottom,502,15,60]; ]
+        module system_icon_positive__hint_button_left_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 502; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 503; @position = 18; @symbol_constdef = [filename,503,18,26]; @symbol_type<0> = [String,503,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__hint_button_left_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 504; @position = 18; @symbol_constdef = [dithering,504,18,27]; @symbol_type<0> = [String,504,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 507; @symbol_moduledef = [system_icon_dark__check,507,15,38]; ]
+        module system_icon_dark__check {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 507; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 508; @position = 18; @symbol_constdef = [filename,508,18,26]; @symbol_type<0> = [String,508,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__check.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 509; @position = 18; @symbol_constdef = [compress,509,18,26]; @symbol_type<0> = [String,509,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 510; @position = 18; @symbol_constdef = [dithering,510,18,27]; @symbol_type<0> = [String,510,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 511; @position = 18; @symbol_constdef = [automaticPalette,511,18,34]; @symbol_type<0> = [String,511,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 514; @symbol_moduledef = [confirmation_loc__hint_keep,514,15,42]; ]
+        module confirmation_loc__hint_keep {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 514; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 515; @position = 18; @symbol_constdef = [x,515,18,19]; @symbol_type<0> = [Number,515,23,29]; ]
+            const x as Number = 10;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 516; @position = 18; @symbol_constdef = [y,516,18,19]; @symbol_type<0> = [Number,516,23,29]; ]
+            const y as Number = 172;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 517; @position = 18; @symbol_constdef = [horizontalJustification,517,18,41]; @symbol_type<0> = [String,517,45,51]; ]
+            const horizontalJustification as String = "left";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 520; @symbol_moduledef = [confirmation_loc__hint_delete,520,15,44]; ]
+        module confirmation_loc__hint_delete {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 520; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 521; @position = 18; @symbol_constdef = [x,521,18,19]; @symbol_type<0> = [Number,521,23,29]; ]
+            const x as Number = 210;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 522; @position = 18; @symbol_constdef = [y,522,18,19]; @symbol_type<0> = [Number,522,23,29]; ]
+            const y as Number = 48;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 525; @symbol_moduledef = [system_icon_positive__hint_action_menu,525,15,53]; ]
+        module system_icon_positive__hint_action_menu {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 525; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 526; @position = 18; @symbol_constdef = [filename,526,18,26]; @symbol_type<0> = [String,526,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 527; @position = 18; @symbol_constdef = [dithering,527,18,27]; @symbol_type<0> = [String,527,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 530; @symbol_moduledef = [system_icon_positive__hint_button_right_middle,530,15,61]; ]
+        module system_icon_positive__hint_button_right_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 530; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 531; @position = 18; @symbol_constdef = [exclude,531,18,25]; @symbol_type<0> = [Boolean,531,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 534; @symbol_moduledef = [system_icon_light__hint_button_left_middle,534,15,57]; ]
+        module system_icon_light__hint_button_left_middle {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 534; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 535; @position = 18; @symbol_constdef = [filename,535,18,26]; @symbol_type<0> = [String,535,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__hint_button_left_middle.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 536; @position = 18; @symbol_constdef = [dithering,536,18,27]; @symbol_type<0> = [String,536,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 539; @symbol_moduledef = [system_icon_dark__hint_button_right_bottom,539,15,57]; ]
+        module system_icon_dark__hint_button_right_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 539; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 540; @position = 18; @symbol_constdef = [filename,540,18,26]; @symbol_type<0> = [String,540,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__hint_button_right_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 541; @position = 18; @symbol_constdef = [dithering,541,18,27]; @symbol_type<0> = [String,541,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 544; @symbol_moduledef = [system_icon_positive__hint_button_right_bottom,544,15,61]; ]
+        module system_icon_positive__hint_button_right_bottom {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 544; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 545; @position = 18; @symbol_constdef = [filename,545,18,26]; @symbol_type<0> = [String,545,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__hint_button_right_bottom.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 546; @position = 18; @symbol_constdef = [dithering,546,18,27]; @symbol_type<0> = [String,546,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 549; @symbol_moduledef = [system_icon_dark__revert,549,15,39]; ]
+        module system_icon_dark__revert {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 549; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 550; @position = 18; @symbol_constdef = [filename,550,18,26]; @symbol_type<0> = [String,550,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__revert.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 551; @position = 18; @symbol_constdef = [compress,551,18,26]; @symbol_type<0> = [String,551,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 552; @position = 18; @symbol_constdef = [dithering,552,18,27]; @symbol_type<0> = [String,552,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 553; @position = 18; @symbol_constdef = [automaticPalette,553,18,34]; @symbol_type<0> = [String,553,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 556; @symbol_moduledef = [confirmation_icon_light__hint_delete,556,15,51]; ]
+        module confirmation_icon_light__hint_delete {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 556; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 557; @position = 18; @symbol_constdef = [filename,557,18,26]; @symbol_type<0> = [String,557,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_delete.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 558; @position = 18; @symbol_constdef = [dithering,558,18,27]; @symbol_type<0> = [String,558,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 561; @symbol_moduledef = [system_icon_dark__question,561,15,41]; ]
+        module system_icon_dark__question {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 561; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 562; @position = 18; @symbol_constdef = [filename,562,18,26]; @symbol_type<0> = [String,562,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__question.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 563; @position = 18; @symbol_constdef = [compress,563,18,26]; @symbol_type<0> = [String,563,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 564; @position = 18; @symbol_constdef = [dithering,564,18,27]; @symbol_type<0> = [String,564,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 565; @position = 18; @symbol_constdef = [automaticPalette,565,18,34]; @symbol_type<0> = [String,565,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 568; @symbol_moduledef = [system_icon_light__discard,568,15,41]; ]
+        module system_icon_light__discard {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 568; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 569; @position = 18; @symbol_constdef = [filename,569,18,26]; @symbol_type<0> = [String,569,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__discard.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 570; @position = 18; @symbol_constdef = [dithering,570,18,27]; @symbol_type<0> = [String,570,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 573; @symbol_moduledef = [device_info,573,15,26]; ]
+        module device_info {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 573; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 575 18 ]
+                symbol [ Toybox %tmp.48 575 32 38 ];
+                %tmp.48 = getv ? :Toybox;
+                symbol [ System %tmp.49 575 39 45 ];
+                %tmp.49 = getv %tmp.48 :System;
+                symbol [ SCREEN_SHAPE_ROUND %tmp.50 575 46 64 ];
+                %tmp.50 = getv %tmp.49 :SCREEN_SHAPE_ROUND;
+                putv self :screenShape %tmp.50;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 574; @position = 18; @symbol_constdef = [screenWidth,574,18,29]; @symbol_type<0> = [Number,574,33,39]; ]
+            const screenWidth as Number = 260;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 575; @position = 18; @symbol_constdef = [screenShape,575,18,29]; ]
+            const screenShape;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 576; @position = 18; @symbol_constdef = [hasNightMode,576,18,30]; @symbol_type<0> = [Boolean,576,34,41]; ]
+            const hasNightMode as Boolean = false;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 577; @position = 18; @symbol_constdef = [hasGpu,577,18,24]; @symbol_type<0> = [Boolean,577,28,35]; ]
+            const hasGpu as Boolean = true;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 578; @position = 18; @symbol_constdef = [screenHeight,578,18,30]; @symbol_type<0> = [Number,578,34,40]; ]
+            const screenHeight as Number = 260;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 579; @position = 18; @symbol_constdef = [hasTouchScreen,579,18,32]; @symbol_type<0> = [Boolean,579,36,43]; ]
+            const hasTouchScreen as Boolean = true;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 580; @position = 18; @symbol_constdef = [hasEnhancedReadabilityMode,580,18,44]; @symbol_type<0> = [Boolean,580,48,55]; ]
+            const hasEnhancedReadabilityMode as Boolean = false;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 583; @symbol_moduledef = [confirmation_icon_dark__hint_confirm,583,15,51]; ]
+        module confirmation_icon_dark__hint_confirm {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 583; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 584; @position = 18; @symbol_constdef = [filename,584,18,26]; @symbol_type<0> = [String,584,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_completion.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 585; @position = 18; @symbol_constdef = [dithering,585,18,27]; @symbol_type<0> = [String,585,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 588; @symbol_moduledef = [prompt_font__body_no_title,588,15,41]; ]
+        module prompt_font__body_no_title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 588; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 589 18 ]
+                symbol [ Graphics %tmp.51 589 34 42 ];
+                %tmp.51 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_CENTER %tmp.52 589 43 62 ];
+                %tmp.52 = getv %tmp.51 :TEXT_JUSTIFY_CENTER;
+                symbol [ Graphics %tmp.53 589 63 71 ];
+                %tmp.53 = getm $.Toybox.Graphics;
+                symbol [ TEXT_JUSTIFY_VCENTER %tmp.54 589 72 92 ];
+                %tmp.54 = getv %tmp.53 :TEXT_JUSTIFY_VCENTER;
+                %tmp.55 = bitor %tmp.52 %tmp.54;
+                putv self :justification %tmp.55;
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 590 18 ]
+                symbol [ Graphics %tmp.56 590 25 33 ];
+                %tmp.56 = getm $.Toybox.Graphics;
+                symbol [ FONT_TINY %tmp.57 590 34 43 ];
+                %tmp.57 = getv %tmp.56 :FONT_TINY;
+                putv self :font %tmp.57;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 589; @position = 18; @symbol_constdef = [justification,589,18,31]; ]
+            const justification;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 590; @position = 18; @symbol_constdef = [font,590,18,22]; ]
+            const font;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 593; @symbol_moduledef = [prompt_size__title_icon,593,15,38]; ]
+        module prompt_size__title_icon {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 593; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 594; @position = 18; @symbol_constdef = [scaleX,594,18,24]; @symbol_type<0> = [Float,594,28,33]; ]
+            const scaleX as Float = 0.15;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 595; @position = 18; @symbol_constdef = [scaleRelativeTo,595,18,33]; @symbol_type<0> = [String,595,37,43]; ]
+            const scaleRelativeTo as String = "screen";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 598; @symbol_moduledef = [system_icon_dark__warning,598,15,40]; ]
+        module system_icon_dark__warning {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 598; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 599; @position = 18; @symbol_constdef = [filename,599,18,26]; @symbol_type<0> = [String,599,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_dark__warning.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 600; @position = 18; @symbol_constdef = [compress,600,18,26]; @symbol_type<0> = [String,600,30,36]; ]
+            const compress as String = "true";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 601; @position = 18; @symbol_constdef = [dithering,601,18,27]; @symbol_type<0> = [String,601,31,37]; ]
+            const dithering as String = "none";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 602; @position = 18; @symbol_constdef = [automaticPalette,602,18,34]; @symbol_type<0> = [String,602,38,44]; ]
+            const automaticPalette as String = "true";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 605; @symbol_moduledef = [prompt_loc__title_icon,605,15,37]; ]
+        module prompt_loc__title_icon {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 605; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 606; @position = 18; @symbol_constdef = [x,606,18,19]; @symbol_type<0> = [Number,606,23,29]; ]
+            const x as Number = 130;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 607; @position = 18; @symbol_constdef = [y,607,18,19]; @symbol_type<0> = [Number,607,23,29]; ]
+            const y as Number = 39;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 608; @position = 18; @symbol_constdef = [horizontalJustification,608,18,41]; @symbol_type<0> = [String,608,45,51]; ]
+            const horizontalJustification as String = "center";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 609; @position = 18; @symbol_constdef = [verticalJustification,609,18,39]; @symbol_type<0> = [String,609,43,49]; ]
+            const verticalJustification as String = "center";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 612; @symbol_moduledef = [prompt_font_enhanced_readability__title,612,15,54]; ]
+        module prompt_font_enhanced_readability__title {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 612; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 613; @position = 18; @symbol_constdef = [exclude,613,18,25]; @symbol_type<0> = [Boolean,613,29,36]; ]
+            const exclude as Boolean = true;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 616; @symbol_moduledef = [prompt_color_dark__body,616,15,38]; ]
+        module prompt_color_dark__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 616; ]
+            <init> {
+[ "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen" 618 18 ]
+                symbol [ Graphics %tmp.58 618 31 39 ];
+                %tmp.58 = getm $.Toybox.Graphics;
+                symbol [ COLOR_TRANSPARENT %tmp.59 618 40 57 ];
+                %tmp.59 = getv %tmp.58 :COLOR_TRANSPARENT;
+                putv self :background %tmp.59;
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 617; @position = 18; @symbol_constdef = [color,617,18,23]; @symbol_type<0> = [Number,617,27,33]; ]
+            const color as Number = 0xFFFFFF;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 618; @position = 18; @symbol_constdef = [background,618,18,28]; ]
+            const background;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 621; @symbol_moduledef = [confirmation_icon__hint_delete,621,15,45]; ]
+        module confirmation_icon__hint_delete {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 621; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 622; @position = 18; @symbol_constdef = [filename,622,18,26]; @symbol_type<0> = [String,622,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\confirmation_icon__hint_delete.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 623; @position = 18; @symbol_constdef = [dithering,623,18,27]; @symbol_type<0> = [String,623,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 626; @symbol_moduledef = [system_icon_light__hint_button_right_top,626,15,55]; ]
+        module system_icon_light__hint_button_right_top {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 626; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 627; @position = 18; @symbol_constdef = [filename,627,18,26]; @symbol_type<0> = [String,627,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_light__hint_button_right_top.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 628; @position = 18; @symbol_constdef = [dithering,628,18,27]; @symbol_type<0> = [String,628,31,37]; ]
+            const dithering as String = "none";
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 631; @symbol_moduledef = [confirmation_size__body,631,15,38]; ]
+        module confirmation_size__body {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 631; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 632; @position = 18; @symbol_constdef = [width,632,18,23]; @symbol_type<0> = [Number,632,27,33]; ]
+            const width as Number = 156;
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 633; @position = 18; @symbol_constdef = [height,633,18,24]; @symbol_type<0> = [Number,633,28,34]; ]
+            const height as Number = 156;
+        }
+        [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 636; @symbol_moduledef = [system_icon_positive__check,636,15,42]; ]
+        module system_icon_positive__check {
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 636; ]
+            <init> {
+            }
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 637; @position = 18; @symbol_constdef = [filename,637,18,26]; @symbol_type<0> = [String,637,30,36]; ]
+            const filename as String = "C:\\Users\\sergy\\AppData\\Roaming\\Garmin\\ConnectIQ\\Devices\\fenix7\\system_icon_positive__check.svg";
+            [ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 638; @position = 18; @symbol_constdef = [dithering,638,18,27]; @symbol_type<0> = [String,638,31,37]; ]
+            const dithering as String = "none";
+        }
+    }
+}
+[ @file = "G:\code\garmiand\garmin\gen\006-B3906-00\source\Rez.mcgen"; @line = 1; ]
+<init> {
+}

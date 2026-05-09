@@ -1,0 +1,11 @@
+{
+  "kind": "route_full",
+  "route_id": "test-1",
+  "route_name": "Sim Route",
+  "lats": [50.4501, 50.4520, 50.4540, 50.4560, 50.4580],
+  "lons": [30.5234, 30.5260, 30.5290, 30.5320, 30.5350],
+  "markers": [
+    {"id": "start", "title": "Start", "lat": 50.4501, "lon": 30.5234},
+    {"id": "finish", "title": "Finish", "lat": 50.4580, "lon": 30.5350}
+  ]
+}
