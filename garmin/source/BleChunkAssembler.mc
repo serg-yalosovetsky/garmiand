@@ -29,11 +29,12 @@ class BleChunkAssembler {
     }
 
     /**
-     * Accept a tile_chunk dict. Returns the bundle id when the last chunk
-     * lands and the blob has been persisted to Application.Storage. Returns
-     * null while transfer is in progress or if a malformed message arrives.
+     * Accept a tile_chunk dict. While in progress returns null. When the
+     * last chunk lands returns a 2-element array [bundleId, blob]. Caller
+     * is responsible for persisting and updating the view (we used to do
+     * persist inline but that swallowed errors silently — see git log).
      */
-    function accept(dict as Lang.Dictionary) as Lang.String? {
+    function accept(dict as Lang.Dictionary) as Lang.Array? {
         var incomingBundle = dict["bundle_id"] as Lang.String;
         var index = dict["i"];
         var total = dict["n"];
@@ -80,7 +81,14 @@ class BleChunkAssembler {
             totalSize += (_chunks.get(i) as Lang.ByteArray).size();
         }
 
-        var blob = new [totalSize]b;
+        var blob;
+        try {
+            blob = new [totalSize]b;
+        } catch (e) {
+            System.println("[Tiles] alloc " + totalSize + "B failed: " + e.getErrorMessage());
+            reset();
+            return [null, null, "alloc_fail:" + totalSize] as Lang.Array;
+        }
         var off = 0;
         for (var j = 0; j < _expectedTotal; j++) {
             var ch = _chunks.get(j) as Lang.ByteArray;
@@ -92,11 +100,11 @@ class BleChunkAssembler {
 
         var assembledId = _bundleId as Lang.String;
         System.println("[Tiles] BLE bundle assembled " + assembledId + " size=" + totalSize);
-        if (!TileDecoder.persist(assembledId, blob)) {
-            reset();
-            return null;
-        }
         reset();
-        return assembledId;
+        return [assembledId, blob, null] as Lang.Array;
+    }
+
+    function progress() as Lang.Array<Lang.Number> {
+        return [_receivedCount, _expectedTotal] as Lang.Array<Lang.Number>;
     }
 }

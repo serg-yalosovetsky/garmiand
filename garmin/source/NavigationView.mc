@@ -3,13 +3,14 @@ using Toybox.Graphics;
 using Toybox.Lang;
 using Toybox.Position;
 using Toybox.System;
+using Toybox.Timer;
 using Toybox.WatchUi;
 
 const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
-const APP_VERSION = "2026-05-09 21:05";
+const APP_VERSION = "2026-05-09 dbg6";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -40,8 +41,14 @@ class NavigationView extends WatchUi.View {
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
     var _onlineMode as Lang.Boolean;
-    var _fetchStatus as Lang.String?;
     var _bundleLoadAttempted as Lang.Boolean;
+
+    // On-screen debug log. pushDebug() enqueues a message; tickDebug()
+    // (timer-driven) pops one per second so each is visible at least 1 s.
+    var _debugQueue as Lang.Array<Lang.String>;
+    var _debugCurrent as Lang.String?;
+    var _debugUntilMs as Lang.Number;
+    var _debugTimer as Timer.Timer?;
 
     // Viewport we asked MapView to render. We track it manually because
     // there is no latLonToScreenPoint() in the MapView API — overlay
@@ -65,8 +72,11 @@ class NavigationView extends WatchUi.View {
         _currentLat = 0.0f;
         _currentLon = 0.0f;
         _onlineMode = true;
-        _fetchStatus = null;
         _bundleLoadAttempted = false;
+        _debugQueue = [] as Lang.Array<Lang.String>;
+        _debugCurrent = null;
+        _debugUntilMs = 0;
+        _debugTimer = null;
         _viewLat0 = 0.0f;
         _viewLat1 = 0.0f;
         _viewLon0 = 0.0f;
@@ -77,6 +87,47 @@ class NavigationView extends WatchUi.View {
         // context. That context isn't ready until onShow(). Calling it from
         // initialize() crashes the app on startup if last_bundle_id points to
         // a real bundle in Storage.
+    }
+
+    function onShow() as Void {
+        if (_debugTimer == null) {
+            var t = new Timer.Timer();
+            t.start(method(:tickDebug), 250, true);
+            _debugTimer = t;
+        }
+    }
+
+    function onHide() as Void {
+        if (_debugTimer != null) {
+            (_debugTimer as Timer.Timer).stop();
+            _debugTimer = null;
+        }
+    }
+
+    function pushDebug(msg as Lang.String) as Void {
+        _debugQueue.add(msg);
+        System.println("[DBG] " + msg);
+        WatchUi.requestUpdate();
+    }
+
+    function tickDebug() as Void {
+        var now = System.getTimer();
+        if (_debugCurrent != null && now < _debugUntilMs) {
+            return;
+        }
+        if (_debugQueue.size() > 0) {
+            _debugCurrent = _debugQueue[0];
+            _debugQueue.remove(_debugQueue[0]);
+            _debugUntilMs = now + 1000;
+            WatchUi.requestUpdate();
+        } else if (_debugCurrent != null) {
+            // queue drained — let the last message linger another second,
+            // then clear so the screen isn't permanently occupied.
+            if (now >= _debugUntilMs + 2000) {
+                _debugCurrent = null;
+                WatchUi.requestUpdate();
+            }
+        }
     }
 
     function ensureBundleLoaded() as Void {
@@ -98,30 +149,38 @@ class NavigationView extends WatchUi.View {
 
     function loadBundle(bundleId as Lang.String) as Void {
         clearDecodedTiles();
+        pushDebug("load: " + bundleId.substring(0, 8));
         var blob = TileDecoder.load(bundleId);
         if (blob == null) {
             System.println("[Tiles] no blob for " + bundleId);
+            pushDebug("load: no blob");
             _bundleHeader = null;
             _palette = null;
             return;
         }
+        pushDebug("load: blob " + blob.size() + "B");
         var hdr = TileDecoder.parseHeader(blob);
         if (hdr == null) {
+            pushDebug("load: bad header");
             _bundleHeader = null;
             _palette = null;
             return;
         }
         _bundleHeader = hdr;
+        pushDebug("hdr: tiles=" + hdr.tileCount);
         try {
             _palette = TileDecoder.parsePalette(blob, hdr);
+            pushDebug("palette ok (" + (_palette as Lang.Array).size() + ")");
         } catch (e) {
             System.println("[Tiles] palette parse failed: " + e.getErrorMessage());
+            pushDebug("palette FAIL");
             _palette = null;
         }
         // NB: decodeAllTiles intentionally disabled — synchronous decode in
         // the BLE/HTTPS callback exceeds the 2 s CIQ watchdog and/or the
         // Fenix 7 graphics pool budget, killing the app. Re-enable once
         // a lazy/throttled decoder is in place.
+        pushDebug("decode skipped (deferred)");
         System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount + " (decode deferred)");
     }
 
@@ -232,8 +291,10 @@ class NavigationView extends WatchUi.View {
     }
 
     function setFetchStatus(s as Lang.String?) as Void {
-        _fetchStatus = s;
-        WatchUi.requestUpdate();
+        // Backwards-compatible shim — funnels callers into the debug queue.
+        if (s != null) {
+            pushDebug(s as Lang.String);
+        }
     }
 
     function setBundleId(id as Lang.String?) as Void {
@@ -243,7 +304,12 @@ class NavigationView extends WatchUi.View {
         } catch (e) {
         }
         if (id != null) {
-            loadBundle(id as Lang.String);
+            pushDebug("setBundleId " + (id as Lang.String).substring(0, 8));
+            try {
+                loadBundle(id as Lang.String);
+            } catch (e) {
+                pushDebug("loadBundle EX: " + e.getErrorMessage());
+            }
         } else {
             _bundleHeader = null;
             _palette = null;
@@ -273,6 +339,7 @@ class NavigationView extends WatchUi.View {
 
         drawTopBand(dc);
         drawModeBadge(dc);
+        drawDebugLine(dc);
         drawOffRouteBannerIfNeeded(dc);
     }
 
@@ -325,25 +392,30 @@ class NavigationView extends WatchUi.View {
         } else if (_mapMode == BG_MODE_NONE) {
             label = "[NONE]";
         }
-        if (label.equals("") && _fetchStatus == null) {
+        if (label.equals("")) {
             return;
         }
         var w = dc.getWidth();
         var h = dc.getHeight();
         var th = dc.getFontHeight(Graphics.FONT_XTINY);
-        if (!label.equals("")) {
-            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(w / 2, h - th - 4, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
-        }
-        // Fetch status — рисуем сверху (под title band), чтобы не перекрывался
-        // OFF ROUTE баннером и режимным лейблом внизу.
-        if (_fetchStatus != null) {
-            var bandH = dc.getFontHeight(Graphics.FONT_TINY) + 8;
-            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-            dc.fillRectangle(0, bandH, w, th + 4);
-            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(w / 2, bandH + 2, Graphics.FONT_XTINY, _fetchStatus as Lang.String, Graphics.TEXT_JUSTIFY_CENTER);
-        }
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(w / 2, h - th - 4, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    // Yellow band under the title showing the most recent debug message.
+    // tickDebug() rotates _debugCurrent at most once per second so each
+    // event is readable on screen.
+    function drawDebugLine(dc as Graphics.Dc) as Void {
+        if (_debugCurrent == null) { return; }
+        var w = dc.getWidth();
+        var bandH = dc.getFontHeight(Graphics.FONT_TINY) + 8;
+        var th = dc.getFontHeight(Graphics.FONT_XTINY);
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.fillRectangle(0, bandH, w, th + 4);
+        dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+        var queued = _debugQueue.size();
+        var suffix = queued > 0 ? "  +" + queued : "";
+        dc.drawText(w / 2, bandH + 2, Graphics.FONT_XTINY, (_debugCurrent as Lang.String) + suffix, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawWaitingScreen(dc as Graphics.Dc) as Void {
@@ -365,6 +437,7 @@ class NavigationView extends WatchUi.View {
         var vth = dc.getFontHeight(Graphics.FONT_XTINY);
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(cx, (h * 4) / 5 - vth / 2, Graphics.FONT_XTINY, "v " + APP_VERSION, Graphics.TEXT_JUSTIFY_CENTER);
+        drawDebugLine(dc);
     }
 
     // Project a (lat, lon) to screen coords using the tracked viewport.

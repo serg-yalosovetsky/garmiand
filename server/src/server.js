@@ -73,28 +73,47 @@ app.post(
   }
 );
 
-// GET /sessions/:id — returns the bundle as **base64 plain text**.
-// Connect IQ's Communications.makeWebRequest() only supports text/JSON
-// response types, so the watch decodes base64 via StringUtil.convertEncodedString.
-// (See garmin/source/GarmiandApp.mc → handleTileSession.)
-app.get('/sessions/:id', (req, res) => {
-  const id = req.params.id;
-  if (!/^[a-f0-9-]{32,40}$/i.test(id)) {
-    return res.status(400).json({ error: 'bad id' });
-  }
+function loadBundle(id) {
+  if (!/^[a-f0-9-]{32,40}$/i.test(id)) return null;
   const filePath = path.join(DATA_DIR, `${id}.bin`);
-  fs.readFile(filePath, (err, buf) => {
-    if (err) {
-      return res.status(404).json({ error: 'not found' });
-    }
+  try {
+    const buf = fs.readFileSync(filePath);
     const ageMs = Date.now() - fs.statSync(filePath).mtimeMs;
     if (ageMs > RETENTION_DAYS * 24 * 3600 * 1000) {
       fs.unlink(filePath, () => {});
-      return res.status(410).json({ error: 'expired' });
+      return null;
     }
-    res.type('text/plain');
-    res.send(buf.toString('base64'));
-  });
+    return buf;
+  } catch {
+    return null;
+  }
+}
+
+// GET /sessions/:id — returns the full bundle as base64 plain text.
+// Only works for small bundles (< ~12 KB raw / ~16 KB base64) due to CIQ buffer limits.
+// For larger bundles use GET /sessions/:id/chunk?offset=N&size=M
+app.get('/sessions/:id', (req, res) => {
+  const buf = loadBundle(req.params.id);
+  if (!buf) return res.status(404).json({ error: 'not found' });
+  res.type('text/plain');
+  res.setHeader('X-Bundle-Size', buf.length);
+  res.send(buf.toString('base64'));
+});
+
+// GET /sessions/:id/chunk?offset=N&size=M
+// Returns base64 of buf[offset..offset+size]. Used by the watch for chunked download
+// of bundles > ~12 KB (CIQ makeWebRequest response buffer limit).
+app.get('/sessions/:id/chunk', (req, res) => {
+  const buf = loadBundle(req.params.id);
+  if (!buf) return res.status(404).json({ error: 'not found' });
+  const offset = Math.max(0, parseInt(req.query.offset ?? '0', 10));
+  const size = Math.min(64 * 1024, Math.max(1, parseInt(req.query.size ?? '10240', 10)));
+  const slice = buf.subarray(offset, offset + size);
+  res.type('text/plain');
+  res.setHeader('X-Bundle-Size', buf.length);
+  res.setHeader('X-Chunk-Offset', offset);
+  res.setHeader('X-Chunk-Size', slice.length);
+  res.send(slice.toString('base64'));
 });
 
 setInterval(() => {

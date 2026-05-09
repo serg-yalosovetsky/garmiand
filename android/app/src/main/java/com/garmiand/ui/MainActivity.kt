@@ -233,7 +233,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendBundleViaBle(bundle: ByteArray): MapSendStatus {
-        val sender = MapBundleBleSender(garminCompanion)
+        val prefs = getSharedPreferences("garmiand_ble", Context.MODE_PRIVATE)
+        val sender = MapBundleBleSender(garminCompanion, prefs)
         val bundleId = sender.send(bundle) { sent, total ->
             runOnUiThread {
                 progressBar.progress = sent * 100 / total

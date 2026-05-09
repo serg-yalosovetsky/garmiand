@@ -7,6 +7,23 @@ using Toybox.System;
 using Toybox.Timer;
 using Toybox.WatchUi;
 
+// Global helper: route a message into the on-screen debug queue if the
+// view exists, otherwise just println. Lets non-View code (TileDecoder,
+// BleChunkAssembler) surface progress without a direct view reference.
+function appLog(msg as Lang.String) as Void {
+    System.println("[DBG] " + msg);
+    var app = App.getApp();
+    if (app instanceof GarmiandApp) {
+        var v = (app as GarmiandApp).getNavView();
+        if (v != null) {
+            (v as NavigationView).pushDebug(msg);
+        }
+    }
+}
+
+// ~10 KB raw → ~13.3 KB base64; stays well inside the CIQ TEXT_PLAIN buffer
+const DL_CHUNK_SIZE = 10 * 1024;
+
 class GarmiandApp extends App.AppBase {
     var _route as RouteData;
     var _currentLat as Lang.Float;
@@ -15,6 +32,10 @@ class GarmiandApp extends App.AppBase {
     var _navView as NavigationView?;
     var _bleChunkAssembler as BleChunkAssembler?;
     var _onlineMode as Lang.Boolean;
+    // chunked HTTPS download state
+    var _dlBuffer as Lang.ByteArray?;
+    var _dlOffset as Lang.Number;
+    var _dlTotal as Lang.Number;
 
     function initialize() {
         AppBase.initialize();
@@ -22,6 +43,9 @@ class GarmiandApp extends App.AppBase {
         _currentLat = 0.0f;
         _currentLon = 0.0f;
         _onlineMode = readOnlineModeProperty();
+        _dlBuffer = null;
+        _dlOffset = 0;
+        _dlTotal = 0;
     }
 
     function readOnlineModeProperty() as Lang.Boolean {
@@ -66,7 +90,12 @@ class GarmiandApp extends App.AppBase {
         _navView = view;
         view.setOnlineMode(_onlineMode);
         var delegate = new NavigationDelegate(_route, view);
+        view.pushDebug("App started, online=" + _onlineMode);
         return [view, delegate];
+    }
+
+    function getNavView() as NavigationView? {
+        return _navView;
     }
 
     function onGpsPosition(info as Position.Info) as Void {
@@ -114,6 +143,7 @@ class GarmiandApp extends App.AppBase {
         System.println("[PhoneMsg] kind=" + kind);
 
         if ("sync_start".equals(kind)) {
+            appLog("RX sync_start");
             _route.reset();
             _route.routeId = dict["route_id"];
             _route.routeName = dict["route_name"];
@@ -123,6 +153,9 @@ class GarmiandApp extends App.AppBase {
         }
 
         if ("route_chunk".equals(kind)) {
+            var lats = dict["lats"];
+            var n = (lats instanceof Lang.Array) ? (lats as Lang.Array).size() : 0;
+            appLog("RX route_chunk pts=" + n);
             _route.addChunk(dict["lats"], dict["lons"]);
             WatchUi.requestUpdate();
             return;
@@ -131,16 +164,22 @@ class GarmiandApp extends App.AppBase {
         if ("markers".equals(kind)) {
             var rawMarkers = dict["markers"];
             if (rawMarkers instanceof Lang.Array) {
+                appLog("RX markers n=" + (rawMarkers as Lang.Array).size());
                 _route.setMarkers(rawMarkers as Lang.Array);
                 WatchUi.requestUpdate();
+            } else {
+                appLog("RX markers (bad type)");
             }
             return;
         }
 
         if ("sync_finish".equals(kind)) {
+            appLog("RX sync_finish pts=" + _route.lats.size());
             _route.isComplete = true;
             if (_navView != null) {
                 _navView.applyRoute(_route);
+                appLog("route applied");
+                logFreeMem("after sync_finish");
             }
             WatchUi.requestUpdate();
             return;
@@ -157,6 +196,7 @@ class GarmiandApp extends App.AppBase {
         }
 
         if ("route_full".equals(kind)) {
+            appLog("RX route_full");
             _route.reset();
             _route.routeId = dict["route_id"];
             _route.routeName = dict["route_name"];
@@ -170,9 +210,20 @@ class GarmiandApp extends App.AppBase {
             if (_navView != null) {
                 _navView.applyRoute(_route);
             }
-            System.println("[App] route_full loaded: " + _route.lats.size() + " pts, " + _route.markerLats.size() + " markers");
+            appLog("route_full pts=" + _route.lats.size());
             WatchUi.requestUpdate();
             return;
+        }
+
+        appLog("RX unknown kind=" + kind);
+    }
+
+    function logFreeMem(label as Lang.String) as Void {
+        try {
+            var stats = System.getSystemStats();
+            appLog(label + " mem free=" + stats.freeMemory + " used=" + stats.usedMemory);
+        } catch (e) {
+            appLog(label + " mem stats EX: " + e.getErrorMessage());
         }
     }
 
@@ -186,22 +237,27 @@ class GarmiandApp extends App.AppBase {
             System.println("[Tiles] tile_session missing fields");
             return;
         }
+        if (_navView != null) {
+            (_navView as NavigationView).pushDebug("RX tile_session " + bundleId.substring(0, 8));
+        }
         if (!_onlineMode) {
             System.println("[Tiles] offline mode — skip download, use cached bundle=" + bundleId);
             if (_navView != null) {
-                (_navView as NavigationView).setFetchStatus("offline mode");
+                (_navView as NavigationView).pushDebug("offline mode — skip GET");
                 (_navView as NavigationView).setBundleId(bundleId);
             }
             return;
         }
-        System.println("[Tiles] HTTPS bundle " + bundleId + " <- " + url);
+        var totalBytes = dict["total_bytes"];
+        _dlTotal = (totalBytes instanceof Lang.Number) ? (totalBytes as Lang.Number) : 0;
+        System.println("[Tiles] HTTPS bundle " + bundleId + " <- " + url + " total=" + _dlTotal);
         _pendingBundleId = bundleId;
         _pendingBundleUrl = url;
-        if (_navView != null) {
-            (_navView as NavigationView).setFetchStatus("fetching…");
-        }
+        _dlOffset = 0;
+        _dlBuffer = new [0]b;
+        appLog("HTTPS chunk DL start totalB=" + _dlTotal);
         Communications.makeWebRequest(
-            url,
+            url + "/chunk?offset=0&size=" + DL_CHUNK_SIZE,
             null,
             {
                 :method => Communications.HTTP_REQUEST_METHOD_GET,
@@ -211,65 +267,129 @@ class GarmiandApp extends App.AppBase {
                     "Accept" => "text/plain",
                 },
             },
-            method(:onBundleResponse)
+            method(:onBundleChunkResponse)
         );
     }
 
-    function onBundleResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or Null) as Void {
-        var bundleId = _pendingBundleId;
-        var url = _pendingBundleUrl;
-        _pendingBundleId = null;
-        _pendingBundleUrl = null;
+    function onBundleChunkResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or Null) as Void {
         if (responseCode != 200) {
-            System.println("[Tiles] bundle fetch failed code=" + responseCode + " url=" + url);
-            if (_navView != null) {
-                (_navView as NavigationView).setFetchStatus("fail code=" + responseCode);
-            }
-            return;
-        }
-        if (bundleId == null) {
-            System.println("[Tiles] response without pending id");
+            System.println("[Tiles] chunk fetch failed code=" + responseCode);
+            appLog("HTTPS chunk fail code=" + responseCode);
+            _pendingBundleId = null;
+            _pendingBundleUrl = null;
+            _dlBuffer = null;
+            _dlOffset = 0;
+            _dlTotal = 0;
             return;
         }
         if (!(data instanceof Lang.String)) {
-            System.println("[Tiles] response not a string: " + data);
-            if (_navView != null) {
-                (_navView as NavigationView).setFetchStatus("bad response type");
-            }
+            appLog("HTTPS chunk bad type");
+            _pendingBundleId = null;
+            _pendingBundleUrl = null;
+            _dlBuffer = null;
             return;
         }
-        var blob;
+        var chunk;
         try {
-            blob = StringUtil.convertEncodedString(data as Lang.String, {
+            chunk = StringUtil.convertEncodedString(data as Lang.String, {
                 :fromRepresentation => StringUtil.REPRESENTATION_STRING_BASE64,
                 :toRepresentation => StringUtil.REPRESENTATION_BYTE_ARRAY,
             }) as Lang.ByteArray;
         } catch (e) {
-            System.println("[Tiles] base64 decode failed: " + e.getErrorMessage());
-            if (_navView != null) {
-                (_navView as NavigationView).setFetchStatus("base64 fail");
-            }
+            appLog("chunk b64 FAIL: " + e.getErrorMessage());
+            _pendingBundleId = null;
+            _pendingBundleUrl = null;
+            _dlBuffer = null;
             return;
         }
-        System.println("[Tiles] decoded bundle " + bundleId + " size=" + blob.size());
-        if (_navView != null) {
-            (_navView as NavigationView).setFetchStatus("ok " + blob.size() + "B");
+        var chunkSize = chunk.size();
+        if (_dlBuffer == null) {
+            appLog("HTTPS chunk arrived but no buffer");
+            return;
         }
-        if (TileDecoder.persist(bundleId as Lang.String, blob)) {
-            if (_navView != null) {
-                _navView.setBundleId(bundleId);
+        (_dlBuffer as Lang.ByteArray).addAll(chunk);
+        _dlOffset += chunkSize;
+        appLog("chunk +" + chunkSize + "B total=" + _dlOffset + "/" + _dlTotal);
+
+        if (_dlOffset >= _dlTotal || chunkSize < DL_CHUNK_SIZE) {
+            // all chunks received
+            var bundleId = _pendingBundleId;
+            var blob = _dlBuffer as Lang.ByteArray;
+            _pendingBundleId = null;
+            _pendingBundleUrl = null;
+            _dlBuffer = null;
+            _dlOffset = 0;
+            _dlTotal = 0;
+            appLog("HTTPS done " + blob.size() + "B");
+            if (TileDecoder.persist(bundleId as Lang.String, blob)) {
+                appLog("persist ok");
+                if (_navView != null) {
+                    _navView.setBundleId(bundleId as Lang.String);
+                }
+            } else {
+                appLog("persist FAIL");
             }
+        } else {
+            // fetch next chunk
+            var nextUrl = (_pendingBundleUrl as Lang.String) + "/chunk?offset=" + _dlOffset + "&size=" + DL_CHUNK_SIZE;
+            Communications.makeWebRequest(
+                nextUrl,
+                null,
+                {
+                    :method => Communications.HTTP_REQUEST_METHOD_GET,
+                    :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_TEXT_PLAIN,
+                    :headers => {
+                        "ngrok-skip-browser-warning" => "true",
+                        "Accept" => "text/plain",
+                    },
+                },
+                method(:onBundleChunkResponse)
+            );
         }
     }
 
     function handleTileChunk(dict as Lang.Dictionary) as Void {
-        // Stage 9 will assemble chunks into a bundle blob and persist.
         if (_bleChunkAssembler == null) {
             _bleChunkAssembler = new BleChunkAssembler();
+            appLog("BLE assembler new");
         }
-        var assembled = (_bleChunkAssembler as BleChunkAssembler).accept(dict);
-        if (assembled != null && _navView != null) {
-            _navView.setBundleId(assembled);
+        var i = dict["i"];
+        var n = dict["n"];
+        var p = dict["p"];
+        var pSize = (p instanceof Lang.ByteArray) ? (p as Lang.ByteArray).size() : -1;
+        if (i != null && n != null) {
+            appLog("BLE chunk " + i + "/" + n + " (" + pSize + "B)");
+        }
+        var result = (_bleChunkAssembler as BleChunkAssembler).accept(dict);
+        if (result == null) {
+            return;
+        }
+        var assembledId = result[0];
+        var blob = result[1];
+        var err = result[2];
+        if (err != null) {
+            appLog("BLE " + (err as Lang.String));
+            return;
+        }
+        var blobSize = (blob as Lang.ByteArray).size();
+        appLog("BLE assembled " + blobSize + "B");
+        logFreeMem("pre-persist");
+        var ok = false;
+        try {
+            appLog("persist try " + blobSize + "B");
+            ok = TileDecoder.persist(assembledId as Lang.String, blob as Lang.ByteArray);
+        } catch (e) {
+            appLog("persist EX: " + e.getErrorMessage());
+            return;
+        }
+        if (!ok) {
+            appLog("persist FAIL (Storage limit?)");
+            return;
+        }
+        appLog("persist ok");
+        logFreeMem("post-persist");
+        if (_navView != null) {
+            _navView.setBundleId(assembledId as Lang.String);
         }
     }
 }
