@@ -5,8 +5,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -47,6 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvLog: TextView
     private lateinit var logScroll: ScrollView
     private lateinit var switchCacheMap: SwitchCompat
+    private lateinit var switchOnlineMode: SwitchCompat
 
     private val gpxBridge = GpxFileImportBridge()
     private lateinit var garminCompanion: ConnectIQGarminCompanion
@@ -74,6 +73,12 @@ class MainActivity : AppCompatActivity() {
         tvLog = findViewById(R.id.tv_log)
         logScroll = findViewById(R.id.log_scroll)
         switchCacheMap = findViewById(R.id.switch_cache_map)
+        switchOnlineMode = findViewById(R.id.switch_online_mode)
+
+        switchCacheMap.setOnCheckedChangeListener { _, checked ->
+            switchOnlineMode.isEnabled = checked
+        }
+        switchOnlineMode.isEnabled = switchCacheMap.isChecked
 
         btnSend.isEnabled = false
 
@@ -131,10 +136,11 @@ class MainActivity : AppCompatActivity() {
     private fun sendRoute() {
         val route = loadedRoute ?: return
         val cacheMap = switchCacheMap.isChecked
+        val onlineMode = switchOnlineMode.isChecked
         btnSend.isEnabled = false
         progressBar.visibility = View.VISIBLE
         progressBar.progress = 0
-        AppLog.i(TAG, "sendRoute: pts=${route.points.size} cacheMap=$cacheMap")
+        AppLog.i(TAG, "sendRoute: pts=${route.points.size} cacheMap=$cacheMap onlineMode=$onlineMode")
 
         Thread {
             val orchestrator = RouteSyncOrchestrator(
@@ -149,7 +155,7 @@ class MainActivity : AppCompatActivity() {
             }
             AppLog.i(TAG, "sync result: $result")
 
-            val mapStatus = if (cacheMap && result is SyncResult.Ok) sendMapBundle(route) else null
+            val mapStatus = if (cacheMap && result is SyncResult.Ok) sendMapBundle(route, onlineMode) else null
 
             runOnUiThread {
                 progressBar.visibility = View.GONE
@@ -172,7 +178,7 @@ class MainActivity : AppCompatActivity() {
 
     private enum class MapSendStatus { HTTPS_OK, BLE_OK, FAILED }
 
-    private fun sendMapBundle(route: RoutePackage): MapSendStatus {
+    private fun sendMapBundle(route: RoutePackage, onlineMode: Boolean): MapSendStatus {
         if (route.points.isEmpty()) return MapSendStatus.FAILED
 
         val bbox = computeBbox(route, BBOX_PADDING_FRACTION)
@@ -184,13 +190,13 @@ class MainActivity : AppCompatActivity() {
             return MapSendStatus.FAILED
         }
         if (quantized.tiles.isEmpty()) {
-            AppLog.w(TAG, "Quantize produced 0 tiles (network down?)")
+            AppLog.w(TAG, "Quantize produced 0 tiles")
             return MapSendStatus.FAILED
         }
         val blob = TileBundleSerializer.serialize(quantized)
-        AppLog.i(TAG, "Bundle ready: ${quantized.tiles.size} tiles, ${blob.size}B")
+        AppLog.i(TAG, "Bundle ready: ${quantized.tiles.size} tiles, ${blob.size}B mode=${if (onlineMode) "HTTPS" else "BLE"}")
 
-        return if (isNetworkOnline()) {
+        return if (onlineMode) {
             uploadAndAnnounce(blob)
         } else {
             sendBundleViaBle(blob)
@@ -231,14 +237,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return if (bundleId != null) MapSendStatus.BLE_OK else MapSendStatus.FAILED
-    }
-
-    private fun isNetworkOnline(): Boolean {
-        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val nw = cm.activeNetwork ?: return false
-        val caps = cm.getNetworkCapabilities(nw) ?: return false
-        return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 
     private data class Bbox(val minLat: Double, val maxLat: Double, val minLon: Double, val maxLon: Double)

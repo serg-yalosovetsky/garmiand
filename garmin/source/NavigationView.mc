@@ -38,6 +38,8 @@ class NavigationView extends WatchUi.MapView {
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
     var _onlineMode as Lang.Boolean;
+    var _fetchStatus as Lang.String?;
+    var _bundleLoadAttempted as Lang.Boolean;
 
     // Viewport we asked MapView to render. We track it manually because
     // there is no latLonToScreenPoint() in the MapView API — overlay
@@ -61,6 +63,8 @@ class NavigationView extends WatchUi.MapView {
         _currentLat = 0.0f;
         _currentLon = 0.0f;
         _onlineMode = true;
+        _fetchStatus = null;
+        _bundleLoadAttempted = false;
         _viewLat0 = 0.0f;
         _viewLat1 = 0.0f;
         _viewLon0 = 0.0f;
@@ -71,8 +75,21 @@ class NavigationView extends WatchUi.MapView {
         } catch (e) {
             System.println("[Map] setMapMode unsupported: " + e.getErrorMessage());
         }
-        if (_bundleId != null) {
+        // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
+        // via Graphics.createBufferedBitmap, which requires the view's graphics
+        // context. That context isn't ready until onShow(). Calling it from
+        // initialize() crashes the app on startup if last_bundle_id points to
+        // a real bundle in Storage.
+    }
+
+    function ensureBundleLoaded() as Void {
+        if (_bundleLoadAttempted) { return; }
+        _bundleLoadAttempted = true;
+        if (_bundleId == null) { return; }
+        try {
             loadBundle(_bundleId as Lang.String);
+        } catch (e) {
+            System.println("[Tiles] loadBundle failed: " + e.getErrorMessage());
         }
     }
 
@@ -288,6 +305,11 @@ class NavigationView extends WatchUi.MapView {
         WatchUi.requestUpdate();
     }
 
+    function setFetchStatus(s as Lang.String?) as Void {
+        _fetchStatus = s;
+        WatchUi.requestUpdate();
+    }
+
     function setBundleId(id as Lang.String?) as Void {
         _bundleId = id;
         try {
@@ -309,6 +331,8 @@ class NavigationView extends WatchUi.MapView {
             drawWaitingScreen(dc);
             return;
         }
+
+        ensureBundleLoaded();
 
         if (_mapMode == BG_MODE_NATIVE) {
             MapView.onUpdate(dc);
@@ -366,7 +390,7 @@ class NavigationView extends WatchUi.MapView {
     }
 
     function drawModeBadge(dc as Graphics.Dc) as Void {
-        var label;
+        var label = "";
         if (_mapMode == BG_MODE_TILES) {
             var bid = _bundleId;
             var snippet = (bid != null && (bid as Lang.String).length() >= 8) ? (bid as Lang.String).substring(0, 8) : "—";
@@ -374,14 +398,22 @@ class NavigationView extends WatchUi.MapView {
             label = "[TILES] " + snippet + (have ? " ok" : " ∅");
         } else if (_mapMode == BG_MODE_NONE) {
             label = "[NONE]";
-        } else {
+        }
+        if (label.equals("") && _fetchStatus == null) {
             return;
         }
         var w = dc.getWidth();
         var h = dc.getHeight();
         var th = dc.getFontHeight(Graphics.FONT_XTINY);
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, h - th - 4, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
+        if (!label.equals("")) {
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(w / 2, h - th - 4, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
+        }
+        if (_fetchStatus != null) {
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            var y = !label.equals("") ? (h - th * 2 - 6) : (h - th - 4);
+            dc.drawText(w / 2, y, Graphics.FONT_XTINY, _fetchStatus as Lang.String, Graphics.TEXT_JUSTIFY_CENTER);
+        }
     }
 
     function drawWaitingScreen(dc as Graphics.Dc) as Void {

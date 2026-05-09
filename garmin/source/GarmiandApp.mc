@@ -189,6 +189,7 @@ class GarmiandApp extends App.AppBase {
         if (!_onlineMode) {
             System.println("[Tiles] offline mode — skip download, use cached bundle=" + bundleId);
             if (_navView != null) {
+                (_navView as NavigationView).setFetchStatus("offline mode");
                 (_navView as NavigationView).setBundleId(bundleId);
             }
             return;
@@ -196,6 +197,9 @@ class GarmiandApp extends App.AppBase {
         System.println("[Tiles] HTTPS bundle " + bundleId + " <- " + url);
         _pendingBundleId = bundleId;
         _pendingBundleUrl = url;
+        if (_navView != null) {
+            (_navView as NavigationView).setFetchStatus("fetching…");
+        }
         Communications.makeWebRequest(
             url,
             null,
@@ -218,6 +222,9 @@ class GarmiandApp extends App.AppBase {
         _pendingBundleUrl = null;
         if (responseCode != 200) {
             System.println("[Tiles] bundle fetch failed code=" + responseCode + " url=" + url);
+            if (_navView != null) {
+                (_navView as NavigationView).setFetchStatus("fail code=" + responseCode);
+            }
             return;
         }
         if (bundleId == null) {
@@ -226,6 +233,9 @@ class GarmiandApp extends App.AppBase {
         }
         if (!(data instanceof Lang.String)) {
             System.println("[Tiles] response not a string: " + data);
+            if (_navView != null) {
+                (_navView as NavigationView).setFetchStatus("bad response type");
+            }
             return;
         }
         var blob;
@@ -236,9 +246,15 @@ class GarmiandApp extends App.AppBase {
             }) as Lang.ByteArray;
         } catch (e) {
             System.println("[Tiles] base64 decode failed: " + e.getErrorMessage());
+            if (_navView != null) {
+                (_navView as NavigationView).setFetchStatus("base64 fail");
+            }
             return;
         }
         System.println("[Tiles] decoded bundle " + bundleId + " size=" + blob.size());
+        if (_navView != null) {
+            (_navView as NavigationView).setFetchStatus("ok " + blob.size() + "B");
+        }
         if (TileDecoder.persist(bundleId as Lang.String, blob)) {
             if (_navView != null) {
                 _navView.setBundleId(bundleId);
