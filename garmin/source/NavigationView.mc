@@ -9,6 +9,8 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
+const APP_VERSION = "2026-05-09 21:05";
+
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
     var localX as Lang.Number;
@@ -110,9 +112,17 @@ class NavigationView extends WatchUi.View {
             return;
         }
         _bundleHeader = hdr;
-        _palette = TileDecoder.parsePalette(blob, hdr);
-        decodeAllTiles(blob, hdr);
-        System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount + " bundlePx=" + _bundlePixelW + "x" + _bundlePixelH);
+        try {
+            _palette = TileDecoder.parsePalette(blob, hdr);
+        } catch (e) {
+            System.println("[Tiles] palette parse failed: " + e.getErrorMessage());
+            _palette = null;
+        }
+        // NB: decodeAllTiles intentionally disabled — synchronous decode in
+        // the BLE/HTTPS callback exceeds the 2 s CIQ watchdog and/or the
+        // Fenix 7 graphics pool budget, killing the app. Re-enable once
+        // a lazy/throttled decoder is in place.
+        System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount + " (decode deferred)");
     }
 
     function decodeAllTiles(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
@@ -273,7 +283,11 @@ class NavigationView extends WatchUi.View {
         }
         var tiles = _decodedTiles;
         if (tiles == null || tiles.size() == 0) {
-            drawTopText(dc, "TILES: decode failed", Graphics.COLOR_YELLOW);
+            // Decoder is currently disabled (see loadBundle). Show that we
+            // have the bundle and the parsed header so the user can confirm
+            // arrival without crashing on synchronous decode.
+            var hdr = _bundleHeader as BundleHeader;
+            drawTopText(dc, "TILES: have bundle, " + hdr.tileCount + " tiles (decode off)", Graphics.COLOR_LT_GRAY);
             return;
         }
         var w = dc.getWidth();
@@ -348,6 +362,9 @@ class NavigationView extends WatchUi.View {
             statusText = "Waiting...";
         }
         dc.drawText(cx, h / 2 + 10, Graphics.FONT_SMALL, statusText, Graphics.TEXT_JUSTIFY_CENTER);
+        var vth = dc.getFontHeight(Graphics.FONT_XTINY);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(cx, (h * 4) / 5 - vth / 2, Graphics.FONT_XTINY, "v " + APP_VERSION, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     // Project a (lat, lon) to screen coords using the tracked viewport.
