@@ -41,6 +41,7 @@ class BleChunkSizeProber(
                 bundleId = bundleId,
                 index = 0,
                 total = 1,
+                totalBytes = payload.size,
                 payload = payload,
             )
             AppLog.i(TAG, "probe ${kb}KB → payload=${payload.size}B bundleId=$bundleId")
