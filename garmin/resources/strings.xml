@@ -5,4 +5,5 @@
     <string id="MapMode_Tiles">Custom Tiles</string>
     <string id="MapMode_None">None</string>
     <string id="LastBundleId_Label">Last Bundle ID</string>
+    <string id="OnlineMode_Label">BLE Download</string>
 </strings>

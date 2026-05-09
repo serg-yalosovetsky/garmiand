@@ -10,12 +10,34 @@ const PORT = parseInt(process.env.PORT ?? '3000', 10);
 const TOKEN = process.env.BACKEND_TOKEN ?? 'dev-token-change-me';
 const DATA_DIR = process.env.DATA_DIR ?? path.join(__dirname, '..', 'data');
 const RETENTION_DAYS = parseInt(process.env.RETENTION_DAYS ?? '7', 10);
-const PUBLIC_URL = process.env.PUBLIC_URL ?? `http://localhost:${PORT}`;
+const PUBLIC_URL = (process.env.PUBLIC_URL ?? `http://localhost:${PORT}`).replace(/\/+$/, '');
 const MAX_BUNDLE_BYTES = parseInt(process.env.MAX_BUNDLE_BYTES ?? `${4 * 1024 * 1024}`, 10);
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
+const tokFingerprint = TOKEN.length >= 6
+  ? `${TOKEN.slice(0, 3)}…${TOKEN.slice(-3)} (len=${TOKEN.length})`
+  : `(len=${TOKEN.length})`;
+
 const app = express();
+
+app.use((req, res, next) => {
+  const t = new Date().toISOString();
+  const ip = req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? '?';
+  const ua = req.headers['user-agent'] ?? '-';
+  const auth = req.headers['authorization']
+    ? `Bearer …${String(req.headers['authorization']).slice(-4)}`
+    : '(none)';
+  const cl = req.headers['content-length'] ?? '-';
+  console.log(`[${t}] → ${req.method} ${req.url} ip=${ip} ua="${ua}" auth=${auth} cl=${cl}`);
+  const started = Date.now();
+  res.on('finish', () => {
+    const ms = Date.now() - started;
+    const sent = res.getHeader('content-length') ?? '-';
+    console.log(`[${new Date().toISOString()}] ← ${req.method} ${req.url} ${res.statusCode} ${ms}ms bytes=${sent}`);
+  });
+  next();
+});
 
 app.get('/healthz', (_req, res) => {
   res.type('text/plain').send('ok');
@@ -39,6 +61,7 @@ app.post(
     const sessionId = crypto.randomUUID();
     const filePath = path.join(DATA_DIR, `${sessionId}.bin`);
     fs.writeFileSync(filePath, req.body);
+    console.log(`[bundle-server] stored sessionId=${sessionId} bytes=${req.body.length}`);
 
     const expiresAt = new Date(Date.now() + RETENTION_DAYS * 24 * 3600 * 1000).toISOString();
     res.json({
@@ -91,4 +114,5 @@ setInterval(() => {
 
 app.listen(PORT, () => {
   console.log(`[bundle-server] listening on :${PORT} dataDir=${DATA_DIR} retention=${RETENTION_DAYS}d`);
+  console.log(`[bundle-server] token=${tokFingerprint} publicUrl=${PUBLIC_URL}`);
 });

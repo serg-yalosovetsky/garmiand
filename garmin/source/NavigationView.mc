@@ -2,6 +2,7 @@ using Toybox.Application as App;
 using Toybox.Graphics;
 using Toybox.Lang;
 using Toybox.Position;
+using Toybox.System;
 using Toybox.WatchUi;
 
 const BG_MODE_NATIVE = 0;
@@ -36,6 +37,16 @@ class NavigationView extends WatchUi.MapView {
 
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
+    var _onlineMode as Lang.Boolean;
+
+    // Viewport we asked MapView to render. We track it manually because
+    // there is no latLonToScreenPoint() in the MapView API — overlay
+    // drawing in TILES/NONE modes uses these to project route points.
+    var _viewLat0 as Lang.Float;  // north (max lat)
+    var _viewLat1 as Lang.Float;  // south (min lat)
+    var _viewLon0 as Lang.Float;  // west  (min lon)
+    var _viewLon1 as Lang.Float;  // east  (max lon)
+    var _viewSet as Lang.Boolean;
 
     function initialize(route as RouteData) {
         MapView.initialize();
@@ -49,8 +60,14 @@ class NavigationView extends WatchUi.MapView {
         _bundlePixelH = 0;
         _currentLat = 0.0f;
         _currentLon = 0.0f;
+        _onlineMode = true;
+        _viewLat0 = 0.0f;
+        _viewLat1 = 0.0f;
+        _viewLon0 = 0.0f;
+        _viewLon1 = 0.0f;
+        _viewSet = false;
         try {
-            self.setMapMode(MapView.MAP_MODE_BROWSE);
+            self.setMapMode(WatchUi.MAP_MODE_PREVIEW);
         } catch (e) {
             System.println("[Map] setMapMode unsupported: " + e.getErrorMessage());
         }
@@ -152,6 +169,11 @@ class NavigationView extends WatchUi.MapView {
         WatchUi.requestUpdate();
     }
 
+    function setOnlineMode(enabled as Lang.Boolean) as Void {
+        _onlineMode = enabled;
+        WatchUi.requestUpdate();
+    }
+
     function applyRoute(route as RouteData) as Void {
         _route = route;
         if (_route.lats.size() == 0) {
@@ -167,28 +189,102 @@ class NavigationView extends WatchUi.MapView {
             if (_route.lons[i] < minLon) { minLon = _route.lons[i]; }
             if (_route.lons[i] > maxLon) { maxLon = _route.lons[i]; }
         }
-        var centerLat = (minLat + maxLat) / 2.0;
-        var centerLon = (minLon + maxLon) / 2.0;
         var spanLat = (maxLat - minLat).toFloat();
         var spanLon = (maxLon - minLon).toFloat();
-        if (spanLat < 0.001) { spanLat = 0.001f; }
-        if (spanLon < 0.001) { spanLon = 0.001f; }
-        var pad = 1.3f;
+        if (spanLat < 0.0005) { spanLat = 0.0005f; }
+        if (spanLon < 0.0005) { spanLon = 0.0005f; }
+        var pad = 0.15f;
+        var padLat = spanLat * pad;
+        var padLon = spanLon * pad;
+        _viewLat0 = (maxLat + padLat).toFloat();
+        _viewLat1 = (minLat - padLat).toFloat();
+        _viewLon0 = (minLon - padLon).toFloat();
+        _viewLon1 = (maxLon + padLon).toFloat();
+        _viewSet = true;
+
         try {
-            var center = new Position.Location({
-                :latitude => centerLat,
-                :longitude => centerLon,
+            var topLeft = new Position.Location({
+                :latitude => _viewLat0,
+                :longitude => _viewLon0,
                 :format => :degrees,
             });
-            self.setMapVisibleArea(center, spanLat * pad, spanLon * pad);
+            var bottomRight = new Position.Location({
+                :latitude => _viewLat1,
+                :longitude => _viewLon1,
+                :format => :degrees,
+            });
+            self.setMapVisibleArea(topLeft, bottomRight);
         } catch (e) {
-            System.println("[Map] setMapVisibleArea unsupported: " + e.getErrorMessage());
+            System.println("[Map] setMapVisibleArea failed: " + e.getErrorMessage());
+        }
+        applyNativePolyline();
+        applyNativeMarkers();
+    }
+
+    function applyNativePolyline() as Void {
+        if (_route.lats.size() < 2) { return; }
+        try {
+            var poly = new WatchUi.MapPolyline();
+            poly.setColor(Graphics.COLOR_RED);
+            poly.setWidth(3);
+            for (var i = 0; i < _route.lats.size(); i++) {
+                var loc = new Position.Location({
+                    :latitude => _route.lats[i],
+                    :longitude => _route.lons[i],
+                    :format => :degrees,
+                });
+                poly.addLocation(loc);
+            }
+            self.setPolyline(poly);
+        } catch (e) {
+            System.println("[Map] setPolyline failed: " + e.getErrorMessage());
+        }
+    }
+
+    function applyNativeMarkers() as Void {
+        try {
+            var markers = [] as Lang.Array<WatchUi.MapMarker>;
+            for (var i = 0; i < _route.markerLats.size(); i++) {
+                var loc = new Position.Location({
+                    :latitude => _route.markerLats[i],
+                    :longitude => _route.markerLons[i],
+                    :format => :degrees,
+                });
+                var m = new WatchUi.MapMarker(loc);
+                var title = _route.markerTitles[i];
+                var label;
+                if ("Start".equals(title)) {
+                    label = "▲ Start";   // ▲
+                } else if ("Finish".equals(title)) {
+                    label = "■ Finish";  // ■
+                } else {
+                    label = title;
+                }
+                m.setLabel(label);
+                markers.add(m);
+            }
+            if (_currentLat != 0.0f || _currentLon != 0.0f) {
+                var here = new Position.Location({
+                    :latitude => _currentLat,
+                    :longitude => _currentLon,
+                    :format => :degrees,
+                });
+                var hereMarker = new WatchUi.MapMarker(here);
+                hereMarker.setLabel("You");
+                markers.add(hereMarker);
+            }
+            self.setMapMarker(markers);
+        } catch (e) {
+            System.println("[Map] setMapMarker failed: " + e.getErrorMessage());
         }
     }
 
     function updateGpsPosition(lat as Lang.Float, lon as Lang.Float) as Void {
         _currentLat = lat;
         _currentLon = lon;
+        if (_route.isComplete) {
+            applyNativeMarkers();
+        }
         WatchUi.requestUpdate();
     }
 
@@ -222,23 +318,26 @@ class NavigationView extends WatchUi.MapView {
             if (_mapMode == BG_MODE_TILES) {
                 drawCustomTiles(dc);
             }
+            // In TILES/NONE we draw polyline/markers/position manually because
+            // MapView.onUpdate(dc) is not called.
+            drawPolylineOverlay(dc);
+            drawWaypointOverlay(dc);
+            drawPositionOverlay(dc);
         }
 
-        drawPolylineOverlay(dc);
-        drawWaypointOverlay(dc);
-        drawPositionOverlay(dc);
         drawTopBand(dc);
+        drawModeBadge(dc);
         drawOffRouteBannerIfNeeded(dc);
     }
 
     function drawCustomTiles(dc as Graphics.Dc) as Void {
         if (_bundleHeader == null) {
-            drawCenterText(dc, _bundleId == null ? "TILES: no bundle" : "TILES: header parse failed", Graphics.COLOR_DK_GRAY);
+            drawTopText(dc, _bundleId == null ? "TILES: no bundle" : "TILES: header parse failed", Graphics.COLOR_YELLOW);
             return;
         }
         var tiles = _decodedTiles;
         if (tiles == null || tiles.size() == 0) {
-            drawCenterText(dc, "TILES: decode failed", Graphics.COLOR_DK_GRAY);
+            drawTopText(dc, "TILES: decode failed", Graphics.COLOR_YELLOW);
             return;
         }
         var w = dc.getWidth();
@@ -256,6 +355,33 @@ class NavigationView extends WatchUi.MapView {
         var h = dc.getHeight();
         dc.setColor(color, Graphics.COLOR_TRANSPARENT);
         dc.drawText(w / 2, h / 2, Graphics.FONT_XTINY, text, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    // Place diagnostic text above center so the GPS dot doesn't sit on top of it.
+    function drawTopText(dc as Graphics.Dc, text as Lang.String, color as Lang.Number) as Void {
+        var w = dc.getWidth();
+        var h = dc.getHeight();
+        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(w / 2, h / 4, Graphics.FONT_TINY, text, Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    function drawModeBadge(dc as Graphics.Dc) as Void {
+        var label;
+        if (_mapMode == BG_MODE_TILES) {
+            var bid = _bundleId;
+            var snippet = (bid != null && (bid as Lang.String).length() >= 8) ? (bid as Lang.String).substring(0, 8) : "—";
+            var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
+            label = "[TILES] " + snippet + (have ? " ok" : " ∅");
+        } else if (_mapMode == BG_MODE_NONE) {
+            label = "[NONE]";
+        } else {
+            return;
+        }
+        var w = dc.getWidth();
+        var h = dc.getHeight();
+        var th = dc.getFontHeight(Graphics.FONT_XTINY);
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(w / 2, h - th - 4, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawWaitingScreen(dc as Graphics.Dc) as Void {
@@ -276,20 +402,18 @@ class NavigationView extends WatchUi.MapView {
         dc.drawText(cx, h / 2 + 10, Graphics.FONT_SMALL, statusText, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    function projectPoint(lat as Lang.Float, lon as Lang.Float) as Lang.Array<Lang.Number>? {
-        try {
-            var loc = new Position.Location({
-                :latitude => lat,
-                :longitude => lon,
-                :format => :degrees,
-            });
-            var pt = self.latLonToScreenPoint(loc);
-            if (pt instanceof Lang.Array && pt.size() >= 2) {
-                return [pt[0] as Lang.Number, pt[1] as Lang.Number] as Lang.Array<Lang.Number>;
-            }
-        } catch (e) {
-        }
-        return null;
+    // Project a (lat, lon) to screen coords using the tracked viewport.
+    // Returns null if the viewport is not yet configured (no route applied).
+    function projectPoint(dc as Graphics.Dc, lat as Lang.Float, lon as Lang.Float) as Lang.Array<Lang.Number>? {
+        if (!_viewSet) { return null; }
+        var lonSpan = _viewLon1 - _viewLon0;
+        var latSpan = _viewLat0 - _viewLat1;
+        if (lonSpan == 0.0 || latSpan == 0.0) { return null; }
+        var fx = (lon - _viewLon0) / lonSpan;
+        var fy = (_viewLat0 - lat) / latSpan;
+        var x = (fx * dc.getWidth()).toNumber();
+        var y = (fy * dc.getHeight()).toNumber();
+        return [x, y] as Lang.Array<Lang.Number>;
     }
 
     function drawPolylineOverlay(dc as Graphics.Dc) as Void {
@@ -298,9 +422,9 @@ class NavigationView extends WatchUi.MapView {
             return;
         }
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        var prev = projectPoint(_route.lats[0], _route.lons[0]);
+        var prev = projectPoint(dc, _route.lats[0], _route.lons[0]);
         for (var i = 1; i < pts; i++) {
-            var cur = projectPoint(_route.lats[i], _route.lons[i]);
+            var cur = projectPoint(dc, _route.lats[i], _route.lons[i]);
             if (prev != null && cur != null) {
                 dc.drawLine(prev[0], prev[1], cur[0], cur[1]);
             }
@@ -311,14 +435,26 @@ class NavigationView extends WatchUi.MapView {
     function drawWaypointOverlay(dc as Graphics.Dc) as Void {
         var cnt = _route.markerLats.size();
         for (var i = 0; i < cnt; i++) {
-            var pt = projectPoint(_route.markerLats[i], _route.markerLons[i]);
+            var pt = projectPoint(dc, _route.markerLats[i], _route.markerLons[i]);
             if (pt == null) { continue; }
-            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-            dc.fillCircle(pt[0], pt[1], 4);
+            var x = pt[0];
+            var y = pt[1];
             var title = _route.markerTitles[i];
-            if ("Start".equals(title) || "Finish".equals(title)) {
+            if ("Start".equals(title)) {
+                dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+                dc.fillCircle(x, y, 6);
                 dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                dc.drawText(pt[0] + 6, pt[1] - 8, Graphics.FONT_TINY, title, Graphics.TEXT_JUSTIFY_LEFT);
+                dc.drawCircle(x, y, 6);
+                dc.drawText(x + 8, y - 8, Graphics.FONT_TINY, "S", Graphics.TEXT_JUSTIFY_LEFT);
+            } else if ("Finish".equals(title)) {
+                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+                dc.fillRectangle(x - 6, y - 6, 12, 12);
+                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+                dc.drawRectangle(x - 6, y - 6, 12, 12);
+                dc.drawText(x + 8, y - 8, Graphics.FONT_TINY, "F", Graphics.TEXT_JUSTIFY_LEFT);
+            } else {
+                dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+                dc.fillCircle(x, y, 4);
             }
         }
     }
@@ -327,7 +463,7 @@ class NavigationView extends WatchUi.MapView {
         if (_currentLat == 0.0f && _currentLon == 0.0f) {
             return;
         }
-        var pt = projectPoint(_currentLat, _currentLon);
+        var pt = projectPoint(dc, _currentLat, _currentLon);
         if (pt == null) { return; }
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(pt[0], pt[1], 6);
@@ -338,13 +474,24 @@ class NavigationView extends WatchUi.MapView {
     function drawTopBand(dc as Graphics.Dc) as Void {
         var w = dc.getWidth();
         var name = _route.routeName != null ? _route.routeName : "Route";
-        var fitted = fitText(dc, name, Graphics.FONT_TINY, w - 30);
+        var fitted = fitText(dc, name, Graphics.FONT_TINY, w - 50);
         var th = dc.getFontHeight(Graphics.FONT_TINY);
         var topBandH = th + 6;
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(0, 0, w, topBandH);
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(w / 2, 3, Graphics.FONT_TINY, fitted, Graphics.TEXT_JUSTIFY_CENTER);
+        // BLE indicator: filled green = online, outline gray = offline
+        var dotX = w - 10;
+        var dotY = topBandH / 2;
+        if (_onlineMode) {
+            dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
+            dc.fillCircle(dotX, dotY, 5);
+        } else {
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawCircle(dotX, dotY, 5);
+            dc.drawLine(dotX - 4, dotY - 4, dotX + 4, dotY + 4);
+        }
     }
 
     function drawOffRouteBannerIfNeeded(dc as Graphics.Dc) as Void {

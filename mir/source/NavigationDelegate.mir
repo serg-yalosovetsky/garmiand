@@ -1,38 +1,40 @@
-[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [WatchUi,1,13,20]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Lang,1,13,17]; ]
+using Toybox.Lang;
+[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [WatchUi,2,13,20]; ]
 using Toybox.WatchUi;
-[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 3; @symbol_classdef = [NavigationDelegate,3,6,24]; @symbol_extends<0> = [WatchUi,3,33,40]; @symbol_extends<1> = [BehaviorDelegate,3,41,57]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 4; @symbol_classdef = [NavigationDelegate,4,6,24]; @symbol_extends<0> = [WatchUi,4,33,40]; @symbol_extends<1> = [BehaviorDelegate,4,41,57]; ]
 class NavigationDelegate extends WatchUi.BehaviorDelegate {
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 3; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 4; ]
     <init> {
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 3; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 4; ]
     static
     <init> {
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 4; @position = 8; @symbol_vardef = [_route,4,8,14]; @symbol_type<0> = [RouteData,4,18,27]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 5; @position = 8; @symbol_vardef = [_route,5,8,14]; @symbol_type<0> = [RouteData,5,18,27]; ]
     var _route as RouteData;
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 5; @position = 8; @symbol_vardef = [_view,5,8,13]; @symbol_type<0> = [NavigationView,5,17,31]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 6; @position = 8; @symbol_vardef = [_view,6,8,13]; @symbol_type<0> = [NavigationView,6,17,31]; ]
     var _view as NavigationView;
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 7; @symbol_functiondef = [initialize,7,13,23]; @symbol_param<0> = [route,7,24,29]; @symbol_param<0>_type<0> = [RouteData,7,33,42]; @symbol_param<1> = [view,7,44,48]; @symbol_param<1>_type<0> = [NavigationView,7,52,66]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 8; @symbol_functiondef = [initialize,8,13,23]; @symbol_param<0> = [route,8,24,29]; @symbol_param<0>_type<0> = [RouteData,8,33,42]; @symbol_param<1> = [view,8,44,48]; @symbol_param<1>_type<0> = [NavigationView,8,52,66]; ]
     function initialize(route as RouteData, view as NavigationView) as Void {
-G__code_garmiand_garmin_source_NavigationDelegate_mc_7_68_11_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 8 8 ]
-        symbol [ BehaviorDelegate %tmp.2 8 8 24 ];
+G__code_garmiand_garmin_source_NavigationDelegate_mc_8_68_12_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 9 8 ]
+        symbol [ BehaviorDelegate %tmp.2 9 8 24 ];
         %tmp.2 = getv ? :BehaviorDelegate;
-        symbol [ initialize %tmp.3 8 25 35 ];
+        symbol [ initialize %tmp.3 9 25 35 ];
         %tmp.3 = getv function %tmp.2 :initialize;
         invoke %tmp.2 %tmp.3();
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 9 8 ]
-        %tmp.4 = lgetv %route;
-        symbol [ route %tmp.4 9 17 22 ];
-        symbol [ _route ? 9 8 14 ];
-        putv self :_route %tmp.4;
 [ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 10 8 ]
+        %tmp.4 = lgetv %route;
+        symbol [ route %tmp.4 10 17 22 ];
+        symbol [ _route ? 10 8 14 ];
+        putv self :_route %tmp.4;
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 11 8 ]
         %tmp.5 = lgetv %view;
-        symbol [ view %tmp.5 10 16 20 ];
-        symbol [ _view ? 10 8 13 ];
+        symbol [ view %tmp.5 11 16 20 ];
+        symbol [ _view ? 11 8 13 ];
         putv self :_view %tmp.5;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_7_68_11_4_stop:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_8_68_12_4_stop:
     }
     [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 15; @symbol_functiondef = [onSelect,15,13,21]; @symbol_return<0> = [Lang,15,27,31]; @symbol_return<1> = [Boolean,15,32,39]; ]
     function onSelect() as Lang.Boolean {

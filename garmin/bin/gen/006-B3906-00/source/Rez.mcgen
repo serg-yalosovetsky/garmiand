@@ -15,6 +15,7 @@ module Rez {
         (:initialized) var MapMode_Label as ResourceId;
         (:initialized) var MapMode_Native as ResourceId;
         (:initialized) var LastBundleId_Label as ResourceId;
+        (:initialized) var OnlineMode_Label as ResourceId;
         (:initialized) var AppName as ResourceId;
     } // Strings
 

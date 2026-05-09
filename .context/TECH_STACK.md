@@ -21,7 +21,7 @@
 
 - **Connect IQ SDK 9.1.0** (or whichever is current under `%APPDATA%\Garmin\ConnectIQ\Sdks\`).
 - Target device: `fenix7` (manifest `<iq:product id="fenix7"/>`). minApiLevel 3.3.0.
-- Permissions in `garmin/manifest.xml`: `Positioning`, `Communications`, `Map`. (The last is required for `WatchUi.MapView`.) No `<iq:uses-domain>` — sideloaded development builds are not enforced.
+- Permissions in `garmin/manifest.xml`: `Positioning`, `Communications`. (MapView does not need a permission — SDK 9.1.0 treats `Map` as invalid.) No `<iq:uses-domain>` — sideloaded development builds are not enforced.
 
 ## Conventions (non-negotiable)
 

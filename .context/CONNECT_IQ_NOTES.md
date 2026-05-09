@@ -13,23 +13,32 @@ Implications:
 
 ## MapView basics
 
-We extend `WatchUi.MapView` (not `WatchUi.View`) for the map screen. Required:
+We extend `WatchUi.MapView` (not `WatchUi.View`) for the map screen. Notes from getting it to compile against SDK 9.1.0:
 
-- `<iq:uses-permission id="Map"/>` in `manifest.xml`. Without it the constructor
-  errors at app start.
-- `setMapMode(MapView.MAP_MODE_BROWSE)` gives the user native pan/zoom via
-  the UP/DOWN/SELECT buttons. We also use SELECT in `NavigationDelegate` to
-  cycle our own background mode (NATIVE → TILES → NONE) — this can interfere
-  if the device is in MapView's own zoom interaction; if reports come in,
-  consider remapping to a different button.
-- `setMapVisibleArea(centerLocation, latSpan, lonSpan)` — used to frame the
-  route after `sync_finish`. Wrapped in try/catch because exact signatures
-  vary by SDK; the user can still pan manually if the call errors.
-- `setPolyline(MapPolyline)` and `setMapMarker(MapMarker)` exist but we do
-  **not** use them. Reasons: only one marker at a time (we have multiple
-  waypoints), polyline color/width is fixed, and we want full control of
-  rendering for the OFF ROUTE banner overlay. Instead we draw with
-  `latLonToScreenPoint(loc)` returning `[x, y]`.
+- **There is no `Map` permission.** `<iq:uses-permission id="Map"/>` errors with
+  "Invalid permission provided: Map" at compile time. MapView is gated by
+  device capabilities, not manifest permissions.
+- We use `WatchUi.MAP_MODE_PREVIEW` (not `MAP_MODE_BROWSE`). PREVIEW gives
+  static rendering whose viewport we control via `setMapVisibleArea`. BROWSE
+  would let the user pan/zoom but Connect IQ does not expose a way to read
+  the resulting viewport, so we'd have no way to align our overlays. Trade-off:
+  in NATIVE mode the user can't pan/zoom — they pick the viewport at sync time
+  by virtue of route bbox + 15% padding.
+- `setMapVisibleArea(topLeft as Position.Location, bottomRight as Position.Location)` —
+  TWO Location objects, not center+spans. `topLeft` has the higher latitude
+  (north) and lower longitude (west); `bottomRight` is the opposite corner.
+- `MapPolyline.addLocation(loc | Array<loc>)`, then `MapView.setPolyline(poly)`.
+  Color (`setColor`) and width (`setWidth`) are properties of `MapPolyline`.
+- `MapMarker(location)` constructor takes one Location; `setLabel(text)` and
+  `setIcon(bmp)` decorate it. **`MapView.setMapMarker` accepts a single marker
+  OR an `Array<MapMarker>`** — we pass the array form for waypoints + GPS.
+- **There is no `latLonToScreenPoint(loc)` API.** This was the big surprise.
+  In NATIVE mode we accept that, hand off to MapView's native polyline/marker
+  rendering, and only draw the top band + OFF ROUTE banner manually
+  (fixed-position UI, no projection). In TILES/NONE modes we project route
+  points ourselves from our tracked viewport (`_viewLat0/1, _viewLon0/1`)
+  using a linear lon/lat → fraction → pixel conversion (`projectPoint(dc, lat, lon)`
+  in `NavigationView.mc`).
 
 ## Application.Storage limits
 

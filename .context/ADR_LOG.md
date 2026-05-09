@@ -98,8 +98,12 @@ region has no TopoActive coverage or they want OSM detail. A "None" mode
 most users this means zero setup. The hybrid bundle path exists for the
 travel-outside-Europe / want-a-different-map cases, not as the primary UX.
 
-**Implication.** `Map` permission required in `manifest.xml`. The
-`MAP_MODE_BROWSE` setting gives users native pan/zoom in MapView mode. In
-TILES and NONE modes, the route polyline is drawn manually via
-`latLonToScreenPoint` so it tracks whatever viewport the user dialed in via
-MapView.
+**Implication.** No special permission required in `manifest.xml` (we tried
+adding `Map` and it broke the build — the API is gated by device, not
+manifest). We use `WatchUi.MAP_MODE_PREVIEW` (static viewport) instead of
+`MAP_MODE_BROWSE` (interactive) because Connect IQ doesn't expose a
+`latLonToScreenPoint` API or a way to read the user's pan/zoom state — so
+we'd have no way to align our overlays in BROWSE. Trade-off: user can't pan
+or zoom; the viewport is set once at sync time from the route bbox + 15%
+padding. In TILES and NONE modes the polyline is drawn by `projectPoint`
+using our own viewport math (linear lon/lat → fraction → pixel).

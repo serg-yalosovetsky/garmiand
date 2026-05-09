@@ -25,7 +25,7 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 | Constant | Value | Meaning |
 |---|---|---|
 | `WATCH_APP_ID` | `71DA4029287A447BBE86B83DC1588647` | Must equal `<iq:application id="...">` in `garmin/manifest.xml`. **Change in lockstep.** |
-| `SEND_TIMEOUT_MS` | `8000` | Busy-wait deadline for an `IQMessageStatus` callback. |
+| `SEND_TIMEOUT_MS` | `30000` | Busy-wait deadline for an `IQMessageStatus` callback. Empirical: Garmin BLE acks a ~1.5 KB chunk in 4–6 s, a 3 KB chunk in ~8 s; 30 s gives healthy headroom for any size we send. |
 
 ## Android — `NativeMapEncoder.kt`
 
@@ -44,7 +44,7 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 
 | Constant | Default | Meaning |
 |---|---|---|
-| `DEFAULT_CHUNK_SIZE` | `3000` | Bytes per BLE `tile_chunk`. Headroom under Garmin's ~4 KB limit. |
+| `DEFAULT_CHUNK_SIZE` | `1500` | Bytes per BLE `tile_chunk`. Garmin BLE on Fenix 7 moves ~370 B/s — at 3 KB the per-chunk ack approached our SEND_TIMEOUT_MS; 1.5 KB acks in ~4 s. Total bundle transfer for a 64 KB bundle is ~3 minutes regardless. |
 | `INTER_CHUNK_DELAY_MS` | `150` | Pause between chunks to keep Garmin's 3-outstanding-request queue happy. |
 
 ## Backend — `server/.env`
@@ -66,7 +66,7 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 | `entry` | `GarmiandApp` | |
 | `type` | `watch-app` | |
 | products | `fenix7` | Only target supported today. |
-| permissions | `Positioning`, `Communications`, `Map` | `Map` required for `WatchUi.MapView`. |
+| permissions | `Positioning`, `Communications` | MapView does not need an explicit permission in SDK 9.1.0. |
 | minApiLevel | `3.3.0` | |
 
 ## Watch — `properties.xml` / Connect IQ Settings

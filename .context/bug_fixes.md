@@ -15,9 +15,9 @@ Recurring sources of bugs and the rules that keep them away.
 
 Order of suspicion:
 
-1. **`Map` permission missing.** If `WatchUi.MapView` constructor throws or
-   the screen is blank from the start, check `<iq:uses-permission id="Map"/>`
-   is present in `manifest.xml`.
+1. **Don't add a `Map` permission to the manifest.** It is invalid in SDK 9.1.0
+   and breaks the build (`Invalid permission provided: Map`). MapView works
+   without it.
 2. **No bundle in Storage.** Watch shows `TILES: no bundle`. Either the
    "Cache map for offline" switch wasn't on at sync time, or the transfer
    failed. Re-sync.
@@ -45,6 +45,21 @@ simulator's `Settings → Edit Storage` panel and prune manually.
 chunks for two different `bundle_id`s interleave (rare; would only happen if
 the user spams Send), the assembler resets to the new bundle and drops
 partial state. Confirmed safe by the bundle-id check.
+
+## "send tile_chunk failed: Send timeout" but ack arrives shortly after
+
+This bit us once already on Fenix 7: a 3 KB chunk acked in ~8.2 s, the
+busy-wait in `ConnectIQGarminCompanion.send` gave up at 8 s, and the sender
+bailed even though the chunk was actually delivered. Two responses:
+
+- `SEND_TIMEOUT_MS` is now 30 s (was 8 s) — generous enough for any chunk
+  size we send.
+- `MapBundleBleSender.DEFAULT_CHUNK_SIZE` is 1500 (was 3000) — smaller chunks
+  ack in ~4 s, tighter progress feedback, no risk of brushing the timeout.
+
+If you ever see the timeout again, check throughput in the log and consider
+dropping the chunk size further (down to ~800 B). Don't shorten the timeout
+to "fail fast" — Garmin BLE genuinely takes that long.
 
 ## Markers missing after sync
 

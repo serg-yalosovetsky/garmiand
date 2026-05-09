@@ -1,3 +1,5 @@
+using Toybox.Application as App;
+using Toybox.Lang;
 using Toybox.WatchUi;
 
 class NavigationDelegate extends WatchUi.BehaviorDelegate {
@@ -10,10 +12,15 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
         _view = view;
     }
 
-    // SELECT — cycle map mode (Native → Tiles → None → Native).
-    // UP/DOWN are consumed by MapView.MAP_MODE_BROWSE for native pan/zoom.
+    // SELECT cycles map background mode (Native → Tiles → None → Native).
     function onSelect() as Lang.Boolean {
         _view.cycleMapMode();
+        return true;
+    }
+
+    // UP toggles BLE online/offline mode.
+    function onNextPage() as Lang.Boolean {
+        (App.getApp() as GarmiandApp).toggleOnlineMode();
         return true;
     }
 

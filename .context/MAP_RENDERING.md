@@ -107,11 +107,22 @@ There is no scaling. The tile grid in `TileQuantizer` is sized so the bundle
 fits the screen with mild clipping (default `maxTilesPerSide = 2`,
 `outputSize = 128` → 256×256 px bundle on a 240×240 screen).
 
-Polyline / waypoint / GPS-position overlays in TILES mode use
-`MapView.latLonToScreenPoint` so they still respect the user's MapView
-viewport — but the tile bitmap itself is static (not pan/zoom-aware in v1).
-This is acceptable for a "cached map underlay" experience; native MapView
-mode is what the user picks for full pan/zoom.
+Polyline / waypoint / GPS-position overlays project route points using a
+manual viewport (`_viewLat0/1, _viewLon0/1` set by `applyRoute` from the
+route bbox + 15% padding). There is no `latLonToScreenPoint` in the
+Connect IQ MapView API, so we compute pixel positions ourselves by linear
+fraction-of-viewport. The viewport is shared with `MapView.setMapVisibleArea`
+(in NATIVE mode), so all three modes draw the route at the same screen
+coordinates.
+
+## Native rendering (NATIVE mode)
+
+We use `WatchUi.MAP_MODE_PREVIEW` — static viewport, no user pan/zoom. The
+viewport is set once via `setMapVisibleArea(topLeft, bottomRight)` from
+`applyRoute`. The route polyline is fed to MapView via `setPolyline`, and
+waypoints + GPS marker via `setMapMarker(arrayOfMarkers)`. `MapView.onUpdate(dc)`
+draws the TopoActive backdrop + native polyline + native markers in one
+call; we draw the top band and OFF ROUTE banner on top.
 
 ## Sizing budget
 

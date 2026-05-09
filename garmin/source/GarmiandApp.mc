@@ -14,12 +14,33 @@ class GarmiandApp extends App.AppBase {
     var _gpsTimer as Timer.Timer?;
     var _navView as NavigationView?;
     var _bleChunkAssembler as BleChunkAssembler?;
+    var _onlineMode as Lang.Boolean;
 
     function initialize() {
         AppBase.initialize();
         _route = new RouteData();
         _currentLat = 0.0f;
         _currentLon = 0.0f;
+        _onlineMode = readOnlineModeProperty();
+    }
+
+    function readOnlineModeProperty() as Lang.Boolean {
+        try {
+            var v = App.Properties.getValue("online_mode");
+            if (v instanceof Lang.Boolean) { return v as Lang.Boolean; }
+        } catch (e) {}
+        return true;
+    }
+
+    function toggleOnlineMode() as Void {
+        _onlineMode = !_onlineMode;
+        try {
+            App.Properties.setValue("online_mode", _onlineMode);
+        } catch (e) {}
+        System.println("[App] onlineMode=" + _onlineMode);
+        if (_navView != null) {
+            (_navView as NavigationView).setOnlineMode(_onlineMode);
+        }
     }
 
     function onStart(state) {
@@ -43,6 +64,7 @@ class GarmiandApp extends App.AppBase {
     function getInitialView() {
         var view = new NavigationView(_route);
         _navView = view;
+        view.setOnlineMode(_onlineMode);
         var delegate = new NavigationDelegate(_route, view);
         return [view, delegate];
     }
@@ -155,6 +177,7 @@ class GarmiandApp extends App.AppBase {
     }
 
     var _pendingBundleId as Lang.String?;
+    var _pendingBundleUrl as Lang.String?;
 
     function handleTileSession(dict as Lang.Dictionary) as Void {
         var bundleId = dict["bundle_id"] as Lang.String;
@@ -163,24 +186,38 @@ class GarmiandApp extends App.AppBase {
             System.println("[Tiles] tile_session missing fields");
             return;
         }
+        if (!_onlineMode) {
+            System.println("[Tiles] offline mode — skip download, use cached bundle=" + bundleId);
+            if (_navView != null) {
+                (_navView as NavigationView).setBundleId(bundleId);
+            }
+            return;
+        }
         System.println("[Tiles] HTTPS bundle " + bundleId + " <- " + url);
         _pendingBundleId = bundleId;
+        _pendingBundleUrl = url;
         Communications.makeWebRequest(
             url,
             null,
             {
                 :method => Communications.HTTP_REQUEST_METHOD_GET,
                 :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_TEXT_PLAIN,
+                :headers => {
+                    "ngrok-skip-browser-warning" => "true",
+                    "Accept" => "text/plain",
+                },
             },
             method(:onBundleResponse)
         );
     }
 
-    function onBundleResponse(responseCode as Lang.Number, data as Lang.Object) as Void {
+    function onBundleResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or Null) as Void {
         var bundleId = _pendingBundleId;
+        var url = _pendingBundleUrl;
         _pendingBundleId = null;
+        _pendingBundleUrl = null;
         if (responseCode != 200) {
-            System.println("[Tiles] bundle fetch failed code=" + responseCode);
+            System.println("[Tiles] bundle fetch failed code=" + responseCode + " url=" + url);
             return;
         }
         if (bundleId == null) {

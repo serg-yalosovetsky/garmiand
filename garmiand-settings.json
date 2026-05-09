@@ -1,0 +1,53 @@
+{
+  "settings" : [ {
+    "key" : "map_mode",
+    "valueType" : "number",
+    "defaultValue" : 0,
+    "configTitle" : "MapMode_Label",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "MapMode_Native",
+      "value" : 0
+    }, {
+      "display" : "MapMode_Tiles",
+      "value" : 1
+    }, {
+      "display" : "MapMode_None",
+      "value" : 2
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "last_bundle_id",
+    "valueType" : "string",
+    "defaultValue" : "",
+    "configTitle" : "LastBundleId_Label",
+    "configPrompt" : null,
+    "configType" : "alphaNumeric",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : true,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  } ],
+  "supportsLiveValidation" : false,
+  "languages" : {
+    "valyrian" : {
+      "MapMode_None" : "None",
+      "MapMode_Label" : "Map Background",
+      "MapMode_Native" : "Native (TopoActive)",
+      "LastBundleId_Label" : "Last Bundle ID",
+      "MapMode_Tiles" : "Custom Tiles",
+      "AppName" : "Garmiand V1"
+    }
+  }
+}

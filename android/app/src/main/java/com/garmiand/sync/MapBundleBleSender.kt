@@ -6,8 +6,14 @@ import com.garmiand.util.AppLog
 import java.util.UUID
 
 private const val TAG = "MapBundleBleSender"
-private const val DEFAULT_CHUNK_SIZE = 3000
+// Empirically Garmin BLE moves ~370 B/s on Fenix 7 — a 3 KB chunk took
+// ~8.2 s to ack, just past our previous 8 s busy-wait deadline. Smaller
+// chunks ack faster *per* chunk, so failures (and progress UI) are tighter
+// even though total throughput is roughly the same.
+private const val DEFAULT_CHUNK_SIZE = 1500
 private const val INTER_CHUNK_DELAY_MS = 150L
+private const val MAX_RETRIES = 2
+private const val RETRY_BACKOFF_MS = 1500L
 
 class MapBundleBleSender(
     private val companion: GarminCompanion,
@@ -31,18 +37,30 @@ class MapBundleBleSender(
             val start = i * chunkSize
             val end = minOf(start + chunkSize, bundle.size)
             val payload = bundle.copyOfRange(start, end)
-            val ack = companion.send(
-                SyncMessage.TileChunk(
-                    sessionId = sessionId,
-                    bundleId = bundleId,
-                    index = i,
-                    total = total,
-                    payload = payload,
-                )
+            val msg = SyncMessage.TileChunk(
+                sessionId = sessionId,
+                bundleId = bundleId,
+                index = i,
+                total = total,
+                payload = payload,
             )
+            var attempt = 0
+            var ok = false
+            while (attempt <= MAX_RETRIES && !ok) {
+                val ack = companion.send(msg)
+                if (ack.ok) {
+                    ok = true
+                } else {
+                    AppLog.w(TAG, "chunk $i/$total attempt ${attempt + 1} failed: ${ack.reason}")
+                    attempt++
+                    if (attempt <= MAX_RETRIES) {
+                        Thread.sleep(RETRY_BACKOFF_MS)
+                    }
+                }
+            }
             onProgress?.invoke(i + 1, total)
-            if (!ack.ok) {
-                AppLog.w(TAG, "chunk $i/$total failed: ${ack.reason}")
+            if (!ok) {
+                AppLog.w(TAG, "chunk $i/$total exhausted retries — aborting")
                 return null
             }
             if (i < total - 1) {

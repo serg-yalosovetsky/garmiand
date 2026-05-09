@@ -1011,11 +1011,11 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_162_8_165_8_if_end:
         invoke %tmp.29 %tmp.30(%tmp.31, %tmp.32, %tmp.45, %tmp.50);
 G__code_garmiand_garmin_source_GarmiandApp_mc_159_64_177_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 179; @symbol_functiondef = [onBundleResponse,179,13,29]; @symbol_param<0> = [responseCode,179,30,42]; @symbol_param<0>_type<0> = [Lang,179,46,50]; @symbol_param<0>_type<1> = [Number,179,51,57]; @symbol_param<1> = [data,179,59,63]; @symbol_param<1>_type<0> = [Lang,179,67,71]; @symbol_param<1>_type<1> = [Object,179,72,78]; ]
-    function onBundleResponse(responseCode as Lang.Number, data as Lang.Object) as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_179_88_210_4_start:
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 179; @symbol_functiondef = [onBundleResponse,179,13,29]; @symbol_param<0> = [responseCode,179,30,42]; @symbol_param<0>_type<0> = [Lang,179,46,50]; @symbol_param<0>_type<1> = [Number,179,51,57]; @symbol_param<1> = [data,179,59,63]; @symbol_param<1>_type<0> = [Lang,179,67,71]; @symbol_param<1>_type<1> = [Dictionary,179,72,82]; @symbol_param<1>_type<2> = [Lang,179,86,90]; @symbol_param<1>_type<3> = [String,179,91,97]; ]
+    function onBundleResponse(responseCode as Lang.Number, data as Lang.Dictionary or Lang.String or Null) as Void {
+G__code_garmiand_garmin_source_GarmiandApp_mc_179_115_210_4_start:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 180 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_179_88_210_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_179_88_210_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_179_115_210_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_179_115_210_4_stop" ]
         %bundleId.1 = local;
         symbol [ bundleId %bundleId.1 180 12 20 ];
         symbol [ _pendingBundleId %tmp.2 180 23 39 ];
@@ -1101,7 +1101,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_190_44_193_8_stop:
         goto @G__code_garmiand_garmin_source_GarmiandApp_mc_190_8_193_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_190_8_193_8_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 194 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_179_88_210_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_179_88_210_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_179_115_210_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_179_115_210_4_stop" ]
         %blob.2 = local;
         symbol [ blob %blob.2 194 12 16 ];
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 195 8 ]
@@ -1243,7 +1243,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_206_12_208_12_if_end:
 G__code_garmiand_garmin_source_GarmiandApp_mc_205_64_209_8_stop:
         goto @G__code_garmiand_garmin_source_GarmiandApp_mc_205_8_209_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_205_8_209_8_if_end:
-G__code_garmiand_garmin_source_GarmiandApp_mc_179_88_210_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_179_115_210_4_stop:
     }
     [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 212; @symbol_functiondef = [handleTileChunk,212,13,28]; @symbol_param<0> = [dict,212,29,33]; @symbol_param<0>_type<0> = [Lang,212,37,41]; @symbol_param<0>_type<1> = [Dictionary,212,42,52]; ]
     function handleTileChunk(dict as Lang.Dictionary) as Void {

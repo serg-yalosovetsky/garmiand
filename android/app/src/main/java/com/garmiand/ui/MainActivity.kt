@@ -87,7 +87,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         AppLog.addListener(logListener)
-        AppLog.i(TAG, "App started backendUrl='${BuildConfig.BACKEND_URL}'")
+        val tok = BuildConfig.BACKEND_TOKEN
+        val tokFingerprint = if (tok.length >= 6) "${tok.take(3)}…${tok.takeLast(3)} (len=${tok.length})" else "(len=${tok.length})"
+        AppLog.i(TAG, "App started backendUrl='${BuildConfig.BACKEND_URL}' token=$tokFingerprint")
 
         garminCompanion = ConnectIQGarminCompanion(this)
         tvStatus.text = "Connecting to Garmin..."
