@@ -1,0 +1,4 @@
+<properties>
+    <property id="map_mode" type="number">0</property>
+    <property id="last_bundle_id" type="string"></property>
+</properties>

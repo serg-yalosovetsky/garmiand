@@ -1,0 +1,12 @@
+<settings>
+    <setting propertyKey="@Properties.map_mode" title="@Strings.MapMode_Label">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.MapMode_Native</listEntry>
+            <listEntry value="1">@Strings.MapMode_Tiles</listEntry>
+            <listEntry value="2">@Strings.MapMode_None</listEntry>
+        </settingConfig>
+    </setting>
+    <setting propertyKey="@Properties.last_bundle_id" title="@Strings.LastBundleId_Label">
+        <settingConfig type="alphaNumeric" readonly="true"/>
+    </setting>
+</settings>

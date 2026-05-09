@@ -7,16 +7,21 @@
 
 ## Android Side
 
-- **Connect IQ Mobile SDK** — `connectiq-sdk.aar` from Garmin Developer Portal, dropped into `android/app/libs/` and pulled in via `implementation(fileTree(...))`.
-- **NanoHTTPD** (`org.nanohttpd:nanohttpd:2.3.1`) — embedded HTTP server. Currently unused at runtime (see ADR-003); class lives in `map/MapTileServer.kt`.
-- **AndroidX AppCompat** — for `AppCompatActivity`.
+- **Connect IQ Mobile SDK 2.4.0** — `com.garmin.connectiq:ciq-companion-app-sdk:2.4.0@aar` from Maven Central. No manual AAR drop required.
+- **AndroidX AppCompat + Material** — for `AppCompatActivity` and `SwitchCompat`.
+- **`org.json`** (built into Android) — used in `MapBundleUploader` for parsing the backend response.
+- **HttpURLConnection** — used by `TileQuantizer` for tile fetches and `MapBundleUploader` for bundle uploads. No third-party HTTP client.
 - Standard `XmlPullParser` for GPX parsing — no third-party GPX library.
+
+## Backend
+
+- **Node.js 20+ / Express 4** — under `server/`. Tiny REST API, no database, single-binary docker image. See [BACKEND.md](BACKEND.md).
 
 ## Watch Side
 
 - **Connect IQ SDK 9.1.0** (or whichever is current under `%APPDATA%\Garmin\ConnectIQ\Sdks\`).
 - Target device: `fenix7` (manifest `<iq:product id="fenix7"/>`). minApiLevel 3.3.0.
-- Permissions in `garmin/manifest.xml`: `Positioning`, `Communications`. No `<iq:uses-domain>` — sideloaded development builds are not enforced.
+- Permissions in `garmin/manifest.xml`: `Positioning`, `Communications`, `Map`. (The last is required for `WatchUi.MapView`.) No `<iq:uses-domain>` — sideloaded development builds are not enforced.
 
 ## Conventions (non-negotiable)
 

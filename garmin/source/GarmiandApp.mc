@@ -2,6 +2,7 @@ using Toybox.Application as App;
 using Toybox.Communications;
 using Toybox.Lang;
 using Toybox.Position;
+using Toybox.StringUtil;
 using Toybox.System;
 using Toybox.Timer;
 using Toybox.WatchUi;
@@ -11,30 +12,14 @@ class GarmiandApp extends App.AppBase {
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
     var _gpsTimer as Timer.Timer?;
-    var _mapBitmap as WatchUi.BitmapResource?;
-    var _mapMinLat as Lang.Float;
-    var _mapMaxLat as Lang.Float;
-    var _mapMinLon as Lang.Float;
-    var _mapMaxLon as Lang.Float;
-    var _mapWidth as Lang.Number;
-    var _mapHeight as Lang.Number;
-    var _mapDebug as Lang.String;
-    var _lastUrlTail as Lang.String;
+    var _navView as NavigationView?;
+    var _bleChunkAssembler as BleChunkAssembler?;
 
     function initialize() {
         AppBase.initialize();
         _route = new RouteData();
         _currentLat = 0.0f;
         _currentLon = 0.0f;
-        _mapBitmap = null;
-        _mapMinLat = 0.0f;
-        _mapMaxLat = 0.0f;
-        _mapMinLon = 0.0f;
-        _mapMaxLon = 0.0f;
-        _mapWidth = 0;
-        _mapHeight = 0;
-        _mapDebug = "";
-        _lastUrlTail = "";
     }
 
     function onStart(state) {
@@ -57,28 +42,18 @@ class GarmiandApp extends App.AppBase {
 
     function getInitialView() {
         var view = new NavigationView(_route);
+        _navView = view;
         var delegate = new NavigationDelegate(_route, view);
         return [view, delegate];
     }
 
     function onGpsPosition(info as Position.Info) as Void {
-        System.println("[GPS] onGpsPosition fired, accuracy=" + info.accuracy);
         applyPositionInfo(info, "callback");
     }
 
     function pollGps() as Void {
         var info = Position.getInfo();
         applyPositionInfo(info, "poll");
-    }
-
-    function onMapImage(responseCode as Lang.Number, data as WatchUi.BitmapResource?) as Void {
-        System.println("[Map] image response code=" + responseCode);
-        var hasData = (data != null) ? "1" : "0";
-        _mapDebug = "code=" + responseCode + " d=" + hasData;
-        if (responseCode == 200 && data != null) {
-            _mapBitmap = data;
-        }
-        WatchUi.requestUpdate();
     }
 
     function applyPositionInfo(info as Position.Info, source as Lang.String) as Void {
@@ -95,10 +70,12 @@ class GarmiandApp extends App.AppBase {
         if (lat == _currentLat && lon == _currentLon) {
             return;
         }
-        System.println("[GPS:" + source + "] lat=" + lat + " lon=" + lon + " acc=" + info.accuracy);
+        System.println("[GPS:" + source + "] lat=" + lat + " lon=" + lon);
         _currentLat = lat;
         _currentLon = lon;
-        WatchUi.requestUpdate();
+        if (_navView != null) {
+            _navView.updateGpsPosition(lat, lon);
+        }
     }
 
     function onPhoneMessage(msg as Communications.PhoneAppMessage) as Void {
@@ -140,33 +117,20 @@ class GarmiandApp extends App.AppBase {
 
         if ("sync_finish".equals(kind)) {
             _route.isComplete = true;
+            if (_navView != null) {
+                _navView.applyRoute(_route);
+            }
             WatchUi.requestUpdate();
             return;
         }
 
-        if ("map_url".equals(kind)) {
-            var url = dict["url"] as Lang.String;
-            _mapMinLat = (dict["min_lat"] as Lang.Numeric).toFloat();
-            _mapMaxLat = (dict["max_lat"] as Lang.Numeric).toFloat();
-            _mapMinLon = (dict["min_lon"] as Lang.Numeric).toFloat();
-            _mapMaxLon = (dict["max_lon"] as Lang.Numeric).toFloat();
-            _mapWidth = (dict["w"] as Lang.Numeric).toNumber();
-            _mapHeight = (dict["h"] as Lang.Numeric).toNumber();
-            System.println("[Map] requesting " + url);
-            var n = url.length();
-            _lastUrlTail = (n > 24) ? url.substring(n - 24, n) : url;
-            _mapDebug = "requesting...";
-            WatchUi.requestUpdate();
-            Communications.makeImageRequest(
-                url,
-                null,
-                {
-                    :maxWidth => _mapWidth,
-                    :maxHeight => _mapHeight,
-                    :dithering => Communications.IMAGE_DITHERING_FLOYD_STEINBERG,
-                },
-                method(:onMapImage)
-            );
+        if ("tile_session".equals(kind)) {
+            handleTileSession(dict);
+            return;
+        }
+
+        if ("tile_chunk".equals(kind)) {
+            handleTileChunk(dict);
             return;
         }
 
@@ -181,9 +145,79 @@ class GarmiandApp extends App.AppBase {
                 _route.setMarkers(rawMarkers as Lang.Array);
             }
             _route.isComplete = true;
+            if (_navView != null) {
+                _navView.applyRoute(_route);
+            }
             System.println("[App] route_full loaded: " + _route.lats.size() + " pts, " + _route.markerLats.size() + " markers");
             WatchUi.requestUpdate();
             return;
         }
     }
+
+    var _pendingBundleId as Lang.String?;
+
+    function handleTileSession(dict as Lang.Dictionary) as Void {
+        var bundleId = dict["bundle_id"] as Lang.String;
+        var url = dict["download_url"] as Lang.String;
+        if (bundleId == null || url == null) {
+            System.println("[Tiles] tile_session missing fields");
+            return;
+        }
+        System.println("[Tiles] HTTPS bundle " + bundleId + " <- " + url);
+        _pendingBundleId = bundleId;
+        Communications.makeWebRequest(
+            url,
+            null,
+            {
+                :method => Communications.HTTP_REQUEST_METHOD_GET,
+                :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_TEXT_PLAIN,
+            },
+            method(:onBundleResponse)
+        );
+    }
+
+    function onBundleResponse(responseCode as Lang.Number, data as Lang.Object) as Void {
+        var bundleId = _pendingBundleId;
+        _pendingBundleId = null;
+        if (responseCode != 200) {
+            System.println("[Tiles] bundle fetch failed code=" + responseCode);
+            return;
+        }
+        if (bundleId == null) {
+            System.println("[Tiles] response without pending id");
+            return;
+        }
+        if (!(data instanceof Lang.String)) {
+            System.println("[Tiles] response not a string: " + data);
+            return;
+        }
+        var blob;
+        try {
+            blob = StringUtil.convertEncodedString(data as Lang.String, {
+                :fromRepresentation => StringUtil.REPRESENTATION_STRING_BASE64,
+                :toRepresentation => StringUtil.REPRESENTATION_BYTE_ARRAY,
+            }) as Lang.ByteArray;
+        } catch (e) {
+            System.println("[Tiles] base64 decode failed: " + e.getErrorMessage());
+            return;
+        }
+        System.println("[Tiles] decoded bundle " + bundleId + " size=" + blob.size());
+        if (TileDecoder.persist(bundleId as Lang.String, blob)) {
+            if (_navView != null) {
+                _navView.setBundleId(bundleId);
+            }
+        }
+    }
+
+    function handleTileChunk(dict as Lang.Dictionary) as Void {
+        // Stage 9 will assemble chunks into a bundle blob and persist.
+        if (_bleChunkAssembler == null) {
+            _bleChunkAssembler = new BleChunkAssembler();
+        }
+        var assembled = (_bleChunkAssembler as BleChunkAssembler).accept(dict);
+        if (assembled != null && _navView != null) {
+            _navView.setBundleId(assembled);
+        }
+    }
 }
+

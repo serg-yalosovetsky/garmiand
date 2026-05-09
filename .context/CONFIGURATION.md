@@ -1,15 +1,24 @@
 # Configuration
 
-There are no environment variables. All knobs are compile-time constants.
+Compile-time constants for the watch and Kotlin side; build-time injection
+for backend coordinates on the phone.
 
 ## Android — `MainActivity.kt`
 
 | Constant | Value | Meaning |
 |---|---|---|
-| `MAP_SERVER_PORT` | `8081` | NanoHTTPD port for the (currently unused) `MapTileServer`. |
-| `MAP_WIDTH` / `MAP_HEIGHT` | `240` | Pixel size sent in `map_url` and used by the watch projection. Matches Fenix 7 screen. |
-| `BBOX_PADDING_FRACTION` | `0.15` | Padding around the route bbox before picking the tile. |
+| `BBOX_PADDING_FRACTION` | `0.15` | Padding around the route bbox before tile quantization. |
 | `REQUEST_GPX_FILE` | `1001` | `startActivityForResult` request code. |
+
+## Android — BuildConfig (read in `MainActivity` and `MapBundleUploader`)
+
+Set via `gradle.properties` or env vars before assembling. Defaults are
+empty (HTTPS path falls back to BLE) and a placeholder token.
+
+| Field | Source | Default | Meaning |
+|---|---|---|---|
+| `BACKEND_URL` | `garmiand.backendUrl` property / `GARMIAND_BACKEND_URL` env | `""` | Bundle broker base URL. Empty → BLE-only. |
+| `BACKEND_TOKEN` | `garmiand.backendToken` property / `GARMIAND_BACKEND_TOKEN` env | `dev-token-change-me` | Bearer auth header. Must match the server's `BACKEND_TOKEN`. |
 
 ## Android — `ConnectIQGarminCompanion.kt`
 
@@ -22,7 +31,32 @@ There are no environment variables. All knobs are compile-time constants.
 
 | Parameter | Default | Meaning |
 |---|---|---|
-| `pointsPerChunk` | `50` | Points per `route_chunk`. ~800 bytes per chunk; safely under the ~4 KB Connect IQ message ceiling. Increase only with measurement. |
+| `pointsPerChunk` | `50` | Points per `route_chunk`. ~800 bytes per chunk; safely under the ~4 KB Connect IQ ceiling. Increase only with measurement. |
+
+## Android — `TileQuantizer.kt`
+
+| Constant | Default | Meaning |
+|---|---|---|
+| `DEFAULT_TILE_OUTPUT` | `128` | Output tile pixel size after resize. With `maxTilesPerSide=2` → 256×256 px bundle on a 240 px screen. |
+| `maxTilesPerSide` (param) | `2` | Constrains the tile grid; `chooseZoom` picks the highest zoom that fits. |
+
+## Android — `MapBundleBleSender.kt`
+
+| Constant | Default | Meaning |
+|---|---|---|
+| `DEFAULT_CHUNK_SIZE` | `3000` | Bytes per BLE `tile_chunk`. Headroom under Garmin's ~4 KB limit. |
+| `INTER_CHUNK_DELAY_MS` | `150` | Pause between chunks to keep Garmin's 3-outstanding-request queue happy. |
+
+## Backend — `server/.env`
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `PORT` | `3000` | Listen port. |
+| `BACKEND_TOKEN` | `dev-token-change-me` | Required to match the Android side. |
+| `DATA_DIR` | `./data` | Where bundle blobs are written. Mount a volume here in production. |
+| `RETENTION_DAYS` | `7` | Old bundles deleted hourly. |
+| `PUBLIC_URL` | `http://localhost:3000` | Used in the `downloadUrl` returned to phone (and ultimately the watch). |
+| `MAX_BUNDLE_BYTES` | `4194304` | 4 MiB upload cap. |
 
 ## Watch — `manifest.xml`
 
@@ -32,8 +66,15 @@ There are no environment variables. All knobs are compile-time constants.
 | `entry` | `GarmiandApp` | |
 | `type` | `watch-app` | |
 | products | `fenix7` | Only target supported today. |
-| permissions | `Positioning`, `Communications` | No `<iq:uses-domain>` — sideloaded development is unrestricted. |
+| permissions | `Positioning`, `Communications`, `Map` | `Map` required for `WatchUi.MapView`. |
 | minApiLevel | `3.3.0` | |
+
+## Watch — `properties.xml` / Connect IQ Settings
+
+| Property | Type | Default | Meaning |
+|---|---|---|---|
+| `map_mode` | Number | `0` | 0 = NATIVE (TopoActive), 1 = TILES (custom bundle), 2 = NONE. Settable from Connect IQ Settings UI or the SELECT button. |
+| `last_bundle_id` | String | `""` | Persisted ID of the last successfully downloaded bundle. Watch reloads from `Application.Storage["bundle_<id>"]` on app start. |
 
 ## Watch — `NavigationCalculator.mc`
 
@@ -42,6 +83,10 @@ There are no environment variables. All knobs are compile-time constants.
 | `OFF_ROUTE_THRESHOLD_M` | `40.0` | Distance to nearest route point above which the `OFF ROUTE` banner shows. |
 | `EARTH_RADIUS_M` | `6371000.0` | Haversine formula. |
 
-## Precedence / Overrides
+## Watch — `TileDecoder.mc`
 
-There aren't any. If a value needs to be tunable per build, introduce a build-config field rather than parsing env vars at runtime.
+| Constant | Value | Meaning |
+|---|---|---|
+| `BUNDLE_VERSION` | `1` | Must match `TileBundleSerializer.VERSION` and `Palette.VERSION` (Kotlin side). Bumping any of them invalidates all `bundle_*` keys in Storage. |
+| `HEADER_FIXED_SIZE` | `24` | Bytes before palette starts. |
+| `TILE_ENTRY_SIZE` | `21` | Bytes per tile entry. |

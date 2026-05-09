@@ -10,6 +10,11 @@ module Rez {
     } // Drawables
 
     module Strings {
+        (:initialized) var MapMode_None as ResourceId;
+        (:initialized) var MapMode_Tiles as ResourceId;
+        (:initialized) var MapMode_Label as ResourceId;
+        (:initialized) var MapMode_Native as ResourceId;
+        (:initialized) var LastBundleId_Label as ResourceId;
         (:initialized) var AppName as ResourceId;
     } // Strings
 

@@ -31,16 +31,38 @@ sealed interface SyncMessage {
         val pointCount: Int,
     ) : SyncMessage
 
-    data class MapUrl(
+    data class TileSession(
         override val sessionId: String,
-        val url: String,
-        val minLat: Double,
-        val maxLat: Double,
-        val minLon: Double,
-        val maxLon: Double,
-        val width: Int,
-        val height: Int,
+        val bundleId: String,
+        val downloadUrl: String,
     ) : SyncMessage
+
+    data class TileChunk(
+        override val sessionId: String,
+        val bundleId: String,
+        val index: Int,
+        val total: Int,
+        val payload: ByteArray,
+    ) : SyncMessage {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is TileChunk) return false
+            return sessionId == other.sessionId
+                && bundleId == other.bundleId
+                && index == other.index
+                && total == other.total
+                && payload.contentEquals(other.payload)
+        }
+
+        override fun hashCode(): Int {
+            var h = sessionId.hashCode()
+            h = 31 * h + bundleId.hashCode()
+            h = 31 * h + index
+            h = 31 * h + total
+            h = 31 * h + payload.contentHashCode()
+            return h
+        }
+    }
 }
 
 data class SyncAck(

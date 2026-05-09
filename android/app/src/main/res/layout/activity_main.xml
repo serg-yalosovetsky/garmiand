@@ -39,6 +39,14 @@
             android:enabled="false" />
     </LinearLayout>
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_cache_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Cache map for offline"
+        android:textSize="13sp" />
+
     <ProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"

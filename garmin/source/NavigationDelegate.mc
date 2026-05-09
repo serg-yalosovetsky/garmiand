@@ -1,38 +1,23 @@
 using Toybox.WatchUi;
 
 class NavigationDelegate extends WatchUi.BehaviorDelegate {
-    var _route;
-    var _view;
+    var _route as RouteData;
+    var _view as NavigationView;
 
-    function initialize(route, view) {
+    function initialize(route as RouteData, view as NavigationView) {
         BehaviorDelegate.initialize();
         _route = route;
         _view = view;
     }
 
-    // UP — zoom in
-    function onPreviousPage() {
-        _view.zoomIn();
-        WatchUi.requestUpdate();
+    // SELECT — cycle map mode (Native → Tiles → None → Native).
+    // UP/DOWN are consumed by MapView.MAP_MODE_BROWSE for native pan/zoom.
+    function onSelect() as Lang.Boolean {
+        _view.cycleMapMode();
         return true;
     }
 
-    // DOWN — zoom out
-    function onNextPage() {
-        _view.zoomOut();
-        WatchUi.requestUpdate();
-        return true;
-    }
-
-    // SELECT — toggle auto-center
-    function onSelect() {
-        _view.toggleAutoCenter();
-        WatchUi.requestUpdate();
-        return true;
-    }
-
-    // BACK — выйти из приложения
-    function onBack() {
+    function onBack() as Lang.Boolean {
         return false;
     }
 }

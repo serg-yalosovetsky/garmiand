@@ -11,17 +11,40 @@ Recurring sources of bugs and the rules that keep them away.
 3. **`knownDevices.firstOrNull()` picked a stale device.** We now prefer `getConnectedDevices()` first; do not regress that — see `discoverDevice`.
 4. **Watch isn't `CONNECTED` in GCM** — re-pair / restart Bluetooth.
 
-## Map doesn't appear on the watch
+## Map doesn't appear in TILES mode
 
-The route polyline shows but no map background. Diagnose by reading the yellow bottom-banner on the watch:
+Order of suspicion:
 
-- No banner at all → the `map_url` message never reached the watch (check `ack map_url status` in the Android log).
-- `requesting…` but never updates → `Communications.makeImageRequest` is hanging (rare; usually a GCM hiccup, restart it).
-- `code=200 d=0` → response was OK but the image couldn't be decoded; usually a content-type mismatch.
-- `code=200 d=1` but no map drawn → the bug is on the rendering side; check `_mapBitmap` lifetime in `GarmiandApp`.
-- `code=403` / `404` / `-101` etc. → see the table in `CONNECT_IQ_NOTES.md`.
+1. **`Map` permission missing.** If `WatchUi.MapView` constructor throws or
+   the screen is blank from the start, check `<iq:uses-permission id="Map"/>`
+   is present in `manifest.xml`.
+2. **No bundle in Storage.** Watch shows `TILES: no bundle`. Either the
+   "Cache map for offline" switch wasn't on at sync time, or the transfer
+   failed. Re-sync.
+3. **Bundle parse failed.** Watch shows `TILES: header parse failed`. The
+   palette or version mismatched. Check `Palette.VERSION` in Kotlin matches
+   `BUNDLE_VERSION` in `TileDecoder.mc`.
+4. **Tile decode failed.** Watch shows `TILES: decode failed`. Usually
+   graphics memory pool exceeded — too many active `BufferedBitmap`s. Try
+   switching to NATIVE mode (frees the cache) and back.
+5. **HTTPS path silent.** Phone shows `(map failed)`. Either `BACKEND_URL`
+   is empty in BuildConfig, the backend is down, or the Bearer token is
+   wrong. Falls back to BLE if `isNetworkOnline()` is false.
 
-**Don't** "fix" this by switching to `127.0.0.1` or LAN IP. We've tested both — GCM does not proxy them. ADR-003 is non-negotiable until a public tunnel option exists.
+## Application.Storage full
+
+`StorageFullException` from `App.Storage.setValue`. We currently store at most
+one bundle (`bundle_<id>`) and overwrite old `last_bundle_id`. If a stale key
+sticks around (e.g. from a crashed BLE sync), the assembler should
+`deleteValue` it. If it keeps happening, dump the storage keys via the
+simulator's `Settings → Edit Storage` panel and prune manually.
+
+## Tile chunks arrive out of order
+
+`BleChunkAssembler.accept` indexes by `i`, so order doesn't matter — but if
+chunks for two different `bundle_id`s interleave (rare; would only happen if
+the user spams Send), the assembler resets to the new bundle and drops
+partial state. Confirmed safe by the bundle-id check.
 
 ## Markers missing after sync
 
@@ -51,6 +74,10 @@ If `RouteData` ever gets converted to `Array<Dictionary>`, expect OOM around 500
 
 `GarmiandApp` accepts a `route_full` kind that bundles the whole sync into one message — for the Connect IQ simulator's `Phone → Send Message` tester. The Android companion never sends it. If you build production code that depends on `route_full`, you've taken a wrong turn — use the chunked path.
 
-## Cleartext HTTP
+## "Watch shows polyline but no tiles even though I sent the bundle"
 
-`AndroidManifest.xml` sets `usesCleartextTraffic="true"` so `MapTileServer` can be hit over plain HTTP. This isn't currently used (ADR-003), but the flag has to stay if we ever revive the local server. Don't remove it as a "cleanup."
+Check `last_bundle_id` Property on the watch (Connect IQ Settings UI). If it's
+set but TILES mode shows the empty-bundle text, the blob is missing from
+Storage — most likely BLE chunk reassembly bailed mid-way. Resend with the
+"Cache map for offline" switch on, watching the log for `BLE chunk N/N` to
+make sure all chunks acked.

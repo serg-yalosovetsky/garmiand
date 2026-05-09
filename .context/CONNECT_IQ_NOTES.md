@@ -11,6 +11,58 @@ Implications:
 - HTTPS cert validation is done by GCM, not by us.
 - There is no streaming — the response is materialized in full before the watch sees a single byte.
 
+## MapView basics
+
+We extend `WatchUi.MapView` (not `WatchUi.View`) for the map screen. Required:
+
+- `<iq:uses-permission id="Map"/>` in `manifest.xml`. Without it the constructor
+  errors at app start.
+- `setMapMode(MapView.MAP_MODE_BROWSE)` gives the user native pan/zoom via
+  the UP/DOWN/SELECT buttons. We also use SELECT in `NavigationDelegate` to
+  cycle our own background mode (NATIVE → TILES → NONE) — this can interfere
+  if the device is in MapView's own zoom interaction; if reports come in,
+  consider remapping to a different button.
+- `setMapVisibleArea(centerLocation, latSpan, lonSpan)` — used to frame the
+  route after `sync_finish`. Wrapped in try/catch because exact signatures
+  vary by SDK; the user can still pan manually if the call errors.
+- `setPolyline(MapPolyline)` and `setMapMarker(MapMarker)` exist but we do
+  **not** use them. Reasons: only one marker at a time (we have multiple
+  waypoints), polyline color/width is fixed, and we want full control of
+  rendering for the OFF ROUTE banner overlay. Instead we draw with
+  `latLonToScreenPoint(loc)` returning `[x, y]`.
+
+## Application.Storage limits
+
+`Application.Storage.setValue/getValue/deleteValue` accepts strings, numbers,
+arrays, dictionaries, and `Lang.ByteArray`. Per-app total is empirically
+~128 KB on Fenix 7 (Garmin doesn't document this). Each individual value is
+also bounded; for our quantized bundles we keep the full blob under 80 KB
+(see sizing budget in [MAP_RENDERING.md](MAP_RENDERING.md)).
+
+If `setValue` throws `StorageFullException`, the LRU strategy is to delete
+the oldest `bundle_*` keys (we currently keep at most one — `last_bundle_id`
+in Properties points to it).
+
+## BufferedBitmap with palette
+
+`Graphics.createBufferedBitmap({:width, :height, :palette})` returns a
+`BufferedBitmapReference`. Call `.get()` to get the actual `BufferedBitmap`.
+Filling pixels is via `bmp.getDc().setColor(rgb).drawPoint(x, y)` — slow but
+acceptable as a one-time decode at bundle load time. Per-frame rendering
+uses `dc.drawBitmap(x, y, bmp)` which is a fast blit.
+
+Graphics memory pool on Fenix 7 is ~256 KB. A 128×128 indexed bitmap takes
+~16 KB. Four decoded tiles + the screen Dc fits comfortably.
+
+## Communications.transmit chunking
+
+For BLE-direct bundle delivery we send a series of `tile_chunk` messages,
+each with `:p` set to a `ByteArray` ≤3000 bytes (Garmin per-message limit
+is documented as ~4 KB; we keep headroom). Garmin throttles concurrent
+sends — 3 outstanding requests max — so the Android side spaces chunks by
+~150 ms. The watch reassembles by `i` (index), so out-of-order arrival is
+tolerated.
+
 ## What GCM will and won't proxy
 
 | URL | Result |

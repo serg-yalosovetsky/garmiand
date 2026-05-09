@@ -1,56 +1,123 @@
 # Map Rendering
 
-How the map background and route overlay end up pixel-aligned on the watch.
+How the watch ends up with a usable map under the polyline. Three modes, two
+delivery transports, one binary format.
 
-## Pipeline (current)
+## Modes (`map_mode` property in `properties.xml`)
 
-1. **Phone picks a tile.** `TileComposer.singleTileForBbox(minLat, maxLat, minLon, maxLon)` walks zoom levels 18→0 and returns the first zoom at which the *padded* route bbox (15% padding around the route's own bbox) fits in a single 256×256 tile. Returns `(zoom, x, y, bbox)`.
-2. **Phone sends `map_url`.** URL = `https://tile.openstreetmap.org/{z}/{x}/{y}.png`. Bbox = the tile's geographic bounds (not the route's bbox).
-3. **Watch fetches the image.** `Communications.makeImageRequest(url, null, options, callback)` with `:maxWidth/:maxHeight = 240` (Fenix 7 screen). GCM downloads, optionally Floyd-Steinberg dithers, returns a `BitmapResource`.
-4. **Watch projects the route.** `NavigationView.mapLonToX/mapLatToY` scale lon/lat from the *tile bbox* onto the bitmap rectangle (`mx`, `my`, `_mapWidth`, `_mapHeight`).
+| Mode | Value | Backdrop | When to use |
+|---|---|---|---|
+| `NATIVE` | 0 | TopoActive vector map (pre-installed on Fenix 7) | default; works in user's home region without any sync |
+| `TILES`  | 1 | Quantized raster bundle from `Application.Storage` | regions outside TopoActive, or to overlay a different style |
+| `NONE`   | 2 | Black background | bandwidth-conscious, polyline-only |
+
+Mode is changed via the Connect IQ Settings UI (picker defined in
+`garmin/resources/settings.xml`) or in-app via the **SELECT** button
+(`NavigationDelegate.onSelect` cycles modes).
+
+The polyline, waypoint markers, route name, and OFF ROUTE banner are drawn
+**on top** in every mode, so switching modes never hides the route.
+
+## Delivery transports (TILES mode only)
+
+Both paths produce the same binary blob and write it to
+`Application.Storage["bundle_<bundleId>"]`. The watch decoder doesn't care
+which path was used.
+
+### HTTPS (preferred, requires phone connectivity)
+
+1. `MainActivity.sendMapBundle` → `TileQuantizer.quantize(bbox)` produces a
+   `QuantizedBundle`.
+2. `TileBundleSerializer.serialize(bundle)` → `ByteArray`.
+3. `MapBundleUploader` POSTs to `${BACKEND_URL}/sessions` with the bundle as
+   `application/octet-stream`. Server responds with
+   `{sessionId, downloadUrl}`.
+4. Phone sends `tile_session` BLE message with `bundle_id` and `download_url`.
+5. Watch (`GarmiandApp.handleTileSession`) calls
+   `Communications.makeWebRequest(url, ..., HTTP_RESPONSE_CONTENT_TYPE_TEXT_PLAIN)`.
+   The server returns the bundle **base64-encoded as plain text** because
+   Connect IQ's `makeWebRequest` cannot deliver raw octet streams.
+6. Watch base64-decodes via `StringUtil.convertEncodedString(...)`,
+   `TileDecoder.persist(id, blob)` writes to Storage, and
+   `NavigationView.setBundleId` triggers decode.
+
+### BLE direct (fallback, no internet required)
+
+1. Same Phase 1-2 above (quantize + serialize).
+2. `MapBundleBleSender.send(blob)` chunks the blob into 3000-byte pieces.
+3. Each chunk is a `tile_chunk` BLE message with `bundle_id`, `i`, `n`, `p`
+   (`p` is `Lang.ByteArray` on the wire).
+4. Watch's `BleChunkAssembler` indexes chunks by `i`. When `_receivedCount`
+   reaches `n`, the chunks are concatenated and persisted.
+
+## Wire format (the `GMND` envelope)
+
+Defined in `TileBundleSerializer.kt` and parsed in `TileDecoder.mc`. All
+multi-byte ints are big-endian; floats are IEEE-754 single.
 
 ```
-mapLonToX(lon) = mx + (lon - minLon) / (maxLon - minLon) * mapWidth
-mapLatToY(lat) = my + (maxLat - lat) / (maxLat - minLat) * mapHeight
+offset  size  field
+0       4     magic = "GMND"
+4       1     version = 1
+5       1     paletteSize  (= 64 in v1)
+6       2     tileCount    (uint16)
+8       16    bbox         (4 × float32: minLat, maxLat, minLon, maxLon)
+24      P*3   palette      (P × RGB888)
+24+P*3  T*21  tile entries
+...           tile pixel arrays (column-major, 1 byte = palette index 0..63)
 ```
 
-This is a linear approximation, valid because at one OSM tile the bbox is small enough that Web Mercator distortion within the tile is negligible at this resolution.
-
-## Why a single tile, not a stitched composite
-
-See ADR-003. GCM does not proxy HTTP requests to phone-local addresses (neither `127.0.0.1` nor LAN IP). It will proxy public HTTPS. A single OSM tile is the simplest public URL that gives a real map. `MapTileServer` exists in the codebase for the day a tunnel becomes available.
-
-## Drawing order in `NavigationView.onUpdate`
-
-When `_route.isComplete` and the bitmap exists:
-
+Each tile entry (21 bytes):
 ```
-1. fillBackground
-2. drawBitmap (map)
-3. drawPolylineMap (red)
-4. drawMarkersMap (yellow circles, "Start"/"Finish" labels)
-5. drawPositionMap (blue circle, OFF ROUTE banner)
-6. drawTopBand + route name
-7. drawBottomBanner (debug: map response code, last URL tail)
+0     1   zoom
+1     4   tileX (uint32)
+5     4   tileY (uint32)
+9     2   width (uint16)
+11    2   height (uint16)
+13    4   pixelOffset (uint32, absolute byte offset in blob)
+17    4   pixelLength (uint32)
 ```
 
-When map is missing, steps 2-5 are replaced by their scale-based equivalents (`drawPolyline`, `drawMarkers`, `drawPositionScale`) that use `_scale`, `_centerLat`, `_centerLon`. The fallback is a real fallback, not just a placeholder — auto-fit (`fitRoute`) computes a scale that makes the whole route fit on the 240×240 screen with 1.3× padding.
+## Quantization (`map/Palette.kt`)
 
-## Web Mercator math (in `TileComposer`)
+The 64-color palette is a 4×4×4 RGB cube, evenly spaced (levels = 0/85/170/255 per channel). Index = `(r << 4) | (g << 2) | b`. The palette is a fixed
+constant on both phone and watch — any change to it invalidates every
+existing bundle in `Application.Storage`. Bump `Palette.VERSION` and the
+`version` field in the `GMND` header together.
 
-```kotlin
-latLonToTileFractional(lat, lon, zoom):
-    n = 2^zoom
-    x = (lon + 180) / 360 * n
-    y = (1 - ln(tan(latRad) + 1/cos(latRad)) / π) / 2 * n
+## Decoder pipeline (`TileDecoder.mc`)
 
-tileFractionalToLatLon(tx, ty, zoom):
-    lon = tx / n * 360 - 180
-    lat = atan(sinh(π * (1 - 2*ty/n))) → toDegrees
+`TileDecoder.decodeTile` creates a `Graphics.BufferedBitmap` with the parsed
+palette, then walks pixels (~16K per 128×128 tile) calling `setColor` +
+`drawPoint` on the bitmap's Dc. This is the slow path; it runs once per
+bundle load, not per frame. Decoded `BufferedBitmap` instances live in
+`NavigationView._decodedTiles` and are blitted with `dc.drawBitmap(x, y, bmp)`
+in `drawCustomTiles` — no per-frame decode.
+
+## Layout in TILES mode
+
+The bundle's tile grid is centered on the screen at native pixel size:
+
+```
+offsetX = (screen.w - bundlePixelW) / 2
+offsetY = (screen.h - bundlePixelH) / 2
 ```
 
-If you change projections, both the tile-pick and the watch-side `mapLonToX/mapLatToY` must change together.
+There is no scaling. The tile grid in `TileQuantizer` is sized so the bundle
+fits the screen with mild clipping (default `maxTilesPerSide = 2`,
+`outputSize = 128` → 256×256 px bundle on a 240×240 screen).
 
-## OSM Tile Usage Policy
+Polyline / waypoint / GPS-position overlays in TILES mode use
+`MapView.latLonToScreenPoint` so they still respect the user's MapView
+viewport — but the tile bitmap itself is static (not pan/zoom-aware in v1).
+This is acceptable for a "cached map underlay" experience; native MapView
+mode is what the user picks for full pan/zoom.
 
-`tile.openstreetmap.org` has a clearly stated [usage policy](https://operations.osmfoundation.org/policies/tiles/) — heavy use requires a self-hosted tile server. For an MVP at single-tile-per-route frequency this is fine; do not turn it into a per-frame fetcher.
+## Sizing budget
+
+- 128×128 tile × 1 byte/pixel = 16 KB per tile pixel array.
+- 4 tiles + header + palette ≈ 65 KB per bundle.
+- `Application.Storage` on Fenix 7 is empirically ~128 KB total — leaves
+  headroom for one bundle plus ~63 KB for other state (route, properties).
+- Graphics memory pool (~256 KB on Fenix 7) holds the active Dc plus 4
+  decoded `BufferedBitmap`s.

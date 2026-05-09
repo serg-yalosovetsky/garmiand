@@ -1,6 +1,7 @@
 # API Contracts
 
-The only "API" is the Connect IQ phone-app message envelope. There is no HTTP server in the active path.
+Two APIs: the Connect IQ phone-app message envelope (BLE) and the bundle
+broker REST API (HTTPS, see [BACKEND.md](BACKEND.md) for the latter).
 
 ## Envelope
 
@@ -46,14 +47,27 @@ Marks the route complete. The watch flips `RouteData.isComplete = true` and swit
 | `route_id` | `String` | |
 | `point_count` | `Int` | For sanity check / display. |
 
-### `map_url`
-Sent after `sync_finish` is acked. Tells the watch to fetch a map image and how to project the route onto it.
+### `tile_session` *(HTTPS bundle delivery)*
+Sent after `sync_finish` is acked **only when the user opted into "Cache map for
+offline" and the phone has internet**. Tells the watch to fetch a quantized
+bundle from our backend.
 
 | Key | Type | Notes |
 |---|---|---|
-| `url` | `String` | Public HTTPS, direct OSM tile (see ADR-003). |
-| `min_lat`, `max_lat`, `min_lon`, `max_lon` | `Double` | Geographic bounds of the image — used by `NavigationView.mapLonToX/mapLatToY` to overlay the polyline. |
-| `w`, `h` | `Int` | Pixel size of the image as it will appear on the watch (currently 240×240). |
+| `bundle_id` | `String` | UUID, persisted into `last_bundle_id` Property and used as the `Application.Storage` key prefix (`bundle_<id>`). |
+| `download_url` | `String` | Public HTTPS, returns the bundle as base64 plain text. |
+
+### `tile_chunk` *(BLE bundle delivery, fallback when phone is offline)*
+Phone splits a serialized `GMND` bundle (see [MAP_RENDERING.md](MAP_RENDERING.md))
+into ≤3000-byte chunks and sends them in order. Watch reassembles in
+`BleChunkAssembler` indexed by `i`, so out-of-order arrival is safe.
+
+| Key | Type | Notes |
+|---|---|---|
+| `bundle_id` | `String` | Identifies which bundle the chunks belong to. New `bundle_id` resets the assembler. |
+| `i` | `Int` | 0-based chunk index. |
+| `n` | `Int` | Total chunk count. Watch persists once it has all of them. |
+| `p` | `ByteArray` | Raw bytes — Connect IQ Mobile SDK converts to `Lang.ByteArray` on the watch. |
 
 ## Acks
 

@@ -1,3 +1,8 @@
 <strings>
     <string id="AppName">Garmiand V1</string>
+    <string id="MapMode_Label">Map Background</string>
+    <string id="MapMode_Native">Native (TopoActive)</string>
+    <string id="MapMode_Tiles">Custom Tiles</string>
+    <string id="MapMode_None">None</string>
+    <string id="LastBundleId_Label">Last Bundle ID</string>
 </strings>

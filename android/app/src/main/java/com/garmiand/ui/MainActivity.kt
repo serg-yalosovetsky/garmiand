@@ -5,6 +5,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,15 +15,20 @@ import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import com.garmiand.BuildConfig
 import com.garmiand.R
 import com.garmiand.domain.RoutePackage
 import com.garmiand.garmin.ConnectIQGarminCompanion
-import com.garmiand.map.MapTileServer
-import com.garmiand.map.NetworkUtil
-import com.garmiand.map.TileComposer
+import com.garmiand.map.QuantizedBundle
+import com.garmiand.map.TileBundleSerializer
+import com.garmiand.map.TileQuantizer
 import com.garmiand.osmand.GpxFileImportBridge
 import com.garmiand.protocol.NativeMapEncoder
 import com.garmiand.protocol.SyncMessage
+import com.garmiand.sync.MapBundleBleSender
+import com.garmiand.sync.MapBundleUploadError
+import com.garmiand.sync.MapBundleUploader
 import com.garmiand.sync.RouteSyncOrchestrator
 import com.garmiand.sync.SyncResult
 import com.garmiand.util.AppLog
@@ -29,9 +36,6 @@ import java.util.UUID
 
 private const val TAG = "MainActivity"
 private const val REQUEST_GPX_FILE = 1001
-private const val MAP_SERVER_PORT = 8081
-private const val MAP_WIDTH = 240
-private const val MAP_HEIGHT = 240
 private const val BBOX_PADDING_FRACTION = 0.15
 
 class MainActivity : AppCompatActivity() {
@@ -42,11 +46,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var tvLog: TextView
     private lateinit var logScroll: ScrollView
+    private lateinit var switchCacheMap: SwitchCompat
 
     private val gpxBridge = GpxFileImportBridge()
     private lateinit var garminCompanion: ConnectIQGarminCompanion
     private var loadedRoute: RoutePackage? = null
-    private var mapServer: MapTileServer? = null
 
     private val logListener: (String) -> Unit = { line ->
         runOnUiThread {
@@ -69,6 +73,7 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progress_bar)
         tvLog = findViewById(R.id.tv_log)
         logScroll = findViewById(R.id.log_scroll)
+        switchCacheMap = findViewById(R.id.switch_cache_map)
 
         btnSend.isEnabled = false
 
@@ -82,9 +87,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         AppLog.addListener(logListener)
-        AppLog.i(TAG, "App started")
-
-        startMapServer()
+        AppLog.i(TAG, "App started backendUrl='${BuildConfig.BACKEND_URL}'")
 
         garminCompanion = ConnectIQGarminCompanion(this)
         tvStatus.text = "Connecting to Garmin..."
@@ -94,16 +97,6 @@ class MainActivity : AppCompatActivity() {
                 tvStatus.text = if (ready) "Garmin connected" else "Garmin not available"
             }
             AppLog.i(TAG, "Garmin ready=$ready")
-        }
-    }
-
-    private fun startMapServer() {
-        try {
-            mapServer = MapTileServer(MAP_SERVER_PORT).also { it.start() }
-            val ip = NetworkUtil.getLocalIp() ?: "?"
-            AppLog.i(TAG, "Map server up at http://$ip:$MAP_SERVER_PORT (also 127.0.0.1)")
-        } catch (e: Exception) {
-            AppLog.e(TAG, "Failed to start map server", e)
         }
     }
 
@@ -135,10 +128,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun sendRoute() {
         val route = loadedRoute ?: return
+        val cacheMap = switchCacheMap.isChecked
         btnSend.isEnabled = false
         progressBar.visibility = View.VISIBLE
         progressBar.progress = 0
-        AppLog.i(TAG, "sendRoute: pts=${route.points.size}")
+        AppLog.i(TAG, "sendRoute: pts=${route.points.size} cacheMap=$cacheMap")
 
         Thread {
             val orchestrator = RouteSyncOrchestrator(
@@ -152,22 +146,102 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             AppLog.i(TAG, "sync result: $result")
-            val mapResult = if (result is SyncResult.Ok) sendMapUrl(route) else null
+
+            val mapStatus = if (cacheMap && result is SyncResult.Ok) sendMapBundle(route) else null
+
             runOnUiThread {
                 progressBar.visibility = View.GONE
                 btnSend.isEnabled = true
                 tvStatus.text = when (result) {
-                    is SyncResult.Ok -> "Sent OK (${result.ackCount} msgs)" +
-                        if (mapResult == true) " + map" else " (map failed)"
+                    is SyncResult.Ok -> {
+                        val mapSuffix = when (mapStatus) {
+                            MapSendStatus.HTTPS_OK -> " + map (HTTPS)"
+                            MapSendStatus.BLE_OK -> " + map (BLE)"
+                            MapSendStatus.FAILED -> " (map failed)"
+                            null -> ""
+                        }
+                        "Sent OK (${result.ackCount} msgs)$mapSuffix"
+                    }
                     is SyncResult.Failed -> "Failed: ${result.reason}"
                 }
             }
         }.start()
     }
 
-    private fun sendMapUrl(route: RoutePackage): Boolean {
-        if (route.points.isEmpty()) return false
+    private enum class MapSendStatus { HTTPS_OK, BLE_OK, FAILED }
 
+    private fun sendMapBundle(route: RoutePackage): MapSendStatus {
+        if (route.points.isEmpty()) return MapSendStatus.FAILED
+
+        val bbox = computeBbox(route, BBOX_PADDING_FRACTION)
+        AppLog.i(TAG, "Quantizing tiles for bbox lat[${bbox.minLat},${bbox.maxLat}] lon[${bbox.minLon},${bbox.maxLon}]")
+        val quantized = try {
+            TileQuantizer.quantize(bbox.minLat, bbox.maxLat, bbox.minLon, bbox.maxLon)
+        } catch (e: Exception) {
+            AppLog.e(TAG, "Quantize failed", e)
+            return MapSendStatus.FAILED
+        }
+        if (quantized.tiles.isEmpty()) {
+            AppLog.w(TAG, "Quantize produced 0 tiles (network down?)")
+            return MapSendStatus.FAILED
+        }
+        val blob = TileBundleSerializer.serialize(quantized)
+        AppLog.i(TAG, "Bundle ready: ${quantized.tiles.size} tiles, ${blob.size}B")
+
+        return if (isNetworkOnline()) {
+            uploadAndAnnounce(blob)
+        } else {
+            sendBundleViaBle(blob)
+        }
+    }
+
+    private fun uploadAndAnnounce(bundle: ByteArray): MapSendStatus {
+        val url = BuildConfig.BACKEND_URL
+        if (url.isBlank()) {
+            AppLog.w(TAG, "BACKEND_URL not configured — falling back to BLE")
+            return sendBundleViaBle(bundle)
+        }
+        return try {
+            val uploader = MapBundleUploader(url, BuildConfig.BACKEND_TOKEN)
+            val result = uploader.upload(bundle)
+            val sessionId = UUID.randomUUID().toString()
+            val ack = garminCompanion.send(
+                SyncMessage.TileSession(
+                    sessionId = sessionId,
+                    bundleId = result.bundleId,
+                    downloadUrl = result.downloadUrl,
+                )
+            )
+            AppLog.i(TAG, "tile_session ack ok=${ack.ok} reason=${ack.reason}")
+            if (ack.ok) MapSendStatus.HTTPS_OK else MapSendStatus.FAILED
+        } catch (e: MapBundleUploadError) {
+            AppLog.w(TAG, "HTTPS upload failed (${e.message}) — falling back to BLE")
+            sendBundleViaBle(bundle)
+        }
+    }
+
+    private fun sendBundleViaBle(bundle: ByteArray): MapSendStatus {
+        val sender = MapBundleBleSender(garminCompanion)
+        val bundleId = sender.send(bundle) { sent, total ->
+            runOnUiThread {
+                progressBar.progress = sent * 100 / total
+                tvStatus.text = "BLE chunk $sent/$total"
+            }
+        }
+        return if (bundleId != null) MapSendStatus.BLE_OK else MapSendStatus.FAILED
+    }
+
+    private fun isNetworkOnline(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val nw = cm.activeNetwork ?: return false
+        val caps = cm.getNetworkCapabilities(nw) ?: return false
+        return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    }
+
+    private data class Bbox(val minLat: Double, val maxLat: Double, val minLon: Double, val maxLon: Double)
+
+    private fun computeBbox(route: RoutePackage, paddingFraction: Double): Bbox {
         var minLat = Double.POSITIVE_INFINITY
         var maxLat = Double.NEGATIVE_INFINITY
         var minLon = Double.POSITIVE_INFINITY
@@ -178,37 +252,14 @@ class MainActivity : AppCompatActivity() {
             if (p.lon < minLon) minLon = p.lon
             if (p.lon > maxLon) maxLon = p.lon
         }
-        val padLat = (maxLat - minLat).coerceAtLeast(0.001) * BBOX_PADDING_FRACTION
-        val padLon = (maxLon - minLon).coerceAtLeast(0.001) * BBOX_PADDING_FRACTION
-        val pMinLat = minLat - padLat
-        val pMaxLat = maxLat + padLat
-        val pMinLon = minLon - padLon
-        val pMaxLon = maxLon + padLon
-        val tile = TileComposer.singleTileForBbox(pMinLat, pMaxLat, pMinLon, pMaxLon)
-        val mapBbox = tile.bbox
-
-        val url = "https://tile.openstreetmap.org/${tile.zoom}/${tile.x}/${tile.y}.png"
-        val msg = SyncMessage.MapUrl(
-            sessionId = UUID.randomUUID().toString(),
-            url = url,
-            minLat = mapBbox.minLat,
-            maxLat = mapBbox.maxLat,
-            minLon = mapBbox.minLon,
-            maxLon = mapBbox.maxLon,
-            width = MAP_WIDTH,
-            height = MAP_HEIGHT,
-        )
-        AppLog.i(TAG, "Sending map_url tile=z${tile.zoom}/${tile.x}/${tile.y}: $url")
-        val ack = garminCompanion.send(msg)
-        AppLog.i(TAG, "map_url ack ok=${ack.ok} reason=${ack.reason}")
-        return ack.ok
+        val padLat = (maxLat - minLat).coerceAtLeast(0.001) * paddingFraction
+        val padLon = (maxLon - minLon).coerceAtLeast(0.001) * paddingFraction
+        return Bbox(minLat - padLat, maxLat + padLat, minLon - padLon, maxLon + padLon)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         AppLog.removeListener(logListener)
         garminCompanion.shutdown()
-        mapServer?.stop()
-        mapServer = null
     }
 }

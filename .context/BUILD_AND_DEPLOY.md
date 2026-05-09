@@ -42,11 +42,18 @@ Use the simulator's `Phone → Send Message` to manually post a `route_full` (se
 ### Prerequisites
 
 - Android Studio. There is **no Gradle wrapper** in the project (`./gradlew` does not exist) — Android Studio's bundled Gradle is required.
-- The Connect IQ Mobile SDK AAR (`connectiq-sdk.aar`) downloaded from Garmin Developer Portal and dropped into `android/app/libs/`.
+- The Connect IQ Mobile SDK is fetched from Maven Central — no manual AAR drop needed. (Was `android/app/libs/` historically.)
+- Optional but recommended: a backend reachable over HTTPS (see [BACKEND.md](BACKEND.md)). Without one, the "Cache map for offline" toggle silently falls back to BLE — slower but works.
 
 ### Build
 
-`Build → Build Bundle(s) / APK(s) → Build APK(s)` in Android Studio.
+Set the backend coordinates either in `gradle.properties`:
+```
+garmiand.backendUrl=https://your-host.example/api
+garmiand.backendToken=<shared-with-server>
+```
+or via env (`GARMIAND_BACKEND_URL`, `GARMIAND_BACKEND_TOKEN`). Then in
+Android Studio: `Build → Build Bundle(s) / APK(s) → Build APK(s)`.
 
 ### Install / iterate
 
@@ -54,19 +61,70 @@ Use the simulator's `Phone → Send Message` to manually post a `route_full` (se
 - Inspect logs: the in-app log panel surfaces everything from `AppLog`. For raw `logcat`:
   ```powershell
   $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
-  & $adb logcat -v time MainActivity:I MapTileServer:I TileComposer:* ConnectIQCompanion:* *:S
+  & $adb logcat -v time MainActivity:I TileQuantizer:I MapBundleUploader:I MapBundleBleSender:I ConnectIQCompanion:* *:S
   ```
 - Logcat is duplicative with the in-app panel today; the panel is preferred for screenshots.
 
-## End-to-end smoke test
+## Backend (cloud broker for HTTPS bundle delivery)
 
-1. Sideload `garmiand.prg`.
-2. Install APK.
-3. Open Garmin Connect Mobile, confirm the Fenix 7 shows `Connected`.
-4. Open the Android app — wait for `Garmin connected` in the status row.
-5. Open the watch app on the Fenix.
-6. Tap **Import GPX**, pick `tests/data/sample.gpx` (or any small `.gpx`).
-7. Tap **Send**. Watch the in-app log:
-   - `send -> sync_start` … `ack sync_start status=SUCCESS` (×4)
-   - `Sending map_url tile=z…` → `ack map_url status=SUCCESS`
-8. On the watch: route name in the top band, polyline, markers, optional map background. The yellow bottom-banner shows the map fetch status.
+```bash
+cd server
+cp .env.example .env   # adjust BACKEND_TOKEN
+npm install
+npm start              # listens on :3000
+```
+
+For local smoke tests with a real watch, expose with `ngrok http 3000` and
+plug the resulting `https://*.ngrok-free.app` URL into `gradle.properties` as
+`garmiand.backendUrl`.
+
+For production, the Dockerfile in `server/` produces a small Alpine image —
+deploy on Fly.io / Hetzner / Railway with TLS in front. See
+[BACKEND.md](BACKEND.md) for details.
+
+## End-to-end smoke tests
+
+### Test 1 — HTTPS path (online)
+
+1. `cd server && npm start` (or have a deployed instance reachable).
+2. Build and install APK with `garmiand.backendUrl` set correctly.
+3. Sideload `garmiand.prg` to the Fenix 7.
+4. Open Garmin Connect Mobile, confirm the Fenix 7 shows `Connected`.
+5. Open the Android app — wait for `Garmin connected`.
+6. Open the watch app on the Fenix.
+7. Tap **Import GPX**, pick `tests/data/sample.gpx`.
+8. Toggle **Cache map for offline** ON.
+9. Tap **Send**. In the log, expect:
+   - `send -> sync_start` … `ack ... status=SUCCESS` (×4)
+   - `Quantizing tiles for bbox ...` → `Bundle ready: N tiles, MB`
+   - `uploaded MB → <bundleId>`
+   - `tile_session ack ok=true`
+10. On the watch: route name + polyline + waypoints visible in NATIVE mode (default).
+11. Press **SELECT** to cycle to TILES — the quantized OSM tile underlay should appear.
+
+### Test 2 — BLE path (offline)
+
+1. Put the phone in airplane mode (BT still on, mobile data + Wi-Fi off).
+2. Tap **Send** with **Cache map** still on.
+3. Expected log:
+   - Route messages as in Test 1.
+   - `BACKEND_URL` not configured / network down → `BLE chunk 1/N` … `N/N`
+   - `BLE send complete bundleId=<id>`
+4. Cycle to TILES on the watch — the same map appears.
+
+### Test 3 — Field mode (cache survives offline)
+
+1. Run Test 1 successfully.
+2. Power off the phone, or remove it from BT range.
+3. Open the watch app cold. TILES mode still renders the cached bundle from
+   `Application.Storage`. Polyline overlays correctly. GPS-position dot
+   updates as the user walks.
+
+### Regressions to avoid
+
+- Cycling SELECT in MapView's `MAP_MODE_BROWSE` shouldn't conflict with our
+  mode-cycle. If users report it does, remap the toggle.
+- `route_full` debug-path (Connect IQ simulator's `Phone → Send Message`)
+  should keep working.
+- `WATCH_APP_ID` ↔ `manifest.xml` id are coupled — never change one without
+  the other.
