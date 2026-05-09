@@ -86,15 +86,50 @@ class TileDecoder {
     // We split large bundles into 16 KB chunks stored under numbered keys.
     static const STORAGE_CHUNK = 16 * 1024;
 
+    // LRU manifest: App.Storage key "bm" → Array<String> of 8-char short keys,
+    // ordered oldest → newest. On storage full we evict the oldest entry.
+    static const MANIFEST_KEY = "bm";
+    static const MAX_CACHED_BUNDLES = 32; // safety cap, actual limit is device storage
+
     static function storageKey(bundleId as Lang.String) as Lang.String {
-        return "b_" + bundleId.substring(0, 8); // short key prefix saves storage space
+        return "b_" + bundleId.substring(0, 8);
     }
 
-    static function persist(bundleId as Lang.String, blob as Lang.ByteArray) as Lang.Boolean {
+    // ── Manifest helpers ────────────────────────────────────────────────────
+
+    static function loadManifest() as Lang.Array<Lang.String> {
+        try {
+            var m = App.Storage.getValue(MANIFEST_KEY);
+            if (m instanceof Lang.Array) { return m as Lang.Array<Lang.String>; }
+        } catch (e) {}
+        return [] as Lang.Array<Lang.String>;
+    }
+
+    static function saveManifest(manifest as Lang.Array<Lang.String>) as Void {
+        try {
+            App.Storage.setValue(MANIFEST_KEY, manifest);
+        } catch (e) {
+            System.println("[Tiles] saveManifest failed: " + e.getErrorMessage());
+        }
+    }
+
+    // Remove shortKey from manifest in-place. Returns true if it was present.
+    static function removeFromManifest(shortKey as Lang.String, manifest as Lang.Array<Lang.String>) as Lang.Boolean {
+        for (var i = 0; i < manifest.size(); i++) {
+            if (shortKey.equals(manifest[i])) {
+                manifest.remove(manifest[i]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ── Storage primitives ──────────────────────────────────────────────────
+
+    // Write chunks for shortKey. Returns true on success; cleans up on failure.
+    static function writeChunks(shortKey as Lang.String, blob as Lang.ByteArray, numChunks as Lang.Number) as Lang.Boolean {
         var totalSize = blob.size();
-        var numChunks = (totalSize + STORAGE_CHUNK - 1) / STORAGE_CHUNK;
-        var key = storageKey(bundleId);
-        System.println("[Tiles] persist " + totalSize + "B in " + numChunks + " chunks key=" + key);
+        var key = "b_" + shortKey;
         try {
             for (var i = 0; i < numChunks; i++) {
                 var start = i * STORAGE_CHUNK;
@@ -106,8 +141,67 @@ class TileDecoder {
             App.Storage.setValue(key + "_sz", totalSize);
             return true;
         } catch (e) {
-            System.println("[Tiles] persist failed: " + e.getErrorMessage());
+            System.println("[Tiles] writeChunks b_" + shortKey + " failed: " + e.getErrorMessage());
+            deleteBundleByKey(shortKey);
             return false;
+        }
+    }
+
+    static function deleteBundleByKey(shortKey as Lang.String) as Void {
+        var key = "b_" + shortKey;
+        try {
+            var numChunks = App.Storage.getValue(key + "_n");
+            if (numChunks instanceof Lang.Number) {
+                for (var i = 0; i < (numChunks as Lang.Number); i++) {
+                    App.Storage.deleteValue(key + "_" + i);
+                }
+                App.Storage.deleteValue(key + "_n");
+                App.Storage.deleteValue(key + "_sz");
+            }
+        } catch (e) {}
+    }
+
+    // ── Public API ──────────────────────────────────────────────────────────
+
+    // Persist blob with LRU eviction: if storage is full, evict the oldest
+    // cached bundle and retry until either success or nothing left to evict.
+    static function persist(bundleId as Lang.String, blob as Lang.ByteArray) as Lang.Boolean {
+        var totalSize = blob.size();
+        var numChunks = (totalSize + STORAGE_CHUNK - 1) / STORAGE_CHUNK;
+        var shortKey = bundleId.substring(0, 8);
+        System.println("[Tiles] persist " + totalSize + "B in " + numChunks + " chunks key=b_" + shortKey);
+
+        var manifest = loadManifest();
+
+        // Already cached — promote to MRU and return immediately
+        if (removeFromManifest(shortKey, manifest)) {
+            manifest.add(shortKey);
+            saveManifest(manifest);
+            System.println("[Tiles] already cached, promoted to MRU cached=" + manifest.size());
+            return true;
+        }
+
+        // Try to write; evict oldest on failure and retry
+        while (true) {
+            if (writeChunks(shortKey, blob, numChunks)) {
+                manifest.add(shortKey);
+                if (manifest.size() > MAX_CACHED_BUNDLES) {
+                    var excess = manifest[0] as Lang.String;
+                    manifest.remove(excess);
+                    deleteBundleByKey(excess);
+                }
+                saveManifest(manifest);
+                System.println("[Tiles] persist ok cached=" + manifest.size());
+                return true;
+            }
+            if (manifest.size() == 0) {
+                System.println("[Tiles] persist failed: storage full, nothing left to evict");
+                return false;
+            }
+            var oldest = manifest[0] as Lang.String;
+            manifest.remove(oldest);
+            deleteBundleByKey(oldest);
+            System.println("[Tiles] evicted b_" + oldest + " to make room, remaining=" + manifest.size());
         }
     }
 
@@ -137,17 +231,11 @@ class TileDecoder {
     }
 
     static function deleteBundle(bundleId as Lang.String) as Void {
-        var key = storageKey(bundleId);
-        try {
-            var numChunks = App.Storage.getValue(key + "_n");
-            if (numChunks instanceof Lang.Number) {
-                for (var i = 0; i < (numChunks as Lang.Number); i++) {
-                    App.Storage.deleteValue(key + "_" + i);
-                }
-                App.Storage.deleteValue(key + "_n");
-                App.Storage.deleteValue(key + "_sz");
-            }
-        } catch (e) {
+        var shortKey = bundleId.substring(0, 8);
+        deleteBundleByKey(shortKey);
+        var manifest = loadManifest();
+        if (removeFromManifest(shortKey, manifest)) {
+            saveManifest(manifest);
         }
     }
 

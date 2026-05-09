@@ -2,6 +2,7 @@ package com.garmiand.map
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.garmiand.domain.RoutePoint
 import com.garmiand.util.AppLog
 import java.net.HttpURLConnection
 import java.net.URL
@@ -16,9 +17,12 @@ import kotlin.math.tan
 private const val TAG = "TileQuantizer"
 private const val USER_AGENT = "Garmiand/1.0 (https://github.com/serg-yalosovetsky/garmiand)"
 private const val SOURCE_TILE_SIZE = 256
-// 128px × 128px × 1 byte/pixel = 16 KB per tile. With maxTilesPerSide=2 → 4 tiles × 16 KB = 64 KB
-// per bundle, which leaves headroom under Fenix 7's ~128 KB Application.Storage budget.
+// 128px × 128px × 1 byte/pixel = 16 KB per tile. Corridor approach at zoom 13 yields
+// ~10–15 tiles (160–240 KB) for a 20 km route — well within LRU-cached App.Storage.
 private const val DEFAULT_TILE_OUTPUT = 128
+// Safety cap: blob + decoded bitmaps must fit in watch RAM (~678 KB free on fenix 7).
+// 24 tiles × 16 KB × 2 (blob + bitmaps) = 768 KB — at this cap we're near the limit.
+private const val MAX_CORRIDOR_TILES = 20
 
 data class QuantizedTile(
     val zoom: Int,
@@ -107,6 +111,65 @@ object TileQuantizer {
             maxLon = rightLon,
             tiles = tiles,
         )
+    }
+
+    /**
+     * Corridor-based tile selection: collect every tile within [bufferMeters] of any route
+     * point at a fixed [zoom], then download and quantize only those tiles.
+     *
+     * Compared to the bbox approach, this avoids downloading large empty areas for
+     * winding routes — a 20 km hiking route at zoom 13 with 300 m buffer typically
+     * yields 10–15 tiles (160–240 KB) instead of the bbox 4-tile grid at low zoom.
+     */
+    fun quantizeCorridor(
+        points: List<RoutePoint>,
+        bufferMeters: Double = 300.0,
+        zoom: Int = 13,
+        urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
+        outputSize: Int = DEFAULT_TILE_OUTPUT,
+    ): QuantizedBundle {
+        require(points.isNotEmpty()) { "No route points" }
+
+        val tileCoords = mutableSetOf<Pair<Int, Int>>()
+        for (pt in points) {
+            val bufLat = bufferMeters / 111_000.0
+            val bufLon = bufferMeters / (111_000.0 * cos(pt.lat * PI / 180.0))
+
+            val (tx0Frac, ty0Frac) = latLonToTileFractional(pt.lat + bufLat, pt.lon - bufLon, zoom)
+            val (tx1Frac, ty1Frac) = latLonToTileFractional(pt.lat - bufLat, pt.lon + bufLon, zoom)
+
+            for (ty in floor(ty0Frac).toInt()..floor(ty1Frac).toInt()) {
+                for (tx in floor(tx0Frac).toInt()..floor(tx1Frac).toInt()) {
+                    tileCoords.add(tx to ty)
+                }
+            }
+        }
+
+        val sorted = tileCoords.sortedWith(compareBy({ it.second }, { it.first }))
+        val capped = if (sorted.size > MAX_CORRIDOR_TILES) {
+            AppLog.w(TAG, "corridor: ${sorted.size} tiles exceeds cap $MAX_CORRIDOR_TILES — truncating")
+            sorted.take(MAX_CORRIDOR_TILES)
+        } else sorted
+        AppLog.i(TAG, "corridor: ${capped.size} tiles at z$zoom buffer=${bufferMeters.toInt()}m")
+
+        val tiles = mutableListOf<QuantizedTile>()
+        for ((tx, ty) in capped) {
+            val bmp = fetchTile(urlTemplate, zoom, tx, ty) ?: continue
+            val resized = if (bmp.width == outputSize && bmp.height == outputSize) bmp
+                else Bitmap.createScaledBitmap(bmp, outputSize, outputSize, true)
+                    .also { if (it !== bmp) bmp.recycle() }
+            val pixels = quantizeBitmap(resized)
+            resized.recycle()
+            tiles += QuantizedTile(zoom, tx, ty, outputSize, outputSize, pixels)
+            AppLog.i(TAG, "tile z$zoom/$tx/$ty quantized to ${pixels.size}B")
+        }
+        if (tiles.isEmpty()) throw IllegalStateException("No tiles fetched for corridor")
+
+        val allTx = tiles.map { it.tileX }
+        val allTy = tiles.map { it.tileY }
+        val (topLat, leftLon) = tileFractionalToLatLon(allTx.min().toDouble(), allTy.min().toDouble(), zoom)
+        val (botLat, rightLon) = tileFractionalToLatLon((allTx.max() + 1).toDouble(), (allTy.max() + 1).toDouble(), zoom)
+        return QuantizedBundle(minLat = botLat, maxLat = topLat, minLon = leftLon, maxLon = rightLon, tiles = tiles)
     }
 
     /** Convert ARGB bitmap to column-major palette indices (one byte per pixel). */

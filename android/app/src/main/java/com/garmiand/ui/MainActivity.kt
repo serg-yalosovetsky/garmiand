@@ -35,7 +35,6 @@ import java.util.UUID
 
 private const val TAG = "MainActivity"
 private const val REQUEST_GPX_FILE = 1001
-private const val BBOX_PADDING_FRACTION = 0.15
 
 class MainActivity : AppCompatActivity() {
 
@@ -201,10 +200,9 @@ class MainActivity : AppCompatActivity() {
     private fun sendMapBundle(route: RoutePackage, onlineMode: Boolean): MapSendStatus {
         if (route.points.isEmpty()) return MapSendStatus.FAILED
 
-        val bbox = computeBbox(route, BBOX_PADDING_FRACTION)
-        AppLog.i(TAG, "Quantizing tiles for bbox lat[${bbox.minLat},${bbox.maxLat}] lon[${bbox.minLon},${bbox.maxLon}]")
+        AppLog.i(TAG, "Quantizing corridor for ${route.points.size} pts buffer=300m z=13")
         val quantized = try {
-            TileQuantizer.quantize(bbox.minLat, bbox.maxLat, bbox.minLon, bbox.maxLon)
+            TileQuantizer.quantizeCorridor(route.points, bufferMeters = 300.0, zoom = 13)
         } catch (e: Exception) {
             AppLog.e(TAG, "Quantize failed", e)
             return MapSendStatus.FAILED
@@ -258,24 +256,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return if (bundleId != null) MapSendStatus.BLE_OK else MapSendStatus.FAILED
-    }
-
-    private data class Bbox(val minLat: Double, val maxLat: Double, val minLon: Double, val maxLon: Double)
-
-    private fun computeBbox(route: RoutePackage, paddingFraction: Double): Bbox {
-        var minLat = Double.POSITIVE_INFINITY
-        var maxLat = Double.NEGATIVE_INFINITY
-        var minLon = Double.POSITIVE_INFINITY
-        var maxLon = Double.NEGATIVE_INFINITY
-        for (p in route.points) {
-            if (p.lat < minLat) minLat = p.lat
-            if (p.lat > maxLat) maxLat = p.lat
-            if (p.lon < minLon) minLon = p.lon
-            if (p.lon > maxLon) maxLon = p.lon
-        }
-        val padLat = (maxLat - minLat).coerceAtLeast(0.001) * paddingFraction
-        val padLon = (maxLon - minLon).coerceAtLeast(0.001) * paddingFraction
-        return Bbox(minLat - padLat, maxLat + padLat, minLon - padLon, maxLon + padLon)
     }
 
     private fun probeBleChunkSize() {
