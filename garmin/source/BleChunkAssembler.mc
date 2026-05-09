@@ -107,4 +107,18 @@ class BleChunkAssembler {
     function progress() as Lang.Array<Lang.Number> {
         return [_receivedCount, _expectedTotal] as Lang.Array<Lang.Number>;
     }
+
+    function getMissingIndices() as Lang.Array<Lang.Number> {
+        var missing = [] as Lang.Array<Lang.Number>;
+        for (var i = 0; i < _expectedTotal; i++) {
+            if (!_chunks.hasKey(i)) {
+                missing.add(i);
+            }
+        }
+        return missing;
+    }
+
+    function getBundleId() as Lang.String? {
+        return _bundleId;
+    }
 }

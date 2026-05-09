@@ -32,6 +32,7 @@ class GarmiandApp extends App.AppBase {
     var _gpsTimer as Timer.Timer?;
     var _navView as NavigationView?;
     var _bleChunkAssembler as BleChunkAssembler?;
+    var _bleStallTimer as Timer.Timer?;
     var _onlineMode as Lang.Boolean;
     // chunked HTTPS download state
     var _dlBuffer as Lang.ByteArray?;
@@ -83,6 +84,7 @@ class GarmiandApp extends App.AppBase {
             _gpsTimer.stop();
             _gpsTimer = null;
         }
+        disarmBleStallTimer();
         Position.enableLocationEvents(Position.LOCATION_DISABLE, method(:onGpsPosition));
     }
 
@@ -366,6 +368,40 @@ class GarmiandApp extends App.AppBase {
         }
     }
 
+    function armBleStallTimer() as Void {
+        if (_bleStallTimer != null) {
+            (_bleStallTimer as Timer.Timer).stop();
+            _bleStallTimer = null;
+        }
+        var t = new Timer.Timer();
+        t.start(method(:onBleStallTimeout), 10000, false);
+        _bleStallTimer = t;
+    }
+
+    function disarmBleStallTimer() as Void {
+        if (_bleStallTimer != null) {
+            (_bleStallTimer as Timer.Timer).stop();
+            _bleStallTimer = null;
+        }
+    }
+
+    function onBleStallTimeout() as Void {
+        _bleStallTimer = null;
+        if (_bleChunkAssembler == null) {
+            return;
+        }
+        var asm = _bleChunkAssembler as BleChunkAssembler;
+        var prog = asm.progress();
+        var received = (prog[0] as Lang.Numeric).toNumber();
+        var total = (prog[1] as Lang.Numeric).toNumber();
+        var missing = asm.getMissingIndices();
+        appLog("BLE STALL " + received + "/" + total + " missing=" + missing.toString());
+        logFreeMem("BLE stall");
+        // Free the partially-assembled chunk memory to prevent OOM crash
+        _bleChunkAssembler = null;
+        appLog("BLE assembler reset after stall");
+    }
+
     function handleTileChunk(dict as Lang.Dictionary) as Void {
         if (_bleChunkAssembler == null) {
             _bleChunkAssembler = new BleChunkAssembler();
@@ -380,8 +416,10 @@ class GarmiandApp extends App.AppBase {
         }
         var result = (_bleChunkAssembler as BleChunkAssembler).accept(dict);
         if (result == null) {
+            armBleStallTimer();
             return;
         }
+        disarmBleStallTimer();
         var assembledId = result[0];
         var blob = result[1];
         var err = result[2];

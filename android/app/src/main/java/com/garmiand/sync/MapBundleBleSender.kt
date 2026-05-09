@@ -14,9 +14,9 @@ private const val TAG = "MapBundleBleSender"
 // and persist the last-known-good size in SharedPreferences.
 private const val DEFAULT_CHUNK_SIZE = 12 * 1024
 private const val MIN_CHUNK_SIZE = 1024
-private const val INTER_CHUNK_DELAY_MS = 150L
-private const val MAX_RETRIES = 2
-private const val RETRY_BACKOFF_MS = 1500L
+private const val INTER_CHUNK_DELAY_MS = 300L
+private const val MAX_RETRIES = 4
+private const val RETRY_BACKOFF_MS = 2500L
 private const val PREFS_KEY_CHUNK_SIZE = "ble_chunk_size"
 
 class MapBundleBleSender(

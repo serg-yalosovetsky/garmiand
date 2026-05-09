@@ -15,9 +15,14 @@ class GpxFileImportBridge {
     fun loadFromUri(context: Context, uri: Uri, routeName: String? = null): RoutePackage? {
         return try {
             context.contentResolver.openInputStream(uri)?.use { stream ->
-                val name = routeName
-                    ?: uri.lastPathSegment?.removeSuffix(".gpx")?.removeSuffix(".GPX")
-                    ?: "Route"
+                val name = routeName ?: run {
+                        val seg = uri.lastPathSegment ?: return@run "Route"
+                        // lastPathSegment for file-provider URIs may be the full path,
+                        // e.g. "raw:/storage/emulated/0/Download/Foo.gpx"
+                        seg.substringAfterLast('/').substringAfterLast(':')
+                            .removeSuffix(".gpx").removeSuffix(".GPX")
+                            .ifBlank { "Route" }
+                    }
                 parseGpx(stream, name)
             }
         } catch (_: Exception) {

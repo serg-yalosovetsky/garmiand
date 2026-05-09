@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 private const val TAG = "ConnectIQCompanion"
 private const val WATCH_APP_ID = "71DA4029287A447BBE86B83DC1588647"
-private const val SEND_TIMEOUT_MS = 30000L
+private const val SEND_TIMEOUT_MS = 60000L
 
 class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
 

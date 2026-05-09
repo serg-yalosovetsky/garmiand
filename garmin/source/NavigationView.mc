@@ -441,17 +441,11 @@ class NavigationView extends WatchUi.View {
 
     function drawCustomTiles(dc as Graphics.Dc) as Void {
         if (_bundleHeader == null) {
-            drawTopText(dc, _bundleId == null ? "TILES: no bundle" : "TILES: header parse failed", Graphics.COLOR_YELLOW);
-            return;
+            return; // mode badge at bottom already shows "[TILES] ... ∅"
         }
         var tiles = _decodedTiles;
         if (tiles == null || tiles.size() == 0) {
-            // Decoder is currently disabled (see loadBundle). Show that we
-            // have the bundle and the parsed header so the user can confirm
-            // arrival without crashing on synchronous decode.
-            var hdr = _bundleHeader as BundleHeader;
-            drawTopText(dc, "TILES: have bundle, " + hdr.tileCount + " tiles (decode off)", Graphics.COLOR_LT_GRAY);
-            return;
+            return; // still decoding — mode badge shows state
         }
         var w = dc.getWidth();
         var h = dc.getHeight();
@@ -638,7 +632,9 @@ class NavigationView extends WatchUi.View {
         var th = dc.getFontHeight(Graphics.FONT_TINY);
         var pad = 6;
         var bx = (w - tw) / 2 - pad;
-        var by = h - th - 14;
+        // stay above the mode badge (FONT_XTINY + 4px padding + 6px gap)
+        var modeBadgeH = dc.getFontHeight(Graphics.FONT_XTINY) + 10;
+        var by = h - th - modeBadgeH;
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(bx, by, tw + pad * 2, th + 4);
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);

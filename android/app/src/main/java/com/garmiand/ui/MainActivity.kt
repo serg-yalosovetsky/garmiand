@@ -100,14 +100,30 @@ class MainActivity : AppCompatActivity() {
         val tokFingerprint = if (tok.length >= 6) "${tok.take(3)}…${tok.takeLast(3)} (len=${tok.length})" else "(len=${tok.length})"
         AppLog.i(TAG, "App started backendUrl='${BuildConfig.BACKEND_URL}' token=$tokFingerprint")
 
+        tvStatus.setOnClickListener { retryGarminConnect() }
+
         garminCompanion = ConnectIQGarminCompanion(this)
+        connectToGarmin()
+    }
+
+    private fun connectToGarmin() {
         tvStatus.text = "Connecting to Garmin..."
         AppLog.i(TAG, "Initializing Connect IQ...")
         garminCompanion.initialize { ready ->
             runOnUiThread {
-                tvStatus.text = if (ready) "Garmin connected" else "Garmin not available"
+                tvStatus.text = if (ready) "Garmin connected" else "Garmin not available (tap to retry)"
             }
             AppLog.i(TAG, "Garmin ready=$ready")
+        }
+    }
+
+    private fun retryGarminConnect() {
+        val status = tvStatus.text.toString()
+        if (status.startsWith("Connecting") || status.startsWith("Garmin not available")) {
+            AppLog.i(TAG, "Retrying Garmin connection...")
+            garminCompanion.shutdown()
+            garminCompanion = ConnectIQGarminCompanion(this)
+            connectToGarmin()
         }
     }
 
