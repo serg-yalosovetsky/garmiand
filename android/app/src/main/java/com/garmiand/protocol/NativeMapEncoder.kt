@@ -84,6 +84,7 @@ object SyncMessageSerializer {
             PhoneMessageEnvelope.KEY_BUNDLE_ID to msg.bundleId,
             PhoneMessageEnvelope.KEY_CHUNK_INDEX to msg.index,
             PhoneMessageEnvelope.KEY_CHUNK_TOTAL to msg.total,
+            PhoneMessageEnvelope.KEY_CHUNK_TOTAL_BYTES to msg.totalBytes,
             PhoneMessageEnvelope.KEY_CHUNK_PAYLOAD to msg.payload,
         )
     }

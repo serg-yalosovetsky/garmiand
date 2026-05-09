@@ -8,11 +8,10 @@ import java.util.UUID
 
 private const val TAG = "MapBundleBleSender"
 
-// Empirically the Connect IQ Mobile SDK rejects single tile_chunk messages
-// > ~14 KB raw with FAILURE_MESSAGE_TOO_LARGE in ~10 ms (see BleChunkSizeProber
-// notes). 12 KB leaves a small safety margin. We adapt downward at runtime
-// and persist the last-known-good size in SharedPreferences.
-private const val DEFAULT_CHUNK_SIZE = 12 * 1024
+// 3 KB chunks give reliable BLE delivery within the ConnectIQ SDK's internal
+// ~30 s per-message budget. Larger chunks (12 KB) consistently hit the budget
+// and require retries. We still adapt downward if TOO_LARGE is returned.
+private const val DEFAULT_CHUNK_SIZE = 3 * 1024
 private const val MIN_CHUNK_SIZE = 1024
 private const val INTER_CHUNK_DELAY_MS = 300L
 private const val MAX_RETRIES = 4
@@ -25,7 +24,7 @@ class MapBundleBleSender(
     initialChunkSize: Int = DEFAULT_CHUNK_SIZE,
 ) {
     private val startingChunkSize: Int =
-        prefs?.getInt(PREFS_KEY_CHUNK_SIZE, initialChunkSize) ?: initialChunkSize
+        minOf(prefs?.getInt(PREFS_KEY_CHUNK_SIZE, initialChunkSize) ?: initialChunkSize, initialChunkSize)
 
     /**
      * Splits [bundle] into chunks ≤ chunkSize bytes and sends them sequentially.
@@ -86,6 +85,7 @@ class MapBundleBleSender(
                 bundleId = bundleId,
                 index = i,
                 total = total,
+                totalBytes = bundle.size,
                 payload = payload,
             )
             var attempt = 0

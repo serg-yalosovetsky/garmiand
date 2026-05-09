@@ -42,6 +42,7 @@ sealed interface SyncMessage {
         val bundleId: String,
         val index: Int,
         val total: Int,
+        val totalBytes: Int,
         val payload: ByteArray,
     ) : SyncMessage {
         override fun equals(other: Any?): Boolean {
@@ -51,6 +52,7 @@ sealed interface SyncMessage {
                 && bundleId == other.bundleId
                 && index == other.index
                 && total == other.total
+                && totalBytes == other.totalBytes
                 && payload.contentEquals(other.payload)
         }
 
@@ -59,6 +61,7 @@ sealed interface SyncMessage {
             h = 31 * h + bundleId.hashCode()
             h = 31 * h + index
             h = 31 * h + total
+            h = 31 * h + totalBytes
             h = 31 * h + payload.contentHashCode()
             return h
         }

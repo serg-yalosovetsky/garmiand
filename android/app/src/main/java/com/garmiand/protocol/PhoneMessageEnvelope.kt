@@ -28,6 +28,7 @@ object PhoneMessageEnvelope {
     // BLE chunked delivery
     const val KEY_CHUNK_INDEX = "i"
     const val KEY_CHUNK_TOTAL = "n"
+    const val KEY_CHUNK_TOTAL_BYTES = "tb"
     const val KEY_CHUNK_PAYLOAD = "p"
 
     const val KIND_SYNC_START = "sync_start"
