@@ -25,7 +25,7 @@ class DecodedTile {
     }
 }
 
-class NavigationView extends WatchUi.MapView {
+class NavigationView extends WatchUi.View {
     var _route as RouteData;
     var _mapMode as Lang.Number;
     var _bundleId as Lang.String?;
@@ -51,7 +51,7 @@ class NavigationView extends WatchUi.MapView {
     var _viewSet as Lang.Boolean;
 
     function initialize(route as RouteData) {
-        MapView.initialize();
+        View.initialize();
         _route = route;
         _mapMode = readMapModeProperty();
         _bundleId = readLastBundleIdProperty();
@@ -70,11 +70,6 @@ class NavigationView extends WatchUi.MapView {
         _viewLon0 = 0.0f;
         _viewLon1 = 0.0f;
         _viewSet = false;
-        try {
-            self.setMapMode(WatchUi.MAP_MODE_PREVIEW);
-        } catch (e) {
-            System.println("[Map] setMapMode unsupported: " + e.getErrorMessage());
-        }
         // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
         // via Graphics.createBufferedBitmap, which requires the view's graphics
         // context. That context isn't ready until onShow(). Calling it from
@@ -218,90 +213,11 @@ class NavigationView extends WatchUi.MapView {
         _viewLon0 = (minLon - padLon).toFloat();
         _viewLon1 = (maxLon + padLon).toFloat();
         _viewSet = true;
-
-        try {
-            var topLeft = new Position.Location({
-                :latitude => _viewLat0,
-                :longitude => _viewLon0,
-                :format => :degrees,
-            });
-            var bottomRight = new Position.Location({
-                :latitude => _viewLat1,
-                :longitude => _viewLon1,
-                :format => :degrees,
-            });
-            self.setMapVisibleArea(topLeft, bottomRight);
-        } catch (e) {
-            System.println("[Map] setMapVisibleArea failed: " + e.getErrorMessage());
-        }
-        applyNativePolyline();
-        applyNativeMarkers();
-    }
-
-    function applyNativePolyline() as Void {
-        if (_route.lats.size() < 2) { return; }
-        try {
-            var poly = new WatchUi.MapPolyline();
-            poly.setColor(Graphics.COLOR_RED);
-            poly.setWidth(3);
-            for (var i = 0; i < _route.lats.size(); i++) {
-                var loc = new Position.Location({
-                    :latitude => _route.lats[i],
-                    :longitude => _route.lons[i],
-                    :format => :degrees,
-                });
-                poly.addLocation(loc);
-            }
-            self.setPolyline(poly);
-        } catch (e) {
-            System.println("[Map] setPolyline failed: " + e.getErrorMessage());
-        }
-    }
-
-    function applyNativeMarkers() as Void {
-        try {
-            var markers = [] as Lang.Array<WatchUi.MapMarker>;
-            for (var i = 0; i < _route.markerLats.size(); i++) {
-                var loc = new Position.Location({
-                    :latitude => _route.markerLats[i],
-                    :longitude => _route.markerLons[i],
-                    :format => :degrees,
-                });
-                var m = new WatchUi.MapMarker(loc);
-                var title = _route.markerTitles[i];
-                var label;
-                if ("Start".equals(title)) {
-                    label = "▲ Start";   // ▲
-                } else if ("Finish".equals(title)) {
-                    label = "■ Finish";  // ■
-                } else {
-                    label = title;
-                }
-                m.setLabel(label);
-                markers.add(m);
-            }
-            if (_currentLat != 0.0f || _currentLon != 0.0f) {
-                var here = new Position.Location({
-                    :latitude => _currentLat,
-                    :longitude => _currentLon,
-                    :format => :degrees,
-                });
-                var hereMarker = new WatchUi.MapMarker(here);
-                hereMarker.setLabel("You");
-                markers.add(hereMarker);
-            }
-            self.setMapMarker(markers);
-        } catch (e) {
-            System.println("[Map] setMapMarker failed: " + e.getErrorMessage());
-        }
     }
 
     function updateGpsPosition(lat as Lang.Float, lon as Lang.Float) as Void {
         _currentLat = lat;
         _currentLon = lon;
-        if (_route.isComplete) {
-            applyNativeMarkers();
-        }
         WatchUi.requestUpdate();
     }
 
@@ -334,20 +250,16 @@ class NavigationView extends WatchUi.MapView {
 
         ensureBundleLoaded();
 
-        if (_mapMode == BG_MODE_NATIVE) {
-            MapView.onUpdate(dc);
-        } else {
-            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-            dc.clear();
-            if (_mapMode == BG_MODE_TILES) {
-                drawCustomTiles(dc);
-            }
-            // In TILES/NONE we draw polyline/markers/position manually because
-            // MapView.onUpdate(dc) is not called.
-            drawPolylineOverlay(dc);
-            drawWaypointOverlay(dc);
-            drawPositionOverlay(dc);
+        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        dc.clear();
+        if (_mapMode == BG_MODE_TILES) {
+            drawCustomTiles(dc);
         }
+        // BG_MODE_NATIVE is no longer rendered by MapView (sim crashes); we
+        // draw a plain black background and the same overlay everywhere.
+        drawPolylineOverlay(dc);
+        drawWaypointOverlay(dc);
+        drawPositionOverlay(dc);
 
         drawTopBand(dc);
         drawModeBadge(dc);
