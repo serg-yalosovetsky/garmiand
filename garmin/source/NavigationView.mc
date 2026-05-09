@@ -10,7 +10,7 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
-const APP_VERSION = "2026-05-09 dbg6";
+const APP_VERSION = "2026-05-10 dbg15";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -37,6 +37,18 @@ class NavigationView extends WatchUi.View {
     var _decodedTiles as Lang.Array<DecodedTile>?;
     var _bundlePixelW as Lang.Number;
     var _bundlePixelH as Lang.Number;
+
+    // Incremental tile decode state. After loadBundle() parses the header,
+    // these fields drive column-by-column decoding inside onUpdate().
+    // Each onUpdate() call processes COLS_PER_FRAME columns of the current tile.
+    var _pendingBlob as Lang.ByteArray?;
+    var _pendingEntries as Lang.Array?;
+    var _pendingMinX as Lang.Number;
+    var _pendingMinY as Lang.Number;
+    var _pendingTileIndex as Lang.Number;
+    var _pendingColIndex as Lang.Number;
+    var _currentTileBmp as Graphics.BufferedBitmap?;
+    var _currentTileDc as Graphics.Dc?;
 
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
@@ -73,6 +85,14 @@ class NavigationView extends WatchUi.View {
         _currentLon = 0.0f;
         _onlineMode = true;
         _bundleLoadAttempted = false;
+        _pendingBlob = null;
+        _pendingEntries = null;
+        _pendingMinX = 0;
+        _pendingMinY = 0;
+        _pendingTileIndex = 0;
+        _pendingColIndex = 0;
+        _currentTileBmp = null;
+        _currentTileDc = null;
         _debugQueue = [] as Lang.Array<Lang.String>;
         _debugCurrent = null;
         _debugUntilMs = 0;
@@ -145,6 +165,12 @@ class NavigationView extends WatchUi.View {
         _decodedTiles = null;
         _bundlePixelW = 0;
         _bundlePixelH = 0;
+        _pendingBlob = null;
+        _pendingEntries = null;
+        _pendingTileIndex = 0;
+        _pendingColIndex = 0;
+        _currentTileBmp = null;
+        _currentTileDc = null;
     }
 
     function loadBundle(bundleId as Lang.String) as Void {
@@ -176,15 +202,22 @@ class NavigationView extends WatchUi.View {
             pushDebug("palette FAIL");
             _palette = null;
         }
-        // NB: decodeAllTiles intentionally disabled — synchronous decode in
-        // the BLE/HTTPS callback exceeds the 2 s CIQ watchdog and/or the
-        // Fenix 7 graphics pool budget, killing the app. Re-enable once
-        // a lazy/throttled decoder is in place.
-        pushDebug("decode skipped (deferred)");
-        System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount + " (decode deferred)");
+        if (_palette != null) {
+            try {
+                prepareDecode(blob, hdr);
+            } catch (e) {
+                pushDebug("prepareDecode EX: " + e.getErrorMessage());
+            }
+        }
+        System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount);
     }
 
-    function decodeAllTiles(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
+    // Phase 1 of tile decode: parse entries and compute layout. Fast (no pixels).
+    // Sets up _pendingBlob/_pendingEntries so onUpdate() can decode one tile per frame.
+    function prepareDecode(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
+        _pendingBlob = null;
+        _pendingEntries = null;
+        _decodedTiles = [] as Lang.Array<DecodedTile>;
         if (hdr.tileCount == 0 || _palette == null) {
             return;
         }
@@ -207,17 +240,74 @@ class NavigationView extends WatchUi.View {
         }
         _bundlePixelW = (maxTileX - minTileX + 1) * anyW;
         _bundlePixelH = (maxTileY - minTileY + 1) * anyH;
-        var tiles = [] as Lang.Array<DecodedTile>;
-        for (var j = 0; j < hdr.tileCount; j++) {
-            var entry = entries[j] as TileEntry;
-            var bmp = TileDecoder.decodeTile(blob, entry, _palette as Lang.Array<Lang.Number>);
-            if (bmp != null) {
-                var localX = (entry.tileX - minTileX) * entry.width;
-                var localY = (entry.tileY - minTileY) * entry.height;
-                tiles.add(new DecodedTile(bmp, localX, localY, entry.width, entry.height));
+        _pendingMinX = minTileX;
+        _pendingMinY = minTileY;
+        _pendingEntries = entries;
+        _pendingBlob = blob;
+        _pendingTileIndex = 0;
+        pushDebug("decode: 0/" + hdr.tileCount + " tiles");
+    }
+
+    // Phase 2: column-by-column tile decode. Called from onUpdate() until done.
+    // Processes COLS_PER_FRAME columns per call to stay under the watchdog budget.
+    function decodeNextTile() as Void {
+        if (_pendingBlob == null || _pendingEntries == null || _bundleHeader == null || _palette == null) {
+            return;
+        }
+        var hdr = _bundleHeader as BundleHeader;
+        if (_pendingTileIndex >= hdr.tileCount) {
+            _pendingBlob = null;
+            return;
+        }
+        var entry = (_pendingEntries as Lang.Array)[_pendingTileIndex] as TileEntry;
+
+        // Allocate BufferedBitmap for the current tile if not yet done.
+        if (_currentTileBmp == null) {
+            try {
+                _currentTileBmp = Graphics.createBufferedBitmap({
+                    :width => entry.width,
+                    :height => entry.height,
+                    :palette => _palette,
+                }).get() as Graphics.BufferedBitmap;
+                _currentTileDc = (_currentTileBmp as Graphics.BufferedBitmap).getDc();
+            } catch (e) {
+                pushDebug("bmp fail: " + e.getErrorMessage());
+                _pendingTileIndex++;
+                _pendingColIndex = 0;
+                return;
+            }
+            _pendingColIndex = 0;
+        }
+
+        // Fill COLS_PER_FRAME columns into the current bitmap's DC.
+        TileDecoder.fillTileColumns(
+            _pendingBlob as Lang.ByteArray,
+            entry,
+            _palette as Lang.Array<Lang.Number>,
+            _currentTileDc as Graphics.Dc,
+            _pendingColIndex,
+            8 // columns per frame — keep iterations ≤ 8*h ≈ 1024
+        );
+        _pendingColIndex += 8;
+
+        if (_pendingColIndex >= entry.width) {
+            // Tile complete — add to decoded list.
+            var localX = (entry.tileX - _pendingMinX) * entry.width;
+            var localY = (entry.tileY - _pendingMinY) * entry.height;
+            if (_decodedTiles == null) { _decodedTiles = [] as Lang.Array<DecodedTile>; }
+            (_decodedTiles as Lang.Array<DecodedTile>).add(
+                new DecodedTile(_currentTileBmp as Graphics.BufferedBitmap, localX, localY, entry.width, entry.height)
+            );
+            _currentTileBmp = null;
+            _currentTileDc = null;
+            _pendingColIndex = 0;
+            _pendingTileIndex++;
+            if (_pendingTileIndex >= hdr.tileCount) {
+                _pendingBlob = null;
+                _pendingEntries = null;
+                pushDebug("decoded " + hdr.tileCount + " tiles");
             }
         }
-        _decodedTiles = tiles;
     }
 
     function readMapModeProperty() as Lang.Number {
@@ -299,17 +389,15 @@ class NavigationView extends WatchUi.View {
 
     function setBundleId(id as Lang.String?) as Void {
         _bundleId = id;
+        _bundleLoadAttempted = false;
         try {
             App.Properties.setValue("last_bundle_id", id != null ? id : "");
         } catch (e) {
         }
         if (id != null) {
             pushDebug("setBundleId " + (id as Lang.String).substring(0, 8));
-            try {
-                loadBundle(id as Lang.String);
-            } catch (e) {
-                pushDebug("loadBundle EX: " + e.getErrorMessage());
-            }
+            // Don't call loadBundle() here — HTTP/BLE callback watchdog budget is too short.
+            // ensureBundleLoaded() in onUpdate() handles the actual load.
         } else {
             _bundleHeader = null;
             _palette = null;
@@ -319,12 +407,20 @@ class NavigationView extends WatchUi.View {
     }
 
     function onUpdate(dc as Graphics.Dc) as Void {
+        ensureBundleLoaded();
+
+        // Incremental decode: one tile per frame to stay within watchdog budget.
+        if (_pendingBlob != null) {
+            decodeNextTile();
+            if (_pendingBlob != null) {
+                WatchUi.requestUpdate(); // more tiles remaining
+            }
+        }
+
         if (!_route.isComplete) {
             drawWaitingScreen(dc);
             return;
         }
-
-        ensureBundleLoaded();
 
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.clear();

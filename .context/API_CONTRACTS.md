@@ -50,12 +50,13 @@ Marks the route complete. The watch flips `RouteData.isComplete = true` and swit
 ### `tile_session` *(HTTPS bundle delivery)*
 Sent after `sync_finish` is acked **only when the user opted into "Cache map for
 offline" and the phone has internet**. Tells the watch to fetch a quantized
-bundle from our backend.
+bundle from our backend in 10 KB chunks.
 
 | Key | Type | Notes |
 |---|---|---|
-| `bundle_id` | `String` | UUID, persisted into `last_bundle_id` Property and used as the `Application.Storage` key prefix (`bundle_<id>`). |
-| `download_url` | `String` | Public HTTPS, returns the bundle as base64 plain text. |
+| `bundle_id` | `String` | UUID, persisted into `last_bundle_id` Property and used as the `Application.Storage` key prefix (`b_<first8chars>_*`). |
+| `download_url` | `String` | Public HTTPS base URL. Watch appends `/chunk?offset=N&size=10240` for each slice. |
+| `total_bytes` | `Int` | Total blob size in bytes. Watch pre-allocates a `ByteArray` of this size to avoid heap fragmentation from repeated `addAll`. If absent, the watch falls back to dynamic growth. |
 
 ### `tile_chunk` *(BLE bundle delivery, fallback when phone is offline)*
 Phone splits a serialized `GMND` bundle (see [MAP_RENDERING.md](MAP_RENDERING.md))

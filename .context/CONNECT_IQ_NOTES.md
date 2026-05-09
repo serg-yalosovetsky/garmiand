@@ -44,24 +44,76 @@ We extend `WatchUi.MapView` (not `WatchUi.View`) for the map screen. Notes from 
 
 `Application.Storage.setValue/getValue/deleteValue` accepts strings, numbers,
 arrays, dictionaries, and `Lang.ByteArray`. Per-app total is empirically
-~128 KB on Fenix 7 (Garmin doesn't document this). Each individual value is
-also bounded; for our quantized bundles we keep the full blob under 80 KB
-(see sizing budget in [MAP_RENDERING.md](MAP_RENDERING.md)).
+~128 KB on Fenix 7 (Garmin doesn't document this).
 
-If `setValue` throws `StorageFullException`, the LRU strategy is to delete
-the oldest `bundle_*` keys (we currently keep at most one — `last_bundle_id`
-in Properties points to it).
+**Critical: per-value limit is ~32 KB** (empirically confirmed in the
+simulator; likely similar on device). Calling `setValue` with a `ByteArray`
+larger than this causes an unhandled OOM crash — `StorageFullException` is
+**not** thrown, the app just dies. This is distinct from the total-size limit.
+
+We work around this by chunking the blob into 16 KB pieces:
+- `b_<first8ofId>_0`, `_1`, … `_N-1` — the raw chunks
+- `b_<first8ofId>_n` — number of chunks (Number)
+- `b_<first8ofId>_sz` — total byte count (Number)
+
+`TileDecoder.persist/load/deleteBundle` manage these keys. When loading,
+we reconstruct via `blob.addAll(chunk)` (bulk copy, not byte-by-byte).
+
+If `setValue` throws `StorageFullException` (total limit), delete old bundle
+keys (simulator's `Settings → Edit Storage`) or reduce bundle size.
 
 ## BufferedBitmap with palette
 
 `Graphics.createBufferedBitmap({:width, :height, :palette})` returns a
 `BufferedBitmapReference`. Call `.get()` to get the actual `BufferedBitmap`.
-Filling pixels is via `bmp.getDc().setColor(rgb).drawPoint(x, y)` — slow but
-acceptable as a one-time decode at bundle load time. Per-frame rendering
-uses `dc.drawBitmap(x, y, bmp)` which is a fast blit.
+Pixel-filling is done via `bmp.getDc()` + `setColor` + `fillRectangle`
+(run-length per column). Per-frame rendering uses `dc.drawBitmap(x, y, bmp)`.
+
+**`getBuffer()` does not exist on fenix7 / SDK 9.1.0.** The method that
+would return the backing `ByteArray` for direct index writes is not in the
+API; `monkeyc` errors with "Undefined symbol ':getBuffer'". All pixel writes
+must go through Dc calls.
+
+**Watchdog reality:** a 128×128 tile = 16 384 pixels. Even with RLE
+(`fillRectangle` on color runs), processing the whole tile in one `onUpdate`
+call trips the watchdog in the simulator. We process **8 columns per
+`onUpdate` frame** (`TileDecoder.fillTileColumns`), which gives ~1 024
+inner-loop iterations per frame — comfortably within budget. The `BufferedBitmap`
+Dc is held between frames; the bmp is only added to `_decodedTiles` when all
+columns are done.
+
+**Watchdog budget: callbacks vs `onUpdate`.**
+HTTP response callbacks (`onBundleChunkResponse`) and BLE message handlers
+(`onPhoneMessage`) have a **shorter** watchdog budget than `onUpdate`. Do not
+call `TileDecoder.load()` (even with `addAll`) or `createBufferedBitmap` from
+inside those callbacks. Use the deferred pattern: set a flag (`_bundleLoadAttempted = false`)
+and let `ensureBundleLoaded()` in `onUpdate` do the heavy lifting.
 
 Graphics memory pool on Fenix 7 is ~256 KB. A 128×128 indexed bitmap takes
 ~16 KB. Four decoded tiles + the screen Dc fits comfortably.
+
+## makeWebRequest response buffer limit
+
+`Communications.makeWebRequest` with `HTTP_RESPONSE_CONTENT_TYPE_TEXT_PLAIN`
+has an undocumented response buffer cap of approximately 12–16 KB. Attempting
+to receive a larger response (e.g. a 65 KB bundle base64-encoded as ~87 KB)
+returns error code **`-402` (NETWORK_RESPONSE_OUT_OF_MEMORY)**.
+
+**`HTTP_RESPONSE_CONTENT_TYPE_BYTE_ARRAY` does not exist** in the Connect IQ
+API. The only binary-adjacent option is TEXT_PLAIN with base64.
+
+Our workaround: the server exposes
+`GET /sessions/:id/chunk?offset=N&size=10240` which returns a 10 KB slice.
+The watch makes sequential requests, writing each decoded chunk into a
+pre-allocated `ByteArray` (`_dlBuffer = new [_dlTotal]b`) at the correct
+offset. Progress: `_dlOffset += chunkSize`, next request starts when the
+callback fires. No reallocation, no heap fragmentation.
+
+**`new [0]b` vs `[] as Lang.ByteArray`:** only the former creates a true
+`Lang.ByteArray`. `[] as Lang.ByteArray` is syntactically accepted by
+`monkeyc` but creates a regular `Lang.Array`, which crashes at runtime when
+you call `.addAll()` on it (`UnexpectedTypeException: Expected Array, given ByteArray`).
+Always use `new [N]b` (fixed size) or `new [0]b` (empty, grow with addAll).
 
 ## Communications.transmit chunking
 

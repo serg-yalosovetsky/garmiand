@@ -35,18 +35,34 @@ Errors:
 
 ### `GET /sessions/:id`
 
-Returns `text/plain` body containing the bundle **base64-encoded**.
+Returns `text/plain` body containing the **full bundle base64-encoded**.
+Only usable for small bundles (< ~12 KB raw / ~16 KB base64) due to the
+Connect IQ `makeWebRequest` response buffer cap. For production-size bundles
+(~65 KB) use `/chunk` instead.
+
+Errors:
+- `404 {"error":"not found"}` — file missing or expired
+
+### `GET /sessions/:id/chunk?offset=N&size=M`
+
+Returns a base64-encoded **slice** of the bundle: `blob[N..N+M]` as
+`text/plain`. `size` is capped server-side at 64 KB.
+
+Response headers:
+- `X-Bundle-Size` — total blob size in bytes (useful for progress display)
+- `X-Chunk-Offset` — the actual `offset` served
+- `X-Chunk-Size` — the number of bytes in this slice (before base64)
+
+The watch uses this endpoint to download in 10 KB increments, writing each
+decoded chunk directly into a pre-allocated `ByteArray`. The loop continues
+until `_dlOffset >= _dlTotal` or `chunkSize < DL_CHUNK_SIZE`.
 
 Why text instead of `application/octet-stream`: Connect IQ's
 `Communications.makeWebRequest()` only delivers strings or parsed JSON to the
-watch. Streaming bytes into a `BitmapResource` is possible (`makeImageRequest`)
-but we want raw bytes, not a decoded image. Base64 over text/plain is the
-narrowest workaround that keeps the wire-format unified.
+watch. Base64 over text/plain is the narrowest workaround.
 
 Errors:
-- `400 {"error":"bad id"}` — id doesn't look like a UUID
-- `404 {"error":"not found"}` — file missing
-- `410 {"error":"expired"}` — file older than `RETENTION_DAYS`
+- `404 {"error":"not found"}` — file missing or expired
 
 ### `GET /healthz`
 

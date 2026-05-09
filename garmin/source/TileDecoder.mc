@@ -82,13 +82,28 @@ class TileEntry {
 
 class TileDecoder {
 
+    // App.Storage.setValue has a per-value limit (~32 KB in simulator / older devices).
+    // We split large bundles into 16 KB chunks stored under numbered keys.
+    static const STORAGE_CHUNK = 16 * 1024;
+
     static function storageKey(bundleId as Lang.String) as Lang.String {
-        return "bundle_" + bundleId;
+        return "b_" + bundleId.substring(0, 8); // short key prefix saves storage space
     }
 
     static function persist(bundleId as Lang.String, blob as Lang.ByteArray) as Lang.Boolean {
+        var totalSize = blob.size();
+        var numChunks = (totalSize + STORAGE_CHUNK - 1) / STORAGE_CHUNK;
+        var key = storageKey(bundleId);
+        System.println("[Tiles] persist " + totalSize + "B in " + numChunks + " chunks key=" + key);
         try {
-            App.Storage.setValue(storageKey(bundleId), blob);
+            for (var i = 0; i < numChunks; i++) {
+                var start = i * STORAGE_CHUNK;
+                var end = start + STORAGE_CHUNK;
+                if (end > totalSize) { end = totalSize; }
+                App.Storage.setValue(key + "_" + i, blob.slice(start, end));
+            }
+            App.Storage.setValue(key + "_n", numChunks);
+            App.Storage.setValue(key + "_sz", totalSize);
             return true;
         } catch (e) {
             System.println("[Tiles] persist failed: " + e.getErrorMessage());
@@ -97,11 +112,24 @@ class TileDecoder {
     }
 
     static function load(bundleId as Lang.String) as Lang.ByteArray? {
+        var key = storageKey(bundleId);
         try {
-            var v = App.Storage.getValue(storageKey(bundleId));
-            if (v instanceof Lang.ByteArray) {
-                return v as Lang.ByteArray;
+            var numChunks = App.Storage.getValue(key + "_n");
+            if (!(numChunks instanceof Lang.Number)) {
+                System.println("[Tiles] load: no chunk index for " + key);
+                return null;
             }
+            var blob = new [0]b;
+            for (var i = 0; i < (numChunks as Lang.Number); i++) {
+                var chunk = App.Storage.getValue(key + "_" + i);
+                if (!(chunk instanceof Lang.ByteArray)) {
+                    System.println("[Tiles] load: missing chunk " + i);
+                    return null;
+                }
+                blob.addAll(chunk as Lang.ByteArray);
+            }
+            System.println("[Tiles] load: assembled " + blob.size() + "B from " + (numChunks as Lang.Number) + " chunks");
+            return blob;
         } catch (e) {
             System.println("[Tiles] load failed: " + e.getErrorMessage());
         }
@@ -109,8 +137,16 @@ class TileDecoder {
     }
 
     static function deleteBundle(bundleId as Lang.String) as Void {
+        var key = storageKey(bundleId);
         try {
-            App.Storage.deleteValue(storageKey(bundleId));
+            var numChunks = App.Storage.getValue(key + "_n");
+            if (numChunks instanceof Lang.Number) {
+                for (var i = 0; i < (numChunks as Lang.Number); i++) {
+                    App.Storage.deleteValue(key + "_" + i);
+                }
+                App.Storage.deleteValue(key + "_n");
+                App.Storage.deleteValue(key + "_sz");
+            }
         } catch (e) {
         }
     }
@@ -232,18 +268,42 @@ class TileDecoder {
             return null;
         }
         var bdc = bmp.getDc();
-        var off = entry.pixelOffset;
+        fillTileColumns(blob, entry, palette, bdc, 0, entry.width);
+        return bmp;
+    }
+
+    // Fill [startCol, startCol+numCols) columns of a tile into an existing Dc.
+    // Called incrementally (a few columns per onUpdate frame) to stay within
+    // the CIQ watchdog budget.
+    static function fillTileColumns(
+        blob as Lang.ByteArray,
+        entry as TileEntry,
+        palette as Lang.Array<Lang.Number>,
+        bdc as Graphics.Dc,
+        startCol as Lang.Number,
+        numCols as Lang.Number
+    ) as Void {
         var w = entry.width;
         var h = entry.height;
-        for (var x = 0; x < w; x++) {
+        var off = entry.pixelOffset;
+        var palSize = palette.size();
+        var endCol = startCol + numCols;
+        if (endCol > w) { endCol = w; }
+        for (var x = startCol; x < endCol; x++) {
             var colBase = off + x * h;
-            for (var y = 0; y < h; y++) {
-                var idx = blob[colBase + y] & 0xFF;
-                if (idx >= palette.size()) { idx = 0; }
-                bdc.setColor(palette[idx], Graphics.COLOR_TRANSPARENT);
-                bdc.drawPoint(x, y);
+            var runStart = 0;
+            var runIdx = blob[colBase] & 0xFF;
+            if (runIdx >= palSize) { runIdx = 0; }
+            for (var y = 1; y <= h; y++) {
+                var curIdx = (y < h) ? (blob[colBase + y] & 0xFF) : -1;
+                if (curIdx >= palSize) { curIdx = 0; }
+                if (curIdx != runIdx) {
+                    bdc.setColor(palette[runIdx], Graphics.COLOR_TRANSPARENT);
+                    bdc.fillRectangle(x, runStart, 1, y - runStart);
+                    runStart = y;
+                    runIdx = curIdx;
+                }
             }
         }
-        return bmp;
     }
 }

@@ -85,14 +85,48 @@ constant on both phone and watch — any change to it invalidates every
 existing bundle in `Application.Storage`. Bump `Palette.VERSION` and the
 `version` field in the `GMND` header together.
 
-## Decoder pipeline (`TileDecoder.mc`)
+## Decoder pipeline (`TileDecoder.mc` + `NavigationView.mc`)
 
-`TileDecoder.decodeTile` creates a `Graphics.BufferedBitmap` with the parsed
-palette, then walks pixels (~16K per 128×128 tile) calling `setColor` +
-`drawPoint` on the bitmap's Dc. This is the slow path; it runs once per
-bundle load, not per frame. Decoded `BufferedBitmap` instances live in
-`NavigationView._decodedTiles` and are blitted with `dc.drawBitmap(x, y, bmp)`
-in `drawCustomTiles` — no per-frame decode.
+Decoding is split into three phases to stay within the Connect IQ watchdog.
+
+**Phase 0 — Storage assembly.** `TileDecoder.load(bundleId)` reads the blob
+from up to 5 storage keys (`b_<id>_0 … b_<id>_4`, each ≤16 KB) and
+concatenates them with `ByteArray.addAll()` (bulk, not byte-by-byte).
+
+**Phase 1 — Header + entry parsing.** `NavigationView.loadBundle()` calls
+`TileDecoder.parseHeader()` and `parsePalette()` (fast, ~300 bytes read).
+Then `prepareDecode(blob, hdr)` parses all tile entries (21 bytes × tileCount)
+and stores `_pendingBlob`, `_pendingEntries`, tile grid min/max.
+
+**Phase 2 — Incremental pixel decode.** `NavigationView.decodeNextTile()` is
+called from `onUpdate()` once per frame. Each call:
+1. Allocates a `Graphics.BufferedBitmap` for the current tile if not yet done.
+2. Calls `TileDecoder.fillTileColumns(blob, entry, palette, bdc, startCol, 8)` —
+   fills exactly 8 columns (= `8 × tileHeight` iterations) into the bitmap's
+   persistent Dc. With RLE per column (`fillRectangle` on runs of same color),
+   this is typically 200–400 DC calls, well within the 2-second watchdog.
+3. Advances `_pendingColIndex += 8`. When `_pendingColIndex >= entry.width`,
+   the completed `BufferedBitmap` is added to `_decodedTiles`.
+4. `onUpdate()` calls `WatchUi.requestUpdate()` while tiles remain pending.
+
+Total decode time: 4 tiles × (128 ÷ 8 = 16 frames) = 64 `onUpdate` cycles.
+
+**Important constraints discovered in testing:**
+- `Graphics.BufferedBitmapType.getBuffer()` does **not exist** in SDK 9.1.0 /
+  fenix7 — `monkeyc` fails with "Undefined symbol ':getBuffer'". All pixel
+  writes must go through the Dc API.
+- A single 128×128 tile (16 384 DC calls) trips the watchdog even in `onUpdate`.
+  RLE helps but is not sufficient alone — the 8-columns-per-frame limit is
+  required.
+- `loadBundle()` must not be called from inside an HTTP/BLE callback; those
+  have a shorter watchdog budget than `onUpdate`. `setBundleId()` only sets
+  `_bundleLoadAttempted = false`; the actual load happens via
+  `ensureBundleLoaded()` at the top of `onUpdate()`, before the
+  `_route.isComplete` guard (otherwise the guard short-circuits the load).
+
+Decoded `BufferedBitmap` instances live in `NavigationView._decodedTiles` and
+are blitted with `dc.drawBitmap(x, y, bmp)` in `drawCustomTiles` — zero
+per-frame decode cost once complete.
 
 ## Layout in TILES mode
 
@@ -128,7 +162,13 @@ call; we draw the top band and OFF ROUTE banner on top.
 
 - 128×128 tile × 1 byte/pixel = 16 KB per tile pixel array.
 - 4 tiles + header + palette ≈ 65 KB per bundle.
-- `Application.Storage` on Fenix 7 is empirically ~128 KB total — leaves
-  headroom for one bundle plus ~63 KB for other state (route, properties).
+- `Application.Storage` on Fenix 7 is empirically ~128 KB **total**, and each
+  individual value is limited to ~32 KB in the simulator (and likely on device).
+  We split the blob into 16 KB chunks stored as `b_<id>_0`, `b_<id>_1`, …,
+  `b_<id>_n`, plus `b_<id>_n` (chunk count) and `b_<id>_sz` (total size).
+  Currently one bundle per app (overwritten on new sync).
 - Graphics memory pool (~256 KB on Fenix 7) holds the active Dc plus 4
-  decoded `BufferedBitmap`s.
+  `BufferedBitmap`s being decoded and blitted.
+- HTTPS download: `makeWebRequest` response buffer is ~12–16 KB (base64 text).
+  We download in 10 KB chunks via `GET /sessions/:id/chunk?offset=N&size=10240`,
+  writing directly into a pre-allocated `ByteArray` buffer.

@@ -11,14 +11,15 @@ using Toybox.WatchUi;
 // view exists, otherwise just println. Lets non-View code (TileDecoder,
 // BleChunkAssembler) surface progress without a direct view reference.
 function appLog(msg as Lang.String) as Void {
-    System.println("[DBG] " + msg);
     var app = App.getApp();
     if (app instanceof GarmiandApp) {
         var v = (app as GarmiandApp).getNavView();
         if (v != null) {
-            (v as NavigationView).pushDebug(msg);
+            (v as NavigationView).pushDebug(msg); // pushDebug calls System.println itself
+            return;
         }
     }
+    System.println("[DBG] " + msg); // fallback: no view yet
 }
 
 // ~10 KB raw → ~13.3 KB base64; stays well inside the CIQ TEXT_PLAIN buffer
@@ -254,7 +255,8 @@ class GarmiandApp extends App.AppBase {
         _pendingBundleId = bundleId;
         _pendingBundleUrl = url;
         _dlOffset = 0;
-        _dlBuffer = new [0]b;
+        // single contiguous allocation avoids heap fragmentation from repeated addAll
+        _dlBuffer = (_dlTotal > 0) ? new [_dlTotal]b : new [0]b;
         appLog("HTTPS chunk DL start totalB=" + _dlTotal);
         Communications.makeWebRequest(
             url + "/chunk?offset=0&size=" + DL_CHUNK_SIZE,
@@ -307,7 +309,15 @@ class GarmiandApp extends App.AppBase {
             appLog("HTTPS chunk arrived but no buffer");
             return;
         }
-        (_dlBuffer as Lang.ByteArray).addAll(chunk);
+        var buf = _dlBuffer as Lang.ByteArray;
+        if (_dlTotal > 0) {
+            // write into pre-allocated buffer at the correct offset (no realloc)
+            for (var ci = 0; ci < chunkSize; ci++) {
+                buf[_dlOffset + ci] = chunk[ci];
+            }
+        } else {
+            buf.addAll(chunk);
+        }
         _dlOffset += chunkSize;
         appLog("chunk +" + chunkSize + "B total=" + _dlOffset + "/" + _dlTotal);
 
@@ -321,7 +331,15 @@ class GarmiandApp extends App.AppBase {
             _dlOffset = 0;
             _dlTotal = 0;
             appLog("HTTPS done " + blob.size() + "B");
-            if (TileDecoder.persist(bundleId as Lang.String, blob)) {
+            logFreeMem("pre-persist");
+            var ok = false;
+            try {
+                ok = TileDecoder.persist(bundleId as Lang.String, blob);
+            } catch (e) {
+                appLog("persist EX: " + e.getErrorMessage());
+                return;
+            }
+            if (ok) {
                 appLog("persist ok");
                 if (_navView != null) {
                     _navView.setBundleId(bundleId as Lang.String);

@@ -31,13 +31,24 @@ Order of suspicion:
    is empty in BuildConfig, the backend is down, or the Bearer token is
    wrong. Falls back to BLE if `isNetworkOnline()` is false.
 
-## Application.Storage full
+## Application.Storage per-value OOM crash
 
-`StorageFullException` from `App.Storage.setValue`. We currently store at most
-one bundle (`bundle_<id>`) and overwrite old `last_bundle_id`. If a stale key
-sticks around (e.g. from a crashed BLE sync), the assembler should
-`deleteValue` it. If it keeps happening, dump the storage keys via the
-simulator's `Settings → Edit Storage` panel and prune manually.
+`App.Storage.setValue` with a `ByteArray` larger than ~32 KB kills the app
+with an unhandled OOM — **not** a catchable `StorageFullException`. The crash
+stack points into `setValue` with no useful context.
+
+Fix: `TileDecoder.persist` splits the blob into 16 KB chunks stored under
+separate keys (`b_<id>_0`, `b_<id>_1`, …). Never call `setValue` with more
+than 16 KB at a time. Don't confuse this with the total-storage limit (~128 KB
+per app) — that's a separate, catchable `StorageFullException`.
+
+## Application.Storage total full
+
+`StorageFullException` (catchable) from `App.Storage.setValue`. We currently
+store at most one bundle (five 16 KB chunk keys + two metadata keys). If a
+stale bundle sticks around from a crashed sync, delete it via the simulator's
+`Settings → Edit Storage` or call `TileDecoder.deleteBundle(oldId)` explicitly
+before persisting a new one.
 
 ## Tile chunks arrive out of order
 
@@ -88,6 +99,52 @@ If `RouteData` ever gets converted to `Array<Dictionary>`, expect OOM around 500
 ## `route_full` debug message has surprising consequences
 
 `GarmiandApp` accepts a `route_full` kind that bundles the whole sync into one message — for the Connect IQ simulator's `Phone → Send Message` tester. The Android companion never sends it. If you build production code that depends on `route_full`, you've taken a wrong turn — use the chunked path.
+
+## makeWebRequest -402 on large bundles
+
+Error code `-402` (`NETWORK_RESPONSE_OUT_OF_MEMORY`) fires when the response
+body exceeds the Connect IQ TEXT_PLAIN buffer (~12–16 KB). A 65 KB bundle
+base64-encoded is ~87 KB — well over the limit.
+
+Fix: use the server's `/chunk` endpoint and download in 10 KB slices. The
+app code is in `GarmiandApp.handleTileSession` (starts the first request)
+and `onBundleChunkResponse` (loops until `_dlOffset >= _dlTotal`). Never try
+to fetch the full bundle in one `makeWebRequest` call.
+
+## Watchdog trips in HTTP callback or onPhoneMessage
+
+Connect IQ watchdogs fire faster in HTTP/BLE callbacks than in `onUpdate`.
+Calling `TileDecoder.load()` (even the fast `addAll` version) from inside
+`onBundleChunkResponse` causes a watchdog crash with stack pointing into
+`TileDecoder.mc:load()`.
+
+Rule: **no heavy work in event callbacks.** `setBundleId()` must only store
+the ID and reset `_bundleLoadAttempted = false`. The actual `loadBundle()` call
+happens in `ensureBundleLoaded()` at the top of `onUpdate()` — and this call
+must happen **before** the `_route.isComplete` guard, or the waiting screen
+will block it indefinitely.
+
+## Watchdog trips during tile decode
+
+Even with RLE optimization, a single 128×128 tile (16 384 inner-loop iterations)
+trips the watchdog in `onUpdate`. Decoding all 4 tiles at once is fatal.
+
+Fix: process **8 columns per `onUpdate` frame** via `TileDecoder.fillTileColumns`.
+The `BufferedBitmap` Dc is retained between frames in `_currentTileDc`. This
+gives 64 frames to decode 4 tiles, each frame doing ≤1 024 iterations.
+
+## `new [0]b` vs `[] as Lang.ByteArray` crash
+
+`[] as Lang.ByteArray` is accepted by `monkeyc` but at runtime it's a regular
+`Lang.Array`, not a `ByteArray`. Calling `.addAll()` on it throws
+`UnexpectedTypeException: Expected Array, given ByteArray`. Always use `new [0]b`
+for an empty growable ByteArray, or `new [N]b` for fixed size.
+
+## `getBuffer()` compile error on fenix7
+
+`Graphics.BufferedBitmapType.getBuffer()` does not exist in SDK 9.1.0 / fenix7.
+`monkeyc` errors with "Undefined symbol ':getBuffer' detected". Remove any
+reference to it; use the Dc API instead.
 
 ## "Watch shows polyline but no tiles even though I sent the bundle"
 

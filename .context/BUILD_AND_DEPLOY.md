@@ -31,11 +31,26 @@ Output: `garmiand.prg` at the repo root, ~13 KB. `BUILD SUCCESSFUL` is the only 
 
 ### Run in the simulator
 
-```
-monkeydo garmiand.prg fenix7
+The output `.prg` is named after the app ID (same UUID as `manifest.xml`):
+
+```powershell
+# Build
+$mc = "$env:APPDATA\Garmin\ConnectIQ\Sdks\connectiq-sdk-win-9.1.0-2026-03-09-6a872a80b\bin\monkeyc.bat"
+Set-Location G:\code\garmiand\garmin
+& $mc -o 71DA4029287A447BBE86B83DC1588647.prg -f monkey.jungle -d fenix7 -y developer_key
+
+# Run (simulator must already be open)
+monkeydo G:\code\garmiand\garmin\71DA4029287A447BBE86B83DC1588647.prg fenix7
 ```
 
-Use the simulator's `Phone → Send Message` to manually post a `route_full` (see `API_CONTRACTS.md`). Use `Settings → Set Position` to test GPS handling — note that the position-event callback can be flaky in the sim (we have a 1 Hz timer poll fallback for this exact reason).
+Use the simulator's `Phone → Send Message` to manually post a `route_full`
+(see `API_CONTRACTS.md`) or a `tile_session` (see
+`simulator-msgs/chunks/00-tile-session-local.json`). Use
+`Settings → Set Position` for GPS testing.
+
+**Simulator logs** stream to `monkeydo` stdout — the only way to read
+`System.println` output without a physical device. The on-screen yellow debug
+band mirrors critical messages for hardware testing.
 
 ## Android companion (APK)
 

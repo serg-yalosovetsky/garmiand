@@ -86,6 +86,31 @@ production is "run it on Fly.io for €0/mo, write the URL into
 shared token can upload, and anyone with a `sessionId` (UUIDv4, unguessable)
 can read.
 
+## ADR-009: Incremental column-by-column tile decode
+
+**Decision.** Tile pixel decoding is spread across multiple `onUpdate()` frames:
+8 columns per frame via `TileDecoder.fillTileColumns()`. The `BufferedBitmap`
+Dc is held open between frames in `NavigationView._currentTileDc`. Heavy work
+is never done inside HTTP/BLE callbacks.
+
+**Why.** Three alternatives all failed:
+1. *All pixels at once in `onUpdate`* — a single 128×128 tile trips the
+   watchdog (16 384 loop iterations is too slow in the CIQ simulator).
+2. *`BufferedBitmap.getBuffer()` for direct index writes* — the method does
+   not exist in SDK 9.1.0 / fenix7; `monkeyc` rejects it at compile time.
+3. *All pixels in HTTP/BLE callback* — callbacks have a shorter watchdog
+   budget than `onUpdate`; crashes immediately.
+
+Column-granularity (8 cols = ~1 024 inner-loop iterations) is well within
+budget and gives continuous progress: partial tiles become visible frame by
+frame.
+
+**Implication.** `NavigationView` carries incremental decode state:
+`_pendingBlob`, `_pendingEntries`, `_pendingTileIndex`, `_pendingColIndex`,
+`_currentTileBmp`, `_currentTileDc`. `clearDecodedTiles()` must reset all of
+them. `ensureBundleLoaded()` must be called before the `_route.isComplete`
+guard in `onUpdate()`.
+
 ## ADR-008: MapView is the default; custom tiles are opt-in
 
 **Decision.** `NavigationView extends WatchUi.MapView`. The default mode
