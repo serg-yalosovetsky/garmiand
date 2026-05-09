@@ -111,24 +111,24 @@ frame.
 them. `ensureBundleLoaded()` must be called before the `_route.isComplete`
 guard in `onUpdate()`.
 
-## ADR-008: MapView is the default; custom tiles are opt-in
+## ADR-008: Plain `WatchUi.View` with manual projection; MapView abandoned
 
-**Decision.** `NavigationView extends WatchUi.MapView`. The default mode
-renders Garmin's pre-installed TopoActive map natively (zero data transfer).
-Users can switch to "Custom Tiles" mode (the bundle from ADR-006) when their
-region has no TopoActive coverage or they want OSM detail. A "None" mode
-(empty background, just polyline) is also available.
+**Decision.** `NavigationView extends WatchUi.View` (not `WatchUi.MapView`).
+All three background modes (NATIVE/TILES/NONE) draw a plain black background
+and render the route polyline, waypoints, and GPS position via `projectPoint`
+— a linear lon/lat → fraction → pixel conversion using a viewport tracked
+in `_viewLat0/1, _viewLon0/1`.
 
-**Why.** TopoActive is offline-by-default for the Fenix 7's regional map. For
-most users this means zero setup. The hybrid bundle path exists for the
-travel-outside-Europe / want-a-different-map cases, not as the primary UX.
+**Why MapView was removed.** An earlier version extended `WatchUi.MapView`
+with TopoActive rendering as the NATIVE default. It was dropped because
+`MapView.onUpdate()` crashed in the simulator (unrecoverable), which blocked
+development and testing. Without a reliable dev path the MapView variant was
+not worth carrying. All modes now use the same manual overlay approach.
 
-**Implication.** No special permission required in `manifest.xml` (we tried
-adding `Map` and it broke the build — the API is gated by device, not
-manifest). We use `WatchUi.MAP_MODE_PREVIEW` (static viewport) instead of
-`MAP_MODE_BROWSE` (interactive) because Connect IQ doesn't expose a
-`latLonToScreenPoint` API or a way to read the user's pan/zoom state — so
-we'd have no way to align our overlays in BROWSE. Trade-off: user can't pan
-or zoom; the viewport is set once at sync time from the route bbox + 15%
-padding. In TILES and NONE modes the polyline is drawn by `projectPoint`
-using our own viewport math (linear lon/lat → fraction → pixel).
+**Implication.** There is no background map in NATIVE mode — it's a black
+screen with the polyline drawn on top, same as TILES/NONE. No Map permission
+is required (and `<iq:uses-permission id="Map"/>` would break the build
+anyway). The viewport is computed once in `applyRoute()` from route bbox
++ 15% padding; the user cannot pan or zoom. If native Garmin TopoActive
+rendering is needed in the future, MapView would need to be re-evaluated on
+hardware (not the simulator).

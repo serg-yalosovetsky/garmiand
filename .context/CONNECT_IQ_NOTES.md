@@ -11,34 +11,26 @@ Implications:
 - HTTPS cert validation is done by GCM, not by us.
 - There is no streaming — the response is materialized in full before the watch sees a single byte.
 
-## MapView basics
+## MapView — not used (abandoned, see ADR-008)
 
-We extend `WatchUi.MapView` (not `WatchUi.View`) for the map screen. Notes from getting it to compile against SDK 9.1.0:
+`NavigationView` currently extends `WatchUi.View`, not `WatchUi.MapView`.
+MapView was tried and removed because `MapView.onUpdate()` crashed
+consistently in the Connect IQ simulator, blocking development.
 
-- **There is no `Map` permission.** `<iq:uses-permission id="Map"/>` errors with
-  "Invalid permission provided: Map" at compile time. MapView is gated by
-  device capabilities, not manifest permissions.
-- We use `WatchUi.MAP_MODE_PREVIEW` (not `MAP_MODE_BROWSE`). PREVIEW gives
-  static rendering whose viewport we control via `setMapVisibleArea`. BROWSE
-  would let the user pan/zoom but Connect IQ does not expose a way to read
-  the resulting viewport, so we'd have no way to align our overlays. Trade-off:
-  in NATIVE mode the user can't pan/zoom — they pick the viewport at sync time
-  by virtue of route bbox + 15% padding.
-- `setMapVisibleArea(topLeft as Position.Location, bottomRight as Position.Location)` —
-  TWO Location objects, not center+spans. `topLeft` has the higher latitude
-  (north) and lower longitude (west); `bottomRight` is the opposite corner.
-- `MapPolyline.addLocation(loc | Array<loc>)`, then `MapView.setPolyline(poly)`.
-  Color (`setColor`) and width (`setWidth`) are properties of `MapPolyline`.
-- `MapMarker(location)` constructor takes one Location; `setLabel(text)` and
-  `setIcon(bmp)` decorate it. **`MapView.setMapMarker` accepts a single marker
-  OR an `Array<MapMarker>`** — we pass the array form for waypoints + GPS.
-- **There is no `latLonToScreenPoint(loc)` API.** This was the big surprise.
-  In NATIVE mode we accept that, hand off to MapView's native polyline/marker
-  rendering, and only draw the top band + OFF ROUTE banner manually
-  (fixed-position UI, no projection). In TILES/NONE modes we project route
-  points ourselves from our tracked viewport (`_viewLat0/1, _viewLon0/1`)
-  using a linear lon/lat → fraction → pixel conversion (`projectPoint(dc, lat, lon)`
-  in `NavigationView.mc`).
+Remaining relevant facts if MapView is ever revisited:
+- **There is no `Map` permission.** `<iq:uses-permission id="Map"/>` errors
+  with "Invalid permission provided: Map" at compile time.
+- **There is no `latLonToScreenPoint(loc)` API.** This was the biggest
+  surprise — Connect IQ doesn't let you map a coordinate to a pixel, so
+  custom overlays (polyline, waypoints, GPS dot) always require manual
+  projection math.
+- `MAP_MODE_PREVIEW` gives a static viewport via `setMapVisibleArea`;
+  `MAP_MODE_BROWSE` lets the user pan/zoom but you can't read the resulting
+  viewport, making overlay alignment impossible.
+
+All modes in the current code use manual `projectPoint()` projection:
+`_viewLat0/1, _viewLon0/1` tracks the bounding box set at `applyRoute()`,
+and points are mapped to pixel coords via linear lon/lat → fraction → pixel.
 
 ## Application.Storage limits
 
@@ -57,7 +49,10 @@ We work around this by chunking the blob into 16 KB pieces:
 - `b_<first8ofId>_sz` — total byte count (Number)
 
 `TileDecoder.persist/load/deleteBundle` manage these keys. When loading,
-we reconstruct via `blob.addAll(chunk)` (bulk copy, not byte-by-byte).
+`TileDecoder.load()` reads `_sz` first, pre-allocates `new [sz]b`, then
+writes each chunk into the buffer at the correct byte offset. This avoids
+the O(N²) repeated-copy behaviour of `addAll` on a growing array. Old bundles
+missing the `_sz` key fall back to `addAll` growth.
 
 If `setValue` throws `StorageFullException` (total limit), delete old bundle
 keys (simulator's `Settings → Edit Storage`) or reduce bundle size.
@@ -118,11 +113,19 @@ Always use `new [N]b` (fixed size) or `new [0]b` (empty, grow with addAll).
 ## Communications.transmit chunking
 
 For BLE-direct bundle delivery we send a series of `tile_chunk` messages,
-each with `:p` set to a `ByteArray` ≤3000 bytes (Garmin per-message limit
+each with `:p` set to a `ByteArray` ≤3072 bytes (Garmin per-message limit
 is documented as ~4 KB; we keep headroom). Garmin throttles concurrent
 sends — 3 outstanding requests max — so the Android side spaces chunks by
-~150 ms. The watch reassembles by `i` (index), so out-of-order arrival is
+300 ms. The watch reassembles by `i` (index), so out-of-order arrival is
 tolerated.
+
+The watch pre-allocates the reassembly buffer on the first chunk using the
+`tb` (total bytes) field: `_blob = new [tb]b`. Each chunk is written at
+`offset = i × chunkSize` — no final-assembly loop, no watchdog risk.
+
+A 10-second stall timer (`_bleStallTimer`) is armed after each chunk and
+reset on each subsequent one. If the phone stops mid-transfer the timer
+fires, logs which chunks are missing, and frees the pre-allocated buffer.
 
 ## What GCM will and won't proxy
 

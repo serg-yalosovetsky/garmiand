@@ -18,29 +18,26 @@ class NavigationCalculator {
         return (2.0 * EARTH_RADIUS_M * Math.asin(Math.sqrt(a))).toFloat();
     }
 
-    static function nearestPointIndex(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Number {
-        var bestIdx = 0;
-        var bestDist = 999999.0;
+    // Single-pass scan returning the minimum haversine distance to any route point.
+    // Early-exits as soon as a point within the off-route threshold is found, so the
+    // common case (user is on route) completes in O(1) instead of O(N).
+    static function nearestDistance(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Float {
+        var bestDist = 999999.0f;
         var size = route.lats.size();
         for (var i = 0; i < size; i++) {
             var d = haversineM(lat, lon, route.lats[i], route.lons[i]);
             if (d < bestDist) {
                 bestDist = d;
-                bestIdx = i;
+                if (bestDist < OFF_ROUTE_THRESHOLD_M) {
+                    return bestDist;
+                }
             }
         }
-        return bestIdx;
-    }
-
-    static function distanceToRoute(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Float {
-        if (route.lats.size() == 0) {
-            return 0.0;
-        }
-        var idx = nearestPointIndex(route, lat, lon);
-        return haversineM(lat, lon, route.lats[idx], route.lons[idx]);
+        return bestDist;
     }
 
     static function isOffRoute(route as RouteData, lat as Lang.Float, lon as Lang.Float) as Lang.Boolean {
-        return distanceToRoute(route, lat, lon) > OFF_ROUTE_THRESHOLD_M;
+        if (route.lats.size() == 0) { return false; }
+        return nearestDistance(route, lat, lon) > OFF_ROUTE_THRESHOLD_M;
     }
 }

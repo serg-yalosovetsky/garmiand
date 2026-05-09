@@ -213,16 +213,31 @@ class TileDecoder {
                 System.println("[Tiles] load: no chunk index for " + key);
                 return null;
             }
-            var blob = new [0]b;
-            for (var i = 0; i < (numChunks as Lang.Number); i++) {
+            var nc = (numChunks as Lang.Number);
+            // Pre-allocate the exact buffer size when _sz is available (avoids N²
+            // reallocation from repeated addAll on a growing ByteArray).
+            var szVal = App.Storage.getValue(key + "_sz");
+            var prealloc = szVal instanceof Lang.Number;
+            var blob = prealloc ? new [(szVal as Lang.Number)]b : new [0]b;
+            var writeOff = 0;
+            for (var i = 0; i < nc; i++) {
                 var chunk = App.Storage.getValue(key + "_" + i);
                 if (!(chunk instanceof Lang.ByteArray)) {
                     System.println("[Tiles] load: missing chunk " + i);
                     return null;
                 }
-                blob.addAll(chunk as Lang.ByteArray);
+                var ch = chunk as Lang.ByteArray;
+                if (prealloc) {
+                    var chSize = ch.size();
+                    for (var ci = 0; ci < chSize; ci++) {
+                        blob[writeOff + ci] = ch[ci];
+                    }
+                    writeOff += chSize;
+                } else {
+                    blob.addAll(ch);
+                }
             }
-            System.println("[Tiles] load: assembled " + blob.size() + "B from " + (numChunks as Lang.Number) + " chunks");
+            System.println("[Tiles] load: assembled " + blob.size() + "B from " + nc + " chunks");
             return blob;
         } catch (e) {
             System.println("[Tiles] load failed: " + e.getErrorMessage());

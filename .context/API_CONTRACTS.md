@@ -60,7 +60,7 @@ bundle from our backend in 10 KB chunks.
 
 ### `tile_chunk` *(BLE bundle delivery, fallback when phone is offline)*
 Phone splits a serialized `GMND` bundle (see [MAP_RENDERING.md](MAP_RENDERING.md))
-into ≤3000-byte chunks and sends them in order. Watch reassembles in
+into ≤3072-byte chunks and sends them in order. Watch reassembles in
 `BleChunkAssembler` indexed by `i`, so out-of-order arrival is safe.
 
 | Key | Type | Notes |
@@ -68,6 +68,7 @@ into ≤3000-byte chunks and sends them in order. Watch reassembles in
 | `bundle_id` | `String` | Identifies which bundle the chunks belong to. New `bundle_id` resets the assembler. |
 | `i` | `Int` | 0-based chunk index. |
 | `n` | `Int` | Total chunk count. Watch persists once it has all of them. |
+| `tb` | `Int` | Total bundle size in bytes. Watch pre-allocates a single `ByteArray` of this size on the first chunk, avoiding N² heap churn from repeated `addAll`. If missing, the assembler falls back to dynamic growth. |
 | `p` | `ByteArray` | Raw bytes — Connect IQ Mobile SDK converts to `Lang.ByteArray` on the watch. |
 
 ## Acks

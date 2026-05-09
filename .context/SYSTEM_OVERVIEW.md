@@ -29,7 +29,7 @@ for the full pipeline.
 - **Watch app** (`garmin/source/`)
   - `GarmiandApp.mc` — `AppBase`; routes phone messages (`sync_*`, `tile_session`, `tile_chunk`), registers GPS, drives `Communications.makeWebRequest` for HTTPS bundle fetch.
   - `RouteData.mc` — parallel `Float[]` arrays for points and markers (no dictionaries-of-points; heap is tight).
-  - `NavigationView.mc` — extends `WatchUi.MapView`. Owns the three map-mode rendering paths and decoded `BufferedBitmap` cache.
+  - `NavigationView.mc` — extends `WatchUi.View`. Owns the three map-mode rendering paths and decoded `BufferedBitmap` cache.
   - `NavigationDelegate.mc` — input: SELECT cycles map mode (NATIVE → TILES → NONE).
   - `NavigationCalculator.mc` — Haversine, nearest-point, off-route check.
   - `TileDecoder.mc` — parses the `GMND` envelope, decodes column-major palette indices into `BufferedBitmap`s.

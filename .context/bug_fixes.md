@@ -59,18 +59,62 @@ partial state. Confirmed safe by the bundle-id check.
 
 ## "send tile_chunk failed: Send timeout" but ack arrives shortly after
 
-This bit us once already on Fenix 7: a 3 KB chunk acked in ~8.2 s, the
+This bit us once already on Fenix 7: a chunk acked in ~8.2 s, the
 busy-wait in `ConnectIQGarminCompanion.send` gave up at 8 s, and the sender
 bailed even though the chunk was actually delivered. Two responses:
 
 - `SEND_TIMEOUT_MS` is now 30 s (was 8 s) — generous enough for any chunk
   size we send.
-- `MapBundleBleSender.DEFAULT_CHUNK_SIZE` is 1500 (was 3000) — smaller chunks
-  ack in ~4 s, tighter progress feedback, no risk of brushing the timeout.
+- `MapBundleBleSender.DEFAULT_CHUNK_SIZE` is 3072 (3 KB), down from 12 KB.
+  Smaller chunks ack faster, provide per-chunk progress feedback, and stay
+  well inside the Garmin per-message limit (~4 KB).
+- Inter-chunk delay is 300 ms (was 150 ms) to give the BLE queue room.
 
 If you ever see the timeout again, check throughput in the log and consider
 dropping the chunk size further (down to ~800 B). Don't shorten the timeout
 to "fail fast" — Garmin BLE genuinely takes that long.
+
+## BleChunkAssembler watchdog crash during final assembly
+
+**Symptom.** Watch crashes after receiving the last BLE chunk (e.g. 4/6 or
+6/6 received), with `CIQ_LOG.YML` showing:
+
+```
+Error: 'Watchdog Tripped Error - Code Executed Too Long'
+Stack: BleChunkAssembler.mc line 95, accept / GarmiandApp.mc handleTileChunk / onPhoneMessage
+```
+
+**Root cause.** The old `BleChunkAssembler` stored each received chunk as a
+`ByteArray` value in a `Dictionary<Number, ByteArray>`. On the final chunk it
+assembled the blob by iterating over all chunks and copying byte-by-byte into
+a new array — for a 65 KB bundle at 3 KB chunks that's ~65 000 byte copies in
+a single `onPhoneMessage` callback, which exceeds the watchdog budget.
+
+**Fix.** Streaming pre-allocation: on the first chunk, allocate a single
+`_blob = new [totalBytes]b` from the `tb` field. Each subsequent chunk is
+written directly at `offset = i × chunkSize`, so the final-assembly loop
+is eliminated entirely. The per-chunk byte-copy is ~3 072 iterations — safe
+for the watchdog. See `BleChunkAssembler.accept()`.
+
+**Invariant.** The `tb` field in `tile_chunk` must be the uncompressed bundle
+size in bytes. `MapBundleBleSender` sets `totalBytes = bundle.size` in every
+chunk. If `tb` is absent, the assembler falls back to dynamic `addAll` growth
+(slower, and the final-assembly watchdog risk returns).
+
+## BLE chunk stall detection
+
+If the phone stops sending mid-transfer (e.g. BLE drop, user navigates away),
+the watch has a pre-allocated `_blob` buffer pinned in RAM with no way to
+know the transfer is dead. A 10-second one-shot `Timer` (`_bleStallTimer` in
+`GarmiandApp`) is armed after each chunk and re-armed on each subsequent
+chunk. If no chunk arrives within 10 s:
+
+- `onBleStallTimeout()` logs `BLE STALL N/M missing=[...]` with which
+  chunk indices were not received.
+- `_bleChunkAssembler` is set to `null`, freeing the pre-allocated buffer.
+- The assembler is recreated fresh if the phone retries.
+
+The stall timer is disarmed immediately when the final chunk completes.
 
 ## Markers missing after sync
 

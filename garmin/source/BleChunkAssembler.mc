@@ -54,9 +54,9 @@ class BleChunkAssembler {
             System.println("[Tiles] tile_chunk payload not ByteArray: " + payload);
             return null;
         }
-        var idx = (index as Lang.Numeric).toNumber();
-        var tot = (total as Lang.Numeric).toNumber();
-        var tb = (tbField instanceof Lang.Numeric) ? (tbField as Lang.Numeric).toNumber() : 0;
+        var idx = (index as Lang.Number).toNumber();
+        var tot = (total as Lang.Number).toNumber();
+        var tb = (tbField instanceof Lang.Number) ? (tbField as Lang.Number).toNumber() : 0;
         var bytes = payload as Lang.ByteArray;
 
         if (_bundleId == null || !(_bundleId as Lang.String).equals(incomingBundle) || _expectedTotal != tot) {

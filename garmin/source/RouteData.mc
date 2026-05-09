@@ -33,8 +33,8 @@ class RouteData {
 
     function addChunk(chunkLats as Lang.Array, chunkLons as Lang.Array) as Void {
         for (var i = 0; i < chunkLats.size(); i++) {
-            lats.add((chunkLats[i] as Lang.Numeric).toFloat());
-            lons.add((chunkLons[i] as Lang.Numeric).toFloat());
+            lats.add((chunkLats[i] as Lang.Float).toFloat());
+            lons.add((chunkLons[i] as Lang.Float).toFloat());
         }
         receivedChunkCount++;
     }
@@ -47,8 +47,8 @@ class RouteData {
         for (var i = 0; i < rawMarkers.size(); i++) {
             var m = rawMarkers[i] as Lang.Dictionary;
             markerIds.add(m["id"] as Lang.String);
-            markerLats.add((m["lat"] as Lang.Numeric).toFloat());
-            markerLons.add((m["lon"] as Lang.Numeric).toFloat());
+            markerLats.add((m["lat"] as Lang.Float).toFloat());
+            markerLons.add((m["lon"] as Lang.Float).toFloat());
             markerTitles.add(m["title"] as Lang.String);
         }
     }

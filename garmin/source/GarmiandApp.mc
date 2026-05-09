@@ -38,6 +38,8 @@ class GarmiandApp extends App.AppBase {
     var _dlBuffer as Lang.ByteArray?;
     var _dlOffset as Lang.Number;
     var _dlTotal as Lang.Number;
+    // BLE chunk dicts deferred from onPhoneMessage to onUpdate (watchdog budget)
+    var _pendingTileChunkDicts as Lang.Array<Lang.Dictionary>;
 
     function initialize() {
         AppBase.initialize();
@@ -48,6 +50,7 @@ class GarmiandApp extends App.AppBase {
         _dlBuffer = null;
         _dlOffset = 0;
         _dlTotal = 0;
+        _pendingTileChunkDicts = [] as Lang.Array<Lang.Dictionary>;
     }
 
     function readOnlineModeProperty() as Lang.Boolean {
@@ -392,8 +395,8 @@ class GarmiandApp extends App.AppBase {
         }
         var asm = _bleChunkAssembler as BleChunkAssembler;
         var prog = asm.progress();
-        var received = (prog[0] as Lang.Numeric).toNumber();
-        var total = (prog[1] as Lang.Numeric).toNumber();
+        var received = (prog[0] as Lang.Number).toNumber();
+        var total = (prog[1] as Lang.Number).toNumber();
         var missing = asm.getMissingIndices();
         appLog("BLE STALL " + received + "/" + total + " missing=" + missing.toString());
         logFreeMem("BLE stall");
@@ -402,21 +405,40 @@ class GarmiandApp extends App.AppBase {
         appLog("BLE assembler reset after stall");
     }
 
+    // Called from onPhoneMessage — must return fast (tight watchdog budget).
+    // Defers the byte-copy work to processPendingTileChunk() run from onUpdate.
     function handleTileChunk(dict as Lang.Dictionary) as Void {
-        if (_bleChunkAssembler == null) {
-            _bleChunkAssembler = new BleChunkAssembler();
-            appLog("BLE assembler new");
-        }
         var i = dict["i"];
         var n = dict["n"];
         var p = dict["p"];
         var pSize = (p instanceof Lang.ByteArray) ? (p as Lang.ByteArray).size() : -1;
         if (i != null && n != null) {
-            appLog("BLE chunk " + i + "/" + n + " (" + pSize + "B)");
+            appLog("BLE chunk " + i + "/" + n + " (" + pSize + "B) queued");
+        }
+        _pendingTileChunkDicts.add(dict);
+        WatchUi.requestUpdate();
+    }
+
+    // Called from NavigationView.onUpdate() — full watchdog budget available.
+    // Drains one queued tile_chunk dict per frame and calls requestUpdate()
+    // again if more remain, so each chunk gets its own frame budget.
+    function processPendingTileChunk() as Void {
+        if (_pendingTileChunkDicts.size() == 0) {
+            return;
+        }
+        var dict = _pendingTileChunkDicts[0] as Lang.Dictionary;
+        _pendingTileChunkDicts.remove(dict);
+
+        if (_bleChunkAssembler == null) {
+            _bleChunkAssembler = new BleChunkAssembler();
+            appLog("BLE assembler new");
         }
         var result = (_bleChunkAssembler as BleChunkAssembler).accept(dict);
         if (result == null) {
             armBleStallTimer();
+            if (_pendingTileChunkDicts.size() > 0) {
+                WatchUi.requestUpdate();
+            }
             return;
         }
         disarmBleStallTimer();

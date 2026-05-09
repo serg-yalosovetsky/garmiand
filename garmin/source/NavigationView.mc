@@ -10,7 +10,7 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
-const APP_VERSION = "2026-05-10 01:50 dbg17";
+const APP_VERSION = "2026-05-10 02:39 dbg18";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -52,6 +52,7 @@ class NavigationView extends WatchUi.View {
 
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
+    var _isOffRoute as Lang.Boolean;
     var _onlineMode as Lang.Boolean;
     var _bundleLoadAttempted as Lang.Boolean;
 
@@ -83,6 +84,7 @@ class NavigationView extends WatchUi.View {
         _bundlePixelH = 0;
         _currentLat = 0.0f;
         _currentLon = 0.0f;
+        _isOffRoute = false;
         _onlineMode = true;
         _bundleLoadAttempted = false;
         _pendingBlob = null;
@@ -377,6 +379,7 @@ class NavigationView extends WatchUi.View {
     function updateGpsPosition(lat as Lang.Float, lon as Lang.Float) as Void {
         _currentLat = lat;
         _currentLon = lon;
+        _isOffRoute = _route.isComplete && NavigationCalculator.isOffRoute(_route, lat, lon);
         WatchUi.requestUpdate();
     }
 
@@ -407,6 +410,10 @@ class NavigationView extends WatchUi.View {
     }
 
     function onUpdate(dc as Graphics.Dc) as Void {
+        var app = App.getApp();
+        if (app instanceof GarmiandApp) {
+            (app as GarmiandApp).processPendingTileChunk();
+        }
         ensureBundleLoaded();
 
         // Incremental decode: one tile per frame to stay within watchdog budget.
@@ -623,8 +630,7 @@ class NavigationView extends WatchUi.View {
     }
 
     function drawOffRouteBannerIfNeeded(dc as Graphics.Dc) as Void {
-        if (_currentLat == 0.0f && _currentLon == 0.0f) { return; }
-        if (!NavigationCalculator.isOffRoute(_route, _currentLat, _currentLon)) { return; }
+        if (!_isOffRoute) { return; }
         var w = dc.getWidth();
         var h = dc.getHeight();
         var text = "OFF ROUTE";

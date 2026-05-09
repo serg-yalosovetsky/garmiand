@@ -235,10 +235,10 @@ G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_end:
         symbol [ idx %idx.6 57 12 15 ];
         %tmp.48 = lgetv %index.2;
         symbol [ index %tmp.48 57 19 24 ];
-        %tmp.49 = as %tmp.48 Lang.Numeric;
+        %tmp.49 = as %tmp.48 Lang.Number;
         symbol [ Lang %tmp.49 57 28 32 ];
-        symbol [ Numeric %tmp.49 57 33 40 ];
-        symbol [ toNumber %tmp.50 57 42 50 ];
+        symbol [ Number %tmp.49 57 33 39 ];
+        symbol [ toNumber %tmp.50 57 41 49 ];
         %tmp.50 = getv function %tmp.49 :toNumber;
         %tmp.51 = invoke %tmp.49 %tmp.50();
         lputv %idx.6 %tmp.51;
@@ -249,10 +249,10 @@ G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_end:
         symbol [ tot %tot.7 58 12 15 ];
         %tmp.52 = lgetv %total.3;
         symbol [ total %tmp.52 58 19 24 ];
-        %tmp.53 = as %tmp.52 Lang.Numeric;
+        %tmp.53 = as %tmp.52 Lang.Number;
         symbol [ Lang %tmp.53 58 28 32 ];
-        symbol [ Numeric %tmp.53 58 33 40 ];
-        symbol [ toNumber %tmp.54 58 42 50 ];
+        symbol [ Number %tmp.53 58 33 39 ];
+        symbol [ toNumber %tmp.54 58 41 49 ];
         %tmp.54 = getv function %tmp.53 :toNumber;
         %tmp.55 = invoke %tmp.53 %tmp.54();
         lputv %tot.7 %tmp.55;
@@ -261,32 +261,32 @@ G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_end:
         [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
         %tb.8 = local;
         symbol [ tb %tb.8 59 12 14 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_begin:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_begin:
         %tmp.56 = lgetv %tbField.4;
         symbol [ tbField %tmp.56 59 18 25 ];
         symbol [ Lang %tmp.57 59 37 41 ];
         %tmp.57 = getm $.Toybox.Lang;
-        symbol [ Numeric %tmp.58 59 42 49 ];
-        %tmp.58 = getv %tmp.57 :Numeric;
+        symbol [ Number %tmp.58 59 42 48 ];
+        %tmp.58 = getv %tmp.57 :Number;
         %tmp.59 = isa %tmp.56 %tmp.58;
-        bf %tmp.59 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_else_false;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_true:
+        bf %tmp.59 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_else_false;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_true:
         %tmp.60 = lgetv %tbField.4;
-        symbol [ tbField %tmp.60 59 54 61 ];
-        %tmp.61 = as %tmp.60 { (Lang.Numeric) };
-        %tmp.62 = as %tmp.61 Lang.Numeric;
-        symbol [ Lang %tmp.62 59 65 69 ];
-        symbol [ Numeric %tmp.62 59 70 77 ];
-        symbol [ toNumber %tmp.63 59 79 87 ];
+        symbol [ tbField %tmp.60 59 53 60 ];
+        %tmp.61 = as %tmp.60 { (Lang.Number) };
+        %tmp.62 = as %tmp.61 Lang.Number;
+        symbol [ Lang %tmp.62 59 64 68 ];
+        symbol [ Number %tmp.62 59 69 75 ];
+        symbol [ toNumber %tmp.63 59 77 85 ];
         %tmp.63 = getv function %tmp.62 :toNumber;
         %tmp.64 = invoke %tmp.62 %tmp.63();
         push %tmp.64;
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_else_false:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_else_false:
         %tmp.65 = 0;
         push %tmp.65;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_end:
-        %tmp.66 = phi [%tmp.59 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_begin] [%tmp.64 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_true] [%tmp.65 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_else_false] [%tmp.66 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_92_end];
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_end:
+        %tmp.66 = phi [%tmp.59 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_begin] [%tmp.64 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_true] [%tmp.65 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_else_false] [%tmp.66 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_end];
         lputv %tb.8 %tmp.66;
         symbol [ tb %tb.8 59 12 14 ];
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 60 8 ]

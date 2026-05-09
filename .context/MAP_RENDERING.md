@@ -144,19 +144,15 @@ fits the screen with mild clipping (default `maxTilesPerSide = 2`,
 Polyline / waypoint / GPS-position overlays project route points using a
 manual viewport (`_viewLat0/1, _viewLon0/1` set by `applyRoute` from the
 route bbox + 15% padding). There is no `latLonToScreenPoint` in the
-Connect IQ MapView API, so we compute pixel positions ourselves by linear
-fraction-of-viewport. The viewport is shared with `MapView.setMapVisibleArea`
-(in NATIVE mode), so all three modes draw the route at the same screen
-coordinates.
+Connect IQ API, so pixel positions are computed by linear
+fraction-of-viewport. All three modes use identical `projectPoint()` logic.
 
 ## Native rendering (NATIVE mode)
 
-We use `WatchUi.MAP_MODE_PREVIEW` — static viewport, no user pan/zoom. The
-viewport is set once via `setMapVisibleArea(topLeft, bottomRight)` from
-`applyRoute`. The route polyline is fed to MapView via `setPolyline`, and
-waypoints + GPS marker via `setMapMarker(arrayOfMarkers)`. `MapView.onUpdate(dc)`
-draws the TopoActive backdrop + native polyline + native markers in one
-call; we draw the top band and OFF ROUTE banner on top.
+`NavigationView` extends `WatchUi.View` (MapView was removed — see ADR-008).
+NATIVE mode draws a plain black background, then the same manual polyline /
+waypoint / GPS-position overlays as TILES and NONE. There is no Garmin
+TopoActive backdrop in the current implementation.
 
 ## Sizing budget
 

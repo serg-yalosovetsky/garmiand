@@ -1,0 +1,24 @@
+
+---
+Error: 'Watchdog Tripped Error - Code Executed Too Long'
+Details: 'Failed invoking <symbol>'
+Time: 2026-05-09T23:34:06Z
+Part-Number: 006-B3907-00
+Firmware-Version: '26.09'
+Language-Code: ukr
+ConnectIQ-Version: 6.0.0
+Filename: garmiand
+Appname: Garmiand V1
+Stack: 
+  - pc: 0x10000358
+    File: 'G:\code\garmiand\garmin\source\BleChunkAssembler.mc'
+    Line: 95
+    Function: accept
+  - pc: 0x10002bb3
+    File: 'G:\code\garmiand\garmin\source\GarmiandApp.mc'
+    Line: 381
+    Function: handleTileChunk
+  - pc: 0x100029e1
+    File: 'G:\code\garmiand\garmin\source\GarmiandApp.mc'
+    Line: 195
+    Function: onPhoneMessage

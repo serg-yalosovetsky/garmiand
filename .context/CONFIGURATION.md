@@ -44,8 +44,11 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 
 | Constant | Default | Meaning |
 |---|---|---|
-| `DEFAULT_CHUNK_SIZE` | `1500` | Bytes per BLE `tile_chunk`. Garmin BLE on Fenix 7 moves ~370 B/s — at 3 KB the per-chunk ack approached our SEND_TIMEOUT_MS; 1.5 KB acks in ~4 s. Total bundle transfer for a 64 KB bundle is ~3 minutes regardless. |
-| `INTER_CHUNK_DELAY_MS` | `150` | Pause between chunks to keep Garmin's 3-outstanding-request queue happy. |
+| `DEFAULT_CHUNK_SIZE` | `3072` (3 KB) | Bytes per BLE `tile_chunk`. Garmin per-message limit is ~4 KB; 3 KB leaves headroom. Acks in ~4–8 s on Fenix 7. Adaptive: halved on `FAILURE_MESSAGE_TOO_LARGE`. |
+| `MIN_CHUNK_SIZE` | `1024` | Floor for adaptive size reduction. |
+| `INTER_CHUNK_DELAY_MS` | `300` | Pause between chunks to keep Garmin's 3-outstanding-request queue from stalling. |
+| `MAX_RETRIES` | `4` | Per-chunk retry attempts before aborting the bundle send. |
+| `RETRY_BACKOFF_MS` | `2500` | Wait between retries. |
 
 ## Backend — `server/.env`
 
