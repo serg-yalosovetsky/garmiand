@@ -17,7 +17,7 @@ const INTERACT_PAN_NS = 0;   // UP/DOWN pan north/south
 const INTERACT_PAN_WE = 1;   // UP/DOWN pan west/east
 const INTERACT_CENTERED = 2; // GPS was centered; next SELECT exits TILES
 
-const APP_VERSION = "2026-05-10 12:00 dbg20";
+const APP_VERSION = "2026-05-10 04:13 dbg21";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;

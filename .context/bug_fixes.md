@@ -74,32 +74,36 @@ If you ever see the timeout again, check throughput in the log and consider
 dropping the chunk size further (down to ~800 B). Don't shorten the timeout
 to "fail fast" — Garmin BLE genuinely takes that long.
 
-## BleChunkAssembler watchdog crash during final assembly
+## BleChunkAssembler watchdog crash — deferred to onUpdate
 
-**Symptom.** Watch crashes after receiving the last BLE chunk (e.g. 4/6 or
-6/6 received), with `CIQ_LOG.YML` showing:
+**Symptom.** Watch crashes on arrival of a BLE `tile_chunk`, with `CIQ_LOG.YML` showing:
 
 ```
 Error: 'Watchdog Tripped Error - Code Executed Too Long'
-Stack: BleChunkAssembler.mc line 95, accept / GarmiandApp.mc handleTileChunk / onPhoneMessage
+Stack: BleChunkAssembler.mc:95  accept()
+       GarmiandApp.mc:381       handleTileChunk()
+       GarmiandApp.mc:195       onPhoneMessage()
 ```
 
-**Root cause.** The old `BleChunkAssembler` stored each received chunk as a
-`ByteArray` value in a `Dictionary<Number, ByteArray>`. On the final chunk it
-assembled the blob by iterating over all chunks and copying byte-by-byte into
-a new array — for a 65 KB bundle at 3 KB chunks that's ~65 000 byte copies in
-a single `onPhoneMessage` callback, which exceeds the watchdog budget.
+**Root cause.** `onPhoneMessage` is a BLE event callback with a shorter
+watchdog budget than `onUpdate`. Any meaningful work inside it — even copying
+3 KB of bytes — can trip the watchdog.
 
-**Fix.** Streaming pre-allocation: on the first chunk, allocate a single
-`_blob = new [totalBytes]b` from the `tb` field. Each subsequent chunk is
-written directly at `offset = i × chunkSize`, so the final-assembly loop
-is eliminated entirely. The per-chunk byte-copy is ~3 072 iterations — safe
-for the watchdog. See `BleChunkAssembler.accept()`.
+**Fix.** `onPhoneMessage` only queues the incoming dict into `_pendingTileChunk`.
+`processPendingTileChunk()`, called from the top of `onUpdate()`, does the
+actual work (calls `BleChunkAssembler.accept()` which does the byte-copy). The
+`onUpdate()` budget is the full frame budget. See `GarmiandApp.processPendingTileChunk()`.
+
+**Critical ordering.** In `NavigationView.onUpdate()`, `processPendingPersist()`
+must run **before** `processPendingTileChunk()`. This ensures that the last
+chunk's blob-copy and its subsequent persist never land in the same frame.
+Reversing the order re-introduces a watchdog on the final chunk.
 
 **Invariant.** The `tb` field in `tile_chunk` must be the uncompressed bundle
 size in bytes. `MapBundleBleSender` sets `totalBytes = bundle.size` in every
-chunk. If `tb` is absent, the assembler falls back to dynamic `addAll` growth
-(slower, and the final-assembly watchdog risk returns).
+chunk. On the first chunk, the assembler pre-allocates `_blob = new [tb]b`
+and writes each chunk at `offset = i × chunkSize`. If `tb` is absent, it
+falls back to dynamic `addAll` growth.
 
 ## BLE chunk stall detection
 
@@ -112,9 +116,16 @@ chunk. If no chunk arrives within 10 s:
 - `onBleStallTimeout()` logs `BLE STALL N/M missing=[...]` with which
   chunk indices were not received.
 - `_bleChunkAssembler` is set to `null`, freeing the pre-allocated buffer.
-- The assembler is recreated fresh if the phone retries.
+- The assembler is recreated fresh if the phone retries (or restored from WIP
+  Storage if the app is restarted).
 
 The stall timer is disarmed immediately when the final chunk completes.
+
+**WIP persistence survives app restart.** Each received chunk is immediately
+written to `App.Storage` under `ble_wip_c_N`. On `onStart()`, if `ble_wip_id`
+exists in Storage, the assembler is restored from those keys — the phone's
+`ble_bundle_start` handshake then reads back which chunk indices are already on
+the watch, and the phone skips them.
 
 ## Markers missing after sync
 
@@ -245,3 +256,50 @@ static function persist(…) as Lang.Boolean {
     return false;  // unreachable — required by monkeyc
 }
 ```
+
+## `TileDecoder.load()` watchdog via byte-copy loop
+
+**Symptom.** Watch crashes in `onUpdate()` with stack pointing to
+`TileDecoder.mc load()` ← `NavigationView.mc loadBundle()` ← `ensureBundleLoaded()`.
+Error: `Watchdog Tripped Error - Code Executed Too Long`.
+
+**Root cause.** The old `load()` pre-allocated the destination blob
+(`new [sz]b`) and then assembled it using a Monkey C byte-copy loop:
+```monkeyc
+for (var ci = 0; ci < chSize; ci++) { blob[writeOff + ci] = ch[ci]; }
+```
+For a 65 KB bundle (5 × 16 KB Storage chunks), that's ~65 000 iterations
+at ~4 bytecodes each ≈ 260 000 bytecodes — far over the watchdog limit.
+
+**Fix.** Always use `new [0]b` + `blob.addAll(chunk)` per Storage chunk.
+`addAll()` is a native C++ call — regardless of how many bytes it copies,
+it costs only ~3 Monkey C bytecodes. The N² native-side memory copies
+(~130 KB total for a 65 KB blob over 5 chunks) are sub-millisecond.
+See `TileDecoder.load()`.
+
+**Rule.** Never use a Monkey C byte-copy loop (`arr[i] = src[i]`) on
+ByteArrays larger than a few hundred bytes. Use `addAll()` instead.
+The watchdog counts Monkey C bytecodes, not CPU time — native calls are
+effectively free.
+
+## `Communications.transmit()` rejects `null` ConnectionListener
+
+**Symptom.** `monkeyc` build fails at the `Communications.transmit(data, params, null)` call:
+
+```
+Invalid 'Null' passed as parameter 3 of type '$.Toybox.Communications.ConnectionListener'.
+```
+
+**Fix.** `Communications.transmit()` requires a concrete `ConnectionListener`
+object. Create a minimal no-op subclass:
+
+```monkeyc
+class NullConnectionListener extends Communications.ConnectionListener {
+    function initialize() { Communications.ConnectionListener.initialize(); }
+    function onComplete() as Void {}
+    function onError() as Void {}
+}
+```
+
+Pass `new NullConnectionListener()` as the third argument. This class lives
+in `GarmiandApp.mc`. Never pass `null` for any typed CIQ parameter.

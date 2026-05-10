@@ -132,3 +132,31 @@ anyway). The viewport is computed once in `applyRoute()` from route bbox
 + 15% padding; the user cannot pan or zoom. If native Garmin TopoActive
 rendering is needed in the future, MapView would need to be re-evaluated on
 hardware (not the simulator).
+
+## ADR-010: Deferred BLE chunk processing + resumable transfer
+
+**Decision.** All BLE chunk processing is deferred from the `onPhoneMessage`
+callback to `onUpdate()`. The `onPhoneMessage` handler only queues the chunk
+dict into `_pendingTileChunk`; `processPendingTileChunk()` in `onUpdate()` does
+the actual `BleChunkAssembler.accept()` byte-copy. Each received chunk is
+immediately persisted to `App.Storage` (`ble_wip_c_N`), so the assembler can
+be restored after an app restart. The phone probes the watch before each
+transfer via `ble_bundle_start` → `ble_wip_report` to skip already-received
+chunks. The phone also pauses 10 s every 2 minutes of continuous sending.
+
+**Why.** Three forces converged:
+1. *Watchdog in BLE callback.* Even a 3 KB byte-copy (~12K bytecodes) in
+   `onPhoneMessage` can trip the watchdog. Deferring to `onUpdate()` gives the
+   full frame budget.
+2. *Transfer reliability.* On a 65 KB bundle at 300 ms/chunk the transfer takes
+   ~5 minutes. The user may close the watch app. Without WIP persistence, the
+   whole transfer restarts; with WIP, the phone queries the watch and skips
+   already-received chunks.
+3. *Phone pacing.* Even with watchdog-safe chunk processing on the watch,
+   sending continuously for >2 minutes starves the watch's VM. A safety pause
+   on the phone side avoids this.
+
+**Implication.** Order in `onUpdate()` is load-bearing: `processPendingPersist()`
+must run before `processPendingTileChunk()`. If reversed, the last chunk's
+byte-copy and its Storage persist land in the same frame, approaching the watchdog
+limit. Any future work in `onPhoneMessage` should be constrained to queueing only.

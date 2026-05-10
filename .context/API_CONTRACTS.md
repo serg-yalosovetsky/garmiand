@@ -71,6 +71,48 @@ into ≤3072-byte chunks and sends them in order. Watch reassembles in
 | `tb` | `Int` | Total bundle size in bytes. Watch pre-allocates a single `ByteArray` of this size on the first chunk, avoiding N² heap churn from repeated `addAll`. If missing, the assembler falls back to dynamic growth. |
 | `p` | `ByteArray` | Raw bytes — Connect IQ Mobile SDK converts to `Lang.ByteArray` on the watch. |
 
+### `ble_bundle_start` *(resumable BLE handshake, phone → watch)*
+
+Sent by the phone **before** starting a BLE `tile_chunk` sequence. The watch
+checks its WIP Storage for matching `bundle_id` and replies with `ble_wip_report`.
+
+| Key | Type | Notes |
+|---|---|---|
+| `bundle_id` | `String` | UUID of the bundle about to be sent. |
+| `n` | `Int` | Total chunk count for this bundle. |
+| `tb` | `Int` | Total bundle size in bytes. |
+
+### `ble_wip_report` *(resumable BLE handshake, watch → phone)*
+
+Sent by the watch in response to `ble_bundle_start`. Phone waits up to 3 s
+(via `CountDownLatch`) before assuming no WIP and starting from chunk 0.
+
+| Key | Type | Notes |
+|---|---|---|
+| `bundle_id` | `String` | Echo of the bundle being transferred. |
+| `received_indices` | `List<Int>` | Chunk indices already on the watch. Empty list = no WIP (send everything from 0). |
+
+**Flow.** Phone sends `ble_bundle_start` → watch looks up `ble_wip_id` in
+Storage; if it matches, transmits `ble_wip_report` with existing indices via
+`Communications.transmit()`; phone skips those indices in the chunk loop. If
+watch has WIP for a *different* `bundle_id`, it clears the old WIP and replies
+with an empty list.
+
+**WIP Storage keys** (watch, prefix `ble_wip_`):
+
+| Key | Type | Content |
+|---|---|---|
+| `ble_wip_id` | String | bundle ID |
+| `ble_wip_tot` | Number | total chunk count |
+| `ble_wip_sz` | Number | total bytes |
+| `ble_wip_csz` | Number | chunk size in bytes |
+| `ble_wip_n` | Number | received count so far |
+| `ble_wip_c_N` | ByteArray | raw payload for chunk N |
+
+All WIP keys are cleared by `BleChunkAssembler.clearWip()` when the bundle is
+fully assembled. On app restart, `BleChunkAssembler.loadWip()` reads these keys
+and restores the in-progress assembler.
+
 ## Acks
 
 Connect IQ acks delivery, not application correctness. `IQMessageStatus.SUCCESS` means the watch received the dictionary, not that it interpreted it. The watch never sends an application-level ack today; observability is via the on-screen banner.

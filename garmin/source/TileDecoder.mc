@@ -215,28 +215,17 @@ class TileDecoder {
                 return null;
             }
             var nc = (numChunks as Lang.Number);
-            // Pre-allocate the exact buffer size when _sz is available (avoids N²
-            // reallocation from repeated addAll on a growing ByteArray).
-            var szVal = App.Storage.getValue(key + "_sz");
-            var prealloc = szVal instanceof Lang.Number;
-            var blob = prealloc ? new [(szVal as Lang.Number)]b : new [0]b;
-            var writeOff = 0;
+            // Use addAll() (native C++) instead of a Monkey C byte-copy loop —
+            // the loop costs ~4 bytecodes per byte and trips the watchdog on bundles
+            // larger than ~20 KB. addAll() is a single native call regardless of size.
+            var blob = new [0]b as Lang.ByteArray;
             for (var i = 0; i < nc; i++) {
                 var chunk = App.Storage.getValue(key + "_" + i);
                 if (!(chunk instanceof Lang.ByteArray)) {
                     System.println("[Tiles] load: missing chunk " + i);
                     return null;
                 }
-                var ch = chunk as Lang.ByteArray;
-                if (prealloc) {
-                    var chSize = ch.size();
-                    for (var ci = 0; ci < chSize; ci++) {
-                        blob[writeOff + ci] = ch[ci];
-                    }
-                    writeOff += chSize;
-                } else {
-                    blob.addAll(ch);
-                }
+                blob.addAll(chunk as Lang.ByteArray);
             }
             System.println("[Tiles] load: assembled " + blob.size() + "B from " + nc + " chunks");
             return blob;

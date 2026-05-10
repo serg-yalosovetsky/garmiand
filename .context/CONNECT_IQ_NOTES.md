@@ -49,10 +49,14 @@ We work around this by chunking the blob into 16 KB pieces:
 - `b_<first8ofId>_sz` — total byte count (Number)
 
 `TileDecoder.persist/load/deleteBundle` manage these keys. When loading,
-`TileDecoder.load()` reads `_sz` first, pre-allocates `new [sz]b`, then
-writes each chunk into the buffer at the correct byte offset. This avoids
-the O(N²) repeated-copy behaviour of `addAll` on a growing array. Old bundles
-missing the `_sz` key fall back to `addAll` growth.
+`TileDecoder.load()` uses `new [0]b` + `blob.addAll(chunk)` for each Storage
+chunk. `addAll()` is native C++ — it costs ~3 Monkey C bytecodes regardless of
+data size, avoiding the watchdog trip that a Monkey C byte-copy loop causes for
+bundles > ~20 KB.
+
+BLE WIP state uses a separate key set (prefix `ble_wip_`) — see API_CONTRACTS.md.
+These keys accumulate one entry per received chunk (`ble_wip_c_N`) and are
+cleared by `BleChunkAssembler.clearWip()` once assembly completes.
 
 If `setValue` throws `StorageFullException` (total limit), delete old bundle
 keys (simulator's `Settings → Edit Storage`) or reduce bundle size.
@@ -110,22 +114,37 @@ callback fires. No reallocation, no heap fragmentation.
 you call `.addAll()` on it (`UnexpectedTypeException: Expected Array, given ByteArray`).
 Always use `new [N]b` (fixed size) or `new [0]b` (empty, grow with addAll).
 
-## Communications.transmit chunking
+## Communications.transmit chunking and resumable BLE transfer
 
-For BLE-direct bundle delivery we send a series of `tile_chunk` messages,
-each with `:p` set to a `ByteArray` ≤3072 bytes (Garmin per-message limit
-is documented as ~4 KB; we keep headroom). Garmin throttles concurrent
-sends — 3 outstanding requests max — so the Android side spaces chunks by
-300 ms. The watch reassembles by `i` (index), so out-of-order arrival is
-tolerated.
+For BLE-direct bundle delivery the phone sends a series of `tile_chunk`
+messages (each ≤3072 bytes), preceded by a `ble_bundle_start` handshake.
 
-The watch pre-allocates the reassembly buffer on the first chunk using the
-`tb` (total bytes) field: `_blob = new [tb]b`. Each chunk is written at
-`offset = i × chunkSize` — no final-assembly loop, no watchdog risk.
+**Handshake flow:**
+1. Phone sends `ble_bundle_start` (bundle_id, total chunk count, total bytes).
+2. Watch checks WIP Storage; transmits `ble_wip_report` with already-received
+   chunk indices (empty list = start from zero). Uses `Communications.transmit()`
+   with a `NullConnectionListener` — **null is not accepted**.
+3. Phone waits up to 3 s (CountDownLatch); on timeout sends all chunks.
+4. Phone skips indices the watch already has.
 
-A 10-second stall timer (`_bleStallTimer`) is armed after each chunk and
-reset on each subsequent one. If the phone stops mid-transfer the timer
-fires, logs which chunks are missing, and frees the pre-allocated buffer.
+**Watch-side processing:** `onPhoneMessage` only queues the chunk dict into
+`_pendingTileChunk`. `GarmiandApp.processPendingTileChunk()`, called from
+`NavigationView.onUpdate()`, does the actual `BleChunkAssembler.accept()` call.
+This avoids the BLE-callback watchdog. Critical ordering: in `onUpdate()`,
+`processPendingPersist()` must run **before** `processPendingTileChunk()`.
+
+**WIP persistence:** After each successful `accept()`, the chunk payload is
+written to `App.Storage["ble_wip_c_N"]`. On `onStart()`, if WIP keys exist,
+the assembler is restored via `BleChunkAssembler.loadWip()`.
+
+**Safety timer (phone side):** `MapBundleBleSender` pauses 10 s every 2 minutes
+of continuous sending (`MAX_CONTINUOUS_MS = 120 000`, `SAFETY_PAUSE_MS = 10 000`)
+to give the watch's `onUpdate()` loop time to drain queued chunks.
+
+A 10-second stall timer (`_bleStallTimer`) on the watch is armed after each
+chunk and reset on each subsequent one. If the phone stops mid-transfer the
+timer fires, logs missing indices, and sets the assembler to null (buffer freed;
+WIP keys remain in Storage for later restore).
 
 ## What GCM will and won't proxy
 

@@ -25,7 +25,7 @@ const INTERACT_PAN_WE = 1;
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 18; @position = 6; @symbol_constdef = [INTERACT_CENTERED,18,6,23]; ]
 const INTERACT_CENTERED = 2;
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 20; @position = 6; @symbol_constdef = [APP_VERSION,20,6,17]; ]
-const APP_VERSION = "2026-05-10 12:00 dbg20";
+const APP_VERSION = "2026-05-10 04:13 dbg21";
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 22; @symbol_classdef = [DecodedTile,22,6,17]; ]
 class DecodedTile {
     [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 22; ]

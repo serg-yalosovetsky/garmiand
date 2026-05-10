@@ -49,6 +49,9 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 | `INTER_CHUNK_DELAY_MS` | `300` | Pause between chunks to keep Garmin's 3-outstanding-request queue from stalling. |
 | `MAX_RETRIES` | `4` | Per-chunk retry attempts before aborting the bundle send. |
 | `RETRY_BACKOFF_MS` | `2500` | Wait between retries. |
+| `MAX_CONTINUOUS_MS` | `120 000` (2 min) | Safety timer: if a single sending pass takes longer than this, pause for `SAFETY_PAUSE_MS`. Prevents starving the watch VM. |
+| `SAFETY_PAUSE_MS` | `10 000` (10 s) | How long to pause when `MAX_CONTINUOUS_MS` is exceeded. |
+| `WIP_QUERY_TIMEOUT_MS` | `3 000` (3 s) | How long to wait for the watch's `ble_wip_report` after sending `ble_bundle_start`. On timeout, sends all chunks from index 0. |
 
 ## Backend — `server/.env`
 
