@@ -45,7 +45,8 @@ class RouteData {
         markerLats = [] as Lang.Array<Lang.Float>;
         markerLons = [] as Lang.Array<Lang.Float>;
         markerTitles = [] as Lang.Array<Lang.String>;
-        for (var i = 0; i < rawMarkers.size(); i++) {
+        var n = rawMarkers.size();
+        for (var i = 0; i < n; i++) {
             var m = rawMarkers[i] as Lang.Dictionary;
             markerIds.add(m["id"] as Lang.String);
             markerLats.add((m["lat"] as Lang.Float).toFloat());

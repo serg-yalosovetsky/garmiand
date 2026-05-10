@@ -347,35 +347,6 @@ class TileDecoder {
         return t;
     }
 
-    /**
-     * Decode one tile's column-major palette indices into a BufferedBitmap.
-     * Pixel layout (must match android/.../TileQuantizer.kt#quantizeBitmap):
-     *   pixels[col * height + row] = palette index (0..63).
-     */
-    static function decodeTile(
-        blob as Lang.ByteArray,
-        entry as TileEntry,
-        palette as Lang.Array<Lang.Number>
-    ) as Graphics.BufferedBitmap? {
-        var bmp;
-        try {
-            bmp = Graphics.createBufferedBitmap({
-                :width => entry.width,
-                :height => entry.height,
-                :palette => palette,
-            }).get();
-        } catch (e) {
-            System.println("[Tiles] createBufferedBitmap failed: " + e.getErrorMessage());
-            return null;
-        }
-        if (bmp == null) {
-            return null;
-        }
-        var bdc = bmp.getDc();
-        fillTileColumns(blob, entry, palette, bdc, 0, entry.width);
-        return bmp;
-    }
-
     // Fill [startCol, startCol+numCols) columns of a tile into an existing Dc.
     // Called incrementally (a few columns per onUpdate frame) to stay within
     // the CIQ watchdog budget.

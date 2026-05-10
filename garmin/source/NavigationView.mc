@@ -484,7 +484,7 @@ class NavigationView extends WatchUi.View {
         var hdr = _bundleHeader as BundleHeader;
         // Anchor tile pixel (0,0) to the NW corner of the bundle (maxLat, minLon).
         // projectPoint() includes pan offset, so tiles and route overlay pan together.
-        var originPt = projectPoint(dc, hdr.maxLat, hdr.minLon);
+        var originPt = projectPoint(hdr.maxLat, hdr.minLon);
         if (originPt == null) {
             // Viewport not set yet — fall back to centered pixel layout.
             var w = dc.getWidth();
@@ -581,7 +581,7 @@ class NavigationView extends WatchUi.View {
 
     // Project a (lat, lon) to screen coords using the tracked viewport + pan offset.
     // Returns null if the viewport is not yet configured (no route applied).
-    function projectPoint(dc as Graphics.Dc, lat as Lang.Float, lon as Lang.Float) as Lang.Array<Lang.Number>? {
+    function projectPoint(lat as Lang.Float, lon as Lang.Float) as Lang.Array<Lang.Number>? {
         if (!_viewSet) { return null; }
         var halfLat = (_viewLat0 - _viewLat1) * 0.5f;
         var halfLon = (_viewLon1 - _viewLon0) * 0.5f;
@@ -601,9 +601,9 @@ class NavigationView extends WatchUi.View {
             return;
         }
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        var prev = projectPoint(dc, _route.lats[0], _route.lons[0]);
+        var prev = projectPoint(_route.lats[0], _route.lons[0]);
         for (var i = 1; i < pts; i++) {
-            var cur = projectPoint(dc, _route.lats[i], _route.lons[i]);
+            var cur = projectPoint(_route.lats[i], _route.lons[i]);
             if (prev != null && cur != null) {
                 dc.drawLine(prev[0], prev[1], cur[0], cur[1]);
             }
@@ -614,7 +614,7 @@ class NavigationView extends WatchUi.View {
     function drawWaypointOverlay(dc as Graphics.Dc) as Void {
         var cnt = _route.markerLats.size();
         for (var i = 0; i < cnt; i++) {
-            var pt = projectPoint(dc, _route.markerLats[i], _route.markerLons[i]);
+            var pt = projectPoint(_route.markerLats[i], _route.markerLons[i]);
             if (pt == null) { continue; }
             var x = pt[0];
             var y = pt[1];
@@ -642,7 +642,7 @@ class NavigationView extends WatchUi.View {
         if (_currentLat == 0.0f && _currentLon == 0.0f) {
             return;
         }
-        var pt = projectPoint(dc, _currentLat, _currentLon);
+        var pt = projectPoint(_currentLat, _currentLon);
         if (pt == null) { return; }
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(pt[0], pt[1], 6);

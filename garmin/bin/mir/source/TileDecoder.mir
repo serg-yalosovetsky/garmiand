@@ -2382,431 +2382,291 @@ G__code_garmiand_garmin_source_TileDecoder_mc_337_118_348_4_start:
         ret %tmp.66;
 G__code_garmiand_garmin_source_TileDecoder_mc_337_118_348_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\TileDecoder.mc"; @line = 355; @symbol_functiondef = [decodeTile,355,20,30]; @symbol_param<0> = [blob,356,8,12]; @symbol_param<0>_type<0> = [Lang,356,16,20]; @symbol_param<0>_type<1> = [ByteArray,356,21,30]; @symbol_param<1> = [entry,357,8,13]; @symbol_param<1>_type<0> = [TileEntry,357,17,26]; @symbol_param<2> = [palette,358,8,15]; @symbol_param<2>_type<0> = [Lang,358,19,23]; @symbol_param<2>_type<1> = [Array,358,24,29]; @symbol_param<2>_type<2> = [Lang,358,30,34]; @symbol_param<2>_type<3> = [Number,358,35,41]; @symbol_return<0> = [Graphics,359,9,17]; @symbol_return<1> = [BufferedBitmap,359,18,32]; ]
-    static
-    function decodeTile(blob as Lang.ByteArray, entry as TileEntry, palette as Lang.Array<Lang.Number>) as Graphics.BufferedBitmap or Null {
-G__code_garmiand_garmin_source_TileDecoder_mc_359_34_377_4_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 360 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_359_34_377_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_359_34_377_4_stop" ]
-        %bmp.1 = local;
-        symbol [ bmp %bmp.1 360 12 15 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 361 8 ]
-        try @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_beginTry @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_endTry @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_catch @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally;
-G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_beginTry:
-G__code_garmiand_garmin_source_TileDecoder_mc_361_12_367_8_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 362 12 ]
-        symbol [ Graphics %tmp.1 362 18 26 ];
-        %tmp.1 = getm $.Toybox.Graphics;
-        symbol [ createBufferedBitmap %tmp.2 362 27 47 ];
-        %tmp.2 = getv function %tmp.1 :createBufferedBitmap;
-        %tmp.3 = newd 3;
-        %tmp.5 = const :width;
-        symbol [ width %tmp.5 363 17 22 const ];
-        %tmp.6 = lgetv %entry;
-        symbol [ entry %tmp.6 363 26 31 ];
-        symbol [ width %tmp.7 363 32 37 ];
-        %tmp.7 = getv %tmp.6 :width;
-        %tmp.8 = dup %tmp.3;
-        %tmp.9 = aputv %tmp.8 %tmp.5 %tmp.7;
-        %tmp.11 = const :height;
-        symbol [ height %tmp.11 364 17 23 const ];
-        %tmp.12 = lgetv %entry;
-        symbol [ entry %tmp.12 364 27 32 ];
-        symbol [ height %tmp.13 364 33 39 ];
-        %tmp.13 = getv %tmp.12 :height;
-        %tmp.14 = dup %tmp.9;
-        %tmp.15 = aputv %tmp.14 %tmp.11 %tmp.13;
-        %tmp.17 = const :palette;
-        symbol [ palette %tmp.17 365 17 24 const ];
-        %tmp.18 = lgetv %palette;
-        symbol [ palette %tmp.18 365 28 35 ];
-        %tmp.19 = dup %tmp.15;
-        %tmp.20 = aputv %tmp.19 %tmp.17 %tmp.18;
-        %tmp.21 = invoke %tmp.1 %tmp.2(%tmp.20);
-        symbol [ get %tmp.22 366 15 18 ];
-        %tmp.22 = getv function %tmp.21 :get;
-        %tmp.23 = invoke %tmp.21 %tmp.22();
-        lputv %bmp.1 %tmp.23;
-        symbol [ bmp %bmp.1 362 12 15 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_361_12_367_8_stop:
-G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_endTry:
-        jsr @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally;
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_catch:
-        %tmp.24 = exception;
-        push %tmp.24;
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 367 10 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_catch" "G__code_garmiand_garmin_source_TileDecoder_mc_367_10_370_8_end" ]
-        %e.2 = local;
-        symbol [ e %e.2 367 17 18 ];
-        %tmp.25 = dup %tmp.24;
-        lputv %e.2 %tmp.25;
-        symbol [ e %e.2 367 17 18 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_367_20_370_8_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 368 12 ]
-        symbol [ System %tmp.26 368 12 18 ];
-        %tmp.26 = getm $.Toybox.System;
-        symbol [ println %tmp.27 368 19 26 ];
-        %tmp.27 = getv function %tmp.26 :println;
-        %tmp.28 = "[Tiles] createBufferedBitmap failed: ";
-        %tmp.29 = lgetv %e.2;
-        symbol [ e %tmp.29 368 69 70 ];
-        symbol [ getErrorMessage %tmp.30 368 71 86 ];
-        %tmp.30 = getv function %tmp.29 :getErrorMessage;
-        %tmp.31 = invoke %tmp.29 %tmp.30();
-        %tmp.32 = add %tmp.28 %tmp.31;
-        invoke %tmp.26 %tmp.27(%tmp.32);
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 369 12 ]
-        pop;
-        %tmp.33 = null;
-        jsr @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally;
-        ret %tmp.33;
-G__code_garmiand_garmin_source_TileDecoder_mc_367_20_370_8_stop:
-        jsr @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally;
-        pop;
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_367_10_370_8_end:
-        try @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_catch @G__code_garmiand_garmin_source_TileDecoder_mc_367_10_370_8_end @G__code_garmiand_garmin_source_TileDecoder_mc_367_10_370_8_end @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally;
-        jsr @G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally;
-        throw %tmp.24;
-G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_finally:
-        jsrret;
-G__code_garmiand_garmin_source_TileDecoder_mc_361_8_370_8_end:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 371 8 ]
-G__code_garmiand_garmin_source_TileDecoder_mc_371_8_373_8_if_stmt:
-        %tmp.34 = lgetv %bmp.1;
-        symbol [ bmp %tmp.34 371 12 15 ];
-        %tmp.35 = null;
-        %tmp.36 = eq %tmp.34 %tmp.35;
-        bf %tmp.36 @G__code_garmiand_garmin_source_TileDecoder_mc_371_8_373_8_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_371_8_373_8_if_true:
-G__code_garmiand_garmin_source_TileDecoder_mc_371_25_373_8_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 372 12 ]
-        %tmp.37 = null;
-        ret %tmp.37;
-G__code_garmiand_garmin_source_TileDecoder_mc_371_25_373_8_stop:
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_371_8_373_8_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_371_8_373_8_if_end:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 374 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_359_34_377_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_359_34_377_4_stop" ]
-        %bdc.3 = local;
-        symbol [ bdc %bdc.3 374 12 15 ];
-        %tmp.38 = lgetv %bmp.1;
-        symbol [ bmp %tmp.38 374 18 21 ];
-        symbol [ getDc %tmp.39 374 22 27 ];
-        %tmp.39 = getv function %tmp.38 :getDc;
-        %tmp.40 = invoke %tmp.38 %tmp.39();
-        lputv %bdc.3 %tmp.40;
-        symbol [ bdc %bdc.3 374 12 15 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 375 8 ]
-        %tmp.41 = self;
-        symbol [ fillTileColumns %tmp.42 375 8 23 ];
-        %tmp.42 = getv function %tmp.41 :fillTileColumns;
-        %tmp.43 = lgetv %blob;
-        symbol [ blob %tmp.43 375 24 28 ];
-        %tmp.44 = lgetv %entry;
-        symbol [ entry %tmp.44 375 30 35 ];
-        %tmp.45 = lgetv %palette;
-        symbol [ palette %tmp.45 375 37 44 ];
-        %tmp.46 = lgetv %bdc.3;
-        symbol [ bdc %tmp.46 375 46 49 ];
-        %tmp.47 = 0;
-        %tmp.48 = lgetv %entry;
-        symbol [ entry %tmp.48 375 54 59 ];
-        symbol [ width %tmp.49 375 60 65 ];
-        %tmp.49 = getv %tmp.48 :width;
-        invoke %tmp.41 %tmp.42(%tmp.43, %tmp.44, %tmp.45, %tmp.46, %tmp.47, %tmp.49);
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 376 8 ]
-        %tmp.50 = lgetv %bmp.1;
-        symbol [ bmp %tmp.50 376 15 18 ];
-        ret %tmp.50;
-G__code_garmiand_garmin_source_TileDecoder_mc_359_34_377_4_stop:
-    }
-    [ @file = "G:\code\garmiand\garmin\source\TileDecoder.mc"; @line = 382; @symbol_functiondef = [fillTileColumns,382,20,35]; @symbol_param<0> = [blob,383,8,12]; @symbol_param<0>_type<0> = [Lang,383,16,20]; @symbol_param<0>_type<1> = [ByteArray,383,21,30]; @symbol_param<1> = [entry,384,8,13]; @symbol_param<1>_type<0> = [TileEntry,384,17,26]; @symbol_param<2> = [palette,385,8,15]; @symbol_param<2>_type<0> = [Lang,385,19,23]; @symbol_param<2>_type<1> = [Array,385,24,29]; @symbol_param<2>_type<2> = [Lang,385,30,34]; @symbol_param<2>_type<3> = [Number,385,35,41]; @symbol_param<3> = [bdc,386,8,11]; @symbol_param<3>_type<0> = [Graphics,386,15,23]; @symbol_param<3>_type<1> = [Dc,386,24,26]; @symbol_param<4> = [startCol,387,8,16]; @symbol_param<4>_type<0> = [Lang,387,20,24]; @symbol_param<4>_type<1> = [Number,387,25,31]; @symbol_param<5> = [numCols,388,8,15]; @symbol_param<5>_type<0> = [Lang,388,19,23]; @symbol_param<5>_type<1> = [Number,388,24,30]; ]
+    [ @file = "G:\code\garmiand\garmin\source\TileDecoder.mc"; @line = 353; @symbol_functiondef = [fillTileColumns,353,20,35]; @symbol_param<0> = [blob,354,8,12]; @symbol_param<0>_type<0> = [Lang,354,16,20]; @symbol_param<0>_type<1> = [ByteArray,354,21,30]; @symbol_param<1> = [entry,355,8,13]; @symbol_param<1>_type<0> = [TileEntry,355,17,26]; @symbol_param<2> = [palette,356,8,15]; @symbol_param<2>_type<0> = [Lang,356,19,23]; @symbol_param<2>_type<1> = [Array,356,24,29]; @symbol_param<2>_type<2> = [Lang,356,30,34]; @symbol_param<2>_type<3> = [Number,356,35,41]; @symbol_param<3> = [bdc,357,8,11]; @symbol_param<3>_type<0> = [Graphics,357,15,23]; @symbol_param<3>_type<1> = [Dc,357,24,26]; @symbol_param<4> = [startCol,358,8,16]; @symbol_param<4>_type<0> = [Lang,358,20,24]; @symbol_param<4>_type<1> = [Number,358,25,31]; @symbol_param<5> = [numCols,359,8,15]; @symbol_param<5>_type<0> = [Lang,359,19,23]; @symbol_param<5>_type<1> = [Number,359,24,30]; ]
     static
     function fillTileColumns(blob as Lang.ByteArray, entry as TileEntry, palette as Lang.Array<Lang.Number>, bdc as Graphics.Dc, startCol as Lang.Number, numCols as Lang.Number) as Void {
-G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 390 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_stop" ]
+G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 361 8 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_stop" ]
         %w.1 = local;
-        symbol [ w %w.1 390 12 13 ];
+        symbol [ w %w.1 361 12 13 ];
         %tmp.1 = lgetv %entry;
-        symbol [ entry %tmp.1 390 16 21 ];
-        symbol [ width %tmp.2 390 22 27 ];
+        symbol [ entry %tmp.1 361 16 21 ];
+        symbol [ width %tmp.2 361 22 27 ];
         %tmp.2 = getv %tmp.1 :width;
         lputv %w.1 %tmp.2;
-        symbol [ w %w.1 390 12 13 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 391 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_stop" ]
+        symbol [ w %w.1 361 12 13 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 362 8 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_stop" ]
         %h.2 = local;
-        symbol [ h %h.2 391 12 13 ];
+        symbol [ h %h.2 362 12 13 ];
         %tmp.3 = lgetv %entry;
-        symbol [ entry %tmp.3 391 16 21 ];
-        symbol [ height %tmp.4 391 22 28 ];
+        symbol [ entry %tmp.3 362 16 21 ];
+        symbol [ height %tmp.4 362 22 28 ];
         %tmp.4 = getv %tmp.3 :height;
         lputv %h.2 %tmp.4;
-        symbol [ h %h.2 391 12 13 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 392 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_stop" ]
+        symbol [ h %h.2 362 12 13 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 363 8 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_stop" ]
         %off.3 = local;
-        symbol [ off %off.3 392 12 15 ];
+        symbol [ off %off.3 363 12 15 ];
         %tmp.5 = lgetv %entry;
-        symbol [ entry %tmp.5 392 18 23 ];
-        symbol [ pixelOffset %tmp.6 392 24 35 ];
+        symbol [ entry %tmp.5 363 18 23 ];
+        symbol [ pixelOffset %tmp.6 363 24 35 ];
         %tmp.6 = getv %tmp.5 :pixelOffset;
         lputv %off.3 %tmp.6;
-        symbol [ off %off.3 392 12 15 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 393 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_stop" ]
+        symbol [ off %off.3 363 12 15 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 364 8 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_stop" ]
         %palSize.4 = local;
-        symbol [ palSize %palSize.4 393 12 19 ];
+        symbol [ palSize %palSize.4 364 12 19 ];
         %tmp.7 = lgetv %palette;
-        symbol [ palette %tmp.7 393 22 29 ];
-        symbol [ size %tmp.8 393 30 34 ];
+        symbol [ palette %tmp.7 364 22 29 ];
+        symbol [ size %tmp.8 364 30 34 ];
         %tmp.8 = getv function %tmp.7 :size;
         %tmp.9 = invoke %tmp.7 %tmp.8();
         lputv %palSize.4 %tmp.9;
-        symbol [ palSize %palSize.4 393 12 19 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 394 8 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_stop" ]
+        symbol [ palSize %palSize.4 364 12 19 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 365 8 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_start" "G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_stop" ]
         %endCol.5 = local;
-        symbol [ endCol %endCol.5 394 12 18 ];
+        symbol [ endCol %endCol.5 365 12 18 ];
         %tmp.10 = lgetv %startCol;
-        symbol [ startCol %tmp.10 394 21 29 ];
+        symbol [ startCol %tmp.10 365 21 29 ];
         %tmp.11 = lgetv %numCols;
-        symbol [ numCols %tmp.11 394 32 39 ];
+        symbol [ numCols %tmp.11 365 32 39 ];
         %tmp.12 = add %tmp.10 %tmp.11;
         lputv %endCol.5 %tmp.12;
-        symbol [ endCol %endCol.5 394 12 18 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 395 8 ]
-G__code_garmiand_garmin_source_TileDecoder_mc_395_8_395_38_if_stmt:
+        symbol [ endCol %endCol.5 365 12 18 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 366 8 ]
+G__code_garmiand_garmin_source_TileDecoder_mc_366_8_366_38_if_stmt:
         %tmp.13 = lgetv %endCol.5;
-        symbol [ endCol %tmp.13 395 12 18 ];
+        symbol [ endCol %tmp.13 366 12 18 ];
         %tmp.14 = lgetv %w.1;
-        symbol [ w %tmp.14 395 21 22 ];
+        symbol [ w %tmp.14 366 21 22 ];
         %tmp.15 = gt %tmp.13 %tmp.14;
-        bf %tmp.15 @G__code_garmiand_garmin_source_TileDecoder_mc_395_8_395_38_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_395_8_395_38_if_true:
-G__code_garmiand_garmin_source_TileDecoder_mc_395_24_395_38_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 395 26 ]
+        bf %tmp.15 @G__code_garmiand_garmin_source_TileDecoder_mc_366_8_366_38_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_366_8_366_38_if_true:
+G__code_garmiand_garmin_source_TileDecoder_mc_366_24_366_38_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 366 26 ]
         %tmp.16 = lgetv %w.1;
-        symbol [ w %tmp.16 395 35 36 ];
+        symbol [ w %tmp.16 366 35 36 ];
         lputv %endCol.5 %tmp.16;
-        symbol [ endCol %endCol.5 395 26 32 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_395_24_395_38_stop:
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_395_8_395_38_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_395_8_395_38_if_end:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 396 8 ]
-        for @G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_test @G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_incr @G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_init:
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_begin" "G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_end" ]
+        symbol [ endCol %endCol.5 366 26 32 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_366_24_366_38_stop:
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_366_8_366_38_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_366_8_366_38_if_end:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 367 8 ]
+        for @G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_test @G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_incr @G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_init:
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_begin" "G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_end" ]
         %x.6 = local;
-        symbol [ x %x.6 396 17 18 ];
+        symbol [ x %x.6 367 17 18 ];
         %tmp.17 = lgetv %startCol;
-        symbol [ startCol %tmp.17 396 21 29 ];
+        symbol [ startCol %tmp.17 367 21 29 ];
         lputv %x.6 %tmp.17;
-        symbol [ x %x.6 396 17 18 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_test:
+        symbol [ x %x.6 367 17 18 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_test:
         %tmp.18 = lgetv %x.6;
-        symbol [ x %tmp.18 396 31 32 ];
+        symbol [ x %tmp.18 367 31 32 ];
         %tmp.19 = lgetv %endCol.5;
-        symbol [ endCol %tmp.19 396 35 41 ];
+        symbol [ endCol %tmp.19 367 35 41 ];
         %tmp.20 = lt %tmp.18 %tmp.19;
-        bf %tmp.20 @G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_begin:
-G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 397 12 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_start" "G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_stop" ]
+        bf %tmp.20 @G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_begin:
+G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 368 12 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_start" "G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_stop" ]
         %colBase.7 = local;
-        symbol [ colBase %colBase.7 397 16 23 ];
+        symbol [ colBase %colBase.7 368 16 23 ];
         %tmp.21 = lgetv %off.3;
-        symbol [ off %tmp.21 397 26 29 ];
+        symbol [ off %tmp.21 368 26 29 ];
         %tmp.22 = lgetv %x.6;
-        symbol [ x %tmp.22 397 32 33 ];
+        symbol [ x %tmp.22 368 32 33 ];
         %tmp.23 = lgetv %h.2;
-        symbol [ h %tmp.23 397 36 37 ];
+        symbol [ h %tmp.23 368 36 37 ];
         %tmp.24 = mul %tmp.22 %tmp.23;
         %tmp.25 = add %tmp.21 %tmp.24;
         lputv %colBase.7 %tmp.25;
-        symbol [ colBase %colBase.7 397 16 23 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 398 12 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_start" "G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_stop" ]
+        symbol [ colBase %colBase.7 368 16 23 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 369 12 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_start" "G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_stop" ]
         %runStart.8 = local;
-        symbol [ runStart %runStart.8 398 16 24 ];
+        symbol [ runStart %runStart.8 369 16 24 ];
         %tmp.26 = 0;
         lputv %runStart.8 %tmp.26;
-        symbol [ runStart %runStart.8 398 16 24 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 399 12 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_start" "G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_stop" ]
+        symbol [ runStart %runStart.8 369 16 24 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 370 12 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_start" "G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_stop" ]
         %runIdx.9 = local;
-        symbol [ runIdx %runIdx.9 399 16 22 ];
+        symbol [ runIdx %runIdx.9 370 16 22 ];
         %tmp.27 = lgetv %blob;
-        symbol [ blob %tmp.27 399 25 29 ];
+        symbol [ blob %tmp.27 370 25 29 ];
         %tmp.28 = lgetv %colBase.7;
-        symbol [ colBase %tmp.28 399 30 37 ];
+        symbol [ colBase %tmp.28 370 30 37 ];
         %tmp.29 = agetv %tmp.27 %tmp.28;
         %tmp.30 = 0xFF;
         %tmp.31 = bitand %tmp.29 %tmp.30;
         lputv %runIdx.9 %tmp.31;
-        symbol [ runIdx %runIdx.9 399 16 22 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 400 12 ]
-G__code_garmiand_garmin_source_TileDecoder_mc_400_12_400_49_if_stmt:
+        symbol [ runIdx %runIdx.9 370 16 22 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 371 12 ]
+G__code_garmiand_garmin_source_TileDecoder_mc_371_12_371_49_if_stmt:
         %tmp.32 = lgetv %runIdx.9;
-        symbol [ runIdx %tmp.32 400 16 22 ];
+        symbol [ runIdx %tmp.32 371 16 22 ];
         %tmp.33 = lgetv %palSize.4;
-        symbol [ palSize %tmp.33 400 26 33 ];
+        symbol [ palSize %tmp.33 371 26 33 ];
         %tmp.34 = gte %tmp.32 %tmp.33;
-        bf %tmp.34 @G__code_garmiand_garmin_source_TileDecoder_mc_400_12_400_49_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_400_12_400_49_if_true:
-G__code_garmiand_garmin_source_TileDecoder_mc_400_35_400_49_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 400 37 ]
+        bf %tmp.34 @G__code_garmiand_garmin_source_TileDecoder_mc_371_12_371_49_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_371_12_371_49_if_true:
+G__code_garmiand_garmin_source_TileDecoder_mc_371_35_371_49_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 371 37 ]
         %tmp.35 = 0;
         lputv %runIdx.9 %tmp.35;
-        symbol [ runIdx %runIdx.9 400 37 43 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_400_35_400_49_stop:
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_400_12_400_49_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_400_12_400_49_if_end:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 401 12 ]
-        for @G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_test @G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_incr @G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_init:
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_begin" "G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_end" ]
+        symbol [ runIdx %runIdx.9 371 37 43 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_371_35_371_49_stop:
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_371_12_371_49_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_371_12_371_49_if_end:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 372 12 ]
+        for @G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_test @G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_incr @G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_init:
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_begin" "G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_end" ]
         %y.10 = local;
-        symbol [ y %y.10 401 21 22 ];
+        symbol [ y %y.10 372 21 22 ];
         %tmp.36 = 1;
         lputv %y.10 %tmp.36;
-        symbol [ y %y.10 401 21 22 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_test:
+        symbol [ y %y.10 372 21 22 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_test:
         %tmp.37 = lgetv %y.10;
-        symbol [ y %tmp.37 401 28 29 ];
+        symbol [ y %tmp.37 372 28 29 ];
         %tmp.38 = lgetv %h.2;
-        symbol [ h %tmp.38 401 33 34 ];
+        symbol [ h %tmp.38 372 33 34 ];
         %tmp.39 = lte %tmp.37 %tmp.38;
-        bf %tmp.39 @G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_begin:
-G__code_garmiand_garmin_source_TileDecoder_mc_401_41_410_12_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 402 16 ]
-        [ "G__code_garmiand_garmin_source_TileDecoder_mc_401_41_410_12_start" "G__code_garmiand_garmin_source_TileDecoder_mc_401_41_410_12_stop" ]
+        bf %tmp.39 @G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_begin:
+G__code_garmiand_garmin_source_TileDecoder_mc_372_41_381_12_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 373 16 ]
+        [ "G__code_garmiand_garmin_source_TileDecoder_mc_372_41_381_12_start" "G__code_garmiand_garmin_source_TileDecoder_mc_372_41_381_12_stop" ]
         %curIdx.11 = local;
-        symbol [ curIdx %curIdx.11 402 20 26 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_begin:
+        symbol [ curIdx %curIdx.11 373 20 26 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_begin:
         %tmp.40 = lgetv %y.10;
-        symbol [ y %tmp.40 402 30 31 ];
+        symbol [ y %tmp.40 373 30 31 ];
         %tmp.41 = lgetv %h.2;
-        symbol [ h %tmp.41 402 34 35 ];
+        symbol [ h %tmp.41 373 34 35 ];
         %tmp.42 = lt %tmp.40 %tmp.41;
-        bf %tmp.42 @G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_else_false;
-G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_true:
+        bf %tmp.42 @G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_else_false;
+G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_true:
         %tmp.43 = lgetv %blob;
-        symbol [ blob %tmp.43 402 40 44 ];
+        symbol [ blob %tmp.43 373 40 44 ];
         %tmp.44 = lgetv %colBase.7;
-        symbol [ colBase %tmp.44 402 45 52 ];
+        symbol [ colBase %tmp.44 373 45 52 ];
         %tmp.45 = lgetv %y.10;
-        symbol [ y %tmp.45 402 55 56 ];
+        symbol [ y %tmp.45 373 55 56 ];
         %tmp.46 = add %tmp.44 %tmp.45;
         %tmp.47 = agetv %tmp.43 %tmp.46;
         %tmp.48 = 0xFF;
         %tmp.49 = bitand %tmp.47 %tmp.48;
         push %tmp.49;
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_else_false:
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_else_false:
         %tmp.50 = -1;
         push %tmp.50;
-G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_end:
-        %tmp.51 = phi [%tmp.42 @G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_begin] [%tmp.49 @G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_true] [%tmp.50 @G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_else_false] [%tmp.51 @G__code_garmiand_garmin_source_TileDecoder_mc_402_29_402_69_end];
+G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_end:
+        %tmp.51 = phi [%tmp.42 @G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_begin] [%tmp.49 @G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_true] [%tmp.50 @G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_else_false] [%tmp.51 @G__code_garmiand_garmin_source_TileDecoder_mc_373_29_373_69_end];
         lputv %curIdx.11 %tmp.51;
-        symbol [ curIdx %curIdx.11 402 20 26 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 403 16 ]
-G__code_garmiand_garmin_source_TileDecoder_mc_403_16_403_53_if_stmt:
+        symbol [ curIdx %curIdx.11 373 20 26 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 374 16 ]
+G__code_garmiand_garmin_source_TileDecoder_mc_374_16_374_53_if_stmt:
         %tmp.52 = lgetv %curIdx.11;
-        symbol [ curIdx %tmp.52 403 20 26 ];
+        symbol [ curIdx %tmp.52 374 20 26 ];
         %tmp.53 = lgetv %palSize.4;
-        symbol [ palSize %tmp.53 403 30 37 ];
+        symbol [ palSize %tmp.53 374 30 37 ];
         %tmp.54 = gte %tmp.52 %tmp.53;
-        bf %tmp.54 @G__code_garmiand_garmin_source_TileDecoder_mc_403_16_403_53_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_403_16_403_53_if_true:
-G__code_garmiand_garmin_source_TileDecoder_mc_403_39_403_53_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 403 41 ]
+        bf %tmp.54 @G__code_garmiand_garmin_source_TileDecoder_mc_374_16_374_53_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_374_16_374_53_if_true:
+G__code_garmiand_garmin_source_TileDecoder_mc_374_39_374_53_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 374 41 ]
         %tmp.55 = 0;
         lputv %curIdx.11 %tmp.55;
-        symbol [ curIdx %curIdx.11 403 41 47 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_403_39_403_53_stop:
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_403_16_403_53_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_403_16_403_53_if_end:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 404 16 ]
-G__code_garmiand_garmin_source_TileDecoder_mc_404_16_409_16_if_stmt:
+        symbol [ curIdx %curIdx.11 374 41 47 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_374_39_374_53_stop:
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_374_16_374_53_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_374_16_374_53_if_end:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 375 16 ]
+G__code_garmiand_garmin_source_TileDecoder_mc_375_16_380_16_if_stmt:
         %tmp.56 = lgetv %curIdx.11;
-        symbol [ curIdx %tmp.56 404 20 26 ];
+        symbol [ curIdx %tmp.56 375 20 26 ];
         %tmp.57 = lgetv %runIdx.9;
-        symbol [ runIdx %tmp.57 404 30 36 ];
+        symbol [ runIdx %tmp.57 375 30 36 ];
         %tmp.58 = ne %tmp.56 %tmp.57;
-        bf %tmp.58 @G__code_garmiand_garmin_source_TileDecoder_mc_404_16_409_16_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_404_16_409_16_if_true:
-G__code_garmiand_garmin_source_TileDecoder_mc_404_38_409_16_start:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 405 20 ]
+        bf %tmp.58 @G__code_garmiand_garmin_source_TileDecoder_mc_375_16_380_16_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_375_16_380_16_if_true:
+G__code_garmiand_garmin_source_TileDecoder_mc_375_38_380_16_start:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 376 20 ]
         %tmp.59 = lgetv %bdc;
-        symbol [ bdc %tmp.59 405 20 23 ];
-        symbol [ setColor %tmp.60 405 24 32 ];
+        symbol [ bdc %tmp.59 376 20 23 ];
+        symbol [ setColor %tmp.60 376 24 32 ];
         %tmp.60 = getv function %tmp.59 :setColor;
         %tmp.61 = lgetv %palette;
-        symbol [ palette %tmp.61 405 33 40 ];
+        symbol [ palette %tmp.61 376 33 40 ];
         %tmp.62 = lgetv %runIdx.9;
-        symbol [ runIdx %tmp.62 405 41 47 ];
+        symbol [ runIdx %tmp.62 376 41 47 ];
         %tmp.63 = agetv %tmp.61 %tmp.62;
-        symbol [ Graphics %tmp.64 405 50 58 ];
+        symbol [ Graphics %tmp.64 376 50 58 ];
         %tmp.64 = getm $.Toybox.Graphics;
-        symbol [ COLOR_TRANSPARENT %tmp.65 405 59 76 ];
+        symbol [ COLOR_TRANSPARENT %tmp.65 376 59 76 ];
         %tmp.65 = getv %tmp.64 :COLOR_TRANSPARENT;
         invoke %tmp.59 %tmp.60(%tmp.63, %tmp.65);
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 406 20 ]
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 377 20 ]
         %tmp.66 = lgetv %bdc;
-        symbol [ bdc %tmp.66 406 20 23 ];
-        symbol [ fillRectangle %tmp.67 406 24 37 ];
+        symbol [ bdc %tmp.66 377 20 23 ];
+        symbol [ fillRectangle %tmp.67 377 24 37 ];
         %tmp.67 = getv function %tmp.66 :fillRectangle;
         %tmp.68 = lgetv %x.6;
-        symbol [ x %tmp.68 406 38 39 ];
+        symbol [ x %tmp.68 377 38 39 ];
         %tmp.69 = lgetv %runStart.8;
-        symbol [ runStart %tmp.69 406 41 49 ];
+        symbol [ runStart %tmp.69 377 41 49 ];
         %tmp.70 = 1;
         %tmp.71 = lgetv %y.10;
-        symbol [ y %tmp.71 406 54 55 ];
+        symbol [ y %tmp.71 377 54 55 ];
         %tmp.72 = lgetv %runStart.8;
-        symbol [ runStart %tmp.72 406 58 66 ];
+        symbol [ runStart %tmp.72 377 58 66 ];
         %tmp.73 = sub %tmp.71 %tmp.72;
         invoke %tmp.66 %tmp.67(%tmp.68, %tmp.69, %tmp.70, %tmp.73);
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 407 20 ]
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 378 20 ]
         %tmp.74 = lgetv %y.10;
-        symbol [ y %tmp.74 407 31 32 ];
+        symbol [ y %tmp.74 378 31 32 ];
         lputv %runStart.8 %tmp.74;
-        symbol [ runStart %runStart.8 407 20 28 ];
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 408 20 ]
+        symbol [ runStart %runStart.8 378 20 28 ];
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 379 20 ]
         %tmp.75 = lgetv %curIdx.11;
-        symbol [ curIdx %tmp.75 408 29 35 ];
+        symbol [ curIdx %tmp.75 379 29 35 ];
         lputv %runIdx.9 %tmp.75;
-        symbol [ runIdx %runIdx.9 408 20 26 ];
-G__code_garmiand_garmin_source_TileDecoder_mc_404_38_409_16_stop:
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_404_16_409_16_if_end;
-G__code_garmiand_garmin_source_TileDecoder_mc_404_16_409_16_if_end:
-G__code_garmiand_garmin_source_TileDecoder_mc_401_41_410_12_stop:
-G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_incr:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 401 ]
+        symbol [ runIdx %runIdx.9 379 20 26 ];
+G__code_garmiand_garmin_source_TileDecoder_mc_375_38_380_16_stop:
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_375_16_380_16_if_end;
+G__code_garmiand_garmin_source_TileDecoder_mc_375_16_380_16_if_end:
+G__code_garmiand_garmin_source_TileDecoder_mc_372_41_381_12_stop:
+G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_incr:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 372 ]
         %tmp.78 = lgetv %y.10;
-        symbol [ y %tmp.78 401 36 37 ];
+        symbol [ y %tmp.78 372 36 37 ];
         %tmp.79 = add %tmp.78 1;
         lputv %y.10 %tmp.79;
-        symbol [ y %y.10 401 36 37 ];
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_test;
-G__code_garmiand_garmin_source_TileDecoder_mc_401_12_410_12_for_end:
-G__code_garmiand_garmin_source_TileDecoder_mc_396_48_411_8_stop:
-G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_incr:
-[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 396 ]
+        symbol [ y %y.10 372 36 37 ];
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_test;
+G__code_garmiand_garmin_source_TileDecoder_mc_372_12_381_12_for_end:
+G__code_garmiand_garmin_source_TileDecoder_mc_367_48_382_8_stop:
+G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_incr:
+[ "G:\code\garmiand\garmin\source\TileDecoder.mc" 367 ]
         %tmp.82 = lgetv %x.6;
-        symbol [ x %tmp.82 396 43 44 ];
+        symbol [ x %tmp.82 367 43 44 ];
         %tmp.83 = add %tmp.82 1;
         lputv %x.6 %tmp.83;
-        symbol [ x %x.6 396 43 44 ];
-        goto @G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_test;
-G__code_garmiand_garmin_source_TileDecoder_mc_396_8_411_8_for_end:
-G__code_garmiand_garmin_source_TileDecoder_mc_389_14_412_4_stop:
+        symbol [ x %x.6 367 43 44 ];
+        goto @G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_test;
+G__code_garmiand_garmin_source_TileDecoder_mc_367_8_382_8_for_end:
+G__code_garmiand_garmin_source_TileDecoder_mc_360_14_383_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\TileDecoder.mc"; @line = 1; ]
