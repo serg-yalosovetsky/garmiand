@@ -25,6 +25,12 @@ function appLog(msg as Lang.String) as Void {
 // ~10 KB raw → ~13.3 KB base64; stays well inside the CIQ TEXT_PLAIN buffer
 const DL_CHUNK_SIZE = 10 * 1024;
 
+class NullConnectionListener extends Communications.ConnectionListener {
+    function initialize() { Communications.ConnectionListener.initialize(); }
+    function onComplete() as Void {}
+    function onError() as Void {}
+}
+
 class GarmiandApp extends App.AppBase {
     var _route as RouteData;
     var _currentLat as Lang.Float;
@@ -79,6 +85,14 @@ class GarmiandApp extends App.AppBase {
 
     function onStart(state) {
         Communications.registerForPhoneAppMessages(method(:onPhoneMessage));
+
+        // Restore any in-progress BLE bundle transfer from App.Storage.
+        var restoredAsm = BleChunkAssembler.loadWip();
+        if (restoredAsm != null) {
+            _bleChunkAssembler = restoredAsm;
+            var prog = (restoredAsm as BleChunkAssembler).progress();
+            System.println("[BLE] WIP restored " + prog[0] + "/" + prog[1] + " chunks");
+        }
 
         System.println("[GPS] enableLocationEvents(CONTINUOUS) at AppBase");
         Position.enableLocationEvents(Position.LOCATION_CONTINUOUS, method(:onGpsPosition));
@@ -203,6 +217,11 @@ class GarmiandApp extends App.AppBase {
 
         if ("tile_chunk".equals(kind)) {
             handleTileChunk(dict);
+            return;
+        }
+
+        if ("ble_bundle_start".equals(kind)) {
+            handleBleBundleStart(dict);
             return;
         }
 
@@ -443,6 +462,8 @@ class GarmiandApp extends App.AppBase {
         }
         var blobSize = (blob as Lang.ByteArray).size();
         appLog("BLE assembled " + blobSize + "B — queued for persist");
+        // Clear WIP storage: assembly is complete, no longer need per-chunk data.
+        BleChunkAssembler.clearWip();
         // Defer persist to the next onUpdate frame. Calling persist here would
         // combine ~30k bytecodes (last byte-copy) + 13×Storage.setValue and
         // exceed the watchdog budget on device. processPendingPersist() runs
@@ -451,6 +472,50 @@ class GarmiandApp extends App.AppBase {
         _pendingPersistId = assembledId as Lang.String;
         _pendingPersistBlob = blob as Lang.ByteArray;
         WatchUi.requestUpdate();
+    }
+
+    // Handles ble_bundle_start from phone: reports WIP received indices back via
+    // Communications.transmit() so phone can skip already-received chunks.
+    // Called from onPhoneMessage — must return fast (BLE callback watchdog).
+    function handleBleBundleStart(dict as Lang.Dictionary) as Void {
+        var bundleId = dict["bundle_id"];
+        var total = dict["n"];
+        if (bundleId == null || total == null) {
+            System.println("[BLE] ble_bundle_start missing fields");
+            return;
+        }
+        appLog("RX ble_bundle_start " + (bundleId as Lang.String).substring(0, 8));
+
+        var indices = [] as Lang.Array<Lang.Number>;
+        if (_bleChunkAssembler != null) {
+            var asm = _bleChunkAssembler as BleChunkAssembler;
+            var asmId = asm.getBundleId();
+            if (asmId != null && (asmId as Lang.String).equals(bundleId as Lang.String)) {
+                indices = asm.getReceivedIndices();
+                appLog("BLE WIP n=" + indices.size() + " reporting to phone");
+            } else {
+                // Different bundle — reset stale WIP
+                _bleChunkAssembler = null;
+                BleChunkAssembler.clearWip();
+                appLog("BLE new bundle — WIP cleared");
+            }
+        }
+
+        // Transmit WIP report to phone (empty array = start from chunk 0)
+        try {
+            Communications.transmit(
+                {
+                    "kind" => "ble_wip_report",
+                    "bundle_id" => bundleId,
+                    "received_indices" => indices
+                } as Lang.Dictionary,
+                null,
+                new NullConnectionListener()
+            );
+            System.println("[BLE] transmitted ble_wip_report indices=" + indices.size());
+        } catch (e) {
+            System.println("[BLE] transmit ble_wip_report failed: " + e.getErrorMessage());
+        }
     }
 
     // Called from NavigationView.onUpdate() — full watchdog budget available.
@@ -463,7 +528,7 @@ class GarmiandApp extends App.AppBase {
         var blob = _pendingPersistBlob as Lang.ByteArray;
         _pendingPersistId = null;
         _pendingPersistBlob = null;
-        appLog("HTTPS persist " + blob.size() + "B");
+        appLog("persist " + blob.size() + "B");
         logFreeMem("pre-persist");
         var ok = false;
         try {

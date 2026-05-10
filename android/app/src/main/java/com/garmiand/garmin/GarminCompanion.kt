@@ -9,11 +9,15 @@ import com.garmiand.protocol.SyncMessage
  */
 interface GarminCompanion {
     fun send(message: SyncMessage): SyncAck
+
+    /** Register a listener for messages sent from the watch to the phone. */
+    fun setWatchMessageListener(listener: ((Map<*, *>) -> Unit)?)
 }
 
 class LoggingGarminCompanion : GarminCompanion {
     override fun send(message: SyncMessage): SyncAck {
-        // TODO: заменить на Connect IQ SDK transport.
         return SyncAck(sessionId = message.sessionId, ok = true)
     }
+
+    override fun setWatchMessageListener(listener: ((Map<*, *>) -> Unit)?) {}
 }

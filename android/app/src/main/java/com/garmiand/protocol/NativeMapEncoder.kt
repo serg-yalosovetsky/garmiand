@@ -78,6 +78,14 @@ object SyncMessageSerializer {
             PhoneMessageEnvelope.KEY_DOWNLOAD_URL to msg.downloadUrl,
             PhoneMessageEnvelope.KEY_TOTAL_BYTES to msg.totalBytes,
         )
+        is SyncMessage.BleBundleStart -> mapOf(
+            PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,
+            PhoneMessageEnvelope.KEY_KIND to PhoneMessageEnvelope.KIND_BLE_BUNDLE_START,
+            PhoneMessageEnvelope.KEY_SESSION_ID to msg.sessionId,
+            PhoneMessageEnvelope.KEY_BUNDLE_ID to msg.bundleId,
+            PhoneMessageEnvelope.KEY_CHUNK_TOTAL to msg.total,
+            PhoneMessageEnvelope.KEY_CHUNK_TOTAL_BYTES to msg.totalBytes,
+        )
         is SyncMessage.TileChunk -> mapOf(
             PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,
             PhoneMessageEnvelope.KEY_KIND to PhoneMessageEnvelope.KIND_TILE_CHUNK,

@@ -1,3 +1,4 @@
+using Toybox.Application as App;
 using Toybox.Lang;
 using Toybox.System;
 
@@ -5,6 +6,11 @@ using Toybox.System;
 // messages. Uses a pre-allocated blob buffer (size = "tb" field) so each
 // chunk is written directly in-place. Memory peak = totalBytes only,
 // instead of totalBytes + N×chunkSize with the old dictionary approach.
+//
+// WIP persistence: after each chunk is written, persistChunkWip() stores the
+// raw payload in App.Storage ("ble_wip_c_N"). On app restart, loadWip()
+// rebuilds the assembler from storage so transfer can resume from where it
+// left off. clearWip() removes all WIP keys when the bundle is fully assembled.
 class BleChunkAssembler {
     var _bundleId as Lang.String?;
     var _expectedTotal as Lang.Number;
@@ -36,8 +42,9 @@ class BleChunkAssembler {
 
     /**
      * Accept a tile_chunk dict. While in progress returns null. When the
-     * last chunk lands returns a 2-element array [bundleId, blob]. Caller
-     * is responsible for persisting and updating the view.
+     * last chunk lands returns a 2-element array [bundleId, blob, null] or
+     * [null, null, errorString] on error. Persists each new chunk to Storage
+     * for resumable transfer across app restarts.
      */
     function accept(dict as Lang.Dictionary) as Lang.Array? {
         var incomingBundle = dict["bundle_id"] as Lang.String;
@@ -91,6 +98,8 @@ class BleChunkAssembler {
             }
             _received.put(idx, true);
             _receivedCount++;
+            // Persist this chunk so the transfer can be resumed after app restart.
+            persistChunkWip(idx, bytes);
         }
 
         if (_receivedCount < _expectedTotal) {
@@ -125,7 +134,110 @@ class BleChunkAssembler {
         return missing;
     }
 
+    function getReceivedIndices() as Lang.Array<Lang.Number> {
+        var indices = [] as Lang.Array<Lang.Number>;
+        var keys = _received.keys();
+        for (var i = 0; i < keys.size(); i++) {
+            indices.add(keys[i] as Lang.Number);
+        }
+        return indices;
+    }
+
     function getBundleId() as Lang.String? {
         return _bundleId;
+    }
+
+    // Persist one chunk payload to Storage and update WIP metadata.
+    // Called after each new (non-duplicate) chunk is written to _blob.
+    function persistChunkWip(idx as Lang.Number, bytes as Lang.ByteArray) as Void {
+        try {
+            App.Storage.setValue("ble_wip_c_" + idx, bytes);
+            App.Storage.setValue("ble_wip_id", _bundleId);
+            App.Storage.setValue("ble_wip_tot", _expectedTotal);
+            App.Storage.setValue("ble_wip_sz", _totalBytes);
+            App.Storage.setValue("ble_wip_csz", _knownChunkSize);
+            App.Storage.setValue("ble_wip_n", _receivedCount);
+        } catch (e) {
+            System.println("[BLE] persistChunkWip " + idx + " failed: " + e.getErrorMessage());
+        }
+    }
+
+    // Restore a partially-assembled bundle from Storage. Returns null if no
+    // valid WIP exists or the transfer was already complete.
+    static function loadWip() as BleChunkAssembler? {
+        try {
+            var id = App.Storage.getValue("ble_wip_id");
+            var tot = App.Storage.getValue("ble_wip_tot");
+            var sz = App.Storage.getValue("ble_wip_sz");
+            var csz = App.Storage.getValue("ble_wip_csz");
+            var n = App.Storage.getValue("ble_wip_n");
+            if (!(id instanceof Lang.String) || !(tot instanceof Lang.Number) ||
+                !(sz instanceof Lang.Number) || !(csz instanceof Lang.Number) ||
+                !(n instanceof Lang.Number)) {
+                return null;
+            }
+            var totN = (tot as Lang.Number).toNumber();
+            var szN = (sz as Lang.Number).toNumber();
+            var cszN = (csz as Lang.Number).toNumber();
+            var nN = (n as Lang.Number).toNumber();
+            if (nN <= 0 || nN >= totN || szN <= 0 || cszN <= 0) {
+                return null;
+            }
+            var blob = new [szN]b;
+            var received = {} as Lang.Dictionary<Lang.Number, Lang.Boolean>;
+            var rcvCount = 0;
+            for (var i = 0; i < totN; i++) {
+                var chunkData = App.Storage.getValue("ble_wip_c_" + i);
+                if (!(chunkData instanceof Lang.ByteArray)) {
+                    continue;
+                }
+                var ch = chunkData as Lang.ByteArray;
+                var offset = i * cszN;
+                var chSize = ch.size();
+                for (var k = 0; k < chSize; k++) {
+                    blob[offset + k] = ch[k];
+                }
+                received.put(i, true);
+                rcvCount++;
+            }
+            if (rcvCount == 0) {
+                return null;
+            }
+            var asm = new BleChunkAssembler();
+            asm._bundleId = id as Lang.String;
+            asm._expectedTotal = totN;
+            asm._totalBytes = szN;
+            asm._knownChunkSize = cszN;
+            asm._blob = blob;
+            asm._received = received;
+            asm._receivedCount = rcvCount;
+            System.println("[BLE] WIP restored " + rcvCount + "/" + totN + " for " + (id as Lang.String).substring(0, 8));
+            return asm;
+        } catch (e) {
+            System.println("[BLE] loadWip failed: " + e.getErrorMessage());
+            return null;
+        }
+    }
+
+    // Delete all WIP Storage keys. Called when the bundle is fully assembled
+    // and queued for normal persist (TileDecoder.persist).
+    static function clearWip() as Void {
+        try {
+            var tot = App.Storage.getValue("ble_wip_tot");
+            if (tot instanceof Lang.Number) {
+                var n = (tot as Lang.Number).toNumber();
+                for (var i = 0; i < n; i++) {
+                    App.Storage.deleteValue("ble_wip_c_" + i);
+                }
+            }
+            App.Storage.deleteValue("ble_wip_id");
+            App.Storage.deleteValue("ble_wip_tot");
+            App.Storage.deleteValue("ble_wip_sz");
+            App.Storage.deleteValue("ble_wip_csz");
+            App.Storage.deleteValue("ble_wip_n");
+            System.println("[BLE] WIP cleared");
+        } catch (e) {
+            System.println("[BLE] clearWip failed: " + e.getErrorMessage());
+        }
     }
 }

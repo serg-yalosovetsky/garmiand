@@ -38,6 +38,14 @@ sealed interface SyncMessage {
         val totalBytes: Int,
     ) : SyncMessage
 
+    /** Sent before BLE chunk transfer to let the watch report already-received chunks. */
+    data class BleBundleStart(
+        override val sessionId: String,
+        val bundleId: String,
+        val total: Int,
+        val totalBytes: Int,
+    ) : SyncMessage
+
     data class TileChunk(
         override val sessionId: String,
         val bundleId: String,

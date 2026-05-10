@@ -38,6 +38,11 @@ object PhoneMessageEnvelope {
     const val KIND_SYNC_FINISH = "sync_finish"
     const val KIND_TILE_SESSION = "tile_session"
     const val KIND_TILE_CHUNK = "tile_chunk"
+
+    // BLE resumable transfer handshake
+    const val KIND_BLE_BUNDLE_START = "ble_bundle_start"
+    const val KIND_BLE_WIP_REPORT = "ble_wip_report"   // watch → phone
+    const val KEY_RECEIVED_INDICES = "received_indices" // List<Int> in ble_wip_report
 }
 
 typealias PhoneEnvelope = Map<String, Any>

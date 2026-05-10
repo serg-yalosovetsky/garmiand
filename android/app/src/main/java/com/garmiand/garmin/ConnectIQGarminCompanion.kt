@@ -22,6 +22,7 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
     private var connectIQ: ConnectIQ? = null
     private var connectedDevice: IQDevice? = null
     private var watchApp: IQApp? = null
+    @Volatile private var watchMessageListener: ((Map<*, *>) -> Unit)? = null
 
     fun initialize(onReady: (Boolean) -> Unit) {
         connectIQ = ConnectIQ.getInstance(context, ConnectIQ.IQConnectType.WIRELESS)
@@ -74,6 +75,18 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
                 override fun onApplicationInfoReceived(app: IQApp) {
                     watchApp = app
                     AppLog.i(TAG, "Watch app ready on ${device.friendlyName}")
+                    // Register for messages the watch sends to us (ble_wip_report, etc.)
+                    try {
+                        ciq.registerForAppEvents(device, app) { _, _, messages, _ ->
+                            val msg = messages.firstOrNull()
+                            if (msg is Map<*, *>) {
+                                AppLog.d(TAG, "watch→phone msg kind=${(msg as Map<*, *>)["kind"]}")
+                                watchMessageListener?.invoke(msg)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        AppLog.w(TAG, "registerForAppEvents failed: ${e.message}")
+                    }
                     onReady(true)
                 }
 
@@ -83,6 +96,10 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
                 }
             }
         )
+    }
+
+    override fun setWatchMessageListener(listener: ((Map<*, *>) -> Unit)?) {
+        watchMessageListener = listener
     }
 
     override fun send(message: SyncMessage): SyncAck {
