@@ -11,27 +11,26 @@ const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
 // Interact sub-modes within BG_MODE_TILES (cycled by SELECT).
-// UP/DOWN pan the map. BACK always centers to GPS.
-// SELECT cycle: PAN_NS → PAN_WE → CENTERED (GPS reset) → exits TILES mode.
+// UP/DOWN pan or zoom the map. BACK always centers to GPS.
+// SELECT cycle: PAN_NS → PAN_WE → ZOOM → CENTERED (GPS reset) → exits TILES mode.
 const INTERACT_PAN_NS = 0;   // UP/DOWN pan north/south
 const INTERACT_PAN_WE = 1;   // UP/DOWN pan west/east
-const INTERACT_CENTERED = 2; // GPS was centered; next SELECT exits TILES
+const INTERACT_ZOOM   = 2;   // UP = zoom in, DOWN = zoom out
+const INTERACT_CENTERED = 3; // GPS was centered; next SELECT exits TILES
 
-const APP_VERSION = "2026-05-10 04:13 dbg21";
+const APP_VERSION = "2026-05-10 dbg22";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
-    var localX as Lang.Number;
-    var localY as Lang.Number;
-    var width as Lang.Number;
-    var height as Lang.Number;
+    var zoom as Lang.Number;
+    var tileX as Lang.Number;
+    var tileY as Lang.Number;
 
-    function initialize(b as Graphics.BufferedBitmap, x as Lang.Number, y as Lang.Number, w as Lang.Number, h as Lang.Number) {
+    function initialize(b as Graphics.BufferedBitmap, z as Lang.Number, tx as Lang.Number, ty as Lang.Number) {
         bmp = b;
-        localX = x;
-        localY = y;
-        width = w;
-        height = h;
+        zoom = z;
+        tileX = tx;
+        tileY = ty;
     }
 }
 
@@ -42,16 +41,12 @@ class NavigationView extends WatchUi.View {
     var _bundleHeader as BundleHeader?;
     var _palette as Lang.Array<Lang.Number>?;
     var _decodedTiles as Lang.Array<DecodedTile>?;
-    var _bundlePixelW as Lang.Number;
-    var _bundlePixelH as Lang.Number;
 
     // Incremental tile decode state. After loadBundle() parses the header,
     // these fields drive column-by-column decoding inside onUpdate().
     // Each onUpdate() call processes COLS_PER_FRAME columns of the current tile.
     var _pendingBlob as Lang.ByteArray?;
     var _pendingEntries as Lang.Array?;
-    var _pendingMinX as Lang.Number;
-    var _pendingMinY as Lang.Number;
     var _pendingTileIndex as Lang.Number;
     var _pendingColIndex as Lang.Number;
     var _currentTileBmp as Graphics.BufferedBitmap?;
@@ -85,7 +80,9 @@ class NavigationView extends WatchUi.View {
     // Reset to 0 by centerToGps(). Applied in projectPoint().
     var _panOffsetLat as Lang.Float;
     var _panOffsetLon as Lang.Float;
-    var _interactMode as Lang.Number; // INTERACT_PAN_NS / PAN_WE / CENTERED
+    var _interactMode as Lang.Number; // INTERACT_PAN_NS / PAN_WE / ZOOM / CENTERED
+    // Zoom: >1 = zoomed in (viewport shrunk), <1 = zoomed out. Reset with pan.
+    var _zoomFactor as Lang.Float;
 
     function initialize(route as RouteData) {
         View.initialize();
