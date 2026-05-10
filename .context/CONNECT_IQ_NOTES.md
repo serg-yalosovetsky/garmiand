@@ -61,12 +61,42 @@ cleared by `BleChunkAssembler.clearWip()` once assembly completes.
 If `setValue` throws `StorageFullException` (total limit), delete old bundle
 keys (simulator's `Settings → Edit Storage`) or reduce bundle size.
 
+## `Math.exp` does not exist; use `Math.pow(Math.E, x)`
+
+`Math.exp(x)` is absent from the SDK 9.1.0 fenix7 API.
+`monkeyc` errors with `Undefined symbol ':exp' detected`.
+
+Use `Math.pow(Math.E, x)` instead. `Math.E` is a predefined constant.
+For `sinh(x)`:
+```monkeyc
+var ex = Math.pow(Math.E, x).toFloat();
+var sinh = (ex - 1.0f / ex) * 0.5f;
+```
+
+## `dc.drawScaledBitmap` for scaled tile rendering
+
+`Graphics.Dc.drawScaledBitmap(x, y, w, h, bmp)` is available in SDK 9.1.0 /
+fenix7 and is the correct way to render a `BufferedBitmap` at a size other
+than its native dimensions. Use this — not `drawBitmap` — whenever the tile's
+screen rect differs from its pixel size (which is always the case for
+geographically-sized tiles). The scaling is done by the graphics engine at
+negligible VM cost.
+
+**Behavior with off-screen coordinates.** If `x` or `y` is far off-screen
+(e.g. `x = -61935`), `drawScaledBitmap` silently does nothing — no error,
+no partial draw. This makes region-mismatch bugs invisible: the tiles decode
+successfully, the draw call fires, but nothing appears. Always verify tile
+screen position via `pushDebug` before concluding `drawScaledBitmap` is broken.
+See "Tiles decode successfully but are invisible" in `bug_fixes.md`.
+
 ## BufferedBitmap with palette
 
 `Graphics.createBufferedBitmap({:width, :height, :palette})` returns a
 `BufferedBitmapReference`. Call `.get()` to get the actual `BufferedBitmap`.
 Pixel-filling is done via `bmp.getDc()` + `setColor` + `fillRectangle`
-(run-length per column). Per-frame rendering uses `dc.drawBitmap(x, y, bmp)`.
+(run-length per column). Per-frame rendering uses
+`dc.drawScaledBitmap(x, y, w, h, bmp)` (not `drawBitmap`) so tile geographic
+extent maps correctly to screen pixels regardless of zoom level.
 
 **`getBuffer()` does not exist on fenix7 / SDK 9.1.0.** The method that
 would return the backing `ByteArray` for direct index writes is not in the

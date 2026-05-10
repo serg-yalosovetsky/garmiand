@@ -89,6 +89,16 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 | `OFF_ROUTE_THRESHOLD_M` | `40.0` | Distance to nearest route point above which the `OFF ROUTE` banner shows. |
 | `EARTH_RADIUS_M` | `6371000.0` | Haversine formula. |
 
+## Watch — `NavigationView.mc` (interact / zoom)
+
+| Constant / field | Value / range | Meaning |
+|---|---|---|
+| `INTERACT_PAN_NS` | `0` | SELECT cycle step 1: UP/DOWN pans the viewport north/south. |
+| `INTERACT_PAN_WE` | `1` | SELECT cycle step 2: UP/DOWN pans east/west. |
+| `INTERACT_ZOOM`   | `2` | SELECT cycle step 3: UP zooms in (×1.5), DOWN zooms out (÷1.5). |
+| `INTERACT_CENTERED` | `3` | SELECT cycle step 4: viewport re-centres on GPS. No UP/DOWN effect. |
+| `_zoomFactor` | `0.25f – 16.0f`, default `1.0f` | Divides `halfLat`/`halfLon` in `projectPoint()`; higher = zoomed in. Reset to `1.0f` on `applyRoute()` and `centerToGps()`. |
+
 ## Watch — `TileDecoder.mc`
 
 | Constant | Value | Meaning |
@@ -96,3 +106,6 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 | `BUNDLE_VERSION` | `1` | Must match `TileBundleSerializer.VERSION` and `Palette.VERSION` (Kotlin side). Bumping any of them invalidates all `bundle_*` keys in Storage. |
 | `HEADER_FIXED_SIZE` | `24` | Bytes before palette starts. |
 | `TILE_ENTRY_SIZE` | `21` | Bytes per tile entry. |
+| `STORAGE_CHUNK` | `16 384` (16 KB) | Max bytes per Storage chunk key. |
+| `MANIFEST_KEY` | `"bm"` | `App.Storage` key for the LRU bundle manifest (Array of 8-char short keys, oldest→newest). |
+| `MAX_CACHED_BUNDLES` | `32` | Safety cap on cached bundles; oldest evicted when Storage is full. |

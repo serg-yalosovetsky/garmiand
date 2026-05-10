@@ -27,7 +27,10 @@ Order of suspicion:
 4. **Tile decode failed.** Watch shows `TILES: decode failed`. Usually
    graphics memory pool exceeded — too many active `BufferedBitmap`s. Try
    switching to NATIVE mode (frees the cache) and back.
-5. **HTTPS path silent.** Phone shows `(map failed)`. Either `BACKEND_URL`
+5. **Tiles decoded but invisible.** Badge says "[NS] ok" but screen background
+   is black. Caused by wrong tile positioning — see "Tiles decode successfully
+   but are invisible (off-screen projection)" below.
+6. **HTTPS path silent.** Phone shows `(map failed)`. Either `BACKEND_URL`
    is empty in BuildConfig, the backend is down, or the Bearer token is
    wrong. Falls back to BLE if `isNetworkOnline()` is false.
 
@@ -281,6 +284,68 @@ See `TileDecoder.load()`.
 ByteArrays larger than a few hundred bytes. Use `addAll()` instead.
 The watchdog counts Monkey C bytecodes, not CPU time — native calls are
 effectively free.
+
+## `Math.exp` undefined in Connect IQ SDK 9.1.0 / fenix7
+
+**Symptom.** `monkeyc` fails with:
+
+```
+ERROR: fenix7: NavigationView.mc:453,8: Undefined symbol ':exp' detected
+```
+
+**Root cause.** `Math.exp(x)` does not exist in the SDK 9.1.0 API for fenix7.
+
+**Fix.** Use `Math.pow(Math.E, x)` instead. `Math.E` is a predefined constant;
+`Math.pow` is available. For `sinh(x)` specifically:
+
+```monkeyc
+var ex = Math.pow(Math.E, x).toFloat();
+var sinhVal = (ex - 1.0f / ex) * 0.5f;
+```
+
+**Where this matters.** `tileYToLat()` in `NavigationView.mc` uses this
+pattern for Web Mercator Y → latitude conversion. Never write `Math.exp(...)`.
+
+## Tiles decode successfully but are invisible (off-screen projection)
+
+**Symptom.** Badge shows "[NS] ok" (tiles decoded), route polyline is visible,
+but the map background is black. Debug shows something like `t0 -61935,36164 118x116`
+— huge negative X or huge positive Y, but w×h are plausible (~100–130 px for zoom 13).
+
+**The architecture.** We use `tileScreenRect()` + `dc.drawScaledBitmap()`:
+each tile's `(zoom, tileX, tileY)` from the GMND entry is converted to Web
+Mercator lon/lat bounds via `tileScreenRect`, projected to screen pixels via
+`projectPoint()`, and blitted scaled. If w×h are reasonable, the formula ran
+correctly — only the position is wrong.
+
+**Root causes when position is wildly off:**
+
+1. **Bundle and route are from different geographic regions.** The bundle was
+   generated during a previous sync for region A; the current test sends a
+   route from region B. Fix: always re-sync map bundle together with the route.
+   Diagnostic: see "How to diagnose" below.
+
+2. **`applyRoute()` not called before `ensureBundleLoaded()`.** If the route
+   hasn't been received yet, `_viewLon0 = _viewLon1 = 0.0` and `projectPoint()`
+   maps tile coords relative to lon 0° (prime meridian). This happens when
+   `tile_session` arrives before the route chunks complete. Fix confirmed:
+   `ensureBundleLoaded()` runs at the very top of `onUpdate()`, before the
+   `!_route.isComplete` guard — the viewport only needs to be set, not the route.
+   `applyRoute()` sets the viewport as soon as the first route_start message
+   arrives, which is always before tile_session.
+
+**How to diagnose — read tileX/tileY from debug:**
+```monkeyc
+pushDebug("t0 z=" + t.zoom + " tx=" + t.tileX + " ty=" + t.tileY);
+```
+Compare against expected values for zoom 13. For Kyiv (lat ≈ 50.45, lon ≈ 30.52):
+`tileX ≈ 4789, tileY ≈ 2759`. If actual values are far off, the bundle is
+from a different region. General formula:
+```
+n = 2^zoom
+tileX = floor((lon + 180) / 360 * n)
+tileY = floor((1 − ln(tan(latRad) + 1/cos(latRad)) / π) / 2 * n)
+```
 
 ## `Communications.transmit()` rejects `null` ConnectionListener
 

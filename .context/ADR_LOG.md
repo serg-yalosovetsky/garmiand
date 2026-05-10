@@ -129,9 +129,44 @@ not worth carrying. All modes now use the same manual overlay approach.
 screen with the polyline drawn on top, same as TILES/NONE. No Map permission
 is required (and `<iq:uses-permission id="Map"/>` would break the build
 anyway). The viewport is computed once in `applyRoute()` from route bbox
-+ 15% padding; the user cannot pan or zoom. If native Garmin TopoActive
++ 15% padding, but the user can pan and zoom interactively in TILES mode via
+the SELECT → UP/DOWN cycle (see ADR-011). If native Garmin TopoActive
 rendering is needed in the future, MapView would need to be re-evaluated on
 hardware (not the simulator).
+
+## ADR-011: Web Mercator tile positioning with `drawScaledBitmap`
+
+**Decision.** Each decoded `BufferedBitmap` is rendered via
+`dc.drawScaledBitmap(sx, sy, sw, sh, bmp)` where `(sx, sy, sw, sh)` is the
+tile's geographic bounding box projected through `projectPoint()`, computed
+at render time from the tile's `(zoom, tileX, tileY)` stored in `DecodedTile`.
+
+**Why not "draw at native pixel size."** The previous approach anchored the
+tile grid by projecting the bundle's NW corner to a screen offset and drawing
+each tile at a fixed 128-pixel size. This only works when the viewport and
+the tile grid are the same size. In practice at zoom 13, one tile spans
+~0.022°lat × 0.044°lon while a typical route viewport is ~0.01°lat wide.
+Projecting the bundle NW corner yields y ≈ −253 px — the entire tile grid
+is above the screen. "Centred at native pixel size" formulas failed for the
+same reason: geographic and pixel extents only match when the quantizer is
+told to produce exactly the right zoom level for the viewport, which is
+fragile.
+
+**Why `drawScaledBitmap` is safe.** `Graphics.Dc.drawScaledBitmap(x, y, w, h, bmp)`
+is available in SDK 9.1.0 / fenix7. Per-frame cost is negligible (bitmap
+scaling happens in the graphics engine, not the VM). Tiles that project
+off-screen are skipped (`tileScreenRect` returns null).
+
+**The Web Mercator inverse math.** `tileYToLat(ty, n)` implements
+`atan(sinh(π*(1 - 2*ty/n)))`. `sinh(x)` is computed as
+`(Math.pow(Math.E, x) - 1/Math.pow(Math.E, x)) * 0.5` because `Math.exp`
+does not exist in SDK 9.1.0. Longitude is trivial: `tx/n*360 - 180`.
+
+**Implication.** `DecodedTile` stores `(zoom, tileX, tileY)` instead of
+pre-computed pixel coordinates. `drawCustomTiles()` calls `tileScreenRect()`
+per tile per frame (lightweight: two `projectPoint()` calls each).
+No bundle-level pixel-grid state (`_pendingMinX/Y`, `_bundlePixelW/H`) is
+needed.
 
 ## ADR-010: Deferred BLE chunk processing + resumable transfer
 

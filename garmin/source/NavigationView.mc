@@ -18,7 +18,7 @@ const INTERACT_PAN_WE = 1;   // UP/DOWN pan west/east
 const INTERACT_ZOOM   = 2;   // UP = zoom in, DOWN = zoom out
 const INTERACT_CENTERED = 3; // GPS was centered; next SELECT exits TILES
 
-const APP_VERSION = "2026-05-10 dbg23";
+const APP_VERSION = "2026-05-11 dbg25";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -478,8 +478,16 @@ class NavigationView extends WatchUi.View {
         if (tiles == null || tiles.size() == 0 || !_viewSet) { return; }
         for (var i = 0; i < tiles.size(); i++) {
             var t = tiles[i] as DecodedTile;
+            if (i == 0) { pushDebug("t0 z=" + t.zoom + " tx=" + t.tileX + " ty=" + t.tileY); }
             var r = tileScreenRect(t);
-            if (r == null) { continue; }
+            if (r == null) {
+                if (i == 0) { pushDebug("t0 proj=null"); }
+                continue;
+            }
+            if (i == 0) { pushDebug("t0 px=" + r[0] + "," + r[1] + " " + r[2] + "x" + r[3]); }
+            var dbgColors = [0x0000FF, 0x00FF00, 0xFFFF00, 0xFF8000] as Lang.Array<Lang.Number>;
+            dc.setColor(dbgColors[i % 4], Graphics.COLOR_TRANSPARENT);
+            dc.drawRectangle(r[0], r[1], r[2], r[3]);
             dc.drawScaledBitmap(r[0], r[1], r[2], r[3], t.bmp);
         }
     }

@@ -96,7 +96,9 @@ concatenates them with `ByteArray.addAll()` (bulk, not byte-by-byte).
 **Phase 1 — Header + entry parsing.** `NavigationView.loadBundle()` calls
 `TileDecoder.parseHeader()` and `parsePalette()` (fast, ~300 bytes read).
 Then `prepareDecode(blob, hdr)` parses all tile entries (21 bytes × tileCount)
-and stores `_pendingBlob`, `_pendingEntries`, tile grid min/max.
+and stores `_pendingBlob`, `_pendingEntries`. Each entry retains its
+`(zoom, tileX, tileY)` fields — these are used at render time to compute the
+tile's on-screen rectangle via Web Mercator inverse math.
 
 **Phase 2 — Incremental pixel decode.** `NavigationView.decodeNextTile()` is
 called from `onUpdate()` once per frame. Each call:
@@ -106,7 +108,8 @@ called from `onUpdate()` once per frame. Each call:
    persistent Dc. With RLE per column (`fillRectangle` on runs of same color),
    this is typically 200–400 DC calls, well within the 2-second watchdog.
 3. Advances `_pendingColIndex += 8`. When `_pendingColIndex >= entry.width`,
-   the completed `BufferedBitmap` is added to `_decodedTiles`.
+   the completed `BufferedBitmap` is added to `_decodedTiles` as a `DecodedTile`
+   (holds `bmp`, `zoom`, `tileX`, `tileY`).
 4. `onUpdate()` calls `WatchUi.requestUpdate()` while tiles remain pending.
 
 Total decode time: 4 tiles × (128 ÷ 8 = 16 frames) = 64 `onUpdate` cycles.
@@ -124,28 +127,91 @@ Total decode time: 4 tiles × (128 ÷ 8 = 16 frames) = 64 `onUpdate` cycles.
   `ensureBundleLoaded()` at the top of `onUpdate()`, before the
   `_route.isComplete` guard (otherwise the guard short-circuits the load).
 
-Decoded `BufferedBitmap` instances live in `NavigationView._decodedTiles` and
-are blitted with `dc.drawBitmap(x, y, bmp)` in `drawCustomTiles` — zero
-per-frame decode cost once complete.
+Decoded `BufferedBitmap` instances live in `NavigationView._decodedTiles`. Each
+is blitted via `dc.drawScaledBitmap(sx, sy, sw, sh, bmp)` in `drawCustomTiles`,
+where `(sx, sy, sw, sh)` comes from `tileScreenRect()` — see below.
 
-## Layout in TILES mode
+## Layout in TILES mode — Web Mercator tile positioning
 
-The bundle's tile grid is centered on the screen at native pixel size:
+Each tile knows its XYZ tile coordinates `(zoom, tileX, tileY)` from the
+GMND entry. At render time `tileScreenRect(t)` converts those coords to
+screen pixels via Web Mercator inverse:
 
 ```
-offsetX = (screen.w - bundlePixelW) / 2
-offsetY = (screen.h - bundlePixelH) / 2
+n = 1 << zoom
+lonNW = tileX / n * 360 - 180
+lonSE = (tileX+1) / n * 360 - 180
+latNW = tileYToLat(tileY, n)      // atan(sinh(π*(1-2*ty/n)))
+latSE = tileYToLat(tileY+1, n)
+nw = projectPoint(latNW, lonNW)   // → screen pixel [px, py]
+se = projectPoint(latSE, lonSE)
+sw = se[0]-nw[0]  sh = se[1]-nw[1]
 ```
 
-There is no scaling. The tile grid in `TileQuantizer` is sized so the bundle
-fits the screen with mild clipping (default `maxTilesPerSide = 2`,
-`outputSize = 128` → 256×256 px bundle on a 240×240 screen).
+Then `dc.drawScaledBitmap(nw[0], nw[1], sw, sh, t.bmp)` scales the 128×128
+`BufferedBitmap` to exactly cover its geographic extent on screen. This is
+the only correct approach: at zoom 13, one tile spans ~0.022°lat × 0.044°lon
+while a typical route viewport is only ~0.01°lat wide, so "draw at native
+pixel size" places tiles 250+ px off-screen.
+
+`tileYToLat` requires `sinh(x)` which is computed as
+`(Math.pow(Math.E, x) - 1/Math.pow(Math.E, x)) * 0.5` because
+`Math.exp` does **not exist** in SDK 9.1.0 / fenix7.
 
 Polyline / waypoint / GPS-position overlays project route points using a
 manual viewport (`_viewLat0/1, _viewLon0/1` set by `applyRoute` from the
 route bbox + 15% padding). There is no `latLonToScreenPoint` in the
-Connect IQ API, so pixel positions are computed by linear
-fraction-of-viewport. All three modes use identical `projectPoint()` logic.
+Connect IQ API, so pixel positions are computed by linear fraction-of-viewport
+via `projectPoint()`. All three modes use identical `projectPoint()` logic.
+
+## Troubleshooting tile visibility
+
+**Symptom: "[NS] ok" badge, polyline visible, map black.**
+
+Step 1 — confirm `tileScreenRect` has valid input. Add to `drawCustomTiles`:
+```monkeyc
+pushDebug("t0 z=" + t.zoom + " tx=" + t.tileX + " ty=" + t.tileY);
+```
+If the message shows `t0 null` instead, the viewport is unset — `applyRoute()`
+hasn't fired. If it shows coordinates, proceed to step 2.
+
+Step 2 — compare `tileX/tileY` against expected values for the route's region.
+For zoom 13, Kyiv (lat ≈ 50.45, lon ≈ 30.52): `tileX ≈ 4789, tileY ≈ 2759`.
+If actual values differ by hundreds, the stored bundle is from a different
+region. Fix: re-sync map bundle together with the current route.
+
+Step 3 — if tileX/tileY are correct but debug shows wildly negative x (e.g.
+`t0 -61935,36164 118x116`), there is a projection mismatch: the viewport
+`_viewLon0/1` does not bracket the tile's longitude. Check that `applyRoute()`
+was called with the current route (not stale data) and that `_viewSet = true`.
+
+`drawScaledBitmap` with correct coordinates draws on-screen at the expected
+position; with off-screen coordinates it silently draws nothing.
+
+## Zoom and pan modes
+
+In TILES mode the user can interact via the SELECT button, which cycles through
+four sub-modes in `NavigationDelegate` / `cycleMapMode()`:
+
+| `_interactMode` | Constant | UP/DOWN action |
+|---|---|---|
+| 0 | `INTERACT_PAN_NS` | pan the viewport north/south |
+| 1 | `INTERACT_PAN_WE` | pan the viewport east/west |
+| 2 | `INTERACT_ZOOM` | zoom in / zoom out |
+| 3 | `INTERACT_CENTERED` | re-centres on GPS position (no UP/DOWN) |
+
+A fifth SELECT press exits TILES mode (sets `BG_MODE_NONE`) and resets
+`_interactMode` to `INTERACT_PAN_NS`.
+
+**Zoom implementation.** `_zoomFactor` (range 0.25–16.0, default 1.0) divides
+`halfLat` / `halfLon` inside `projectPoint()`:
+```
+effHalfLat = halfLat / _zoomFactor
+effHalfLon = halfLon / _zoomFactor
+```
+Higher factor → smaller effective viewport → zoom in. Pan steps are also
+divided by `_zoomFactor` so panning speed stays proportional to the view size.
+`_zoomFactor` resets to 1.0 in `applyRoute()` and `centerToGps()`.
 
 ## Native rendering (NATIVE mode)
 
