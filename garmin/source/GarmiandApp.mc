@@ -40,6 +40,9 @@ class GarmiandApp extends App.AppBase {
     var _dlTotal as Lang.Number;
     // BLE chunk dicts deferred from onPhoneMessage to onUpdate (watchdog budget)
     var _pendingTileChunkDicts as Lang.Array<Lang.Dictionary>;
+    // Blob ready to persist — deferred from HTTP callback to onUpdate (watchdog budget)
+    var _pendingPersistId as Lang.String?;
+    var _pendingPersistBlob as Lang.ByteArray?;
 
     function initialize() {
         AppBase.initialize();
@@ -51,6 +54,8 @@ class GarmiandApp extends App.AppBase {
         _dlOffset = 0;
         _dlTotal = 0;
         _pendingTileChunkDicts = [] as Lang.Array<Lang.Dictionary>;
+        _pendingPersistId = null;
+        _pendingPersistBlob = null;
     }
 
     function readOnlineModeProperty() as Lang.Boolean {
@@ -327,31 +332,18 @@ class GarmiandApp extends App.AppBase {
         appLog("chunk +" + chunkSize + "B total=" + _dlOffset + "/" + _dlTotal);
 
         if (_dlOffset >= _dlTotal || chunkSize < DL_CHUNK_SIZE) {
-            // all chunks received
-            var bundleId = _pendingBundleId;
-            var blob = _dlBuffer as Lang.ByteArray;
+            // All HTTP chunks received. Defer persist to onUpdate — HTTP callbacks
+            // have a shorter watchdog than onUpdate; Storage.setValue N times here
+            // would trip it on device even if it works in the simulator.
+            appLog("HTTPS done " + (_dlBuffer as Lang.ByteArray).size() + "B — queued for persist");
+            _pendingPersistId = _pendingBundleId;
+            _pendingPersistBlob = _dlBuffer;
             _pendingBundleId = null;
             _pendingBundleUrl = null;
             _dlBuffer = null;
             _dlOffset = 0;
             _dlTotal = 0;
-            appLog("HTTPS done " + blob.size() + "B");
-            logFreeMem("pre-persist");
-            var ok = false;
-            try {
-                ok = TileDecoder.persist(bundleId as Lang.String, blob);
-            } catch (e) {
-                appLog("persist EX: " + e.getErrorMessage());
-                return;
-            }
-            if (ok) {
-                appLog("persist ok");
-                if (_navView != null) {
-                    _navView.setBundleId(bundleId as Lang.String);
-                }
-            } else {
-                appLog("persist FAIL");
-            }
+            WatchUi.requestUpdate();
         } else {
             // fetch next chunk
             var nextUrl = (_pendingBundleUrl as Lang.String) + "/chunk?offset=" + _dlOffset + "&size=" + DL_CHUNK_SIZE;
@@ -468,6 +460,36 @@ class GarmiandApp extends App.AppBase {
         logFreeMem("post-persist");
         if (_navView != null) {
             _navView.setBundleId(assembledId as Lang.String);
+        }
+    }
+
+    // Called from NavigationView.onUpdate() — full watchdog budget available.
+    // Persists blob queued by onBundleChunkResponse when HTTPS download completes.
+    function processPendingPersist() as Void {
+        if (_pendingPersistBlob == null) {
+            return;
+        }
+        var bundleId = _pendingPersistId as Lang.String;
+        var blob = _pendingPersistBlob as Lang.ByteArray;
+        _pendingPersistId = null;
+        _pendingPersistBlob = null;
+        appLog("HTTPS persist " + blob.size() + "B");
+        logFreeMem("pre-persist");
+        var ok = false;
+        try {
+            ok = TileDecoder.persist(bundleId, blob);
+        } catch (e) {
+            appLog("persist EX: " + e.getErrorMessage());
+            return;
+        }
+        if (ok) {
+            appLog("persist ok");
+            logFreeMem("post-persist");
+            if (_navView != null) {
+                _navView.setBundleId(bundleId);
+            }
+        } else {
+            appLog("persist FAIL");
         }
     }
 }

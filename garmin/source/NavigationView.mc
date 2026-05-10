@@ -413,6 +413,7 @@ class NavigationView extends WatchUi.View {
         var app = App.getApp();
         if (app instanceof GarmiandApp) {
             (app as GarmiandApp).processPendingTileChunk();
+            (app as GarmiandApp).processPendingPersist();
         }
         ensureBundleLoaded();
 
