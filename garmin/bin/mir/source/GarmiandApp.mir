@@ -2522,7 +2522,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_402_62_412_4_stop:
     }
     [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 417; @symbol_functiondef = [processPendingTileChunk,417,13,36]; ]
     function processPendingTileChunk() as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start:
+G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 418 8 ]
 G__code_garmiand_garmin_source_GarmiandApp_mc_418_8_420_8_if_stmt:
         symbol [ _pendingTileChunkDicts %tmp.2 418 12 34 ];
@@ -2541,7 +2541,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_418_48_420_8_stop:
         goto @G__code_garmiand_garmin_source_GarmiandApp_mc_418_8_420_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_418_8_420_8_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 421 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop" ]
         %dict.1 = local;
         symbol [ dict %dict.1 421 12 16 ];
         symbol [ _pendingTileChunkDicts %tmp.8 421 19 41 ];
@@ -2586,7 +2586,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_424_40_427_8_stop:
         goto @G__code_garmiand_garmin_source_GarmiandApp_mc_424_8_427_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_424_8_427_8_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 428 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop" ]
         %result.2 = local;
         symbol [ result %result.2 428 12 18 ];
         symbol [ _bleChunkAssembler %tmp.28 428 22 40 ];
@@ -2646,7 +2646,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_429_8_435_8_if_end:
         %tmp.47 = getv function %tmp.46 :disarmBleStallTimer;
         invoke %tmp.46 %tmp.47();
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 437 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop" ]
         %assembledId.3 = local;
         symbol [ assembledId %assembledId.3 437 12 23 ];
         %tmp.48 = lgetv %result.2;
@@ -2656,7 +2656,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_429_8_435_8_if_end:
         lputv %assembledId.3 %tmp.50;
         symbol [ assembledId %assembledId.3 437 12 23 ];
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 438 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop" ]
         %blob.4 = local;
         symbol [ blob %blob.4 438 12 16 ];
         %tmp.51 = lgetv %result.2;
@@ -2666,7 +2666,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_429_8_435_8_if_end:
         lputv %blob.4 %tmp.53;
         symbol [ blob %blob.4 438 12 16 ];
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 439 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop" ]
         %err.5 = local;
         symbol [ err %err.5 439 12 15 ];
         %tmp.54 = lgetv %result.2;
@@ -2703,7 +2703,7 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_440_25_443_8_stop:
         goto @G__code_garmiand_garmin_source_GarmiandApp_mc_440_8_443_8_if_end;
 G__code_garmiand_garmin_source_GarmiandApp_mc_440_8_443_8_if_end:
 [ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 444 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop" ]
         %blobSize.6 = local;
         symbol [ blobSize %blobSize.6 444 12 20 ];
         %tmp.67 = lgetv %blob.4;
@@ -2724,339 +2724,218 @@ G__code_garmiand_garmin_source_GarmiandApp_mc_440_8_443_8_if_end:
         %tmp.74 = lgetv %blobSize.6;
         symbol [ blobSize %tmp.74 445 34 42 ];
         %tmp.75 = add %tmp.73 %tmp.74;
-        %tmp.76 = "B";
+        %tmp.76 = "B — queued for persist";
         %tmp.77 = add %tmp.75 %tmp.76;
         invoke %tmp.71 %tmp.72(%tmp.77);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 446 8 ]
-        %tmp.78 = self;
-        symbol [ logFreeMem %tmp.79 446 8 18 ];
-        %tmp.79 = getv function %tmp.78 :logFreeMem;
-        %tmp.80 = "pre-persist";
-        invoke %tmp.78 %tmp.79(%tmp.80);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 447 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop" ]
-        %ok.7 = local;
-        symbol [ ok %ok.7 447 12 14 ];
-        %tmp.81 = false;
-        lputv %ok.7 %tmp.81;
-        symbol [ ok %ok.7 447 12 14 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 448 8 ]
-        try @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_beginTry @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_endTry @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_catch @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally;
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_beginTry:
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_12_451_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 449 12 ]
-        %tmp.82 = self;
-        symbol [ appLog %tmp.83 449 12 18 ];
-        %tmp.83 = getv function %tmp.82 :appLog;
-        %tmp.84 = "persist try ";
-        %tmp.85 = lgetv %blobSize.6;
-        symbol [ blobSize %tmp.85 449 36 44 ];
-        %tmp.86 = add %tmp.84 %tmp.85;
-        %tmp.87 = "B";
-        %tmp.88 = add %tmp.86 %tmp.87;
-        invoke %tmp.82 %tmp.83(%tmp.88);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 450 12 ]
-        symbol [ TileDecoder %tmp.90 450 17 28 ];
-        %tmp.90 = getv ? :TileDecoder;
-        symbol [ persist %tmp.91 450 29 36 ];
-        %tmp.91 = getv function %tmp.90 :persist;
-        %tmp.92 = lgetv %assembledId.3;
-        symbol [ assembledId %tmp.92 450 37 48 ];
-        %tmp.93 = as %tmp.92 Lang.String;
-        symbol [ Lang %tmp.93 450 52 56 ];
-        symbol [ String %tmp.93 450 57 63 ];
-        %tmp.94 = lgetv %blob.4;
-        symbol [ blob %tmp.94 450 65 69 ];
-        %tmp.95 = as %tmp.94 Lang.ByteArray;
-        symbol [ Lang %tmp.95 450 73 77 ];
-        symbol [ ByteArray %tmp.95 450 78 87 ];
-        %tmp.96 = invoke %tmp.90 %tmp.91(%tmp.93, %tmp.95);
-        lputv %ok.7 %tmp.96;
-        symbol [ ok %ok.7 450 12 14 ];
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_12_451_8_stop:
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_endTry:
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally;
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_catch:
-        %tmp.97 = exception;
-        push %tmp.97;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 451 10 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_catch" "G__code_garmiand_garmin_source_GarmiandApp_mc_451_10_454_8_end" ]
-        %e.8 = local;
-        symbol [ e %e.8 451 17 18 ];
-        %tmp.98 = dup %tmp.97;
-        lputv %e.8 %tmp.98;
-        symbol [ e %e.8 451 17 18 ];
-G__code_garmiand_garmin_source_GarmiandApp_mc_451_20_454_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 452 12 ]
-        %tmp.99 = self;
-        symbol [ appLog %tmp.100 452 12 18 ];
-        %tmp.100 = getv function %tmp.99 :appLog;
-        %tmp.101 = "persist EX: ";
-        %tmp.102 = lgetv %e.8;
-        symbol [ e %tmp.102 452 36 37 ];
-        symbol [ getErrorMessage %tmp.103 452 38 53 ];
-        %tmp.103 = getv function %tmp.102 :getErrorMessage;
-        %tmp.104 = invoke %tmp.102 %tmp.103();
-        %tmp.105 = add %tmp.101 %tmp.104;
-        invoke %tmp.99 %tmp.100(%tmp.105);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 453 12 ]
-        pop;
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally;
-        ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_451_20_454_8_stop:
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally;
-        pop;
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_451_10_454_8_end:
-        try @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_catch @G__code_garmiand_garmin_source_GarmiandApp_mc_451_10_454_8_end @G__code_garmiand_garmin_source_GarmiandApp_mc_451_10_454_8_end @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally;
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally;
-        throw %tmp.97;
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_finally:
-        jsrret;
-G__code_garmiand_garmin_source_GarmiandApp_mc_448_8_454_8_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 455 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_455_8_458_8_if_stmt:
-        %tmp.106 = lgetv %ok.7;
-        symbol [ ok %tmp.106 455 13 15 ];
-        %tmp.107 = not %tmp.106;
-        bf %tmp.107 @G__code_garmiand_garmin_source_GarmiandApp_mc_455_8_458_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_455_8_458_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_455_17_458_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 456 12 ]
-        %tmp.108 = self;
-        symbol [ appLog %tmp.109 456 12 18 ];
-        %tmp.109 = getv function %tmp.108 :appLog;
-        %tmp.110 = "persist FAIL (Storage limit?)";
-        invoke %tmp.108 %tmp.109(%tmp.110);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 457 12 ]
-        ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_455_17_458_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_455_8_458_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_455_8_458_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 459 8 ]
-        %tmp.111 = self;
-        symbol [ appLog %tmp.112 459 8 14 ];
-        %tmp.112 = getv function %tmp.111 :appLog;
-        %tmp.113 = "persist ok";
-        invoke %tmp.111 %tmp.112(%tmp.113);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 460 8 ]
-        %tmp.114 = self;
-        symbol [ logFreeMem %tmp.115 460 8 18 ];
-        %tmp.115 = getv function %tmp.114 :logFreeMem;
-        %tmp.116 = "post-persist";
-        invoke %tmp.114 %tmp.115(%tmp.116);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 461 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_461_8_463_8_if_stmt:
-        symbol [ _navView %tmp.118 461 12 20 ];
-        %tmp.118 = getv ? :_navView;
-        %tmp.119 = null;
-        %tmp.120 = ne %tmp.118 %tmp.119;
-        bf %tmp.120 @G__code_garmiand_garmin_source_GarmiandApp_mc_461_8_463_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_461_8_463_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_461_30_463_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 462 12 ]
-        symbol [ _navView %tmp.122 462 12 20 ];
-        %tmp.122 = getv ? :_navView;
-        %tmp.123 = as %tmp.122 { (!Null) };
-        symbol [ setBundleId %tmp.124 462 21 32 ];
-        %tmp.124 = getv function %tmp.123 :setBundleId;
-        %tmp.125 = lgetv %assembledId.3;
-        symbol [ assembledId %tmp.125 462 33 44 ];
-        %tmp.126 = as %tmp.125 Lang.String;
-        symbol [ Lang %tmp.126 462 48 52 ];
-        symbol [ String %tmp.126 462 53 59 ];
-        invoke %tmp.123 %tmp.124(%tmp.126);
-G__code_garmiand_garmin_source_GarmiandApp_mc_461_30_463_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_461_8_463_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_461_8_463_8_if_end:
-G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_464_4_stop:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 451 8 ]
+        %tmp.78 = lgetv %assembledId.3;
+        symbol [ assembledId %tmp.78 451 28 39 ];
+        %tmp.79 = as %tmp.78 Lang.String;
+        symbol [ Lang %tmp.79 451 43 47 ];
+        symbol [ String %tmp.79 451 48 54 ];
+        symbol [ _pendingPersistId ? 451 8 25 ];
+        putv self :_pendingPersistId %tmp.79;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 452 8 ]
+        %tmp.80 = lgetv %blob.4;
+        symbol [ blob %tmp.80 452 30 34 ];
+        %tmp.81 = as %tmp.80 Lang.ByteArray;
+        symbol [ Lang %tmp.81 452 38 42 ];
+        symbol [ ByteArray %tmp.81 452 43 52 ];
+        symbol [ _pendingPersistBlob ? 452 8 27 ];
+        putv self :_pendingPersistBlob %tmp.81;
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 453 8 ]
+        symbol [ WatchUi %tmp.82 453 8 15 ];
+        %tmp.82 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.83 453 16 29 ];
+        %tmp.83 = getv function %tmp.82 :requestUpdate;
+        invoke %tmp.82 %tmp.83();
+G__code_garmiand_garmin_source_GarmiandApp_mc_417_47_454_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 468; @symbol_functiondef = [processPendingPersist,468,13,34]; ]
+    [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 458; @symbol_functiondef = [processPendingPersist,458,13,34]; ]
     function processPendingPersist() as Void {
-G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 469 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_471_8_if_stmt:
-        symbol [ _pendingPersistBlob %tmp.2 469 12 31 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 459 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_459_8_461_8_if_stmt:
+        symbol [ _pendingPersistBlob %tmp.2 459 12 31 ];
         %tmp.2 = getv ? :_pendingPersistBlob;
         %tmp.3 = null;
         %tmp.4 = eq %tmp.2 %tmp.3;
-        bf %tmp.4 @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_471_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_471_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_469_41_471_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 470 12 ]
+        bf %tmp.4 @G__code_garmiand_garmin_source_GarmiandApp_mc_459_8_461_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_459_8_461_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_459_41_461_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 460 12 ]
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_469_41_471_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_471_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_471_8_if_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 472 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_stop" ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_459_41_461_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_459_8_461_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_459_8_461_8_if_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 462 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_stop" ]
         %bundleId.1 = local;
-        symbol [ bundleId %bundleId.1 472 12 20 ];
-        symbol [ _pendingPersistId %tmp.6 472 23 40 ];
+        symbol [ bundleId %bundleId.1 462 12 20 ];
+        symbol [ _pendingPersistId %tmp.6 462 23 40 ];
         %tmp.6 = getv ? :_pendingPersistId;
         %tmp.7 = as %tmp.6 Lang.String;
-        symbol [ Lang %tmp.7 472 44 48 ];
-        symbol [ String %tmp.7 472 49 55 ];
+        symbol [ Lang %tmp.7 462 44 48 ];
+        symbol [ String %tmp.7 462 49 55 ];
         lputv %bundleId.1 %tmp.7;
-        symbol [ bundleId %bundleId.1 472 12 20 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 473 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_stop" ]
+        symbol [ bundleId %bundleId.1 462 12 20 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 463 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_stop" ]
         %blob.2 = local;
-        symbol [ blob %blob.2 473 12 16 ];
-        symbol [ _pendingPersistBlob %tmp.9 473 19 38 ];
+        symbol [ blob %blob.2 463 12 16 ];
+        symbol [ _pendingPersistBlob %tmp.9 463 19 38 ];
         %tmp.9 = getv ? :_pendingPersistBlob;
         %tmp.10 = as %tmp.9 Lang.ByteArray;
-        symbol [ Lang %tmp.10 473 42 46 ];
-        symbol [ ByteArray %tmp.10 473 47 56 ];
+        symbol [ Lang %tmp.10 463 42 46 ];
+        symbol [ ByteArray %tmp.10 463 47 56 ];
         lputv %blob.2 %tmp.10;
-        symbol [ blob %blob.2 473 12 16 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 474 8 ]
+        symbol [ blob %blob.2 463 12 16 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 464 8 ]
         %tmp.11 = null;
-        symbol [ _pendingPersistId ? 474 8 25 ];
+        symbol [ _pendingPersistId ? 464 8 25 ];
         putv self :_pendingPersistId %tmp.11;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 475 8 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 465 8 ]
         %tmp.12 = null;
-        symbol [ _pendingPersistBlob ? 475 8 27 ];
+        symbol [ _pendingPersistBlob ? 465 8 27 ];
         putv self :_pendingPersistBlob %tmp.12;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 476 8 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 466 8 ]
         %tmp.13 = self;
-        symbol [ appLog %tmp.14 476 8 14 ];
+        symbol [ appLog %tmp.14 466 8 14 ];
         %tmp.14 = getv function %tmp.13 :appLog;
         %tmp.15 = "HTTPS persist ";
         %tmp.16 = lgetv %blob.2;
-        symbol [ blob %tmp.16 476 34 38 ];
-        symbol [ size %tmp.17 476 39 43 ];
+        symbol [ blob %tmp.16 466 34 38 ];
+        symbol [ size %tmp.17 466 39 43 ];
         %tmp.17 = getv function %tmp.16 :size;
         %tmp.18 = invoke %tmp.16 %tmp.17();
         %tmp.19 = add %tmp.15 %tmp.18;
         %tmp.20 = "B";
         %tmp.21 = add %tmp.19 %tmp.20;
         invoke %tmp.13 %tmp.14(%tmp.21);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 477 8 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 467 8 ]
         %tmp.22 = self;
-        symbol [ logFreeMem %tmp.23 477 8 18 ];
+        symbol [ logFreeMem %tmp.23 467 8 18 ];
         %tmp.23 = getv function %tmp.22 :logFreeMem;
         %tmp.24 = "pre-persist";
         invoke %tmp.22 %tmp.23(%tmp.24);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 478 8 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_stop" ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 468 8 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_start" "G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_stop" ]
         %ok.3 = local;
-        symbol [ ok %ok.3 478 12 14 ];
+        symbol [ ok %ok.3 468 12 14 ];
         %tmp.25 = false;
         lputv %ok.3 %tmp.25;
-        symbol [ ok %ok.3 478 12 14 ];
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 479 8 ]
-        try @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_beginTry @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_endTry @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_catch @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally;
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_beginTry:
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_12_481_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 480 12 ]
-        symbol [ TileDecoder %tmp.27 480 17 28 ];
+        symbol [ ok %ok.3 468 12 14 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 469 8 ]
+        try @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_beginTry @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_endTry @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_catch @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally;
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_beginTry:
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_12_471_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 470 12 ]
+        symbol [ TileDecoder %tmp.27 470 17 28 ];
         %tmp.27 = getv ? :TileDecoder;
-        symbol [ persist %tmp.28 480 29 36 ];
+        symbol [ persist %tmp.28 470 29 36 ];
         %tmp.28 = getv function %tmp.27 :persist;
         %tmp.29 = lgetv %bundleId.1;
-        symbol [ bundleId %tmp.29 480 37 45 ];
+        symbol [ bundleId %tmp.29 470 37 45 ];
         %tmp.30 = lgetv %blob.2;
-        symbol [ blob %tmp.30 480 47 51 ];
+        symbol [ blob %tmp.30 470 47 51 ];
         %tmp.31 = invoke %tmp.27 %tmp.28(%tmp.29, %tmp.30);
         lputv %ok.3 %tmp.31;
-        symbol [ ok %ok.3 480 12 14 ];
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_12_481_8_stop:
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_endTry:
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally;
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_catch:
+        symbol [ ok %ok.3 470 12 14 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_12_471_8_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_endTry:
+        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally;
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_catch:
         %tmp.32 = exception;
         push %tmp.32;
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 481 10 ]
-        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_catch" "G__code_garmiand_garmin_source_GarmiandApp_mc_481_10_484_8_end" ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 471 10 ]
+        [ "G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_catch" "G__code_garmiand_garmin_source_GarmiandApp_mc_471_10_474_8_end" ]
         %e.4 = local;
-        symbol [ e %e.4 481 17 18 ];
+        symbol [ e %e.4 471 17 18 ];
         %tmp.33 = dup %tmp.32;
         lputv %e.4 %tmp.33;
-        symbol [ e %e.4 481 17 18 ];
-G__code_garmiand_garmin_source_GarmiandApp_mc_481_20_484_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 482 12 ]
+        symbol [ e %e.4 471 17 18 ];
+G__code_garmiand_garmin_source_GarmiandApp_mc_471_20_474_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 472 12 ]
         %tmp.34 = self;
-        symbol [ appLog %tmp.35 482 12 18 ];
+        symbol [ appLog %tmp.35 472 12 18 ];
         %tmp.35 = getv function %tmp.34 :appLog;
         %tmp.36 = "persist EX: ";
         %tmp.37 = lgetv %e.4;
-        symbol [ e %tmp.37 482 36 37 ];
-        symbol [ getErrorMessage %tmp.38 482 38 53 ];
+        symbol [ e %tmp.37 472 36 37 ];
+        symbol [ getErrorMessage %tmp.38 472 38 53 ];
         %tmp.38 = getv function %tmp.37 :getErrorMessage;
         %tmp.39 = invoke %tmp.37 %tmp.38();
         %tmp.40 = add %tmp.36 %tmp.39;
         invoke %tmp.34 %tmp.35(%tmp.40);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 483 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 473 12 ]
         pop;
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally;
+        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally;
         ret ?;
-G__code_garmiand_garmin_source_GarmiandApp_mc_481_20_484_8_stop:
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally;
+G__code_garmiand_garmin_source_GarmiandApp_mc_471_20_474_8_stop:
+        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally;
         pop;
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_481_10_484_8_end:
-        try @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_catch @G__code_garmiand_garmin_source_GarmiandApp_mc_481_10_484_8_end @G__code_garmiand_garmin_source_GarmiandApp_mc_481_10_484_8_end @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally;
-        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally;
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_471_10_474_8_end:
+        try @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_catch @G__code_garmiand_garmin_source_GarmiandApp_mc_471_10_474_8_end @G__code_garmiand_garmin_source_GarmiandApp_mc_471_10_474_8_end @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally;
+        jsr @G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally;
         throw %tmp.32;
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_finally:
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_finally:
         jsrret;
-G__code_garmiand_garmin_source_GarmiandApp_mc_479_8_484_8_end:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 485 8 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_485_8_493_8_if_stmt:
+G__code_garmiand_garmin_source_GarmiandApp_mc_469_8_474_8_end:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 475 8 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_475_8_483_8_if_stmt:
         %tmp.41 = lgetv %ok.3;
-        symbol [ ok %tmp.41 485 12 14 ];
-        bf %tmp.41 @G__code_garmiand_garmin_source_GarmiandApp_mc_485_8_493_8_if_else_false;
-G__code_garmiand_garmin_source_GarmiandApp_mc_485_8_493_8_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_485_16_491_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 486 12 ]
+        symbol [ ok %tmp.41 475 12 14 ];
+        bf %tmp.41 @G__code_garmiand_garmin_source_GarmiandApp_mc_475_8_483_8_if_else_false;
+G__code_garmiand_garmin_source_GarmiandApp_mc_475_8_483_8_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_475_16_481_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 476 12 ]
         %tmp.42 = self;
-        symbol [ appLog %tmp.43 486 12 18 ];
+        symbol [ appLog %tmp.43 476 12 18 ];
         %tmp.43 = getv function %tmp.42 :appLog;
         %tmp.44 = "persist ok";
         invoke %tmp.42 %tmp.43(%tmp.44);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 487 12 ]
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 477 12 ]
         %tmp.45 = self;
-        symbol [ logFreeMem %tmp.46 487 12 22 ];
+        symbol [ logFreeMem %tmp.46 477 12 22 ];
         %tmp.46 = getv function %tmp.45 :logFreeMem;
         %tmp.47 = "post-persist";
         invoke %tmp.45 %tmp.46(%tmp.47);
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 488 12 ]
-G__code_garmiand_garmin_source_GarmiandApp_mc_488_12_490_12_if_stmt:
-        symbol [ _navView %tmp.49 488 16 24 ];
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 478 12 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_478_12_480_12_if_stmt:
+        symbol [ _navView %tmp.49 478 16 24 ];
         %tmp.49 = getv ? :_navView;
         %tmp.50 = null;
         %tmp.51 = ne %tmp.49 %tmp.50;
-        bf %tmp.51 @G__code_garmiand_garmin_source_GarmiandApp_mc_488_12_490_12_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_488_12_490_12_if_true:
-G__code_garmiand_garmin_source_GarmiandApp_mc_488_34_490_12_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 489 16 ]
-        symbol [ _navView %tmp.53 489 16 24 ];
+        bf %tmp.51 @G__code_garmiand_garmin_source_GarmiandApp_mc_478_12_480_12_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_478_12_480_12_if_true:
+G__code_garmiand_garmin_source_GarmiandApp_mc_478_34_480_12_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 479 16 ]
+        symbol [ _navView %tmp.53 479 16 24 ];
         %tmp.53 = getv ? :_navView;
         %tmp.54 = as %tmp.53 { (!Null) };
-        symbol [ setBundleId %tmp.55 489 25 36 ];
+        symbol [ setBundleId %tmp.55 479 25 36 ];
         %tmp.55 = getv function %tmp.54 :setBundleId;
         %tmp.56 = lgetv %bundleId.1;
-        symbol [ bundleId %tmp.56 489 37 45 ];
+        symbol [ bundleId %tmp.56 479 37 45 ];
         invoke %tmp.54 %tmp.55(%tmp.56);
-G__code_garmiand_garmin_source_GarmiandApp_mc_488_34_490_12_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_488_12_490_12_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_488_12_490_12_if_end:
-G__code_garmiand_garmin_source_GarmiandApp_mc_485_16_491_8_stop:
-        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_485_8_493_8_if_end;
-G__code_garmiand_garmin_source_GarmiandApp_mc_485_8_493_8_if_else_false:
-G__code_garmiand_garmin_source_GarmiandApp_mc_491_15_493_8_start:
-[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 492 12 ]
+G__code_garmiand_garmin_source_GarmiandApp_mc_478_34_480_12_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_478_12_480_12_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_478_12_480_12_if_end:
+G__code_garmiand_garmin_source_GarmiandApp_mc_475_16_481_8_stop:
+        goto @G__code_garmiand_garmin_source_GarmiandApp_mc_475_8_483_8_if_end;
+G__code_garmiand_garmin_source_GarmiandApp_mc_475_8_483_8_if_else_false:
+G__code_garmiand_garmin_source_GarmiandApp_mc_481_15_483_8_start:
+[ "G:\code\garmiand\garmin\source\GarmiandApp.mc" 482 12 ]
         %tmp.57 = self;
-        symbol [ appLog %tmp.58 492 12 18 ];
+        symbol [ appLog %tmp.58 482 12 18 ];
         %tmp.58 = getv function %tmp.57 :appLog;
         %tmp.59 = "persist FAIL";
         invoke %tmp.57 %tmp.58(%tmp.59);
-G__code_garmiand_garmin_source_GarmiandApp_mc_491_15_493_8_stop:
-G__code_garmiand_garmin_source_GarmiandApp_mc_485_8_493_8_if_end:
-G__code_garmiand_garmin_source_GarmiandApp_mc_468_45_494_4_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_481_15_483_8_stop:
+G__code_garmiand_garmin_source_GarmiandApp_mc_475_8_483_8_if_end:
+G__code_garmiand_garmin_source_GarmiandApp_mc_458_45_484_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\GarmiandApp.mc"; @line = 1; ]

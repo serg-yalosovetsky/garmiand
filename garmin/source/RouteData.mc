@@ -32,7 +32,8 @@ class RouteData {
     }
 
     function addChunk(chunkLats as Lang.Array, chunkLons as Lang.Array) as Void {
-        for (var i = 0; i < chunkLats.size(); i++) {
+        var size = chunkLats.size();
+        for (var i = 0; i < size; i++) {
             lats.add((chunkLats[i] as Lang.Float).toFloat());
             lons.add((chunkLons[i] as Lang.Float).toFloat());
         }

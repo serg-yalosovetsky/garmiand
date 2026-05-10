@@ -442,25 +442,15 @@ class GarmiandApp extends App.AppBase {
             return;
         }
         var blobSize = (blob as Lang.ByteArray).size();
-        appLog("BLE assembled " + blobSize + "B");
-        logFreeMem("pre-persist");
-        var ok = false;
-        try {
-            appLog("persist try " + blobSize + "B");
-            ok = TileDecoder.persist(assembledId as Lang.String, blob as Lang.ByteArray);
-        } catch (e) {
-            appLog("persist EX: " + e.getErrorMessage());
-            return;
-        }
-        if (!ok) {
-            appLog("persist FAIL (Storage limit?)");
-            return;
-        }
-        appLog("persist ok");
-        logFreeMem("post-persist");
-        if (_navView != null) {
-            _navView.setBundleId(assembledId as Lang.String);
-        }
+        appLog("BLE assembled " + blobSize + "B — queued for persist");
+        // Defer persist to the next onUpdate frame. Calling persist here would
+        // combine ~30k bytecodes (last byte-copy) + 13×Storage.setValue and
+        // exceed the watchdog budget on device. processPendingPersist() runs
+        // before processPendingTileChunk() in onUpdate, so the next frame is
+        // guaranteed to be persist-only with the full watchdog budget.
+        _pendingPersistId = assembledId as Lang.String;
+        _pendingPersistBlob = blob as Lang.ByteArray;
+        WatchUi.requestUpdate();
     }
 
     // Called from NavigationView.onUpdate() — full watchdog budget available.

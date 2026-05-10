@@ -71,6 +71,8 @@ class NavigationView extends WatchUi.View {
     var _viewLon0 as Lang.Float;  // west  (min lon)
     var _viewLon1 as Lang.Float;  // east  (max lon)
     var _viewSet as Lang.Boolean;
+    var _screenW as Lang.Number;
+    var _screenH as Lang.Number;
 
     function initialize(route as RouteData) {
         View.initialize();
@@ -104,6 +106,8 @@ class NavigationView extends WatchUi.View {
         _viewLon0 = 0.0f;
         _viewLon1 = 0.0f;
         _viewSet = false;
+        _screenW = 0;
+        _screenH = 0;
         // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
         // via Graphics.createBufferedBitmap, which requires the view's graphics
         // context. That context isn't ready until onShow(). Calling it from
@@ -356,7 +360,8 @@ class NavigationView extends WatchUi.View {
         var maxLat = _route.lats[0];
         var minLon = _route.lons[0];
         var maxLon = _route.lons[0];
-        for (var i = 1; i < _route.lats.size(); i++) {
+        var routeSize = _route.lats.size();
+        for (var i = 1; i < routeSize; i++) {
             if (_route.lats[i] < minLat) { minLat = _route.lats[i]; }
             if (_route.lats[i] > maxLat) { maxLat = _route.lats[i]; }
             if (_route.lons[i] < minLon) { minLon = _route.lons[i]; }
@@ -410,6 +415,9 @@ class NavigationView extends WatchUi.View {
     }
 
     function onUpdate(dc as Graphics.Dc) as Void {
+        _screenW = dc.getWidth();
+        _screenH = dc.getHeight();
+
         var app = App.getApp();
         if (app instanceof GarmiandApp) {
             (app as GarmiandApp).processPendingTileChunk();
@@ -547,8 +555,8 @@ class NavigationView extends WatchUi.View {
         if (lonSpan == 0.0 || latSpan == 0.0) { return null; }
         var fx = (lon - _viewLon0) / lonSpan;
         var fy = (_viewLat0 - lat) / latSpan;
-        var x = (fx * dc.getWidth()).toNumber();
-        var y = (fy * dc.getHeight()).toNumber();
+        var x = (fx * _screenW).toNumber();
+        var y = (fy * _screenH).toNumber();
         return [x, y] as Lang.Array<Lang.Number>;
     }
 
