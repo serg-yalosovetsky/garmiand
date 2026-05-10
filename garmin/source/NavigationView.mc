@@ -10,7 +10,14 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
-const APP_VERSION = "2026-05-10 12:00 dbg19";
+// Interact sub-modes within BG_MODE_TILES (cycled by SELECT).
+// UP/DOWN pan the map. BACK always centers to GPS.
+// SELECT cycle: PAN_NS → PAN_WE → CENTERED (GPS reset) → exits TILES mode.
+const INTERACT_PAN_NS = 0;   // UP/DOWN pan north/south
+const INTERACT_PAN_WE = 1;   // UP/DOWN pan west/east
+const INTERACT_CENTERED = 2; // GPS was centered; next SELECT exits TILES
+
+const APP_VERSION = "2026-05-10 12:00 dbg20";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -74,6 +81,12 @@ class NavigationView extends WatchUi.View {
     var _screenW as Lang.Number;
     var _screenH as Lang.Number;
 
+    // Pan state — degrees added to the viewport center.
+    // Reset to 0 by centerToGps(). Applied in projectPoint().
+    var _panOffsetLat as Lang.Float;
+    var _panOffsetLon as Lang.Float;
+    var _interactMode as Lang.Number; // INTERACT_PAN_NS / PAN_WE / CENTERED
+
     function initialize(route as RouteData) {
         View.initialize();
         _route = route;
@@ -108,6 +121,9 @@ class NavigationView extends WatchUi.View {
         _viewSet = false;
         _screenW = 0;
         _screenH = 0;
+        _panOffsetLat = 0.0f;
+        _panOffsetLon = 0.0f;
+        _interactMode = INTERACT_PAN_NS;
         // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
         // via Graphics.createBufferedBitmap, which requires the view's graphics
         // context. That context isn't ready until onShow(). Calling it from
@@ -379,6 +395,8 @@ class NavigationView extends WatchUi.View {
         _viewLon0 = (minLon - padLon).toFloat();
         _viewLon1 = (maxLon + padLon).toFloat();
         _viewSet = true;
+        _panOffsetLat = 0.0f;
+        _panOffsetLon = 0.0f;
     }
 
     function updateGpsPosition(lat as Lang.Float, lon as Lang.Float) as Void {
@@ -463,13 +481,27 @@ class NavigationView extends WatchUi.View {
         if (tiles == null || tiles.size() == 0) {
             return; // still decoding — mode badge shows state
         }
-        var w = dc.getWidth();
-        var h = dc.getHeight();
-        var offsetX = (w - _bundlePixelW) / 2;
-        var offsetY = (h - _bundlePixelH) / 2;
+        var hdr = _bundleHeader as BundleHeader;
+        // Anchor tile pixel (0,0) to the NW corner of the bundle (maxLat, minLon).
+        // projectPoint() includes pan offset, so tiles and route overlay pan together.
+        var originPt = projectPoint(dc, hdr.maxLat, hdr.minLon);
+        if (originPt == null) {
+            // Viewport not set yet — fall back to centered pixel layout.
+            var w = dc.getWidth();
+            var h = dc.getHeight();
+            var offsetX = (w - _bundlePixelW) / 2;
+            var offsetY = (h - _bundlePixelH) / 2;
+            for (var i = 0; i < tiles.size(); i++) {
+                var t = tiles[i];
+                dc.drawBitmap(offsetX + t.localX, offsetY + t.localY, t.bmp);
+            }
+            return;
+        }
+        var ox = originPt[0];
+        var oy = originPt[1];
         for (var i = 0; i < tiles.size(); i++) {
             var t = tiles[i];
-            dc.drawBitmap(offsetX + t.localX, offsetY + t.localY, t.bmp);
+            dc.drawBitmap(ox + t.localX, oy + t.localY, t.bmp);
         }
     }
 
@@ -494,7 +526,8 @@ class NavigationView extends WatchUi.View {
             var bid = _bundleId;
             var snippet = (bid != null && (bid as Lang.String).length() >= 8) ? (bid as Lang.String).substring(0, 8) : "—";
             var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
-            label = "[TILES] " + snippet + (have ? " ok" : " ∅");
+            var modeStr = (_interactMode == INTERACT_PAN_WE) ? "WE" : (_interactMode == INTERACT_CENTERED ? "CTR" : "NS");
+            label = "[" + modeStr + "] " + snippet + (have ? " ok" : " ∅");
         } else if (_mapMode == BG_MODE_NONE) {
             label = "[NONE]";
         }
@@ -546,15 +579,17 @@ class NavigationView extends WatchUi.View {
         drawDebugLine(dc);
     }
 
-    // Project a (lat, lon) to screen coords using the tracked viewport.
+    // Project a (lat, lon) to screen coords using the tracked viewport + pan offset.
     // Returns null if the viewport is not yet configured (no route applied).
     function projectPoint(dc as Graphics.Dc, lat as Lang.Float, lon as Lang.Float) as Lang.Array<Lang.Number>? {
         if (!_viewSet) { return null; }
-        var lonSpan = _viewLon1 - _viewLon0;
-        var latSpan = _viewLat0 - _viewLat1;
-        if (lonSpan == 0.0 || latSpan == 0.0) { return null; }
-        var fx = (lon - _viewLon0) / lonSpan;
-        var fy = (_viewLat0 - lat) / latSpan;
+        var halfLat = (_viewLat0 - _viewLat1) * 0.5f;
+        var halfLon = (_viewLon1 - _viewLon0) * 0.5f;
+        if (halfLat == 0.0f || halfLon == 0.0f) { return null; }
+        var cLat = (_viewLat0 + _viewLat1) * 0.5f + _panOffsetLat;
+        var cLon = (_viewLon0 + _viewLon1) * 0.5f + _panOffsetLon;
+        var fx = (lon - (cLon - halfLon)) / (halfLon * 2.0f);
+        var fy = ((cLat + halfLat) - lat) / (halfLat * 2.0f);
         var x = (fx * _screenW).toNumber();
         var y = (fy * _screenH).toNumber();
         return [x, y] as Lang.Array<Lang.Number>;
@@ -672,8 +707,62 @@ class NavigationView extends WatchUi.View {
         return ellipsis;
     }
 
+    function getMapMode() as Lang.Number {
+        return _mapMode;
+    }
+
+    // SELECT handler. In TILES mode cycles through interact sub-modes;
+    // 3rd press (from CENTERED) exits TILES. Outside TILES cycles bg mode.
     function cycleMapMode() as Void {
-        var next = (_mapMode + 1) % 3;
-        setMapModeAndPersist(next);
+        if (_mapMode == BG_MODE_TILES) {
+            if (_interactMode == INTERACT_PAN_NS) {
+                _interactMode = INTERACT_PAN_WE;
+                WatchUi.requestUpdate();
+            } else if (_interactMode == INTERACT_PAN_WE) {
+                _interactMode = INTERACT_CENTERED;
+                centerToGps();
+            } else {
+                // INTERACT_CENTERED — exit TILES mode
+                _interactMode = INTERACT_PAN_NS;
+                setMapModeAndPersist(BG_MODE_NONE);
+            }
+        } else {
+            _interactMode = INTERACT_PAN_NS;
+            setMapModeAndPersist((_mapMode + 1) % 3);
+        }
+    }
+
+    // Reset pan to GPS position. Called by BACK button and the CENTER interact step.
+    function centerToGps() as Void {
+        _panOffsetLat = 0.0f;
+        _panOffsetLon = 0.0f;
+        pushDebug("GPS ctr");
+        WatchUi.requestUpdate();
+    }
+
+    // UP button: pan north (NS mode) or west (WE / CENTERED mode).
+    function interactUp() as Void {
+        if (!_viewSet) { return; }
+        var stepLat = (_viewLat0 - _viewLat1) * 0.2f;
+        var stepLon = (_viewLon1 - _viewLon0) * 0.2f;
+        if (_interactMode == INTERACT_PAN_NS) {
+            _panOffsetLat += stepLat;
+        } else {
+            _panOffsetLon -= stepLon;
+        }
+        WatchUi.requestUpdate();
+    }
+
+    // DOWN button: pan south (NS mode) or east (WE / CENTERED mode).
+    function interactDown() as Void {
+        if (!_viewSet) { return; }
+        var stepLat = (_viewLat0 - _viewLat1) * 0.2f;
+        var stepLon = (_viewLon1 - _viewLon0) * 0.2f;
+        if (_interactMode == INTERACT_PAN_NS) {
+            _panOffsetLat -= stepLat;
+        } else {
+            _panOffsetLon += stepLon;
+        }
+        WatchUi.requestUpdate();
     }
 }

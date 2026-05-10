@@ -15,706 +15,805 @@ class BleChunkAssembler {
     var _bundleId as Lang.String or Null;
     [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 10; @position = 8; @symbol_vardef = [_expectedTotal,10,8,22]; @symbol_type<0> = [Lang,10,26,30]; @symbol_type<1> = [Number,10,31,37]; ]
     var _expectedTotal as Lang.Number;
-    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 11; @position = 8; @symbol_vardef = [_chunks,11,8,15]; @symbol_type<0> = [Lang,11,19,23]; @symbol_type<1> = [Dictionary,11,24,34]; @symbol_type<2> = [Lang,11,35,39]; @symbol_type<3> = [Number,11,40,46]; @symbol_type<4> = [Lang,11,48,52]; @symbol_type<5> = [ByteArray,11,53,62]; ]
-    var _chunks as Lang.Dictionary<Lang.Number, Lang.ByteArray>;
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 11; @position = 8; @symbol_vardef = [_received,11,8,17]; @symbol_type<0> = [Lang,11,21,25]; @symbol_type<1> = [Dictionary,11,26,36]; @symbol_type<2> = [Lang,11,37,41]; @symbol_type<3> = [Number,11,42,48]; @symbol_type<4> = [Lang,11,50,54]; @symbol_type<5> = [Boolean,11,55,62]; ]
+    var _received as Lang.Dictionary<Lang.Number, Lang.Boolean>;
     [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 12; @position = 8; @symbol_vardef = [_receivedCount,12,8,22]; @symbol_type<0> = [Lang,12,26,30]; @symbol_type<1> = [Number,12,31,37]; ]
     var _receivedCount as Lang.Number;
     [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 13; @position = 8; @symbol_vardef = [_knownChunkSize,13,8,23]; @symbol_type<0> = [Lang,13,27,31]; @symbol_type<1> = [Number,13,32,38]; ]
     var _knownChunkSize as Lang.Number;
-    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 15; @symbol_functiondef = [initialize,15,13,23]; ]
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 14; @position = 8; @symbol_vardef = [_blob,14,8,13]; @symbol_type<0> = [Lang,14,17,21]; @symbol_type<1> = [ByteArray,14,22,31]; ]
+    var _blob as Lang.ByteArray or Null;
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 15; @position = 8; @symbol_vardef = [_totalBytes,15,8,19]; @symbol_type<0> = [Lang,15,23,27]; @symbol_type<1> = [Number,15,28,34]; ]
+    var _totalBytes as Lang.Number;
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 17; @symbol_functiondef = [initialize,17,13,23]; ]
     function initialize() as Void {
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_15_26_21_4_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 16 8 ]
-        %tmp.1 = null;
-        symbol [ _bundleId ? 16 8 17 ];
-        putv self :_bundleId %tmp.1;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 17 8 ]
-        %tmp.2 = 0;
-        symbol [ _expectedTotal ? 17 8 22 ];
-        putv self :_expectedTotal %tmp.2;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_17_26_25_4_start:
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 18 8 ]
-        %tmp.3 = newd 0;
-        symbol [ _chunks ? 18 8 15 ];
-        putv self :_chunks %tmp.3;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 19 8 ]
-        %tmp.4 = 0;
-        symbol [ _receivedCount ? 19 8 22 ];
-        putv self :_receivedCount %tmp.4;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 20 8 ]
-        %tmp.5 = 0;
-        symbol [ _knownChunkSize ? 20 8 23 ];
-        putv self :_knownChunkSize %tmp.5;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_15_26_21_4_stop:
-    }
-    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 23; @symbol_functiondef = [reset,23,13,18]; ]
-    function reset() as Void {
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_23_29_29_4_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 24 8 ]
         %tmp.1 = null;
-        symbol [ _bundleId ? 24 8 17 ];
+        symbol [ _bundleId ? 18 8 17 ];
         putv self :_bundleId %tmp.1;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 25 8 ]
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 19 8 ]
         %tmp.2 = 0;
-        symbol [ _expectedTotal ? 25 8 22 ];
+        symbol [ _expectedTotal ? 19 8 22 ];
         putv self :_expectedTotal %tmp.2;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 26 8 ]
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 20 8 ]
         %tmp.3 = newd 0;
-        symbol [ _chunks ? 26 8 15 ];
-        putv self :_chunks %tmp.3;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 27 8 ]
+        symbol [ _received ? 20 8 17 ];
+        putv self :_received %tmp.3;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 21 8 ]
         %tmp.4 = 0;
-        symbol [ _receivedCount ? 27 8 22 ];
+        symbol [ _receivedCount ? 21 8 22 ];
         putv self :_receivedCount %tmp.4;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 28 8 ]
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 22 8 ]
         %tmp.5 = 0;
-        symbol [ _knownChunkSize ? 28 8 23 ];
+        symbol [ _knownChunkSize ? 22 8 23 ];
         putv self :_knownChunkSize %tmp.5;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_23_29_29_4_stop:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 23 8 ]
+        %tmp.6 = null;
+        symbol [ _blob ? 23 8 13 ];
+        putv self :_blob %tmp.6;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 24 8 ]
+        %tmp.7 = 0;
+        symbol [ _totalBytes ? 24 8 19 ];
+        putv self :_totalBytes %tmp.7;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_17_26_25_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 37; @symbol_functiondef = [accept,37,13,19]; @symbol_param<0> = [dict,37,20,24]; @symbol_param<0>_type<0> = [Lang,37,28,32]; @symbol_param<0>_type<1> = [Dictionary,37,33,43]; @symbol_return<0> = [Lang,37,48,52]; @symbol_return<1> = [Array,37,53,58]; ]
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 27; @symbol_functiondef = [reset,27,13,18]; ]
+    function reset() as Void {
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_27_29_35_4_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 28 8 ]
+        %tmp.1 = null;
+        symbol [ _bundleId ? 28 8 17 ];
+        putv self :_bundleId %tmp.1;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 29 8 ]
+        %tmp.2 = 0;
+        symbol [ _expectedTotal ? 29 8 22 ];
+        putv self :_expectedTotal %tmp.2;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 30 8 ]
+        %tmp.3 = newd 0;
+        symbol [ _received ? 30 8 17 ];
+        putv self :_received %tmp.3;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 31 8 ]
+        %tmp.4 = 0;
+        symbol [ _receivedCount ? 31 8 22 ];
+        putv self :_receivedCount %tmp.4;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 32 8 ]
+        %tmp.5 = 0;
+        symbol [ _knownChunkSize ? 32 8 23 ];
+        putv self :_knownChunkSize %tmp.5;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 33 8 ]
+        %tmp.6 = null;
+        symbol [ _blob ? 33 8 13 ];
+        putv self :_blob %tmp.6;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 34 8 ]
+        %tmp.7 = 0;
+        symbol [ _totalBytes ? 34 8 19 ];
+        putv self :_totalBytes %tmp.7;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_27_29_35_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 42; @symbol_functiondef = [accept,42,13,19]; @symbol_param<0> = [dict,42,20,24]; @symbol_param<0>_type<0> = [Lang,42,28,32]; @symbol_param<0>_type<1> = [Dictionary,42,33,43]; @symbol_return<0> = [Lang,42,48,52]; @symbol_return<1> = [Array,42,53,58]; ]
     function accept(dict as Lang.Dictionary) as Lang.Array or Null {
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 38 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 43 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
         %incomingBundle.1 = local;
-        symbol [ incomingBundle %incomingBundle.1 38 12 26 ];
+        symbol [ incomingBundle %incomingBundle.1 43 12 26 ];
         %tmp.1 = lgetv %dict;
-        symbol [ dict %tmp.1 38 29 33 ];
+        symbol [ dict %tmp.1 43 29 33 ];
         %tmp.2 = "bundle_id";
         %tmp.3 = agetv %tmp.1 %tmp.2;
         %tmp.4 = as %tmp.3 Lang.String;
-        symbol [ Lang %tmp.4 38 50 54 ];
-        symbol [ String %tmp.4 38 55 61 ];
+        symbol [ Lang %tmp.4 43 50 54 ];
+        symbol [ String %tmp.4 43 55 61 ];
         lputv %incomingBundle.1 %tmp.4;
-        symbol [ incomingBundle %incomingBundle.1 38 12 26 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 39 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
+        symbol [ incomingBundle %incomingBundle.1 43 12 26 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 44 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
         %index.2 = local;
-        symbol [ index %index.2 39 12 17 ];
+        symbol [ index %index.2 44 12 17 ];
         %tmp.5 = lgetv %dict;
-        symbol [ dict %tmp.5 39 20 24 ];
+        symbol [ dict %tmp.5 44 20 24 ];
         %tmp.6 = "i";
         %tmp.7 = agetv %tmp.5 %tmp.6;
         lputv %index.2 %tmp.7;
-        symbol [ index %index.2 39 12 17 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 40 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
+        symbol [ index %index.2 44 12 17 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 45 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
         %total.3 = local;
-        symbol [ total %total.3 40 12 17 ];
+        symbol [ total %total.3 45 12 17 ];
         %tmp.8 = lgetv %dict;
-        symbol [ dict %tmp.8 40 20 24 ];
+        symbol [ dict %tmp.8 45 20 24 ];
         %tmp.9 = "n";
         %tmp.10 = agetv %tmp.8 %tmp.9;
         lputv %total.3 %tmp.10;
-        symbol [ total %total.3 40 12 17 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 41 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %payload.4 = local;
-        symbol [ payload %payload.4 41 12 19 ];
+        symbol [ total %total.3 45 12 17 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 46 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %tbField.4 = local;
+        symbol [ tbField %tbField.4 46 12 19 ];
         %tmp.11 = lgetv %dict;
-        symbol [ dict %tmp.11 41 22 26 ];
-        %tmp.12 = "p";
+        symbol [ dict %tmp.11 46 22 26 ];
+        %tmp.12 = "tb";
         %tmp.13 = agetv %tmp.11 %tmp.12;
-        lputv %payload.4 %tmp.13;
-        symbol [ payload %payload.4 41 12 19 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 43 8 ]
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_stmt:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_12_43_83_begin:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_12_43_64_begin:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_12_43_47_begin:
-        %tmp.14 = lgetv %incomingBundle.1;
-        symbol [ incomingBundle %tmp.14 43 12 26 ];
-        %tmp.15 = null;
-        %tmp.16 = eq %tmp.14 %tmp.15;
-        bt %tmp.16 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_true;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_38_43_47_false:
-        %tmp.17 = lgetv %index.2;
-        symbol [ index %tmp.17 43 38 43 ];
+        lputv %tbField.4 %tmp.13;
+        symbol [ tbField %tbField.4 46 12 19 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 47 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %payload.5 = local;
+        symbol [ payload %payload.5 47 12 19 ];
+        %tmp.14 = lgetv %dict;
+        symbol [ dict %tmp.14 47 22 26 ];
+        %tmp.15 = "p";
+        %tmp.16 = agetv %tmp.14 %tmp.15;
+        lputv %payload.5 %tmp.16;
+        symbol [ payload %payload.5 47 12 19 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 49 8 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_stmt:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_12_49_83_begin:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_12_49_64_begin:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_12_49_47_begin:
+        %tmp.17 = lgetv %incomingBundle.1;
+        symbol [ incomingBundle %tmp.17 49 12 26 ];
         %tmp.18 = null;
         %tmp.19 = eq %tmp.17 %tmp.18;
-        push %tmp.19;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_38_43_47_end:
-        %tmp.20 = phi [%tmp.16 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_12_43_47_begin] [%tmp.19 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_38_43_47_false] [%tmp.20 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_38_43_47_end];
-        bt %tmp.20 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_true;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_55_43_64_false:
-        %tmp.21 = lgetv %total.3;
-        symbol [ total %tmp.21 43 55 60 ];
-        %tmp.22 = null;
-        %tmp.23 = eq %tmp.21 %tmp.22;
-        push %tmp.23;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_55_43_64_end:
-        %tmp.24 = phi [%tmp.20 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_12_43_64_begin] [%tmp.23 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_55_43_64_false] [%tmp.24 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_55_43_64_end];
-        bt %tmp.24 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_true;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_72_43_83_false:
-        %tmp.25 = lgetv %payload.4;
-        symbol [ payload %tmp.25 43 72 79 ];
-        %tmp.26 = null;
-        %tmp.27 = eq %tmp.25 %tmp.26;
-        push %tmp.27;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_72_43_83_end:
-        %tmp.28 = phi [%tmp.24 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_12_43_83_begin] [%tmp.27 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_72_43_83_false] [%tmp.28 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_72_43_83_end];
-        bf %tmp.28 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_true:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_89_46_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 44 12 ]
-        symbol [ System %tmp.29 44 12 18 ];
-        %tmp.29 = getm $.Toybox.System;
-        symbol [ println %tmp.30 44 19 26 ];
-        %tmp.30 = getv function %tmp.29 :println;
-        %tmp.31 = "[Tiles] tile_chunk missing fields";
-        invoke %tmp.29 %tmp.30(%tmp.31);
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 45 12 ]
-        %tmp.32 = null;
-        ret %tmp.32;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_89_46_8_stop:
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_43_8_46_8_if_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 47 8 ]
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_8_50_8_if_stmt:
-        %tmp.33 = lgetv %payload.4;
-        symbol [ payload %tmp.33 47 14 21 ];
-        symbol [ Lang %tmp.34 47 33 37 ];
-        %tmp.34 = getm $.Toybox.Lang;
-        symbol [ ByteArray %tmp.35 47 38 47 ];
-        %tmp.35 = getv %tmp.34 :ByteArray;
-        %tmp.36 = isa %tmp.33 %tmp.35;
-        %tmp.37 = not %tmp.36;
-        bf %tmp.37 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_8_50_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_8_50_8_if_true:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_50_50_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 48 12 ]
-        symbol [ System %tmp.38 48 12 18 ];
-        %tmp.38 = getm $.Toybox.System;
-        symbol [ println %tmp.39 48 19 26 ];
-        %tmp.39 = getv function %tmp.38 :println;
-        %tmp.40 = "[Tiles] tile_chunk payload not ByteArray: ";
-        %tmp.41 = lgetv %payload.4;
-        symbol [ payload %tmp.41 48 74 81 ];
-        %tmp.42 = as %tmp.41 { (!Lang.ByteArray) };
-        %tmp.43 = add %tmp.40 %tmp.42;
-        invoke %tmp.38 %tmp.39(%tmp.43);
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 49 12 ]
-        %tmp.44 = null;
-        ret %tmp.44;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_50_50_8_stop:
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_8_50_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_47_8_50_8_if_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 51 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %idx.5 = local;
-        symbol [ idx %idx.5 51 12 15 ];
-        %tmp.45 = lgetv %index.2;
-        symbol [ index %tmp.45 51 19 24 ];
-        %tmp.46 = as %tmp.45 Lang.Numeric;
-        symbol [ Lang %tmp.46 51 28 32 ];
-        symbol [ Numeric %tmp.46 51 33 40 ];
-        symbol [ toNumber %tmp.47 51 42 50 ];
-        %tmp.47 = getv function %tmp.46 :toNumber;
-        %tmp.48 = invoke %tmp.46 %tmp.47();
-        lputv %idx.5 %tmp.48;
-        symbol [ idx %idx.5 51 12 15 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 52 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %tot.6 = local;
-        symbol [ tot %tot.6 52 12 15 ];
-        %tmp.49 = lgetv %total.3;
-        symbol [ total %tmp.49 52 19 24 ];
-        %tmp.50 = as %tmp.49 Lang.Numeric;
-        symbol [ Lang %tmp.50 52 28 32 ];
-        symbol [ Numeric %tmp.50 52 33 40 ];
-        symbol [ toNumber %tmp.51 52 42 50 ];
-        %tmp.51 = getv function %tmp.50 :toNumber;
-        %tmp.52 = invoke %tmp.50 %tmp.51();
-        lputv %tot.6 %tmp.52;
-        symbol [ tot %tot.6 52 12 15 ];
+        bt %tmp.19 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_true;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_38_49_47_false:
+        %tmp.20 = lgetv %index.2;
+        symbol [ index %tmp.20 49 38 43 ];
+        %tmp.21 = null;
+        %tmp.22 = eq %tmp.20 %tmp.21;
+        push %tmp.22;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_38_49_47_end:
+        %tmp.23 = phi [%tmp.19 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_12_49_47_begin] [%tmp.22 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_38_49_47_false] [%tmp.23 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_38_49_47_end];
+        bt %tmp.23 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_true;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_55_49_64_false:
+        %tmp.24 = lgetv %total.3;
+        symbol [ total %tmp.24 49 55 60 ];
+        %tmp.25 = null;
+        %tmp.26 = eq %tmp.24 %tmp.25;
+        push %tmp.26;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_55_49_64_end:
+        %tmp.27 = phi [%tmp.23 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_12_49_64_begin] [%tmp.26 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_55_49_64_false] [%tmp.27 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_55_49_64_end];
+        bt %tmp.27 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_true;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_72_49_83_false:
+        %tmp.28 = lgetv %payload.5;
+        symbol [ payload %tmp.28 49 72 79 ];
+        %tmp.29 = null;
+        %tmp.30 = eq %tmp.28 %tmp.29;
+        push %tmp.30;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_72_49_83_end:
+        %tmp.31 = phi [%tmp.27 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_12_49_83_begin] [%tmp.30 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_72_49_83_false] [%tmp.31 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_72_49_83_end];
+        bf %tmp.31 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_89_52_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 50 12 ]
+        symbol [ System %tmp.32 50 12 18 ];
+        %tmp.32 = getm $.Toybox.System;
+        symbol [ println %tmp.33 50 19 26 ];
+        %tmp.33 = getv function %tmp.32 :println;
+        %tmp.34 = "[Tiles] tile_chunk missing fields";
+        invoke %tmp.32 %tmp.33(%tmp.34);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 51 12 ]
+        %tmp.35 = null;
+        ret %tmp.35;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_89_52_8_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_49_8_52_8_if_end:
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 53 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %bytes.7 = local;
-        symbol [ bytes %bytes.7 53 12 17 ];
-        %tmp.53 = lgetv %payload.4;
-        symbol [ payload %tmp.53 53 20 27 ];
-        %tmp.54 = as %tmp.53 Lang.ByteArray;
-        symbol [ Lang %tmp.54 53 31 35 ];
-        symbol [ ByteArray %tmp.54 53 36 45 ];
-        lputv %bytes.7 %tmp.54;
-        symbol [ bytes %bytes.7 53 12 17 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 55 8 ]
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_stmt:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_12_55_105_begin:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_12_55_82_begin:
-        symbol [ _bundleId %tmp.56 55 12 21 ];
-        %tmp.56 = getv ? :_bundleId;
-        %tmp.57 = null;
-        %tmp.58 = eq %tmp.56 %tmp.57;
-        bt %tmp.58 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_true;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_33_55_82_false:
-        symbol [ _bundleId %tmp.60 55 35 44 ];
-        %tmp.60 = getv ? :_bundleId;
-        %tmp.61 = as %tmp.60 { (!Null) };
-        %tmp.62 = as %tmp.61 Lang.String;
-        symbol [ Lang %tmp.62 55 48 52 ];
-        symbol [ String %tmp.62 55 53 59 ];
-        symbol [ equals %tmp.63 55 61 67 ];
-        %tmp.63 = getv function %tmp.62 :equals;
-        %tmp.64 = lgetv %incomingBundle.1;
-        symbol [ incomingBundle %tmp.64 55 68 82 ];
-        %tmp.65 = invoke %tmp.62 %tmp.63(%tmp.64);
-        %tmp.66 = not %tmp.65;
-        push %tmp.66;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_33_55_82_end:
-        %tmp.67 = phi [%tmp.58 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_12_55_82_begin] [%tmp.66 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_33_55_82_false] [%tmp.67 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_33_55_82_end];
-        bt %tmp.67 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_true;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_87_55_105_false:
-        symbol [ _expectedTotal %tmp.69 55 87 101 ];
-        %tmp.69 = getv ? :_expectedTotal;
-        %tmp.70 = lgetv %tot.6;
-        symbol [ tot %tmp.70 55 105 108 ];
-        %tmp.71 = ne %tmp.69 %tmp.70;
-        push %tmp.71;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_87_55_105_end:
-        %tmp.72 = phi [%tmp.67 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_12_55_105_begin] [%tmp.71 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_87_55_105_false] [%tmp.72 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_87_55_105_end];
-        bf %tmp.72 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_true:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_110_63_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 57 12 ]
-        %tmp.73 = lgetv %incomingBundle.1;
-        symbol [ incomingBundle %tmp.73 57 24 38 ];
-        symbol [ _bundleId ? 57 12 21 ];
-        putv self :_bundleId %tmp.73;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 58 12 ]
-        %tmp.74 = lgetv %tot.6;
-        symbol [ tot %tmp.74 58 29 32 ];
-        symbol [ _expectedTotal ? 58 12 26 ];
-        putv self :_expectedTotal %tmp.74;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 59 12 ]
-        %tmp.75 = newd 0;
-        symbol [ _chunks ? 59 12 19 ];
-        putv self :_chunks %tmp.75;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 60 12 ]
-        %tmp.76 = 0;
-        symbol [ _receivedCount ? 60 12 26 ];
-        putv self :_receivedCount %tmp.76;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 61 12 ]
-        %tmp.77 = lgetv %bytes.7;
-        symbol [ bytes %tmp.77 61 30 35 ];
-        symbol [ size %tmp.78 61 36 40 ];
-        %tmp.78 = getv function %tmp.77 :size;
-        %tmp.79 = invoke %tmp.77 %tmp.78();
-        symbol [ _knownChunkSize ? 61 12 27 ];
-        putv self :_knownChunkSize %tmp.79;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 62 12 ]
-        symbol [ System %tmp.80 62 12 18 ];
-        %tmp.80 = getm $.Toybox.System;
-        symbol [ println %tmp.81 62 19 26 ];
-        %tmp.81 = getv function %tmp.80 :println;
-        %tmp.82 = "[Tiles] BLE bundle start ";
-        %tmp.83 = lgetv %incomingBundle.1;
-        symbol [ incomingBundle %tmp.83 62 57 71 ];
-        %tmp.84 = add %tmp.82 %tmp.83;
-        %tmp.85 = " total=";
-        %tmp.86 = add %tmp.84 %tmp.85;
-        %tmp.87 = lgetv %tot.6;
-        symbol [ tot %tmp.87 62 86 89 ];
-        %tmp.88 = add %tmp.86 %tmp.87;
-        invoke %tmp.80 %tmp.81(%tmp.88);
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_110_63_8_stop:
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_55_8_63_8_if_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 65 8 ]
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_8_68_8_if_stmt:
-        symbol [ _chunks %tmp.90 65 13 20 ];
-        %tmp.90 = getv ? :_chunks;
-        symbol [ hasKey %tmp.91 65 21 27 ];
-        %tmp.91 = getv function %tmp.90 :hasKey;
-        %tmp.92 = lgetv %idx.5;
-        symbol [ idx %tmp.92 65 28 31 ];
-        %tmp.93 = invoke %tmp.90 %tmp.91(%tmp.92);
-        %tmp.94 = not %tmp.93;
-        bf %tmp.94 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_8_68_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_8_68_8_if_true:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_34_68_8_start:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_stmt:
+        %tmp.36 = lgetv %payload.5;
+        symbol [ payload %tmp.36 53 14 21 ];
+        symbol [ Lang %tmp.37 53 33 37 ];
+        %tmp.37 = getm $.Toybox.Lang;
+        symbol [ ByteArray %tmp.38 53 38 47 ];
+        %tmp.38 = getv %tmp.37 :ByteArray;
+        %tmp.39 = isa %tmp.36 %tmp.38;
+        %tmp.40 = not %tmp.39;
+        bf %tmp.40 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_50_56_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 54 12 ]
+        symbol [ System %tmp.41 54 12 18 ];
+        %tmp.41 = getm $.Toybox.System;
+        symbol [ println %tmp.42 54 19 26 ];
+        %tmp.42 = getv function %tmp.41 :println;
+        %tmp.43 = "[Tiles] tile_chunk payload not ByteArray: ";
+        %tmp.44 = lgetv %payload.5;
+        symbol [ payload %tmp.44 54 74 81 ];
+        %tmp.45 = as %tmp.44 { (!Lang.ByteArray) };
+        %tmp.46 = add %tmp.43 %tmp.45;
+        invoke %tmp.41 %tmp.42(%tmp.46);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 55 12 ]
+        %tmp.47 = null;
+        ret %tmp.47;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_50_56_8_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_53_8_56_8_if_end:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 57 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %idx.6 = local;
+        symbol [ idx %idx.6 57 12 15 ];
+        %tmp.48 = lgetv %index.2;
+        symbol [ index %tmp.48 57 19 24 ];
+        %tmp.49 = as %tmp.48 Lang.Number;
+        symbol [ Lang %tmp.49 57 28 32 ];
+        symbol [ Number %tmp.49 57 33 39 ];
+        symbol [ toNumber %tmp.50 57 41 49 ];
+        %tmp.50 = getv function %tmp.49 :toNumber;
+        %tmp.51 = invoke %tmp.49 %tmp.50();
+        lputv %idx.6 %tmp.51;
+        symbol [ idx %idx.6 57 12 15 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 58 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %tot.7 = local;
+        symbol [ tot %tot.7 58 12 15 ];
+        %tmp.52 = lgetv %total.3;
+        symbol [ total %tmp.52 58 19 24 ];
+        %tmp.53 = as %tmp.52 Lang.Number;
+        symbol [ Lang %tmp.53 58 28 32 ];
+        symbol [ Number %tmp.53 58 33 39 ];
+        symbol [ toNumber %tmp.54 58 41 49 ];
+        %tmp.54 = getv function %tmp.53 :toNumber;
+        %tmp.55 = invoke %tmp.53 %tmp.54();
+        lputv %tot.7 %tmp.55;
+        symbol [ tot %tot.7 58 12 15 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 59 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %tb.8 = local;
+        symbol [ tb %tb.8 59 12 14 ];
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_begin:
+        %tmp.56 = lgetv %tbField.4;
+        symbol [ tbField %tmp.56 59 18 25 ];
+        symbol [ Lang %tmp.57 59 37 41 ];
+        %tmp.57 = getm $.Toybox.Lang;
+        symbol [ Number %tmp.58 59 42 48 ];
+        %tmp.58 = getv %tmp.57 :Number;
+        %tmp.59 = isa %tmp.56 %tmp.58;
+        bf %tmp.59 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_else_false;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_true:
+        %tmp.60 = lgetv %tbField.4;
+        symbol [ tbField %tmp.60 59 53 60 ];
+        %tmp.61 = as %tmp.60 { (Lang.Number) };
+        %tmp.62 = as %tmp.61 Lang.Number;
+        symbol [ Lang %tmp.62 59 64 68 ];
+        symbol [ Number %tmp.62 59 69 75 ];
+        symbol [ toNumber %tmp.63 59 77 85 ];
+        %tmp.63 = getv function %tmp.62 :toNumber;
+        %tmp.64 = invoke %tmp.62 %tmp.63();
+        push %tmp.64;
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_else_false:
+        %tmp.65 = 0;
+        push %tmp.65;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_end:
+        %tmp.66 = phi [%tmp.59 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_begin] [%tmp.64 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_true] [%tmp.65 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_else_false] [%tmp.66 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_59_17_59_90_end];
+        lputv %tb.8 %tmp.66;
+        symbol [ tb %tb.8 59 12 14 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 60 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %bytes.9 = local;
+        symbol [ bytes %bytes.9 60 12 17 ];
+        %tmp.67 = lgetv %payload.5;
+        symbol [ payload %tmp.67 60 20 27 ];
+        %tmp.68 = as %tmp.67 Lang.ByteArray;
+        symbol [ Lang %tmp.68 60 31 35 ];
+        symbol [ ByteArray %tmp.68 60 36 45 ];
+        lputv %bytes.9 %tmp.68;
+        symbol [ bytes %bytes.9 60 12 17 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 62 8 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_stmt:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_12_62_105_begin:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_12_62_82_begin:
+        symbol [ _bundleId %tmp.70 62 12 21 ];
+        %tmp.70 = getv ? :_bundleId;
+        %tmp.71 = null;
+        %tmp.72 = eq %tmp.70 %tmp.71;
+        bt %tmp.72 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_true;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_33_62_82_false:
+        symbol [ _bundleId %tmp.74 62 35 44 ];
+        %tmp.74 = getv ? :_bundleId;
+        %tmp.75 = as %tmp.74 { (!Null) };
+        %tmp.76 = as %tmp.75 Lang.String;
+        symbol [ Lang %tmp.76 62 48 52 ];
+        symbol [ String %tmp.76 62 53 59 ];
+        symbol [ equals %tmp.77 62 61 67 ];
+        %tmp.77 = getv function %tmp.76 :equals;
+        %tmp.78 = lgetv %incomingBundle.1;
+        symbol [ incomingBundle %tmp.78 62 68 82 ];
+        %tmp.79 = invoke %tmp.76 %tmp.77(%tmp.78);
+        %tmp.80 = not %tmp.79;
+        push %tmp.80;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_33_62_82_end:
+        %tmp.81 = phi [%tmp.72 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_12_62_82_begin] [%tmp.80 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_33_62_82_false] [%tmp.81 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_33_62_82_end];
+        bt %tmp.81 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_true;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_87_62_105_false:
+        symbol [ _expectedTotal %tmp.83 62 87 101 ];
+        %tmp.83 = getv ? :_expectedTotal;
+        %tmp.84 = lgetv %tot.7;
+        symbol [ tot %tmp.84 62 105 108 ];
+        %tmp.85 = ne %tmp.83 %tmp.84;
+        push %tmp.85;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_87_62_105_end:
+        %tmp.86 = phi [%tmp.81 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_12_62_105_begin] [%tmp.85 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_87_62_105_false] [%tmp.86 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_87_62_105_end];
+        bf %tmp.86 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_110_82_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 64 12 ]
+        %tmp.87 = lgetv %incomingBundle.1;
+        symbol [ incomingBundle %tmp.87 64 24 38 ];
+        symbol [ _bundleId ? 64 12 21 ];
+        putv self :_bundleId %tmp.87;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 65 12 ]
+        %tmp.88 = lgetv %tot.7;
+        symbol [ tot %tmp.88 65 29 32 ];
+        symbol [ _expectedTotal ? 65 12 26 ];
+        putv self :_expectedTotal %tmp.88;
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 66 12 ]
-        symbol [ _chunks %tmp.96 66 12 19 ];
-        %tmp.96 = getv ? :_chunks;
-        symbol [ put %tmp.97 66 20 23 ];
-        %tmp.97 = getv function %tmp.96 :put;
-        %tmp.98 = lgetv %idx.5;
-        symbol [ idx %tmp.98 66 24 27 ];
-        %tmp.99 = lgetv %bytes.7;
-        symbol [ bytes %tmp.99 66 29 34 ];
-        invoke %tmp.96 %tmp.97(%tmp.98, %tmp.99);
+        %tmp.89 = newd 0;
+        symbol [ _received ? 66 12 21 ];
+        putv self :_received %tmp.89;
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 67 12 ]
-        symbol [ _receivedCount %tmp.102 67 12 26 ];
-        %tmp.102 = getv ? :_receivedCount;
-        %tmp.103 = add %tmp.102 1;
+        %tmp.90 = 0;
         symbol [ _receivedCount ? 67 12 26 ];
-        putv self :_receivedCount dup %tmp.103;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_34_68_8_stop:
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_8_68_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_65_8_68_8_if_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 69 8 ]
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_8_71_8_if_stmt:
-        symbol [ _receivedCount %tmp.105 69 12 26 ];
-        %tmp.105 = getv ? :_receivedCount;
-        symbol [ _expectedTotal %tmp.107 69 29 43 ];
-        %tmp.107 = getv ? :_expectedTotal;
-        %tmp.108 = lt %tmp.105 %tmp.107;
-        bf %tmp.108 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_8_71_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_8_71_8_if_true:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_45_71_8_start:
+        putv self :_receivedCount %tmp.90;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 68 12 ]
+        %tmp.91 = lgetv %bytes.9;
+        symbol [ bytes %tmp.91 68 30 35 ];
+        symbol [ size %tmp.92 68 36 40 ];
+        %tmp.92 = getv function %tmp.91 :size;
+        %tmp.93 = invoke %tmp.91 %tmp.92();
+        symbol [ _knownChunkSize ? 68 12 27 ];
+        putv self :_knownChunkSize %tmp.93;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 69 12 ]
+        %tmp.94 = lgetv %tb.8;
+        symbol [ tb %tmp.94 69 26 28 ];
+        symbol [ _totalBytes ? 69 12 23 ];
+        putv self :_totalBytes %tmp.94;
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 70 12 ]
-        %tmp.109 = null;
-        ret %tmp.109;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_45_71_8_stop:
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_8_71_8_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_69_8_71_8_if_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 74 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %totalSize.8 = local;
-        symbol [ totalSize %totalSize.8 74 12 21 ];
+        %tmp.95 = null;
+        symbol [ _blob ? 70 12 17 ];
+        putv self :_blob %tmp.95;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 71 12 ]
+        symbol [ System %tmp.96 71 12 18 ];
+        %tmp.96 = getm $.Toybox.System;
+        symbol [ println %tmp.97 71 19 26 ];
+        %tmp.97 = getv function %tmp.96 :println;
+        %tmp.98 = "[Tiles] BLE bundle start ";
+        %tmp.99 = lgetv %incomingBundle.1;
+        symbol [ incomingBundle %tmp.99 71 57 71 ];
+        %tmp.100 = add %tmp.98 %tmp.99;
+        %tmp.101 = " total=";
+        %tmp.102 = add %tmp.100 %tmp.101;
+        %tmp.103 = lgetv %tot.7;
+        symbol [ tot %tmp.103 71 86 89 ];
+        %tmp.104 = add %tmp.102 %tmp.103;
+        %tmp.105 = " bytes=";
+        %tmp.106 = add %tmp.104 %tmp.105;
+        %tmp.107 = lgetv %tb.8;
+        symbol [ tb %tmp.107 71 104 106 ];
+        %tmp.108 = add %tmp.106 %tmp.107;
+        invoke %tmp.96 %tmp.97(%tmp.108);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 73 12 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_12_81_12_if_stmt:
+        %tmp.109 = lgetv %tb.8;
+        symbol [ tb %tmp.109 73 16 18 ];
         %tmp.110 = 0;
-        lputv %totalSize.8 %tmp.110;
-        symbol [ totalSize %totalSize.8 74 12 21 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 75 8 ]
-        for @G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_test @G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_incr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_init:
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_begin" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_end" ]
-        %i.9 = local;
-        symbol [ i %i.9 75 17 18 ];
-        %tmp.111 = 0;
-        lputv %i.9 %tmp.111;
-        symbol [ i %i.9 75 17 18 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_test:
-        %tmp.112 = lgetv %i.9;
-        symbol [ i %tmp.112 75 24 25 ];
-        symbol [ _expectedTotal %tmp.114 75 28 42 ];
-        %tmp.114 = getv ? :_expectedTotal;
-        %tmp.115 = lt %tmp.112 %tmp.114;
-        bf %tmp.115 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_begin:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_49_82_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 76 12 ]
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_12_80_12_if_stmt:
-        symbol [ _chunks %tmp.117 76 17 24 ];
-        %tmp.117 = getv ? :_chunks;
-        symbol [ hasKey %tmp.118 76 25 31 ];
-        %tmp.118 = getv function %tmp.117 :hasKey;
-        %tmp.119 = lgetv %i.9;
-        symbol [ i %tmp.119 76 32 33 ];
-        %tmp.120 = invoke %tmp.117 %tmp.118(%tmp.119);
-        %tmp.121 = not %tmp.120;
-        bf %tmp.121 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_12_80_12_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_12_80_12_if_true:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_36_80_12_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 77 16 ]
-        symbol [ System %tmp.122 77 16 22 ];
-        %tmp.122 = getm $.Toybox.System;
-        symbol [ println %tmp.123 77 23 30 ];
-        %tmp.123 = getv function %tmp.122 :println;
-        %tmp.124 = "[Tiles] missing chunk ";
-        %tmp.125 = lgetv %i.9;
-        symbol [ i %tmp.125 77 58 59 ];
-        %tmp.126 = add %tmp.124 %tmp.125;
-        %tmp.127 = " — abort";
-        %tmp.128 = add %tmp.126 %tmp.127;
-        invoke %tmp.122 %tmp.123(%tmp.128);
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 78 16 ]
-        %tmp.129 = self;
-        symbol [ reset %tmp.130 78 16 21 ];
-        %tmp.130 = getv function %tmp.129 :reset;
-        invoke %tmp.129 %tmp.130();
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 79 16 ]
-        %tmp.131 = null;
-        ret %tmp.131;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_36_80_12_stop:
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_12_80_12_if_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_12_80_12_if_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 81 12 ]
-        %tmp.132 = lgetv %totalSize.8;
-        symbol [ totalSize %tmp.132 81 12 21 ];
-        symbol [ _chunks %tmp.134 81 26 33 ];
-        %tmp.134 = getv ? :_chunks;
-        symbol [ get %tmp.135 81 34 37 ];
-        %tmp.135 = getv function %tmp.134 :get;
-        %tmp.136 = lgetv %i.9;
-        symbol [ i %tmp.136 81 38 39 ];
-        %tmp.137 = invoke %tmp.134 %tmp.135(%tmp.136);
-        %tmp.138 = as %tmp.137 Lang.ByteArray;
-        symbol [ Lang %tmp.138 81 44 48 ];
-        symbol [ ByteArray %tmp.138 81 49 58 ];
-        symbol [ size %tmp.139 81 60 64 ];
-        %tmp.139 = getv function %tmp.138 :size;
-        %tmp.140 = invoke %tmp.138 %tmp.139();
-        %tmp.141 = add %tmp.132 %tmp.140;
-        lputv %totalSize.8 %tmp.141;
-        symbol [ totalSize %totalSize.8 81 12 21 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_49_82_8_stop:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_incr:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 75 ]
-        %tmp.144 = lgetv %i.9;
-        symbol [ i %tmp.144 75 44 45 ];
-        %tmp.145 = add %tmp.144 1;
-        lputv %i.9 %tmp.145;
-        symbol [ i %i.9 75 44 45 ];
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_test;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_75_8_82_8_for_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 84 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %blob.10 = local;
-        symbol [ blob %blob.10 84 12 16 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 85 8 ]
-        try @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_beginTry @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_endTry @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_catch @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_beginTry:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_87_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 86 12 ]
-        %tmp.147 = lgetv %totalSize.8;
-        symbol [ totalSize %tmp.147 86 24 33 ];
-        %tmp.146 = newba %tmp.147;
-        lputv %blob.10 %tmp.146;
-        symbol [ blob %blob.10 86 12 16 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_87_8_stop:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_endTry:
-        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally;
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_catch:
-        %tmp.148 = exception;
-        push %tmp.148;
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 87 10 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_catch" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_87_10_91_8_end" ]
-        %e.11 = local;
-        symbol [ e %e.11 87 17 18 ];
-        %tmp.149 = dup %tmp.148;
-        lputv %e.11 %tmp.149;
-        symbol [ e %e.11 87 17 18 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_87_20_91_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 88 12 ]
-        symbol [ System %tmp.150 88 12 18 ];
-        %tmp.150 = getm $.Toybox.System;
-        symbol [ println %tmp.151 88 19 26 ];
-        %tmp.151 = getv function %tmp.150 :println;
-        %tmp.152 = "[Tiles] alloc ";
-        %tmp.153 = lgetv %totalSize.8;
-        symbol [ totalSize %tmp.153 88 46 55 ];
-        %tmp.154 = add %tmp.152 %tmp.153;
-        %tmp.155 = "B failed: ";
-        %tmp.156 = add %tmp.154 %tmp.155;
-        %tmp.157 = lgetv %e.11;
-        symbol [ e %tmp.157 88 73 74 ];
-        symbol [ getErrorMessage %tmp.158 88 75 90 ];
-        %tmp.158 = getv function %tmp.157 :getErrorMessage;
-        %tmp.159 = invoke %tmp.157 %tmp.158();
-        %tmp.160 = add %tmp.156 %tmp.159;
-        invoke %tmp.150 %tmp.151(%tmp.160);
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 89 12 ]
-        %tmp.161 = self;
-        symbol [ reset %tmp.162 89 12 17 ];
-        %tmp.162 = getv function %tmp.161 :reset;
-        invoke %tmp.161 %tmp.162();
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 90 12 ]
+        %tmp.111 = gt %tmp.109 %tmp.110;
+        bf %tmp.111 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_12_81_12_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_12_81_12_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_24_81_12_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 74 16 ]
+        try @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_beginTry @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_endTry @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_catch @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_beginTry:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_20_76_16_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 75 20 ]
+        %tmp.113 = lgetv %tb.8;
+        symbol [ tb %tmp.113 75 33 35 ];
+        %tmp.112 = newba %tmp.113;
+        symbol [ _blob ? 75 20 25 ];
+        putv self :_blob %tmp.112;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_20_76_16_stop:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_endTry:
+        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally;
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_catch:
+        %tmp.114 = exception;
+        push %tmp.114;
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 76 18 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_catch" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_18_80_16_end" ]
+        %e.10 = local;
+        symbol [ e %e.10 76 25 26 ];
+        %tmp.115 = dup %tmp.114;
+        lputv %e.10 %tmp.115;
+        symbol [ e %e.10 76 25 26 ];
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_28_80_16_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 77 20 ]
+        symbol [ System %tmp.116 77 20 26 ];
+        %tmp.116 = getm $.Toybox.System;
+        symbol [ println %tmp.117 77 27 34 ];
+        %tmp.117 = getv function %tmp.116 :println;
+        %tmp.118 = "[Tiles] pre-alloc ";
+        %tmp.119 = lgetv %tb.8;
+        symbol [ tb %tmp.119 77 58 60 ];
+        %tmp.120 = add %tmp.118 %tmp.119;
+        %tmp.121 = "B failed: ";
+        %tmp.122 = add %tmp.120 %tmp.121;
+        %tmp.123 = lgetv %e.10;
+        symbol [ e %tmp.123 77 78 79 ];
+        symbol [ getErrorMessage %tmp.124 77 80 95 ];
+        %tmp.124 = getv function %tmp.123 :getErrorMessage;
+        %tmp.125 = invoke %tmp.123 %tmp.124();
+        %tmp.126 = add %tmp.122 %tmp.125;
+        invoke %tmp.116 %tmp.117(%tmp.126);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 78 20 ]
+        %tmp.127 = self;
+        symbol [ reset %tmp.128 78 20 25 ];
+        %tmp.128 = getv function %tmp.127 :reset;
+        invoke %tmp.127 %tmp.128();
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 79 20 ]
         pop;
-        %tmp.163 = newa 3 Lang.Array;
-        symbol [ Lang %tmp.163 90 62 66 ];
-        symbol [ Array %tmp.163 90 67 72 ];
-        %tmp.164 = null;
-        %tmp.165 = dup %tmp.163;
-        %tmp.166 = aputv %tmp.165 0 %tmp.164;
-        %tmp.167 = null;
-        %tmp.168 = dup %tmp.166;
-        %tmp.169 = aputv %tmp.168 1 %tmp.167;
-        %tmp.170 = "alloc_fail:";
-        %tmp.171 = lgetv %totalSize.8;
-        symbol [ totalSize %tmp.171 90 48 57 ];
-        %tmp.172 = add %tmp.170 %tmp.171;
-        %tmp.173 = dup %tmp.169;
-        %tmp.174 = aputv %tmp.173 2 %tmp.172;
-        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally;
-        ret %tmp.174;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_87_20_91_8_stop:
-        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally;
+        %tmp.129 = newa 3 Lang.Array;
+        symbol [ Lang %tmp.129 79 63 67 ];
+        symbol [ Array %tmp.129 79 68 73 ];
+        %tmp.130 = null;
+        %tmp.131 = dup %tmp.129;
+        %tmp.132 = aputv %tmp.131 0 %tmp.130;
+        %tmp.133 = null;
+        %tmp.134 = dup %tmp.132;
+        %tmp.135 = aputv %tmp.134 1 %tmp.133;
+        %tmp.136 = "alloc_fail:";
+        %tmp.137 = lgetv %tb.8;
+        symbol [ tb %tmp.137 79 56 58 ];
+        %tmp.138 = add %tmp.136 %tmp.137;
+        %tmp.139 = dup %tmp.135;
+        %tmp.140 = aputv %tmp.139 2 %tmp.138;
+        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally;
+        ret %tmp.140;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_28_80_16_stop:
+        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally;
         pop;
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_87_10_91_8_end:
-        try @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_catch @G__code_garmiand_garmin_source_BleChunkAssembler_mc_87_10_91_8_end @G__code_garmiand_garmin_source_BleChunkAssembler_mc_87_10_91_8_end @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally;
-        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally;
-        throw %tmp.148;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_finally:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_18_80_16_end:
+        try @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_catch @G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_18_80_16_end @G__code_garmiand_garmin_source_BleChunkAssembler_mc_76_18_80_16_end @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally;
+        jsr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally;
+        throw %tmp.114;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_finally:
         jsrret;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_8_91_8_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 92 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %off.12 = local;
-        symbol [ off %off.12 92 12 15 ];
-        %tmp.175 = 0;
-        lputv %off.12 %tmp.175;
-        symbol [ off %off.12 92 12 15 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 93 8 ]
-        for @G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_test @G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_incr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_init:
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_begin" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_end" ]
-        %j.13 = local;
-        symbol [ j %j.13 93 17 18 ];
-        %tmp.176 = 0;
-        lputv %j.13 %tmp.176;
-        symbol [ j %j.13 93 17 18 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_test:
-        %tmp.177 = lgetv %j.13;
-        symbol [ j %tmp.177 93 24 25 ];
-        symbol [ _expectedTotal %tmp.179 93 28 42 ];
-        %tmp.179 = getv ? :_expectedTotal;
-        %tmp.180 = lt %tmp.177 %tmp.179;
-        bf %tmp.180 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_begin:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_49_99_8_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 94 12 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_49_99_8_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_49_99_8_stop" ]
-        %ch.14 = local;
-        symbol [ ch %ch.14 94 16 18 ];
-        symbol [ _chunks %tmp.182 94 21 28 ];
-        %tmp.182 = getv ? :_chunks;
-        symbol [ get %tmp.183 94 29 32 ];
-        %tmp.183 = getv function %tmp.182 :get;
-        %tmp.184 = lgetv %j.13;
-        symbol [ j %tmp.184 94 33 34 ];
-        %tmp.185 = invoke %tmp.182 %tmp.183(%tmp.184);
-        %tmp.186 = as %tmp.185 Lang.ByteArray;
-        symbol [ Lang %tmp.186 94 39 43 ];
-        symbol [ ByteArray %tmp.186 94 44 53 ];
-        lputv %ch.14 %tmp.186;
-        symbol [ ch %ch.14 94 16 18 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 95 12 ]
-        for @G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_test @G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_incr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_init:
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_begin" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_end" ]
-        %k.15 = local;
-        symbol [ k %k.15 95 21 22 ];
-        %tmp.187 = 0;
-        lputv %k.15 %tmp.187;
-        symbol [ k %k.15 95 21 22 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_test:
-        %tmp.188 = lgetv %k.15;
-        symbol [ k %tmp.188 95 28 29 ];
-        %tmp.189 = lgetv %ch.14;
-        symbol [ ch %tmp.189 95 32 34 ];
-        symbol [ size %tmp.190 95 35 39 ];
-        %tmp.190 = getv function %tmp.189 :size;
-        %tmp.191 = invoke %tmp.189 %tmp.190();
-        %tmp.192 = lt %tmp.188 %tmp.191;
-        bf %tmp.192 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_end;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_begin:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_48_97_12_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 96 16 ]
-        %tmp.193 = lgetv %blob.10;
-        symbol [ blob %tmp.193 96 16 20 ];
-        %tmp.194 = lgetv %ch.14;
-        symbol [ ch %tmp.194 96 32 34 ];
-        %tmp.195 = lgetv %k.15;
-        symbol [ k %tmp.195 96 35 36 ];
-        %tmp.196 = agetv %tmp.194 %tmp.195;
-        %tmp.197 = lgetv %off.12;
-        symbol [ off %tmp.197 96 21 24 ];
-        %tmp.198 = lgetv %k.15;
-        symbol [ k %tmp.198 96 27 28 ];
-        %tmp.199 = add %tmp.197 %tmp.198;
-        aputv %tmp.193 %tmp.199 %tmp.196;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_48_97_12_stop:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_incr:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 95 ]
-        %tmp.202 = lgetv %k.15;
-        symbol [ k %tmp.202 95 43 44 ];
-        %tmp.203 = add %tmp.202 1;
-        lputv %k.15 %tmp.203;
-        symbol [ k %k.15 95 43 44 ];
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_test;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_95_12_97_12_for_end:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 98 12 ]
-        %tmp.204 = lgetv %off.12;
-        symbol [ off %tmp.204 98 12 15 ];
-        %tmp.205 = lgetv %ch.14;
-        symbol [ ch %tmp.205 98 19 21 ];
-        symbol [ size %tmp.206 98 22 26 ];
-        %tmp.206 = getv function %tmp.205 :size;
-        %tmp.207 = invoke %tmp.205 %tmp.206();
-        %tmp.208 = add %tmp.204 %tmp.207;
-        lputv %off.12 %tmp.208;
-        symbol [ off %off.12 98 12 15 ];
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_49_99_8_stop:
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_incr:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 93 ]
-        %tmp.211 = lgetv %j.13;
-        symbol [ j %tmp.211 93 44 45 ];
-        %tmp.212 = add %tmp.211 1;
-        lputv %j.13 %tmp.212;
-        symbol [ j %j.13 93 44 45 ];
-        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_test;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_93_8_99_8_for_end:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_74_16_80_16_end:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_24_81_12_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_12_81_12_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_73_12_81_12_if_end:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_110_82_8_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_62_8_82_8_if_end:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 84 8 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_8_94_8_if_stmt:
+        symbol [ _received %tmp.142 84 13 22 ];
+        %tmp.142 = getv ? :_received;
+        symbol [ hasKey %tmp.143 84 23 29 ];
+        %tmp.143 = getv function %tmp.142 :hasKey;
+        %tmp.144 = lgetv %idx.6;
+        symbol [ idx %tmp.144 84 30 33 ];
+        %tmp.145 = invoke %tmp.142 %tmp.143(%tmp.144);
+        %tmp.146 = not %tmp.145;
+        bf %tmp.146 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_8_94_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_8_94_8_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_36_94_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 85 12 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_91_12_if_stmt:
+        symbol [ _blob %tmp.148 85 16 21 ];
+        %tmp.148 = getv ? :_blob;
+        %tmp.149 = null;
+        %tmp.150 = ne %tmp.148 %tmp.149;
+        bf %tmp.150 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_91_12_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_91_12_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_31_91_12_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 86 16 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_31_91_12_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_31_91_12_stop" ]
+        %offset.11 = local;
+        symbol [ offset %offset.11 86 20 26 ];
+        %tmp.151 = lgetv %idx.6;
+        symbol [ idx %tmp.151 86 29 32 ];
+        symbol [ _knownChunkSize %tmp.153 86 35 50 ];
+        %tmp.153 = getv ? :_knownChunkSize;
+        %tmp.154 = mul %tmp.151 %tmp.153;
+        lputv %offset.11 %tmp.154;
+        symbol [ offset %offset.11 86 20 26 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 87 16 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_31_91_12_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_31_91_12_stop" ]
+        %blob.12 = local;
+        symbol [ blob %blob.12 87 20 24 ];
+        symbol [ _blob %tmp.156 87 27 32 ];
+        %tmp.156 = getv ? :_blob;
+        %tmp.157 = as %tmp.156 { (!Null) };
+        %tmp.158 = as %tmp.157 Lang.ByteArray;
+        symbol [ Lang %tmp.158 87 36 40 ];
+        symbol [ ByteArray %tmp.158 87 41 50 ];
+        lputv %blob.12 %tmp.158;
+        symbol [ blob %blob.12 87 20 24 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 88 16 ]
+        for @G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_test @G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_incr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_init:
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_begin" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_end" ]
+        %k.13 = local;
+        symbol [ k %k.13 88 25 26 ];
+        %tmp.159 = 0;
+        lputv %k.13 %tmp.159;
+        symbol [ k %k.13 88 25 26 ];
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_test:
+        %tmp.160 = lgetv %k.13;
+        symbol [ k %tmp.160 88 32 33 ];
+        %tmp.161 = lgetv %bytes.9;
+        symbol [ bytes %tmp.161 88 36 41 ];
+        symbol [ size %tmp.162 88 42 46 ];
+        %tmp.162 = getv function %tmp.161 :size;
+        %tmp.163 = invoke %tmp.161 %tmp.162();
+        %tmp.164 = lt %tmp.160 %tmp.163;
+        bf %tmp.164 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_begin:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_55_90_16_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 89 20 ]
+        %tmp.165 = lgetv %blob.12;
+        symbol [ blob %tmp.165 89 20 24 ];
+        %tmp.166 = lgetv %bytes.9;
+        symbol [ bytes %tmp.166 89 39 44 ];
+        %tmp.167 = lgetv %k.13;
+        symbol [ k %tmp.167 89 45 46 ];
+        %tmp.168 = agetv %tmp.166 %tmp.167;
+        %tmp.169 = lgetv %offset.11;
+        symbol [ offset %tmp.169 89 25 31 ];
+        %tmp.170 = lgetv %k.13;
+        symbol [ k %tmp.170 89 34 35 ];
+        %tmp.171 = add %tmp.169 %tmp.170;
+        aputv %tmp.165 %tmp.171 %tmp.168;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_55_90_16_stop:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_incr:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 88 ]
+        %tmp.174 = lgetv %k.13;
+        symbol [ k %tmp.174 88 50 51 ];
+        %tmp.175 = add %tmp.174 1;
+        lputv %k.13 %tmp.175;
+        symbol [ k %k.13 88 50 51 ];
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_test;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_88_16_90_16_for_end:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_31_91_12_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_91_12_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_85_12_91_12_if_end:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 92 12 ]
+        symbol [ _received %tmp.177 92 12 21 ];
+        %tmp.177 = getv ? :_received;
+        symbol [ put %tmp.178 92 22 25 ];
+        %tmp.178 = getv function %tmp.177 :put;
+        %tmp.179 = lgetv %idx.6;
+        symbol [ idx %tmp.179 92 26 29 ];
+        %tmp.180 = true;
+        invoke %tmp.177 %tmp.178(%tmp.179, %tmp.180);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 93 12 ]
+        symbol [ _receivedCount %tmp.183 93 12 26 ];
+        %tmp.183 = getv ? :_receivedCount;
+        %tmp.184 = add %tmp.183 1;
+        symbol [ _receivedCount ? 93 12 26 ];
+        putv self :_receivedCount dup %tmp.184;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_36_94_8_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_8_94_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_84_8_94_8_if_end:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 96 8 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_8_98_8_if_stmt:
+        symbol [ _receivedCount %tmp.186 96 12 26 ];
+        %tmp.186 = getv ? :_receivedCount;
+        symbol [ _expectedTotal %tmp.188 96 29 43 ];
+        %tmp.188 = getv ? :_expectedTotal;
+        %tmp.189 = lt %tmp.186 %tmp.188;
+        bf %tmp.189 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_8_98_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_8_98_8_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_45_98_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 97 12 ]
+        %tmp.190 = null;
+        ret %tmp.190;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_45_98_8_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_8_98_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_96_8_98_8_if_end:
 [ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 101 8 ]
-        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop" ]
-        %assembledId.16 = local;
-        symbol [ assembledId %assembledId.16 101 12 23 ];
-        symbol [ _bundleId %tmp.214 101 26 35 ];
-        %tmp.214 = getv ? :_bundleId;
-        %tmp.215 = as %tmp.214 Lang.String;
-        symbol [ Lang %tmp.215 101 39 43 ];
-        symbol [ String %tmp.215 101 44 50 ];
-        lputv %assembledId.16 %tmp.215;
-        symbol [ assembledId %assembledId.16 101 12 23 ];
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 102 8 ]
-        symbol [ System %tmp.216 102 8 14 ];
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_8_105_8_if_stmt:
+        symbol [ _blob %tmp.192 101 12 17 ];
+        %tmp.192 = getv ? :_blob;
+        %tmp.193 = null;
+        %tmp.194 = eq %tmp.192 %tmp.193;
+        bf %tmp.194 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_8_105_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_8_105_8_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_27_105_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 102 12 ]
+        symbol [ System %tmp.195 102 12 18 ];
+        %tmp.195 = getm $.Toybox.System;
+        symbol [ println %tmp.196 102 19 26 ];
+        %tmp.196 = getv function %tmp.195 :println;
+        %tmp.197 = "[Tiles] assembled but no blob — missing tb field?";
+        invoke %tmp.195 %tmp.196(%tmp.197);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 103 12 ]
+        %tmp.198 = self;
+        symbol [ reset %tmp.199 103 12 17 ];
+        %tmp.199 = getv function %tmp.198 :reset;
+        invoke %tmp.198 %tmp.199();
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 104 12 ]
+        %tmp.200 = newa 3 Lang.Array;
+        symbol [ Lang %tmp.200 104 46 50 ];
+        symbol [ Array %tmp.200 104 51 56 ];
+        %tmp.201 = null;
+        %tmp.202 = dup %tmp.200;
+        %tmp.203 = aputv %tmp.202 0 %tmp.201;
+        %tmp.204 = null;
+        %tmp.205 = dup %tmp.203;
+        %tmp.206 = aputv %tmp.205 1 %tmp.204;
+        %tmp.207 = "no_blob";
+        %tmp.208 = dup %tmp.206;
+        %tmp.209 = aputv %tmp.208 2 %tmp.207;
+        ret %tmp.209;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_27_105_8_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_8_105_8_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_101_8_105_8_if_end:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 107 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %assembledId.14 = local;
+        symbol [ assembledId %assembledId.14 107 12 23 ];
+        symbol [ _bundleId %tmp.211 107 26 35 ];
+        %tmp.211 = getv ? :_bundleId;
+        %tmp.212 = as %tmp.211 Lang.String;
+        symbol [ Lang %tmp.212 107 39 43 ];
+        symbol [ String %tmp.212 107 44 50 ];
+        lputv %assembledId.14 %tmp.212;
+        symbol [ assembledId %assembledId.14 107 12 23 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 108 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop" ]
+        %blob.15 = local;
+        symbol [ blob %blob.15 108 12 16 ];
+        symbol [ _blob %tmp.214 108 19 24 ];
+        %tmp.214 = getv ? :_blob;
+        %tmp.215 = as %tmp.214 Lang.ByteArray;
+        symbol [ Lang %tmp.215 108 28 32 ];
+        symbol [ ByteArray %tmp.215 108 33 42 ];
+        lputv %blob.15 %tmp.215;
+        symbol [ blob %blob.15 108 12 16 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 109 8 ]
+        symbol [ System %tmp.216 109 8 14 ];
         %tmp.216 = getm $.Toybox.System;
-        symbol [ println %tmp.217 102 15 22 ];
+        symbol [ println %tmp.217 109 15 22 ];
         %tmp.217 = getv function %tmp.216 :println;
         %tmp.218 = "[Tiles] BLE bundle assembled ";
-        %tmp.219 = lgetv %assembledId.16;
-        symbol [ assembledId %tmp.219 102 57 68 ];
+        %tmp.219 = lgetv %assembledId.14;
+        symbol [ assembledId %tmp.219 109 57 68 ];
         %tmp.220 = add %tmp.218 %tmp.219;
         %tmp.221 = " size=";
         %tmp.222 = add %tmp.220 %tmp.221;
-        %tmp.223 = lgetv %totalSize.8;
-        symbol [ totalSize %tmp.223 102 82 91 ];
-        %tmp.224 = add %tmp.222 %tmp.223;
-        invoke %tmp.216 %tmp.217(%tmp.224);
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 103 8 ]
-        %tmp.225 = self;
-        symbol [ reset %tmp.226 103 8 13 ];
-        %tmp.226 = getv function %tmp.225 :reset;
-        invoke %tmp.225 %tmp.226();
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 104 8 ]
-        %tmp.227 = newa 3 Lang.Array;
-        symbol [ Lang %tmp.227 104 44 48 ];
-        symbol [ Array %tmp.227 104 49 54 ];
-        %tmp.228 = lgetv %assembledId.16;
-        symbol [ assembledId %tmp.228 104 16 27 ];
-        %tmp.229 = dup %tmp.227;
-        %tmp.230 = aputv %tmp.229 0 %tmp.228;
-        %tmp.231 = lgetv %blob.10;
-        symbol [ blob %tmp.231 104 29 33 ];
-        %tmp.232 = dup %tmp.230;
-        %tmp.233 = aputv %tmp.232 1 %tmp.231;
-        %tmp.234 = null;
-        %tmp.235 = dup %tmp.233;
-        %tmp.236 = aputv %tmp.235 2 %tmp.234;
-        ret %tmp.236;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_37_60_105_4_stop:
+        %tmp.223 = lgetv %blob.15;
+        symbol [ blob %tmp.223 109 82 86 ];
+        symbol [ size %tmp.224 109 87 91 ];
+        %tmp.224 = getv function %tmp.223 :size;
+        %tmp.225 = invoke %tmp.223 %tmp.224();
+        %tmp.226 = add %tmp.222 %tmp.225;
+        invoke %tmp.216 %tmp.217(%tmp.226);
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 110 8 ]
+        %tmp.227 = self;
+        symbol [ reset %tmp.228 110 8 13 ];
+        %tmp.228 = getv function %tmp.227 :reset;
+        invoke %tmp.227 %tmp.228();
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 111 8 ]
+        %tmp.229 = newa 3 Lang.Array;
+        symbol [ Lang %tmp.229 111 44 48 ];
+        symbol [ Array %tmp.229 111 49 54 ];
+        %tmp.230 = lgetv %assembledId.14;
+        symbol [ assembledId %tmp.230 111 16 27 ];
+        %tmp.231 = dup %tmp.229;
+        %tmp.232 = aputv %tmp.231 0 %tmp.230;
+        %tmp.233 = lgetv %blob.15;
+        symbol [ blob %tmp.233 111 29 33 ];
+        %tmp.234 = dup %tmp.232;
+        %tmp.235 = aputv %tmp.234 1 %tmp.233;
+        %tmp.236 = null;
+        %tmp.237 = dup %tmp.235;
+        %tmp.238 = aputv %tmp.237 2 %tmp.236;
+        ret %tmp.238;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_42_60_112_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 107; @symbol_functiondef = [progress,107,13,21]; @symbol_return<0> = [Lang,107,27,31]; @symbol_return<1> = [Array,107,32,37]; @symbol_return<2> = [Lang,107,38,42]; @symbol_return<3> = [Number,107,43,49]; ]
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 114; @symbol_functiondef = [progress,114,13,21]; @symbol_return<0> = [Lang,114,27,31]; @symbol_return<1> = [Array,114,32,37]; @symbol_return<2> = [Lang,114,38,42]; @symbol_return<3> = [Number,114,43,49]; ]
     function progress() as Lang.Array<Lang.Number> {
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_107_51_109_4_start:
-[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 108 8 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_114_51_116_4_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 115 8 ]
         %tmp.1 = newa 2 Lang.Array<Lang.Number>;
-        symbol [ Lang %tmp.1 108 51 55 ];
-        symbol [ Array %tmp.1 108 56 61 ];
-        symbol [ Lang %tmp.1 108 62 66 ];
-        symbol [ Number %tmp.1 108 67 73 ];
-        symbol [ _receivedCount %tmp.3 108 16 30 ];
+        symbol [ Lang %tmp.1 115 51 55 ];
+        symbol [ Array %tmp.1 115 56 61 ];
+        symbol [ Lang %tmp.1 115 62 66 ];
+        symbol [ Number %tmp.1 115 67 73 ];
+        symbol [ _receivedCount %tmp.3 115 16 30 ];
         %tmp.3 = getv ? :_receivedCount;
         %tmp.4 = dup %tmp.1;
         %tmp.5 = aputv %tmp.4 0 %tmp.3;
-        symbol [ _expectedTotal %tmp.7 108 32 46 ];
+        symbol [ _expectedTotal %tmp.7 115 32 46 ];
         %tmp.7 = getv ? :_expectedTotal;
         %tmp.8 = dup %tmp.5;
         %tmp.9 = aputv %tmp.8 1 %tmp.7;
         ret %tmp.9;
-G__code_garmiand_garmin_source_BleChunkAssembler_mc_107_51_109_4_stop:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_114_51_116_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 118; @symbol_functiondef = [getMissingIndices,118,13,30]; @symbol_return<0> = [Lang,118,36,40]; @symbol_return<1> = [Array,118,41,46]; @symbol_return<2> = [Lang,118,47,51]; @symbol_return<3> = [Number,118,52,58]; ]
+    function getMissingIndices() as Lang.Array<Lang.Number> {
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_118_60_126_4_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 119 8 ]
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_118_60_126_4_start" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_118_60_126_4_stop" ]
+        %missing.1 = local;
+        symbol [ missing %missing.1 119 12 19 ];
+        %tmp.1 = newa 0 Lang.Array<Lang.Number>;
+        symbol [ Lang %tmp.1 119 28 32 ];
+        symbol [ Array %tmp.1 119 33 38 ];
+        symbol [ Lang %tmp.1 119 39 43 ];
+        symbol [ Number %tmp.1 119 44 50 ];
+        lputv %missing.1 %tmp.1;
+        symbol [ missing %missing.1 119 12 19 ];
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 120 8 ]
+        for @G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_test @G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_incr @G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_init:
+        [ "G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_begin" "G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_end" ]
+        %i.2 = local;
+        symbol [ i %i.2 120 17 18 ];
+        %tmp.2 = 0;
+        lputv %i.2 %tmp.2;
+        symbol [ i %i.2 120 17 18 ];
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_test:
+        %tmp.3 = lgetv %i.2;
+        symbol [ i %tmp.3 120 24 25 ];
+        symbol [ _expectedTotal %tmp.5 120 28 42 ];
+        %tmp.5 = getv ? :_expectedTotal;
+        %tmp.6 = lt %tmp.3 %tmp.5;
+        bf %tmp.6 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_begin:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_49_124_8_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 121 12 ]
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_12_123_12_if_stmt:
+        symbol [ _received %tmp.8 121 17 26 ];
+        %tmp.8 = getv ? :_received;
+        symbol [ hasKey %tmp.9 121 27 33 ];
+        %tmp.9 = getv function %tmp.8 :hasKey;
+        %tmp.10 = lgetv %i.2;
+        symbol [ i %tmp.10 121 34 35 ];
+        %tmp.11 = invoke %tmp.8 %tmp.9(%tmp.10);
+        %tmp.12 = not %tmp.11;
+        bf %tmp.12 @G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_12_123_12_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_12_123_12_if_true:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_38_123_12_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 122 16 ]
+        %tmp.13 = lgetv %missing.1;
+        symbol [ missing %tmp.13 122 16 23 ];
+        symbol [ add %tmp.14 122 24 27 ];
+        %tmp.14 = getv function %tmp.13 :add;
+        %tmp.15 = lgetv %i.2;
+        symbol [ i %tmp.15 122 28 29 ];
+        invoke %tmp.13 %tmp.14(%tmp.15);
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_38_123_12_stop:
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_12_123_12_if_end;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_121_12_123_12_if_end:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_49_124_8_stop:
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_incr:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 120 ]
+        %tmp.18 = lgetv %i.2;
+        symbol [ i %tmp.18 120 44 45 ];
+        %tmp.19 = add %tmp.18 1;
+        lputv %i.2 %tmp.19;
+        symbol [ i %i.2 120 44 45 ];
+        goto @G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_test;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_120_8_124_8_for_end:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 125 8 ]
+        %tmp.20 = lgetv %missing.1;
+        symbol [ missing %tmp.20 125 15 22 ];
+        ret %tmp.20;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_118_60_126_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 128; @symbol_functiondef = [getBundleId,128,13,24]; @symbol_return<0> = [Lang,128,30,34]; @symbol_return<1> = [String,128,35,41]; ]
+    function getBundleId() as Lang.String or Null {
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_128_43_130_4_start:
+[ "G:\code\garmiand\garmin\source\BleChunkAssembler.mc" 129 8 ]
+        symbol [ _bundleId %tmp.2 129 15 24 ];
+        %tmp.2 = getv ? :_bundleId;
+        ret %tmp.2;
+G__code_garmiand_garmin_source_BleChunkAssembler_mc_128_43_130_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\BleChunkAssembler.mc"; @line = 1; ]
