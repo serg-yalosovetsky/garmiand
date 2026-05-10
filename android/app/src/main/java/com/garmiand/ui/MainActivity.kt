@@ -236,6 +236,7 @@ class MainActivity : AppCompatActivity() {
                     sessionId = sessionId,
                     bundleId = result.bundleId,
                     downloadUrl = result.downloadUrl,
+                    totalBytes = result.size,
                 )
             )
             AppLog.i(TAG, "tile_session ack ok=${ack.ok} reason=${ack.reason}")

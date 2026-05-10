@@ -197,3 +197,51 @@ set but TILES mode shows the empty-bundle text, the blob is missing from
 Storage — most likely BLE chunk reassembly bailed mid-way. Resend with the
 "Cache map for offline" switch on, watching the log for `BLE chunk N/N` to
 make sure all chunks acked.
+
+## `instanceof Lang.Numeric` compile error: "Undefined symbol ':Numeric'"
+
+**Symptom.** `monkeyc` fails with:
+
+```
+BleChunkAssembler.mc:59,8: Undefined symbol ':Numeric' detected
+```
+
+**Root cause.** `Lang.Numeric` is an abstract interface in the Connect IQ type hierarchy
+and cannot be used as an operand of `instanceof`. The compiler only accepts concrete
+classes (`Lang.Number`, `Lang.Float`, `Lang.Double`, `Lang.Long`) in `instanceof`
+expressions.
+
+**Fix.** Replace every `instanceof Lang.Numeric` / `as Lang.Numeric` with the
+appropriate concrete type:
+- Integer fields (indices, counts, flags) → `Lang.Number`
+- Coordinate fields (lat/lon) received from Android → `Lang.Float`
+  (Android `Double` arrives on the watch as a CIQ `Float`)
+
+Files affected: `BleChunkAssembler.mc`, `GarmiandApp.mc`, `RouteData.mc`.
+
+**Rule.** Never use `Lang.Numeric`, `Lang.Comparable`, or any other abstract CIQ
+interface in an `instanceof` or `as` cast — they compile on some SDK versions and
+silently fail on others. Always cast to the concrete leaf type.
+
+## `while (true)` compile error: "Not all paths return a value"
+
+`monkeyc` does not recognize `while (true)` as an infinite loop. A function
+containing only a `while (true) { … return …; }` body will fail with:
+
+```
+Not all paths return a value.
+```
+
+Fix: add an explicit `return <default>` **after** the closing `}` of the
+`while` block. The line is unreachable at runtime but satisfies the compiler.
+
+```monkey-c
+static function persist(…) as Lang.Boolean {
+    while (true) {
+        if (…) { return true; }
+        if (…) { return false; }
+        // evict and retry
+    }
+    return false;  // unreachable — required by monkeyc
+}
+```

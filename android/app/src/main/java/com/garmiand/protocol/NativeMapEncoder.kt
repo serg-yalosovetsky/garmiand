@@ -76,6 +76,7 @@ object SyncMessageSerializer {
             PhoneMessageEnvelope.KEY_SESSION_ID to msg.sessionId,
             PhoneMessageEnvelope.KEY_BUNDLE_ID to msg.bundleId,
             PhoneMessageEnvelope.KEY_DOWNLOAD_URL to msg.downloadUrl,
+            PhoneMessageEnvelope.KEY_TOTAL_BYTES to msg.totalBytes,
         )
         is SyncMessage.TileChunk -> mapOf(
             PhoneMessageEnvelope.KEY_VERSION to PhoneMessageEnvelope.VERSION,

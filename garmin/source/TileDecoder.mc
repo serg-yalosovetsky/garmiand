@@ -203,6 +203,7 @@ class TileDecoder {
             deleteBundleByKey(oldest);
             System.println("[Tiles] evicted b_" + oldest + " to make room, remaining=" + manifest.size());
         }
+        return false;
     }
 
     static function load(bundleId as Lang.String) as Lang.ByteArray? {

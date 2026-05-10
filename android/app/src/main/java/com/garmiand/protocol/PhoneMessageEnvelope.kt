@@ -24,6 +24,7 @@ object PhoneMessageEnvelope {
     // Tile bundle delivery (HTTPS announcement)
     const val KEY_BUNDLE_ID = "bundle_id"
     const val KEY_DOWNLOAD_URL = "download_url"
+    const val KEY_TOTAL_BYTES = "total_bytes"
 
     // BLE chunked delivery
     const val KEY_CHUNK_INDEX = "i"

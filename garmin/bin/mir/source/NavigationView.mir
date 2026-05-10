@@ -19,7 +19,7 @@ const BG_MODE_TILES = 1;
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 11; @position = 6; @symbol_constdef = [BG_MODE_NONE,11,6,18]; ]
 const BG_MODE_NONE = 2;
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 13; @position = 6; @symbol_constdef = [APP_VERSION,13,6,17]; ]
-const APP_VERSION = "2026-05-10 02:39 dbg18";
+const APP_VERSION = "2026-05-10 12:00 dbg19";
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 15; @symbol_classdef = [DecodedTile,15,6,17]; ]
 class DecodedTile {
     [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 15; ]

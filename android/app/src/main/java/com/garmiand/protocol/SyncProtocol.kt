@@ -35,6 +35,7 @@ sealed interface SyncMessage {
         override val sessionId: String,
         val bundleId: String,
         val downloadUrl: String,
+        val totalBytes: Int,
     ) : SyncMessage
 
     data class TileChunk(

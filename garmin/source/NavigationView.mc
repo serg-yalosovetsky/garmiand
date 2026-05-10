@@ -10,7 +10,7 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
-const APP_VERSION = "2026-05-10 02:39 dbg18";
+const APP_VERSION = "2026-05-10 12:00 dbg19";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
