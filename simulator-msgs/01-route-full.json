@@ -1,11 +1,11 @@
 {
   "kind": "route_full",
   "route_id": "test-1",
-  "route_name": "Sim Route",
-  "lats": [50.4501, 50.4520, 50.4540, 50.4560, 50.4580],
-  "lons": [30.5234, 30.5260, 30.5290, 30.5320, 30.5350],
+  "route_name": "Sim Route (bundle 052530bf region)",
+  "lats": [48.2175, 48.2185, 48.2195, 48.2205, 48.2215],
+  "lons": [24.7850, 24.7870, 24.7890, 24.7910, 24.7930],
   "markers": [
-    {"id": "start", "title": "Start", "lat": 50.4501, "lon": 30.5234},
-    {"id": "finish", "title": "Finish", "lat": 50.4580, "lon": 30.5350}
+    {"id": "start", "title": "Start", "lat": 48.2175, "lon": 24.7850},
+    {"id": "finish", "title": "Finish", "lat": 48.2215, "lon": 24.7930}
   ]
 }
