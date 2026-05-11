@@ -11,14 +11,14 @@ const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
 // Interact sub-modes within BG_MODE_TILES (cycled by SELECT).
-// UP/DOWN pan or zoom the map. BACK always centers to GPS.
-// SELECT cycle: PAN_NS → PAN_WE → ZOOM → CENTERED (GPS reset) → exits TILES mode.
-const INTERACT_PAN_NS = 0;   // UP/DOWN pan north/south
-const INTERACT_PAN_WE = 1;   // UP/DOWN pan west/east
-const INTERACT_ZOOM   = 2;   // UP = zoom in, DOWN = zoom out
-const INTERACT_CENTERED = 3; // GPS was centered; next SELECT exits TILES
+// SELECT cycle: ZOOM → PAN_NS → PAN_WE → JUMP → exits TILES mode.
+// In JUMP mode: UP = center on GPS position, DOWN = center on route.
+const INTERACT_ZOOM   = 0;   // UP = zoom in,   DOWN = zoom out
+const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
+const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
+const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 dbg26";
+const APP_VERSION = "2026-05-11 03:29 dbg27";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -80,7 +80,7 @@ class NavigationView extends WatchUi.View {
     // Reset to 0 by centerToGps(). Applied in projectPoint().
     var _panOffsetLat as Lang.Float;
     var _panOffsetLon as Lang.Float;
-    var _interactMode as Lang.Number; // INTERACT_PAN_NS / PAN_WE / ZOOM / CENTERED
+    var _interactMode as Lang.Number; // INTERACT_ZOOM / PAN_NS / PAN_WE / JUMP
     // Zoom: >1 = zoomed in (viewport shrunk), <1 = zoomed out. Reset with pan.
     var _zoomFactor as Lang.Float;
 
@@ -116,7 +116,7 @@ class NavigationView extends WatchUi.View {
         _screenH = 0;
         _panOffsetLat = 0.0f;
         _panOffsetLon = 0.0f;
-        _interactMode = INTERACT_PAN_NS;
+        _interactMode = INTERACT_ZOOM;
         _zoomFactor = 1.0f;
         // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
         // via Graphics.createBufferedBitmap, which requires the view's graphics
@@ -502,9 +502,9 @@ class NavigationView extends WatchUi.View {
     function drawModeBadge(dc as Graphics.Dc) as Void {
         var label;
         if (_mapMode == BG_MODE_TILES) {
-            var im = (_interactMode == INTERACT_PAN_WE) ? "WE"
-                   : (_interactMode == INTERACT_ZOOM)   ? "ZOOM"
-                   : (_interactMode == INTERACT_CENTERED) ? "CTR" : "NS";
+            var im = (_interactMode == INTERACT_PAN_NS) ? "NS"
+                   : (_interactMode == INTERACT_PAN_WE) ? "WE"
+                   : (_interactMode == INTERACT_JUMP)   ? "JMP" : "ZOOM";
             var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
             label = "[" + im + "]" + (have ? " ok" : " —");
         } else if (_mapMode == BG_MODE_NONE) {
@@ -696,43 +696,63 @@ class NavigationView extends WatchUi.View {
     }
 
     // SELECT handler. In TILES mode cycles through interact sub-modes;
-    // 4th press (from CENTERED) exits TILES. Outside TILES cycles bg mode.
-    // Cycle: NS → WE → ZOOM → CTR (GPS reset) → exit TILES
+    // 4th press (from JUMP) exits TILES. Outside TILES cycles bg mode.
+    // Cycle: ZOOM → NS → WE → JUMP → exit TILES
     function cycleMapMode() as Void {
         if (_mapMode == BG_MODE_TILES) {
-            if (_interactMode == INTERACT_PAN_NS) {
+            if (_interactMode == INTERACT_ZOOM) {
+                _interactMode = INTERACT_PAN_NS;
+            } else if (_interactMode == INTERACT_PAN_NS) {
                 _interactMode = INTERACT_PAN_WE;
             } else if (_interactMode == INTERACT_PAN_WE) {
-                _interactMode = INTERACT_ZOOM;
-            } else if (_interactMode == INTERACT_ZOOM) {
-                _interactMode = INTERACT_CENTERED;
-                centerToGps();
+                _interactMode = INTERACT_JUMP;
             } else {
-                // INTERACT_CENTERED — exit TILES mode
-                _interactMode = INTERACT_PAN_NS;
+                // INTERACT_JUMP — exit TILES mode
+                _interactMode = INTERACT_ZOOM;
                 setMapModeAndPersist(BG_MODE_NONE);
             }
             System.println("[Map] interact=" + _interactMode + " zoom=" + _zoomFactor);
             WatchUi.requestUpdate();
         } else {
-            _interactMode = INTERACT_PAN_NS;
+            _interactMode = INTERACT_ZOOM;
             setMapModeAndPersist((_mapMode + 1) % 3);
             System.println("[Map] mapMode=" + _mapMode);
         }
     }
 
-    // Reset pan and zoom to GPS position. Called by BACK button and the CENTER interact step.
+    // Center viewport on current GPS position (JUMP UP / BACK).
+    // If no GPS fix yet, falls back to route center.
     function centerToGps() as Void {
-        _panOffsetLat = 0.0f;
-        _panOffsetLon = 0.0f;
+        if (_viewSet && (_currentLat != 0.0f || _currentLon != 0.0f)) {
+            var routeCtrLat = (_viewLat0 + _viewLat1) * 0.5f;
+            var routeCtrLon = (_viewLon0 + _viewLon1) * 0.5f;
+            _panOffsetLat = _currentLat - routeCtrLat;
+            _panOffsetLon = _currentLon - routeCtrLon;
+        } else {
+            _panOffsetLat = 0.0f;
+            _panOffsetLon = 0.0f;
+        }
         _zoomFactor = 1.0f;
         pushDebug("GPS ctr");
         WatchUi.requestUpdate();
     }
 
-    // UP button: pan north (NS), pan west (WE), or zoom in (ZOOM).
+    // Center viewport on route bounding box (JUMP DOWN).
+    function centerToRoute() as Void {
+        _panOffsetLat = 0.0f;
+        _panOffsetLon = 0.0f;
+        _zoomFactor = 1.0f;
+        pushDebug("route ctr");
+        WatchUi.requestUpdate();
+    }
+
+    // UP button: zoom in (ZOOM), pan north (NS), pan west (WE), or go to GPS (JUMP).
     function interactUp() as Void {
         if (!_viewSet) { return; }
+        if (_interactMode == INTERACT_JUMP) {
+            centerToGps();
+            return;
+        }
         if (_interactMode == INTERACT_ZOOM) {
             _zoomFactor = (_zoomFactor * 1.5f).toFloat();
             if (_zoomFactor > 16.0f) { _zoomFactor = 16.0f; }
@@ -748,9 +768,13 @@ class NavigationView extends WatchUi.View {
         WatchUi.requestUpdate();
     }
 
-    // DOWN button: pan south (NS), pan east (WE), or zoom out (ZOOM).
+    // DOWN button: zoom out (ZOOM), pan south (NS), pan east (WE), or go to route (JUMP).
     function interactDown() as Void {
         if (!_viewSet) { return; }
+        if (_interactMode == INTERACT_JUMP) {
+            centerToRoute();
+            return;
+        }
         if (_interactMode == INTERACT_ZOOM) {
             _zoomFactor = (_zoomFactor / 1.5f).toFloat();
             if (_zoomFactor < 0.25f) { _zoomFactor = 0.25f; }

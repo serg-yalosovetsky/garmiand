@@ -1,11 +1,39 @@
 {
   "kind": "route_full",
-  "route_id": "test-1",
-  "route_name": "Sim Route (bundle 052530bf region)",
-  "lats": [48.2175, 48.2185, 48.2195, 48.2205, 48.2215],
-  "lons": [24.7850, 24.7870, 24.7890, 24.7910, 24.7930],
+  "route_id": "test-kyiv-1",
+  "route_name": "Kyiv winding test",
+  "lats": [
+    50.504,
+    50.505,
+    50.5058,
+    50.5062,
+    50.506,
+    50.5052,
+    50.5047,
+    50.5044
+  ],
+  "lons": [
+    30.4835,
+    30.484,
+    30.485,
+    30.4862,
+    30.4875,
+    30.4882,
+    30.4874,
+    30.4888
+  ],
   "markers": [
-    {"id": "start", "title": "Start", "lat": 48.2175, "lon": 24.7850},
-    {"id": "finish", "title": "Finish", "lat": 48.2215, "lon": 24.7930}
+    {
+      "id": "start",
+      "title": "Start",
+      "lat": 50.504,
+      "lon": 30.4835
+    },
+    {
+      "id": "finish",
+      "title": "Finish",
+      "lat": 50.5044,
+      "lon": 30.4888
+    }
   ]
 }

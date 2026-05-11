@@ -18,16 +18,16 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 11; @position = 6; @symbol_constdef = [BG_MODE_NONE,11,6,18]; ]
 const BG_MODE_NONE = 2;
-[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 16; @position = 6; @symbol_constdef = [INTERACT_PAN_NS,16,6,21]; ]
-const INTERACT_PAN_NS = 0;
-[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 17; @position = 6; @symbol_constdef = [INTERACT_PAN_WE,17,6,21]; ]
-const INTERACT_PAN_WE = 1;
-[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 18; @position = 6; @symbol_constdef = [INTERACT_ZOOM,18,6,19]; ]
-const INTERACT_ZOOM = 2;
-[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 19; @position = 6; @symbol_constdef = [INTERACT_CENTERED,19,6,23]; ]
-const INTERACT_CENTERED = 3;
+[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 16; @position = 6; @symbol_constdef = [INTERACT_ZOOM,16,6,19]; ]
+const INTERACT_ZOOM = 0;
+[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 17; @position = 6; @symbol_constdef = [INTERACT_PAN_NS,17,6,21]; ]
+const INTERACT_PAN_NS = 1;
+[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 18; @position = 6; @symbol_constdef = [INTERACT_PAN_WE,18,6,21]; ]
+const INTERACT_PAN_WE = 2;
+[ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 19; @position = 6; @symbol_constdef = [INTERACT_JUMP,19,6,19]; ]
+const INTERACT_JUMP = 3;
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 21; @position = 6; @symbol_constdef = [APP_VERSION,21,6,17]; ]
-const APP_VERSION = "2026-05-11 dbg26";
+const APP_VERSION = "2026-05-11 03:29 dbg27";
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 23; @symbol_classdef = [DecodedTile,23,6,17]; ]
 class DecodedTile {
     [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 23; ]
@@ -285,8 +285,8 @@ G__code_garmiand_garmin_source_NavigationView_mc_87_44_126_4_start:
         symbol [ _panOffsetLon ? 118 8 21 ];
         putv self :_panOffsetLon %tmp.37;
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 119 8 ]
-        symbol [ INTERACT_PAN_NS %tmp.39 119 24 39 ];
-        %tmp.39 = getv ? :INTERACT_PAN_NS;
+        symbol [ INTERACT_ZOOM %tmp.39 119 24 37 ];
+        %tmp.39 = getv ? :INTERACT_ZOOM;
         symbol [ _interactMode ? 119 8 21 ];
         putv self :_interactMode %tmp.39;
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 120 8 ]
@@ -3108,52 +3108,52 @@ G__code_garmiand_garmin_source_NavigationView_mc_504_39_510_8_start:
         [ "G__code_garmiand_garmin_source_NavigationView_mc_504_39_510_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_504_39_510_8_stop" ]
         %im.2 = local;
         symbol [ im %im.2 505 16 18 ];
-G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_begin:
+G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_begin:
         symbol [ _interactMode %tmp.7 505 22 35 ];
         %tmp.7 = getv ? :_interactMode;
-        symbol [ INTERACT_PAN_WE %tmp.9 505 39 54 ];
-        %tmp.9 = getv ? :INTERACT_PAN_WE;
+        symbol [ INTERACT_PAN_NS %tmp.9 505 39 54 ];
+        %tmp.9 = getv ? :INTERACT_PAN_NS;
         %tmp.10 = eq %tmp.7 %tmp.9;
-        bf %tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_true:
-        %tmp.11 = "WE";
+        bf %tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_true:
+        %tmp.11 = "NS";
         push %tmp.11;
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_end;
-G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_begin:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_end;
+G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_begin:
         symbol [ _interactMode %tmp.13 506 22 35 ];
         %tmp.13 = getv ? :_interactMode;
-        symbol [ INTERACT_ZOOM %tmp.15 506 39 52 ];
-        %tmp.15 = getv ? :INTERACT_ZOOM;
+        symbol [ INTERACT_PAN_WE %tmp.15 506 39 54 ];
+        %tmp.15 = getv ? :INTERACT_PAN_WE;
         %tmp.16 = eq %tmp.13 %tmp.15;
-        bf %tmp.16 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_true:
-        %tmp.17 = "ZOOM";
+        bf %tmp.16 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_true:
+        %tmp.17 = "WE";
         push %tmp.17;
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_end;
-G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_begin:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_end;
+G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_begin:
         symbol [ _interactMode %tmp.19 507 22 35 ];
         %tmp.19 = getv ? :_interactMode;
-        symbol [ INTERACT_CENTERED %tmp.21 507 39 56 ];
-        %tmp.21 = getv ? :INTERACT_CENTERED;
+        symbol [ INTERACT_JUMP %tmp.21 507 39 52 ];
+        %tmp.21 = getv ? :INTERACT_JUMP;
         %tmp.22 = eq %tmp.19 %tmp.21;
-        bf %tmp.22 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_true:
-        %tmp.23 = "CTR";
+        bf %tmp.22 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_true:
+        %tmp.23 = "JMP";
         push %tmp.23;
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_end;
-G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_else_false:
-        %tmp.24 = "NS";
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_end;
+G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_else_false:
+        %tmp.24 = "ZOOM";
         push %tmp.24;
-G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_end:
-        %tmp.25 = phi [%tmp.22 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_begin] [%tmp.23 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_true] [%tmp.24 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_else_false] [%tmp.25 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_68_end];
+G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_end:
+        %tmp.25 = phi [%tmp.22 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_begin] [%tmp.23 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_true] [%tmp.24 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_else_false] [%tmp.25 @G__code_garmiand_garmin_source_NavigationView_mc_507_21_507_66_end];
         push %tmp.25;
-G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_end:
-        %tmp.26 = phi [%tmp.16 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_begin] [%tmp.17 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_true] [%tmp.25 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_else_false] [%tmp.26 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_68_end];
+G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_end:
+        %tmp.26 = phi [%tmp.16 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_begin] [%tmp.17 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_true] [%tmp.25 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_else_false] [%tmp.26 @G__code_garmiand_garmin_source_NavigationView_mc_506_21_507_66_end];
         push %tmp.26;
-G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_end:
-        %tmp.27 = phi [%tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_begin] [%tmp.11 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_true] [%tmp.26 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_else_false] [%tmp.27 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_68_end];
+G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_end:
+        %tmp.27 = phi [%tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_begin] [%tmp.11 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_true] [%tmp.26 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_else_false] [%tmp.27 @G__code_garmiand_garmin_source_NavigationView_mc_505_21_507_66_end];
         lputv %im.2 %tmp.27;
         symbol [ im %im.2 505 16 18 ];
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 508 12 ]
@@ -5192,436 +5192,575 @@ G__code_garmiand_garmin_source_NavigationView_mc_694_41_696_4_stop:
     }
     [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 701; @symbol_functiondef = [cycleMapMode,701,13,25]; ]
     function cycleMapMode() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_701_36_722_4_start:
+G__code_garmiand_garmin_source_NavigationView_mc_701_36_721_4_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 702 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_702_8_721_8_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_702_8_720_8_if_stmt:
         symbol [ _mapMode %tmp.2 702 12 20 ];
         %tmp.2 = getv ? :_mapMode;
         symbol [ BG_MODE_TILES %tmp.4 702 24 37 ];
         %tmp.4 = getv ? :BG_MODE_TILES;
         %tmp.5 = eq %tmp.2 %tmp.4;
-        bf %tmp.5 @G__code_garmiand_garmin_source_NavigationView_mc_702_8_721_8_if_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_702_8_721_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_702_39_717_8_start:
+        bf %tmp.5 @G__code_garmiand_garmin_source_NavigationView_mc_702_8_720_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_702_8_720_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_702_39_716_8_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 703 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_703_12_714_12_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_703_12_713_12_if_stmt:
         symbol [ _interactMode %tmp.7 703 16 29 ];
         %tmp.7 = getv ? :_interactMode;
-        symbol [ INTERACT_PAN_NS %tmp.9 703 33 48 ];
-        %tmp.9 = getv ? :INTERACT_PAN_NS;
+        symbol [ INTERACT_ZOOM %tmp.9 703 33 46 ];
+        %tmp.9 = getv ? :INTERACT_ZOOM;
         %tmp.10 = eq %tmp.7 %tmp.9;
-        bf %tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_703_12_714_12_if_false;
-G__code_garmiand_garmin_source_NavigationView_mc_703_12_714_12_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_703_50_705_12_start:
+        bf %tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_703_12_713_12_if_false;
+G__code_garmiand_garmin_source_NavigationView_mc_703_12_713_12_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_703_48_705_12_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 704 16 ]
-        symbol [ INTERACT_PAN_WE %tmp.12 704 32 47 ];
-        %tmp.12 = getv ? :INTERACT_PAN_WE;
+        symbol [ INTERACT_PAN_NS %tmp.12 704 32 47 ];
+        %tmp.12 = getv ? :INTERACT_PAN_NS;
         symbol [ _interactMode ? 704 16 29 ];
         putv self :_interactMode %tmp.12;
-G__code_garmiand_garmin_source_NavigationView_mc_703_50_705_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_703_12_714_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_703_12_714_12_if_false:
+G__code_garmiand_garmin_source_NavigationView_mc_703_48_705_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_703_12_713_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_703_12_713_12_if_false:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 705 19 ]
-G__code_garmiand_garmin_source_NavigationView_mc_705_19_714_12_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_705_19_713_12_if_stmt:
         symbol [ _interactMode %tmp.14 705 23 36 ];
         %tmp.14 = getv ? :_interactMode;
-        symbol [ INTERACT_PAN_WE %tmp.16 705 40 55 ];
-        %tmp.16 = getv ? :INTERACT_PAN_WE;
+        symbol [ INTERACT_PAN_NS %tmp.16 705 40 55 ];
+        %tmp.16 = getv ? :INTERACT_PAN_NS;
         %tmp.17 = eq %tmp.14 %tmp.16;
-        bf %tmp.17 @G__code_garmiand_garmin_source_NavigationView_mc_705_19_714_12_if_false;
-G__code_garmiand_garmin_source_NavigationView_mc_705_19_714_12_if_true:
+        bf %tmp.17 @G__code_garmiand_garmin_source_NavigationView_mc_705_19_713_12_if_false;
+G__code_garmiand_garmin_source_NavigationView_mc_705_19_713_12_if_true:
 G__code_garmiand_garmin_source_NavigationView_mc_705_57_707_12_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 706 16 ]
-        symbol [ INTERACT_ZOOM %tmp.19 706 32 45 ];
-        %tmp.19 = getv ? :INTERACT_ZOOM;
+        symbol [ INTERACT_PAN_WE %tmp.19 706 32 47 ];
+        %tmp.19 = getv ? :INTERACT_PAN_WE;
         symbol [ _interactMode ? 706 16 29 ];
         putv self :_interactMode %tmp.19;
 G__code_garmiand_garmin_source_NavigationView_mc_705_57_707_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_705_19_714_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_705_19_714_12_if_false:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_705_19_713_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_705_19_713_12_if_false:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 707 19 ]
-G__code_garmiand_garmin_source_NavigationView_mc_707_19_714_12_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_707_19_713_12_if_stmt:
         symbol [ _interactMode %tmp.21 707 23 36 ];
         %tmp.21 = getv ? :_interactMode;
-        symbol [ INTERACT_ZOOM %tmp.23 707 40 53 ];
-        %tmp.23 = getv ? :INTERACT_ZOOM;
+        symbol [ INTERACT_PAN_WE %tmp.23 707 40 55 ];
+        %tmp.23 = getv ? :INTERACT_PAN_WE;
         %tmp.24 = eq %tmp.21 %tmp.23;
-        bf %tmp.24 @G__code_garmiand_garmin_source_NavigationView_mc_707_19_714_12_if_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_707_19_714_12_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_707_55_710_12_start:
+        bf %tmp.24 @G__code_garmiand_garmin_source_NavigationView_mc_707_19_713_12_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_707_19_713_12_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_707_57_709_12_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 708 16 ]
-        symbol [ INTERACT_CENTERED %tmp.26 708 32 49 ];
-        %tmp.26 = getv ? :INTERACT_CENTERED;
+        symbol [ INTERACT_JUMP %tmp.26 708 32 45 ];
+        %tmp.26 = getv ? :INTERACT_JUMP;
         symbol [ _interactMode ? 708 16 29 ];
         putv self :_interactMode %tmp.26;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 709 16 ]
-        %tmp.27 = self;
-        symbol [ centerToGps %tmp.28 709 16 27 ];
-        %tmp.28 = getv function %tmp.27 :centerToGps;
-        invoke %tmp.27 %tmp.28();
-G__code_garmiand_garmin_source_NavigationView_mc_707_55_710_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_707_19_714_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_707_19_714_12_if_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_710_19_714_12_start:
+G__code_garmiand_garmin_source_NavigationView_mc_707_57_709_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_707_19_713_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_707_19_713_12_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_709_19_713_12_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 711 16 ]
+        symbol [ INTERACT_ZOOM %tmp.28 711 32 45 ];
+        %tmp.28 = getv ? :INTERACT_ZOOM;
+        symbol [ _interactMode ? 711 16 29 ];
+        putv self :_interactMode %tmp.28;
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 712 16 ]
-        symbol [ INTERACT_PAN_NS %tmp.30 712 32 47 ];
-        %tmp.30 = getv ? :INTERACT_PAN_NS;
-        symbol [ _interactMode ? 712 16 29 ];
-        putv self :_interactMode %tmp.30;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 713 16 ]
-        %tmp.31 = self;
-        symbol [ setMapModeAndPersist %tmp.32 713 16 36 ];
-        %tmp.32 = getv function %tmp.31 :setMapModeAndPersist;
-        symbol [ BG_MODE_NONE %tmp.34 713 37 49 ];
-        %tmp.34 = getv ? :BG_MODE_NONE;
-        invoke %tmp.31 %tmp.32(%tmp.34);
-G__code_garmiand_garmin_source_NavigationView_mc_710_19_714_12_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_707_19_714_12_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_705_19_714_12_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_703_12_714_12_if_end:
+        %tmp.29 = self;
+        symbol [ setMapModeAndPersist %tmp.30 712 16 36 ];
+        %tmp.30 = getv function %tmp.29 :setMapModeAndPersist;
+        symbol [ BG_MODE_NONE %tmp.32 712 37 49 ];
+        %tmp.32 = getv ? :BG_MODE_NONE;
+        invoke %tmp.29 %tmp.30(%tmp.32);
+G__code_garmiand_garmin_source_NavigationView_mc_709_19_713_12_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_707_19_713_12_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_705_19_713_12_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_703_12_713_12_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 714 12 ]
+        symbol [ System %tmp.33 714 12 18 ];
+        %tmp.33 = getm $.Toybox.System;
+        symbol [ println %tmp.34 714 19 26 ];
+        %tmp.34 = getv function %tmp.33 :println;
+        %tmp.35 = "[Map] interact=";
+        symbol [ _interactMode %tmp.37 714 47 60 ];
+        %tmp.37 = getv ? :_interactMode;
+        %tmp.38 = add %tmp.35 %tmp.37;
+        %tmp.39 = " zoom=";
+        %tmp.40 = add %tmp.38 %tmp.39;
+        symbol [ _zoomFactor %tmp.42 714 74 85 ];
+        %tmp.42 = getv ? :_zoomFactor;
+        %tmp.43 = add %tmp.40 %tmp.42;
+        invoke %tmp.33 %tmp.34(%tmp.43);
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 715 12 ]
-        symbol [ System %tmp.35 715 12 18 ];
-        %tmp.35 = getm $.Toybox.System;
-        symbol [ println %tmp.36 715 19 26 ];
-        %tmp.36 = getv function %tmp.35 :println;
-        %tmp.37 = "[Map] interact=";
-        symbol [ _interactMode %tmp.39 715 47 60 ];
-        %tmp.39 = getv ? :_interactMode;
-        %tmp.40 = add %tmp.37 %tmp.39;
-        %tmp.41 = " zoom=";
-        %tmp.42 = add %tmp.40 %tmp.41;
-        symbol [ _zoomFactor %tmp.44 715 74 85 ];
-        %tmp.44 = getv ? :_zoomFactor;
-        %tmp.45 = add %tmp.42 %tmp.44;
-        invoke %tmp.35 %tmp.36(%tmp.45);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 716 12 ]
-        symbol [ WatchUi %tmp.46 716 12 19 ];
-        %tmp.46 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.47 716 20 33 ];
-        %tmp.47 = getv function %tmp.46 :requestUpdate;
-        invoke %tmp.46 %tmp.47();
-G__code_garmiand_garmin_source_NavigationView_mc_702_39_717_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_702_8_721_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_702_8_721_8_if_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_717_15_721_8_start:
+        symbol [ WatchUi %tmp.44 715 12 19 ];
+        %tmp.44 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.45 715 20 33 ];
+        %tmp.45 = getv function %tmp.44 :requestUpdate;
+        invoke %tmp.44 %tmp.45();
+G__code_garmiand_garmin_source_NavigationView_mc_702_39_716_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_702_8_720_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_702_8_720_8_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_716_15_720_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 717 12 ]
+        symbol [ INTERACT_ZOOM %tmp.47 717 28 41 ];
+        %tmp.47 = getv ? :INTERACT_ZOOM;
+        symbol [ _interactMode ? 717 12 25 ];
+        putv self :_interactMode %tmp.47;
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 718 12 ]
-        symbol [ INTERACT_PAN_NS %tmp.49 718 28 43 ];
-        %tmp.49 = getv ? :INTERACT_PAN_NS;
-        symbol [ _interactMode ? 718 12 25 ];
-        putv self :_interactMode %tmp.49;
+        %tmp.48 = self;
+        symbol [ setMapModeAndPersist %tmp.49 718 12 32 ];
+        %tmp.49 = getv function %tmp.48 :setMapModeAndPersist;
+        symbol [ _mapMode %tmp.51 718 34 42 ];
+        %tmp.51 = getv ? :_mapMode;
+        %tmp.52 = 1;
+        %tmp.53 = add %tmp.51 %tmp.52;
+        %tmp.54 = 3;
+        %tmp.55 = mod %tmp.53 %tmp.54;
+        invoke %tmp.48 %tmp.49(%tmp.55);
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 719 12 ]
-        %tmp.50 = self;
-        symbol [ setMapModeAndPersist %tmp.51 719 12 32 ];
-        %tmp.51 = getv function %tmp.50 :setMapModeAndPersist;
-        symbol [ _mapMode %tmp.53 719 34 42 ];
-        %tmp.53 = getv ? :_mapMode;
-        %tmp.54 = 1;
-        %tmp.55 = add %tmp.53 %tmp.54;
-        %tmp.56 = 3;
-        %tmp.57 = mod %tmp.55 %tmp.56;
-        invoke %tmp.50 %tmp.51(%tmp.57);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 720 12 ]
-        symbol [ System %tmp.58 720 12 18 ];
-        %tmp.58 = getm $.Toybox.System;
-        symbol [ println %tmp.59 720 19 26 ];
-        %tmp.59 = getv function %tmp.58 :println;
-        %tmp.60 = "[Map] mapMode=";
-        symbol [ _mapMode %tmp.62 720 46 54 ];
-        %tmp.62 = getv ? :_mapMode;
-        %tmp.63 = add %tmp.60 %tmp.62;
-        invoke %tmp.58 %tmp.59(%tmp.63);
-G__code_garmiand_garmin_source_NavigationView_mc_717_15_721_8_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_702_8_721_8_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_701_36_722_4_stop:
+        symbol [ System %tmp.56 719 12 18 ];
+        %tmp.56 = getm $.Toybox.System;
+        symbol [ println %tmp.57 719 19 26 ];
+        %tmp.57 = getv function %tmp.56 :println;
+        %tmp.58 = "[Map] mapMode=";
+        symbol [ _mapMode %tmp.60 719 46 54 ];
+        %tmp.60 = getv ? :_mapMode;
+        %tmp.61 = add %tmp.58 %tmp.60;
+        invoke %tmp.56 %tmp.57(%tmp.61);
+G__code_garmiand_garmin_source_NavigationView_mc_716_15_720_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_702_8_720_8_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_701_36_721_4_stop:
     }
     [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 725; @symbol_functiondef = [centerToGps,725,13,24]; ]
     function centerToGps() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_725_35_731_4_start:
+G__code_garmiand_garmin_source_NavigationView_mc_725_35_738_4_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 726 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_stmt:
+G__code_garmiand_garmin_source_NavigationView_mc_726_12_726_67_begin:
+        symbol [ _viewSet %tmp.2 726 12 20 ];
+        %tmp.2 = getv ? :_viewSet;
+        bf %tmp.2 @G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_726_24_726_67_true:
+G__code_garmiand_garmin_source_NavigationView_mc_726_25_726_63_begin:
+        symbol [ _currentLat %tmp.4 726 25 36 ];
+        %tmp.4 = getv ? :_currentLat;
+        %tmp.5 = 0.0f;
+        %tmp.6 = ne %tmp.4 %tmp.5;
+        bt %tmp.6 @G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_true;
+G__code_garmiand_garmin_source_NavigationView_mc_726_48_726_63_false:
+        symbol [ _currentLon %tmp.8 726 48 59 ];
+        %tmp.8 = getv ? :_currentLon;
+        %tmp.9 = 0.0f;
+        %tmp.10 = ne %tmp.8 %tmp.9;
+        push %tmp.10;
+G__code_garmiand_garmin_source_NavigationView_mc_726_48_726_63_end:
+        %tmp.11 = phi [%tmp.6 @G__code_garmiand_garmin_source_NavigationView_mc_726_25_726_63_begin] [%tmp.10 @G__code_garmiand_garmin_source_NavigationView_mc_726_48_726_63_false] [%tmp.11 @G__code_garmiand_garmin_source_NavigationView_mc_726_48_726_63_end];
+        push %tmp.11;
+G__code_garmiand_garmin_source_NavigationView_mc_726_24_726_67_end:
+        %tmp.12 = phi [%tmp.2 @G__code_garmiand_garmin_source_NavigationView_mc_726_12_726_67_begin] [%tmp.11 @G__code_garmiand_garmin_source_NavigationView_mc_726_24_726_67_true] [%tmp.12 @G__code_garmiand_garmin_source_NavigationView_mc_726_24_726_67_end];
+        bf %tmp.12 @G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_726_70_731_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 727 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_726_70_731_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_726_70_731_8_stop" ]
+        %routeCtrLat.1 = local;
+        symbol [ routeCtrLat %routeCtrLat.1 727 16 27 ];
+        symbol [ _viewLat0 %tmp.14 727 31 40 ];
+        %tmp.14 = getv ? :_viewLat0;
+        symbol [ _viewLat1 %tmp.16 727 43 52 ];
+        %tmp.16 = getv ? :_viewLat1;
+        %tmp.17 = add %tmp.14 %tmp.16;
+        %tmp.18 = 0.5f;
+        %tmp.19 = mul %tmp.17 %tmp.18;
+        lputv %routeCtrLat.1 %tmp.19;
+        symbol [ routeCtrLat %routeCtrLat.1 727 16 27 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 728 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_726_70_731_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_726_70_731_8_stop" ]
+        %routeCtrLon.2 = local;
+        symbol [ routeCtrLon %routeCtrLon.2 728 16 27 ];
+        symbol [ _viewLon0 %tmp.21 728 31 40 ];
+        %tmp.21 = getv ? :_viewLon0;
+        symbol [ _viewLon1 %tmp.23 728 43 52 ];
+        %tmp.23 = getv ? :_viewLon1;
+        %tmp.24 = add %tmp.21 %tmp.23;
+        %tmp.25 = 0.5f;
+        %tmp.26 = mul %tmp.24 %tmp.25;
+        lputv %routeCtrLon.2 %tmp.26;
+        symbol [ routeCtrLon %routeCtrLon.2 728 16 27 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 729 12 ]
+        symbol [ _currentLat %tmp.28 729 28 39 ];
+        %tmp.28 = getv ? :_currentLat;
+        %tmp.29 = lgetv %routeCtrLat.1;
+        symbol [ routeCtrLat %tmp.29 729 42 53 ];
+        %tmp.30 = sub %tmp.28 %tmp.29;
+        symbol [ _panOffsetLat ? 729 12 25 ];
+        putv self :_panOffsetLat %tmp.30;
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 730 12 ]
+        symbol [ _currentLon %tmp.32 730 28 39 ];
+        %tmp.32 = getv ? :_currentLon;
+        %tmp.33 = lgetv %routeCtrLon.2;
+        symbol [ routeCtrLon %tmp.33 730 42 53 ];
+        %tmp.34 = sub %tmp.32 %tmp.33;
+        symbol [ _panOffsetLon ? 730 12 25 ];
+        putv self :_panOffsetLon %tmp.34;
+G__code_garmiand_garmin_source_NavigationView_mc_726_70_731_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_731_15_734_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 732 12 ]
+        %tmp.35 = 0.0f;
+        symbol [ _panOffsetLat ? 732 12 25 ];
+        putv self :_panOffsetLat %tmp.35;
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 733 12 ]
+        %tmp.36 = 0.0f;
+        symbol [ _panOffsetLon ? 733 12 25 ];
+        putv self :_panOffsetLon %tmp.36;
+G__code_garmiand_garmin_source_NavigationView_mc_731_15_734_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_726_8_734_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 735 8 ]
+        %tmp.37 = 1.0f;
+        symbol [ _zoomFactor ? 735 8 19 ];
+        putv self :_zoomFactor %tmp.37;
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 736 8 ]
+        %tmp.38 = self;
+        symbol [ pushDebug %tmp.39 736 8 17 ];
+        %tmp.39 = getv function %tmp.38 :pushDebug;
+        %tmp.40 = "GPS ctr";
+        invoke %tmp.38 %tmp.39(%tmp.40);
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 737 8 ]
+        symbol [ WatchUi %tmp.41 737 8 15 ];
+        %tmp.41 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.42 737 16 29 ];
+        %tmp.42 = getv function %tmp.41 :requestUpdate;
+        invoke %tmp.41 %tmp.42();
+G__code_garmiand_garmin_source_NavigationView_mc_725_35_738_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 741; @symbol_functiondef = [centerToRoute,741,13,26]; ]
+    function centerToRoute() as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_741_37_747_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 742 8 ]
         %tmp.1 = 0.0f;
-        symbol [ _panOffsetLat ? 726 8 21 ];
+        symbol [ _panOffsetLat ? 742 8 21 ];
         putv self :_panOffsetLat %tmp.1;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 727 8 ]
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 743 8 ]
         %tmp.2 = 0.0f;
-        symbol [ _panOffsetLon ? 727 8 21 ];
+        symbol [ _panOffsetLon ? 743 8 21 ];
         putv self :_panOffsetLon %tmp.2;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 728 8 ]
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 744 8 ]
         %tmp.3 = 1.0f;
-        symbol [ _zoomFactor ? 728 8 19 ];
+        symbol [ _zoomFactor ? 744 8 19 ];
         putv self :_zoomFactor %tmp.3;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 729 8 ]
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 745 8 ]
         %tmp.4 = self;
-        symbol [ pushDebug %tmp.5 729 8 17 ];
+        symbol [ pushDebug %tmp.5 745 8 17 ];
         %tmp.5 = getv function %tmp.4 :pushDebug;
-        %tmp.6 = "GPS ctr";
+        %tmp.6 = "route ctr";
         invoke %tmp.4 %tmp.5(%tmp.6);
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 730 8 ]
-        symbol [ WatchUi %tmp.7 730 8 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 746 8 ]
+        symbol [ WatchUi %tmp.7 746 8 15 ];
         %tmp.7 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.8 730 16 29 ];
+        symbol [ requestUpdate %tmp.8 746 16 29 ];
         %tmp.8 = getv function %tmp.7 :requestUpdate;
         invoke %tmp.7 %tmp.8();
-G__code_garmiand_garmin_source_NavigationView_mc_725_35_731_4_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_741_37_747_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 734; @symbol_functiondef = [interactUp,734,13,23]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 750; @symbol_functiondef = [interactUp,750,13,23]; ]
     function interactUp() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_734_34_749_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 735 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_735_8_735_33_if_stmt:
-        symbol [ _viewSet %tmp.2 735 13 21 ];
+G__code_garmiand_garmin_source_NavigationView_mc_750_34_769_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 751 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_751_8_751_33_if_stmt:
+        symbol [ _viewSet %tmp.2 751 13 21 ];
         %tmp.2 = getv ? :_viewSet;
         %tmp.3 = not %tmp.2;
-        bf %tmp.3 @G__code_garmiand_garmin_source_NavigationView_mc_735_8_735_33_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_735_8_735_33_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_735_23_735_33_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 735 25 ]
+        bf %tmp.3 @G__code_garmiand_garmin_source_NavigationView_mc_751_8_751_33_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_751_8_751_33_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_751_23_751_33_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 751 25 ]
         ret ?;
-G__code_garmiand_garmin_source_NavigationView_mc_735_23_735_33_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_735_8_735_33_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_735_8_735_33_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 736 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_736_8_747_8_if_stmt:
-        symbol [ _interactMode %tmp.5 736 12 25 ];
+G__code_garmiand_garmin_source_NavigationView_mc_751_23_751_33_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_751_8_751_33_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_751_8_751_33_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 752 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_752_8_755_8_if_stmt:
+        symbol [ _interactMode %tmp.5 752 12 25 ];
         %tmp.5 = getv ? :_interactMode;
-        symbol [ INTERACT_ZOOM %tmp.7 736 29 42 ];
-        %tmp.7 = getv ? :INTERACT_ZOOM;
+        symbol [ INTERACT_JUMP %tmp.7 752 29 42 ];
+        %tmp.7 = getv ? :INTERACT_JUMP;
         %tmp.8 = eq %tmp.5 %tmp.7;
-        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_736_8_747_8_if_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_736_8_747_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_736_44_739_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 737 12 ]
-        symbol [ _zoomFactor %tmp.10 737 27 38 ];
-        %tmp.10 = getv ? :_zoomFactor;
-        %tmp.11 = 1.5f;
-        %tmp.12 = mul %tmp.10 %tmp.11;
-        symbol [ toFloat %tmp.13 737 47 54 ];
-        %tmp.13 = getv function %tmp.12 :toFloat;
-        %tmp.14 = invoke %tmp.12 %tmp.13();
-        symbol [ _zoomFactor ? 737 12 23 ];
-        putv self :_zoomFactor %tmp.14;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 738 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_738_12_738_60_if_stmt:
-        symbol [ _zoomFactor %tmp.16 738 16 27 ];
-        %tmp.16 = getv ? :_zoomFactor;
-        %tmp.17 = 16.0f;
-        %tmp.18 = gt %tmp.16 %tmp.17;
-        bf %tmp.18 @G__code_garmiand_garmin_source_NavigationView_mc_738_12_738_60_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_738_12_738_60_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_738_37_738_60_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 738 39 ]
-        %tmp.19 = 16.0f;
-        symbol [ _zoomFactor ? 738 39 50 ];
-        putv self :_zoomFactor %tmp.19;
-G__code_garmiand_garmin_source_NavigationView_mc_738_37_738_60_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_738_12_738_60_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_738_12_738_60_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_736_44_739_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_736_8_747_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_736_8_747_8_if_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_739_15_747_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 740 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_739_15_747_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_739_15_747_8_stop" ]
-        %stepLat.1 = local;
-        symbol [ stepLat %stepLat.1 740 16 23 ];
-        symbol [ _viewLat0 %tmp.21 740 27 36 ];
-        %tmp.21 = getv ? :_viewLat0;
-        symbol [ _viewLat1 %tmp.23 740 39 48 ];
-        %tmp.23 = getv ? :_viewLat1;
-        %tmp.24 = sub %tmp.21 %tmp.23;
-        %tmp.25 = 0.2f;
-        %tmp.26 = mul %tmp.24 %tmp.25;
-        symbol [ _zoomFactor %tmp.28 740 59 70 ];
-        %tmp.28 = getv ? :_zoomFactor;
-        %tmp.29 = div %tmp.26 %tmp.28;
-        lputv %stepLat.1 %tmp.29;
-        symbol [ stepLat %stepLat.1 740 16 23 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 741 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_739_15_747_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_739_15_747_8_stop" ]
-        %stepLon.2 = local;
-        symbol [ stepLon %stepLon.2 741 16 23 ];
-        symbol [ _viewLon1 %tmp.31 741 27 36 ];
-        %tmp.31 = getv ? :_viewLon1;
-        symbol [ _viewLon0 %tmp.33 741 39 48 ];
-        %tmp.33 = getv ? :_viewLon0;
-        %tmp.34 = sub %tmp.31 %tmp.33;
-        %tmp.35 = 0.2f;
-        %tmp.36 = mul %tmp.34 %tmp.35;
-        symbol [ _zoomFactor %tmp.38 741 59 70 ];
-        %tmp.38 = getv ? :_zoomFactor;
-        %tmp.39 = div %tmp.36 %tmp.38;
-        lputv %stepLon.2 %tmp.39;
-        symbol [ stepLon %stepLon.2 741 16 23 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 742 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_742_12_746_12_if_stmt:
-        symbol [ _interactMode %tmp.41 742 16 29 ];
-        %tmp.41 = getv ? :_interactMode;
-        symbol [ INTERACT_PAN_NS %tmp.43 742 33 48 ];
-        %tmp.43 = getv ? :INTERACT_PAN_NS;
-        %tmp.44 = eq %tmp.41 %tmp.43;
-        bf %tmp.44 @G__code_garmiand_garmin_source_NavigationView_mc_742_12_746_12_if_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_742_12_746_12_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_742_50_744_12_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 743 16 ]
-        symbol [ _panOffsetLat %tmp.45 743 16 29 ];
-        %tmp.45 = getv self :_panOffsetLat;
-        %tmp.46 = lgetv %stepLat.1;
-        symbol [ stepLat %tmp.46 743 33 40 ];
-        %tmp.47 = add %tmp.45 %tmp.46;
-        symbol [ _panOffsetLat ? 743 16 29 ];
-        putv self :_panOffsetLat dup %tmp.47;
-G__code_garmiand_garmin_source_NavigationView_mc_742_50_744_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_742_12_746_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_742_12_746_12_if_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_744_19_746_12_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 745 16 ]
-        symbol [ _panOffsetLon %tmp.48 745 16 29 ];
-        %tmp.48 = getv self :_panOffsetLon;
-        %tmp.49 = lgetv %stepLon.2;
-        symbol [ stepLon %tmp.49 745 33 40 ];
-        %tmp.50 = sub %tmp.48 %tmp.49;
-        symbol [ _panOffsetLon ? 745 16 29 ];
-        putv self :_panOffsetLon dup %tmp.50;
-G__code_garmiand_garmin_source_NavigationView_mc_744_19_746_12_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_742_12_746_12_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_739_15_747_8_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_736_8_747_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 748 8 ]
-        symbol [ WatchUi %tmp.51 748 8 15 ];
-        %tmp.51 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.52 748 16 29 ];
-        %tmp.52 = getv function %tmp.51 :requestUpdate;
-        invoke %tmp.51 %tmp.52();
-G__code_garmiand_garmin_source_NavigationView_mc_734_34_749_4_stop:
-    }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 752; @symbol_functiondef = [interactDown,752,13,25]; ]
-    function interactDown() as Void {
-G__code_garmiand_garmin_source_NavigationView_mc_752_36_767_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 753 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_753_8_753_33_if_stmt:
-        symbol [ _viewSet %tmp.2 753 13 21 ];
-        %tmp.2 = getv ? :_viewSet;
-        %tmp.3 = not %tmp.2;
-        bf %tmp.3 @G__code_garmiand_garmin_source_NavigationView_mc_753_8_753_33_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_753_8_753_33_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_753_23_753_33_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 753 25 ]
+        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_752_8_755_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_752_8_755_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_752_44_755_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 753 12 ]
+        %tmp.9 = self;
+        symbol [ centerToGps %tmp.10 753 12 23 ];
+        %tmp.10 = getv function %tmp.9 :centerToGps;
+        invoke %tmp.9 %tmp.10();
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 754 12 ]
         ret ?;
-G__code_garmiand_garmin_source_NavigationView_mc_753_23_753_33_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_753_8_753_33_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_753_8_753_33_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 754 8 ]
-G__code_garmiand_garmin_source_NavigationView_mc_754_8_765_8_if_stmt:
-        symbol [ _interactMode %tmp.5 754 12 25 ];
-        %tmp.5 = getv ? :_interactMode;
-        symbol [ INTERACT_ZOOM %tmp.7 754 29 42 ];
-        %tmp.7 = getv ? :INTERACT_ZOOM;
-        %tmp.8 = eq %tmp.5 %tmp.7;
-        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_754_8_765_8_if_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_754_8_765_8_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_754_44_757_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 755 12 ]
-        symbol [ _zoomFactor %tmp.10 755 27 38 ];
-        %tmp.10 = getv ? :_zoomFactor;
-        %tmp.11 = 1.5f;
-        %tmp.12 = div %tmp.10 %tmp.11;
-        symbol [ toFloat %tmp.13 755 47 54 ];
-        %tmp.13 = getv function %tmp.12 :toFloat;
-        %tmp.14 = invoke %tmp.12 %tmp.13();
-        symbol [ _zoomFactor ? 755 12 23 ];
-        putv self :_zoomFactor %tmp.14;
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 756 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_756_12_756_60_if_stmt:
-        symbol [ _zoomFactor %tmp.16 756 16 27 ];
-        %tmp.16 = getv ? :_zoomFactor;
-        %tmp.17 = 0.25f;
-        %tmp.18 = lt %tmp.16 %tmp.17;
-        bf %tmp.18 @G__code_garmiand_garmin_source_NavigationView_mc_756_12_756_60_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_756_12_756_60_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_756_37_756_60_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 756 39 ]
-        %tmp.19 = 0.25f;
-        symbol [ _zoomFactor ? 756 39 50 ];
-        putv self :_zoomFactor %tmp.19;
-G__code_garmiand_garmin_source_NavigationView_mc_756_37_756_60_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_756_12_756_60_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_756_12_756_60_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_754_44_757_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_754_8_765_8_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_754_8_765_8_if_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_757_15_765_8_start:
+G__code_garmiand_garmin_source_NavigationView_mc_752_44_755_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_752_8_755_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_752_8_755_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 756 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_756_8_767_8_if_stmt:
+        symbol [ _interactMode %tmp.12 756 12 25 ];
+        %tmp.12 = getv ? :_interactMode;
+        symbol [ INTERACT_ZOOM %tmp.14 756 29 42 ];
+        %tmp.14 = getv ? :INTERACT_ZOOM;
+        %tmp.15 = eq %tmp.12 %tmp.14;
+        bf %tmp.15 @G__code_garmiand_garmin_source_NavigationView_mc_756_8_767_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_756_8_767_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_756_44_759_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 757 12 ]
+        symbol [ _zoomFactor %tmp.17 757 27 38 ];
+        %tmp.17 = getv ? :_zoomFactor;
+        %tmp.18 = 1.5f;
+        %tmp.19 = mul %tmp.17 %tmp.18;
+        symbol [ toFloat %tmp.20 757 47 54 ];
+        %tmp.20 = getv function %tmp.19 :toFloat;
+        %tmp.21 = invoke %tmp.19 %tmp.20();
+        symbol [ _zoomFactor ? 757 12 23 ];
+        putv self :_zoomFactor %tmp.21;
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 758 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_757_15_765_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_757_15_765_8_stop" ]
-        %stepLat.1 = local;
-        symbol [ stepLat %stepLat.1 758 16 23 ];
-        symbol [ _viewLat0 %tmp.21 758 27 36 ];
-        %tmp.21 = getv ? :_viewLat0;
-        symbol [ _viewLat1 %tmp.23 758 39 48 ];
-        %tmp.23 = getv ? :_viewLat1;
-        %tmp.24 = sub %tmp.21 %tmp.23;
-        %tmp.25 = 0.2f;
-        %tmp.26 = mul %tmp.24 %tmp.25;
-        symbol [ _zoomFactor %tmp.28 758 59 70 ];
-        %tmp.28 = getv ? :_zoomFactor;
-        %tmp.29 = div %tmp.26 %tmp.28;
-        lputv %stepLat.1 %tmp.29;
-        symbol [ stepLat %stepLat.1 758 16 23 ];
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 759 12 ]
-        [ "G__code_garmiand_garmin_source_NavigationView_mc_757_15_765_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_757_15_765_8_stop" ]
-        %stepLon.2 = local;
-        symbol [ stepLon %stepLon.2 759 16 23 ];
-        symbol [ _viewLon1 %tmp.31 759 27 36 ];
-        %tmp.31 = getv ? :_viewLon1;
-        symbol [ _viewLon0 %tmp.33 759 39 48 ];
-        %tmp.33 = getv ? :_viewLon0;
-        %tmp.34 = sub %tmp.31 %tmp.33;
-        %tmp.35 = 0.2f;
-        %tmp.36 = mul %tmp.34 %tmp.35;
-        symbol [ _zoomFactor %tmp.38 759 59 70 ];
-        %tmp.38 = getv ? :_zoomFactor;
-        %tmp.39 = div %tmp.36 %tmp.38;
-        lputv %stepLon.2 %tmp.39;
-        symbol [ stepLon %stepLon.2 759 16 23 ];
+G__code_garmiand_garmin_source_NavigationView_mc_758_12_758_60_if_stmt:
+        symbol [ _zoomFactor %tmp.23 758 16 27 ];
+        %tmp.23 = getv ? :_zoomFactor;
+        %tmp.24 = 16.0f;
+        %tmp.25 = gt %tmp.23 %tmp.24;
+        bf %tmp.25 @G__code_garmiand_garmin_source_NavigationView_mc_758_12_758_60_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_758_12_758_60_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_758_37_758_60_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 758 39 ]
+        %tmp.26 = 16.0f;
+        symbol [ _zoomFactor ? 758 39 50 ];
+        putv self :_zoomFactor %tmp.26;
+G__code_garmiand_garmin_source_NavigationView_mc_758_37_758_60_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_758_12_758_60_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_758_12_758_60_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_756_44_759_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_756_8_767_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_756_8_767_8_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_759_15_767_8_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 760 12 ]
-G__code_garmiand_garmin_source_NavigationView_mc_760_12_764_12_if_stmt:
-        symbol [ _interactMode %tmp.41 760 16 29 ];
-        %tmp.41 = getv ? :_interactMode;
-        symbol [ INTERACT_PAN_NS %tmp.43 760 33 48 ];
-        %tmp.43 = getv ? :INTERACT_PAN_NS;
-        %tmp.44 = eq %tmp.41 %tmp.43;
-        bf %tmp.44 @G__code_garmiand_garmin_source_NavigationView_mc_760_12_764_12_if_else_false;
-G__code_garmiand_garmin_source_NavigationView_mc_760_12_764_12_if_true:
-G__code_garmiand_garmin_source_NavigationView_mc_760_50_762_12_start:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 761 16 ]
-        symbol [ _panOffsetLat %tmp.45 761 16 29 ];
-        %tmp.45 = getv self :_panOffsetLat;
-        %tmp.46 = lgetv %stepLat.1;
-        symbol [ stepLat %tmp.46 761 33 40 ];
-        %tmp.47 = sub %tmp.45 %tmp.46;
-        symbol [ _panOffsetLat ? 761 16 29 ];
-        putv self :_panOffsetLat dup %tmp.47;
-G__code_garmiand_garmin_source_NavigationView_mc_760_50_762_12_stop:
-        goto @G__code_garmiand_garmin_source_NavigationView_mc_760_12_764_12_if_end;
-G__code_garmiand_garmin_source_NavigationView_mc_760_12_764_12_if_else_false:
-G__code_garmiand_garmin_source_NavigationView_mc_762_19_764_12_start:
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_759_15_767_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_759_15_767_8_stop" ]
+        %stepLat.1 = local;
+        symbol [ stepLat %stepLat.1 760 16 23 ];
+        symbol [ _viewLat0 %tmp.28 760 27 36 ];
+        %tmp.28 = getv ? :_viewLat0;
+        symbol [ _viewLat1 %tmp.30 760 39 48 ];
+        %tmp.30 = getv ? :_viewLat1;
+        %tmp.31 = sub %tmp.28 %tmp.30;
+        %tmp.32 = 0.2f;
+        %tmp.33 = mul %tmp.31 %tmp.32;
+        symbol [ _zoomFactor %tmp.35 760 59 70 ];
+        %tmp.35 = getv ? :_zoomFactor;
+        %tmp.36 = div %tmp.33 %tmp.35;
+        lputv %stepLat.1 %tmp.36;
+        symbol [ stepLat %stepLat.1 760 16 23 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 761 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_759_15_767_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_759_15_767_8_stop" ]
+        %stepLon.2 = local;
+        symbol [ stepLon %stepLon.2 761 16 23 ];
+        symbol [ _viewLon1 %tmp.38 761 27 36 ];
+        %tmp.38 = getv ? :_viewLon1;
+        symbol [ _viewLon0 %tmp.40 761 39 48 ];
+        %tmp.40 = getv ? :_viewLon0;
+        %tmp.41 = sub %tmp.38 %tmp.40;
+        %tmp.42 = 0.2f;
+        %tmp.43 = mul %tmp.41 %tmp.42;
+        symbol [ _zoomFactor %tmp.45 761 59 70 ];
+        %tmp.45 = getv ? :_zoomFactor;
+        %tmp.46 = div %tmp.43 %tmp.45;
+        lputv %stepLon.2 %tmp.46;
+        symbol [ stepLon %stepLon.2 761 16 23 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 762 12 ]
+G__code_garmiand_garmin_source_NavigationView_mc_762_12_766_12_if_stmt:
+        symbol [ _interactMode %tmp.48 762 16 29 ];
+        %tmp.48 = getv ? :_interactMode;
+        symbol [ INTERACT_PAN_NS %tmp.50 762 33 48 ];
+        %tmp.50 = getv ? :INTERACT_PAN_NS;
+        %tmp.51 = eq %tmp.48 %tmp.50;
+        bf %tmp.51 @G__code_garmiand_garmin_source_NavigationView_mc_762_12_766_12_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_762_12_766_12_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_762_50_764_12_start:
 [ "G:\code\garmiand\garmin\source\NavigationView.mc" 763 16 ]
-        symbol [ _panOffsetLon %tmp.48 763 16 29 ];
-        %tmp.48 = getv self :_panOffsetLon;
-        %tmp.49 = lgetv %stepLon.2;
-        symbol [ stepLon %tmp.49 763 33 40 ];
-        %tmp.50 = add %tmp.48 %tmp.49;
-        symbol [ _panOffsetLon ? 763 16 29 ];
-        putv self :_panOffsetLon dup %tmp.50;
-G__code_garmiand_garmin_source_NavigationView_mc_762_19_764_12_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_760_12_764_12_if_end:
-G__code_garmiand_garmin_source_NavigationView_mc_757_15_765_8_stop:
-G__code_garmiand_garmin_source_NavigationView_mc_754_8_765_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationView.mc" 766 8 ]
-        symbol [ WatchUi %tmp.51 766 8 15 ];
-        %tmp.51 = getm $.Toybox.WatchUi;
-        symbol [ requestUpdate %tmp.52 766 16 29 ];
-        %tmp.52 = getv function %tmp.51 :requestUpdate;
-        invoke %tmp.51 %tmp.52();
-G__code_garmiand_garmin_source_NavigationView_mc_752_36_767_4_stop:
+        symbol [ _panOffsetLat %tmp.52 763 16 29 ];
+        %tmp.52 = getv self :_panOffsetLat;
+        %tmp.53 = lgetv %stepLat.1;
+        symbol [ stepLat %tmp.53 763 33 40 ];
+        %tmp.54 = add %tmp.52 %tmp.53;
+        symbol [ _panOffsetLat ? 763 16 29 ];
+        putv self :_panOffsetLat dup %tmp.54;
+G__code_garmiand_garmin_source_NavigationView_mc_762_50_764_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_762_12_766_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_762_12_766_12_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_764_19_766_12_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 765 16 ]
+        symbol [ _panOffsetLon %tmp.55 765 16 29 ];
+        %tmp.55 = getv self :_panOffsetLon;
+        %tmp.56 = lgetv %stepLon.2;
+        symbol [ stepLon %tmp.56 765 33 40 ];
+        %tmp.57 = sub %tmp.55 %tmp.56;
+        symbol [ _panOffsetLon ? 765 16 29 ];
+        putv self :_panOffsetLon dup %tmp.57;
+G__code_garmiand_garmin_source_NavigationView_mc_764_19_766_12_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_762_12_766_12_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_759_15_767_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_756_8_767_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 768 8 ]
+        symbol [ WatchUi %tmp.58 768 8 15 ];
+        %tmp.58 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.59 768 16 29 ];
+        %tmp.59 = getv function %tmp.58 :requestUpdate;
+        invoke %tmp.58 %tmp.59();
+G__code_garmiand_garmin_source_NavigationView_mc_750_34_769_4_stop:
+    }
+    [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 772; @symbol_functiondef = [interactDown,772,13,25]; ]
+    function interactDown() as Void {
+G__code_garmiand_garmin_source_NavigationView_mc_772_36_791_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 773 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_773_8_773_33_if_stmt:
+        symbol [ _viewSet %tmp.2 773 13 21 ];
+        %tmp.2 = getv ? :_viewSet;
+        %tmp.3 = not %tmp.2;
+        bf %tmp.3 @G__code_garmiand_garmin_source_NavigationView_mc_773_8_773_33_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_773_8_773_33_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_773_23_773_33_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 773 25 ]
+        ret ?;
+G__code_garmiand_garmin_source_NavigationView_mc_773_23_773_33_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_773_8_773_33_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_773_8_773_33_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 774 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_774_8_777_8_if_stmt:
+        symbol [ _interactMode %tmp.5 774 12 25 ];
+        %tmp.5 = getv ? :_interactMode;
+        symbol [ INTERACT_JUMP %tmp.7 774 29 42 ];
+        %tmp.7 = getv ? :INTERACT_JUMP;
+        %tmp.8 = eq %tmp.5 %tmp.7;
+        bf %tmp.8 @G__code_garmiand_garmin_source_NavigationView_mc_774_8_777_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_774_8_777_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_774_44_777_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 775 12 ]
+        %tmp.9 = self;
+        symbol [ centerToRoute %tmp.10 775 12 25 ];
+        %tmp.10 = getv function %tmp.9 :centerToRoute;
+        invoke %tmp.9 %tmp.10();
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 776 12 ]
+        ret ?;
+G__code_garmiand_garmin_source_NavigationView_mc_774_44_777_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_774_8_777_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_774_8_777_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 778 8 ]
+G__code_garmiand_garmin_source_NavigationView_mc_778_8_789_8_if_stmt:
+        symbol [ _interactMode %tmp.12 778 12 25 ];
+        %tmp.12 = getv ? :_interactMode;
+        symbol [ INTERACT_ZOOM %tmp.14 778 29 42 ];
+        %tmp.14 = getv ? :INTERACT_ZOOM;
+        %tmp.15 = eq %tmp.12 %tmp.14;
+        bf %tmp.15 @G__code_garmiand_garmin_source_NavigationView_mc_778_8_789_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_778_8_789_8_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_778_44_781_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 779 12 ]
+        symbol [ _zoomFactor %tmp.17 779 27 38 ];
+        %tmp.17 = getv ? :_zoomFactor;
+        %tmp.18 = 1.5f;
+        %tmp.19 = div %tmp.17 %tmp.18;
+        symbol [ toFloat %tmp.20 779 47 54 ];
+        %tmp.20 = getv function %tmp.19 :toFloat;
+        %tmp.21 = invoke %tmp.19 %tmp.20();
+        symbol [ _zoomFactor ? 779 12 23 ];
+        putv self :_zoomFactor %tmp.21;
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 780 12 ]
+G__code_garmiand_garmin_source_NavigationView_mc_780_12_780_60_if_stmt:
+        symbol [ _zoomFactor %tmp.23 780 16 27 ];
+        %tmp.23 = getv ? :_zoomFactor;
+        %tmp.24 = 0.25f;
+        %tmp.25 = lt %tmp.23 %tmp.24;
+        bf %tmp.25 @G__code_garmiand_garmin_source_NavigationView_mc_780_12_780_60_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_780_12_780_60_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_780_37_780_60_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 780 39 ]
+        %tmp.26 = 0.25f;
+        symbol [ _zoomFactor ? 780 39 50 ];
+        putv self :_zoomFactor %tmp.26;
+G__code_garmiand_garmin_source_NavigationView_mc_780_37_780_60_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_780_12_780_60_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_780_12_780_60_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_778_44_781_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_778_8_789_8_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_778_8_789_8_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_781_15_789_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 782 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_781_15_789_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_781_15_789_8_stop" ]
+        %stepLat.1 = local;
+        symbol [ stepLat %stepLat.1 782 16 23 ];
+        symbol [ _viewLat0 %tmp.28 782 27 36 ];
+        %tmp.28 = getv ? :_viewLat0;
+        symbol [ _viewLat1 %tmp.30 782 39 48 ];
+        %tmp.30 = getv ? :_viewLat1;
+        %tmp.31 = sub %tmp.28 %tmp.30;
+        %tmp.32 = 0.2f;
+        %tmp.33 = mul %tmp.31 %tmp.32;
+        symbol [ _zoomFactor %tmp.35 782 59 70 ];
+        %tmp.35 = getv ? :_zoomFactor;
+        %tmp.36 = div %tmp.33 %tmp.35;
+        lputv %stepLat.1 %tmp.36;
+        symbol [ stepLat %stepLat.1 782 16 23 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 783 12 ]
+        [ "G__code_garmiand_garmin_source_NavigationView_mc_781_15_789_8_start" "G__code_garmiand_garmin_source_NavigationView_mc_781_15_789_8_stop" ]
+        %stepLon.2 = local;
+        symbol [ stepLon %stepLon.2 783 16 23 ];
+        symbol [ _viewLon1 %tmp.38 783 27 36 ];
+        %tmp.38 = getv ? :_viewLon1;
+        symbol [ _viewLon0 %tmp.40 783 39 48 ];
+        %tmp.40 = getv ? :_viewLon0;
+        %tmp.41 = sub %tmp.38 %tmp.40;
+        %tmp.42 = 0.2f;
+        %tmp.43 = mul %tmp.41 %tmp.42;
+        symbol [ _zoomFactor %tmp.45 783 59 70 ];
+        %tmp.45 = getv ? :_zoomFactor;
+        %tmp.46 = div %tmp.43 %tmp.45;
+        lputv %stepLon.2 %tmp.46;
+        symbol [ stepLon %stepLon.2 783 16 23 ];
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 784 12 ]
+G__code_garmiand_garmin_source_NavigationView_mc_784_12_788_12_if_stmt:
+        symbol [ _interactMode %tmp.48 784 16 29 ];
+        %tmp.48 = getv ? :_interactMode;
+        symbol [ INTERACT_PAN_NS %tmp.50 784 33 48 ];
+        %tmp.50 = getv ? :INTERACT_PAN_NS;
+        %tmp.51 = eq %tmp.48 %tmp.50;
+        bf %tmp.51 @G__code_garmiand_garmin_source_NavigationView_mc_784_12_788_12_if_else_false;
+G__code_garmiand_garmin_source_NavigationView_mc_784_12_788_12_if_true:
+G__code_garmiand_garmin_source_NavigationView_mc_784_50_786_12_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 785 16 ]
+        symbol [ _panOffsetLat %tmp.52 785 16 29 ];
+        %tmp.52 = getv self :_panOffsetLat;
+        %tmp.53 = lgetv %stepLat.1;
+        symbol [ stepLat %tmp.53 785 33 40 ];
+        %tmp.54 = sub %tmp.52 %tmp.53;
+        symbol [ _panOffsetLat ? 785 16 29 ];
+        putv self :_panOffsetLat dup %tmp.54;
+G__code_garmiand_garmin_source_NavigationView_mc_784_50_786_12_stop:
+        goto @G__code_garmiand_garmin_source_NavigationView_mc_784_12_788_12_if_end;
+G__code_garmiand_garmin_source_NavigationView_mc_784_12_788_12_if_else_false:
+G__code_garmiand_garmin_source_NavigationView_mc_786_19_788_12_start:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 787 16 ]
+        symbol [ _panOffsetLon %tmp.55 787 16 29 ];
+        %tmp.55 = getv self :_panOffsetLon;
+        %tmp.56 = lgetv %stepLon.2;
+        symbol [ stepLon %tmp.56 787 33 40 ];
+        %tmp.57 = add %tmp.55 %tmp.56;
+        symbol [ _panOffsetLon ? 787 16 29 ];
+        putv self :_panOffsetLon dup %tmp.57;
+G__code_garmiand_garmin_source_NavigationView_mc_786_19_788_12_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_784_12_788_12_if_end:
+G__code_garmiand_garmin_source_NavigationView_mc_781_15_789_8_stop:
+G__code_garmiand_garmin_source_NavigationView_mc_778_8_789_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationView.mc" 790 8 ]
+        symbol [ WatchUi %tmp.58 790 8 15 ];
+        %tmp.58 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.59 790 16 29 ];
+        %tmp.59 = getv function %tmp.58 :requestUpdate;
+        invoke %tmp.58 %tmp.59();
+G__code_garmiand_garmin_source_NavigationView_mc_772_36_791_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\NavigationView.mc"; @line = 1; ]
