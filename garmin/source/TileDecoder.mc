@@ -163,6 +163,12 @@ class TileDecoder {
 
     // ── Public API ──────────────────────────────────────────────────────────
 
+    // Returns true if the bundle is already persisted in Storage (fast check).
+    static function exists(bundleId as Lang.String) as Lang.Boolean {
+        var nc = App.Storage.getValue(storageKey(bundleId) + "_n");
+        return nc instanceof Lang.Number;
+    }
+
     // Persist blob with LRU eviction: if storage is full, evict the oldest
     // cached bundle and retry until either success or nothing left to evict.
     static function persist(bundleId as Lang.String, blob as Lang.ByteArray) as Lang.Boolean {

@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 03:54 dbg29";
+const APP_VERSION = "2026-05-11 05:39 dbg32";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -65,6 +65,10 @@ class NavigationView extends WatchUi.View {
     var _debugUntilMs as Lang.Number;
     var _debugTimer as Timer.Timer?;
 
+    // Route name is shown for 5 s after applyRoute(), then hidden.
+    // 0 = hidden; >0 = System.getTimer() deadline.
+    var _routeNameUntilMs as Lang.Number;
+
     // Viewport we asked MapView to render. We track it manually because
     // there is no latLonToScreenPoint() in the MapView API — overlay
     // drawing in TILES/NONE modes uses these to project route points.
@@ -107,6 +111,7 @@ class NavigationView extends WatchUi.View {
         _debugCurrent = null;
         _debugUntilMs = 0;
         _debugTimer = null;
+        _routeNameUntilMs = 0;
         _viewLat0 = 0.0f;
         _viewLat1 = 0.0f;
         _viewLon0 = 0.0f;
@@ -148,6 +153,10 @@ class NavigationView extends WatchUi.View {
 
     function tickDebug() as Void {
         var now = System.getTimer();
+        if (_routeNameUntilMs > 0 && now >= _routeNameUntilMs) {
+            _routeNameUntilMs = 0;
+            WatchUi.requestUpdate();
+        }
         if (_debugCurrent != null && now < _debugUntilMs) {
             return;
         }
@@ -371,6 +380,7 @@ class NavigationView extends WatchUi.View {
         _panOffsetLat = 0.0f;
         _panOffsetLon = 0.0f;
         _zoomFactor = 1.0f;
+        _routeNameUntilMs = System.getTimer() + 5000;
     }
 
     function updateGpsPosition(lat as Lang.Float, lon as Lang.Float) as Void {
@@ -505,7 +515,7 @@ class NavigationView extends WatchUi.View {
     function drawDebugLine(dc as Graphics.Dc) as Void {
         if (_debugCurrent == null) { return; }
         var w = dc.getWidth();
-        var bandH = dc.getFontHeight(Graphics.FONT_TINY) + 26;
+        var bandH = topBandH(dc);
         var th = dc.getFontHeight(Graphics.FONT_XTINY);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(0, bandH, w, th + 4);
@@ -608,16 +618,22 @@ class NavigationView extends WatchUi.View {
         dc.drawCircle(pt[0], pt[1], 6);
     }
 
+    // Height of the top band. Full (~50px) only while route name is on screen
+    // (5s after applyRoute); compact (~26px) otherwise so the map shows through.
+    function topBandH(dc as Graphics.Dc) as Lang.Number {
+        if (_routeNameUntilMs > 0) {
+            return dc.getFontHeight(Graphics.FONT_TINY) + 26;
+        }
+        return dc.getFontHeight(Graphics.FONT_XTINY) + 10;
+    }
+
     function drawTopBand(dc as Graphics.Dc) as Void {
         var w = dc.getWidth();
-        var font = Graphics.FONT_TINY;
-        var th = dc.getFontHeight(font);
-        var topBandH = th + 26;  // route name at y=20 sits in the wider part of the round screen
+        var bh = topBandH(dc);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillRectangle(0, 0, w, topBandH);
+        dc.fillRectangle(0, 0, w, bh);
 
-        // Mode line at very top (y=4) — only in TILES mode, where circle is narrow
-        // but short labels ("ZOOM", "NS ok", etc.) fit in ~110px visible width there
+        // Mode line at y=4 — only in TILES mode
         if (_mapMode == BG_MODE_TILES) {
             var im = (_interactMode == INTERACT_PAN_NS) ? "NS"
                    : (_interactMode == INTERACT_PAN_WE) ? "WE"
@@ -628,15 +644,20 @@ class NavigationView extends WatchUi.View {
             dc.drawText(w / 2, 4, Graphics.FONT_XTINY, modeLabel, Graphics.TEXT_JUSTIFY_CENTER);
         }
 
-        // Route name
-        var name = _route.routeName != null ? _route.routeName : "Route";
-        var fitted = fitText(dc, name, font, w - 80);
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, 20, font, fitted, Graphics.TEXT_JUSTIFY_CENTER);
+        // Route name — visible for 5 s after applyRoute()
+        if (_routeNameUntilMs > 0) {
+            var name = _route.routeName != null ? _route.routeName : "Route";
+            var fitted = fitText(dc, name, Graphics.FONT_TINY, w - 80);
+            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(w / 2, 20, Graphics.FONT_TINY, fitted, Graphics.TEXT_JUSTIFY_CENTER);
+        }
 
-        // BLE indicator near bottom of band where circle is wide enough (w-38≈222 < 229)
-        var dotX = w - 38;
-        var dotY = topBandH - 4;
+        // BLE indicator. When band is compact (no route name), y=20 keeps us inside the
+        // circle (boundary at y=20 is x≈199; dot centre at w-70=190 + r5 = 195 < 199).
+        // When full band, original w-38 at y≈46 is safe (boundary ≈229 there).
+        var showName = _routeNameUntilMs > 0;
+        var dotX = showName ? (w - 38) : (w - 70);
+        var dotY = showName ? (bh - 4) : 20;
         if (_onlineMode) {
             dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
             dc.fillCircle(dotX, dotY, 5);
@@ -726,6 +747,12 @@ class NavigationView extends WatchUi.View {
         _zoomFactor = 1.0f;
         pushDebug("GPS ctr");
         WatchUi.requestUpdate();
+    }
+
+    // Exit TILES mode back to NATIVE (called on BACK press).
+    function exitTilesMode() as Void {
+        _interactMode = INTERACT_ZOOM;
+        setMapModeAndPersist(BG_MODE_NATIVE);
     }
 
     // Center viewport on route bounding box (JUMP DOWN).

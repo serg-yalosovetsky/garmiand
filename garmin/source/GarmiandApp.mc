@@ -338,6 +338,15 @@ class GarmiandApp extends App.AppBase {
         if (_navView != null) {
             (_navView as NavigationView).pushDebug("RX tile_session " + bundleId.substring(0, 8));
         }
+        // Skip download if bundle already in Storage (same route re-synced)
+        if (TileDecoder.exists(bundleId)) {
+            System.println("[Tiles] bundle already in Storage — skip download " + bundleId.substring(0, 8));
+            if (_navView != null) {
+                (_navView as NavigationView).pushDebug("cached " + bundleId.substring(0, 8));
+                (_navView as NavigationView).setBundleId(bundleId);
+            }
+            return;
+        }
         if (!_onlineMode) {
             System.println("[Tiles] offline mode — skip download, use cached bundle=" + bundleId);
             if (_navView != null) {
@@ -566,6 +575,16 @@ class GarmiandApp extends App.AppBase {
                 _bleChunkAssembler = null;
                 BleChunkAssembler.clearWip();
                 appLog("BLE new bundle — WIP cleared");
+            }
+        }
+
+        // If no WIP but bundle already fully persisted, report all indices so phone skips them
+        if (indices.size() == 0 && TileDecoder.exists(bundleId as Lang.String)) {
+            var tot = (total as Lang.Number).toNumber();
+            for (var ii = 0; ii < tot; ii++) { indices.add(ii); }
+            appLog("BLE bundle already in Storage — skip " + tot + " chunks");
+            if (_navView != null) {
+                (_navView as NavigationView).setBundleId(bundleId as Lang.String);
             }
         }
 

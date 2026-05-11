@@ -20,3 +20,7 @@ garmin/gen/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Multi-agent work claims (ephemeral, not committed)
+.claude/work/*.md
+!.claude/work/README.md

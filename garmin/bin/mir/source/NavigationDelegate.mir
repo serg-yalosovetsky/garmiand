@@ -2,162 +2,199 @@
 using Toybox.Application as :App;
 [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [Lang,2,13,17]; ]
 using Toybox.Lang;
-[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [WatchUi,3,13,20]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [System,3,13,19]; ]
+using Toybox.System;
+[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 4; @symbol_usingdef<0> = [Toybox,4,6,12]; @symbol_usingdef<1> = [WatchUi,4,13,20]; ]
 using Toybox.WatchUi;
-[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 5; @symbol_classdef = [NavigationDelegate,5,6,24]; @symbol_extends<0> = [WatchUi,5,33,40]; @symbol_extends<1> = [BehaviorDelegate,5,41,57]; ]
+[ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 6; @symbol_classdef = [NavigationDelegate,6,6,24]; @symbol_extends<0> = [WatchUi,6,33,40]; @symbol_extends<1> = [BehaviorDelegate,6,41,57]; ]
 class NavigationDelegate extends WatchUi.BehaviorDelegate {
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 5; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 6; ]
     <init> {
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 5; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 6; ]
     static
     <init> {
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 6; @position = 8; @symbol_vardef = [_route,6,8,14]; @symbol_type<0> = [RouteData,6,18,27]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 7; @position = 8; @symbol_vardef = [_route,7,8,14]; @symbol_type<0> = [RouteData,7,18,27]; ]
     var _route as RouteData;
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 7; @position = 8; @symbol_vardef = [_view,7,8,13]; @symbol_type<0> = [NavigationView,7,17,31]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 8; @position = 8; @symbol_vardef = [_view,8,8,13]; @symbol_type<0> = [NavigationView,8,17,31]; ]
     var _view as NavigationView;
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 9; @symbol_functiondef = [initialize,9,13,23]; @symbol_param<0> = [route,9,24,29]; @symbol_param<0>_type<0> = [RouteData,9,33,42]; @symbol_param<1> = [view,9,44,48]; @symbol_param<1>_type<0> = [NavigationView,9,52,66]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 9; @position = 8; @symbol_vardef = [_lastBackMs,9,8,19]; @symbol_type<0> = [Lang,9,23,27]; @symbol_type<1> = [Number,9,28,34]; ]
+    var _lastBackMs as Lang.Number;
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 11; @symbol_functiondef = [initialize,11,13,23]; @symbol_param<0> = [route,11,24,29]; @symbol_param<0>_type<0> = [RouteData,11,33,42]; @symbol_param<1> = [view,11,44,48]; @symbol_param<1>_type<0> = [NavigationView,11,52,66]; ]
     function initialize(route as RouteData, view as NavigationView) as Void {
-G__code_garmiand_garmin_source_NavigationDelegate_mc_9_68_13_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 10 8 ]
-        symbol [ BehaviorDelegate %tmp.2 10 8 24 ];
+G__code_garmiand_garmin_source_NavigationDelegate_mc_11_68_16_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 12 8 ]
+        symbol [ BehaviorDelegate %tmp.2 12 8 24 ];
         %tmp.2 = getv ? :BehaviorDelegate;
-        symbol [ initialize %tmp.3 10 25 35 ];
+        symbol [ initialize %tmp.3 12 25 35 ];
         %tmp.3 = getv function %tmp.2 :initialize;
         invoke %tmp.2 %tmp.3();
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 11 8 ]
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 13 8 ]
         %tmp.4 = lgetv %route;
-        symbol [ route %tmp.4 11 17 22 ];
-        symbol [ _route ? 11 8 14 ];
+        symbol [ route %tmp.4 13 17 22 ];
+        symbol [ _route ? 13 8 14 ];
         putv self :_route %tmp.4;
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 12 8 ]
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 14 8 ]
         %tmp.5 = lgetv %view;
-        symbol [ view %tmp.5 12 16 20 ];
-        symbol [ _view ? 12 8 13 ];
+        symbol [ view %tmp.5 14 16 20 ];
+        symbol [ _view ? 14 8 13 ];
         putv self :_view %tmp.5;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_9_68_13_4_stop:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 15 8 ]
+        %tmp.6 = 0;
+        symbol [ _lastBackMs ? 15 8 19 ];
+        putv self :_lastBackMs %tmp.6;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_11_68_16_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 16; @symbol_functiondef = [onSelect,16,13,21]; @symbol_return<0> = [Lang,16,27,31]; @symbol_return<1> = [Boolean,16,32,39]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 19; @symbol_functiondef = [onSelect,19,13,21]; @symbol_return<0> = [Lang,19,27,31]; @symbol_return<1> = [Boolean,19,32,39]; ]
     function onSelect() as Lang.Boolean {
-G__code_garmiand_garmin_source_NavigationDelegate_mc_16_40_19_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 17 8 ]
-        symbol [ _view %tmp.2 17 8 13 ];
+G__code_garmiand_garmin_source_NavigationDelegate_mc_19_40_22_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 20 8 ]
+        symbol [ _view %tmp.2 20 8 13 ];
         %tmp.2 = getv ? :_view;
-        symbol [ cycleMapMode %tmp.3 17 14 26 ];
+        symbol [ cycleMapMode %tmp.3 20 14 26 ];
         %tmp.3 = getv function %tmp.2 :cycleMapMode;
         invoke %tmp.2 %tmp.3();
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 18 8 ]
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 21 8 ]
         %tmp.4 = true;
         ret %tmp.4;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_16_40_19_4_stop:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_19_40_22_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 22; @symbol_functiondef = [onNextPage,22,13,23]; @symbol_return<0> = [Lang,22,29,33]; @symbol_return<1> = [Boolean,22,34,41]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 25; @symbol_functiondef = [onNextPage,25,13,23]; @symbol_return<0> = [Lang,25,29,33]; @symbol_return<1> = [Boolean,25,34,41]; ]
     function onNextPage() as Lang.Boolean {
-G__code_garmiand_garmin_source_NavigationDelegate_mc_22_42_29_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 23 8 ]
-G__code_garmiand_garmin_source_NavigationDelegate_mc_23_8_27_8_if_stmt:
-        symbol [ _view %tmp.2 23 12 17 ];
+G__code_garmiand_garmin_source_NavigationDelegate_mc_25_42_32_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 26 8 ]
+G__code_garmiand_garmin_source_NavigationDelegate_mc_26_8_30_8_if_stmt:
+        symbol [ _view %tmp.2 26 12 17 ];
         %tmp.2 = getv ? :_view;
-        symbol [ getMapMode %tmp.3 23 18 28 ];
+        symbol [ getMapMode %tmp.3 26 18 28 ];
         %tmp.3 = getv function %tmp.2 :getMapMode;
         %tmp.4 = invoke %tmp.2 %tmp.3();
-        symbol [ BG_MODE_TILES %tmp.6 23 34 47 ];
+        symbol [ BG_MODE_TILES %tmp.6 26 34 47 ];
         %tmp.6 = getv ? :BG_MODE_TILES;
         %tmp.7 = eq %tmp.4 %tmp.6;
-        bf %tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_23_8_27_8_if_else_false;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_23_8_27_8_if_true:
-G__code_garmiand_garmin_source_NavigationDelegate_mc_23_49_25_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 24 12 ]
-        symbol [ _view %tmp.9 24 12 17 ];
+        bf %tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_26_8_30_8_if_else_false;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_26_8_30_8_if_true:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_26_49_28_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 27 12 ]
+        symbol [ _view %tmp.9 27 12 17 ];
         %tmp.9 = getv ? :_view;
-        symbol [ interactUp %tmp.10 24 18 28 ];
+        symbol [ interactUp %tmp.10 27 18 28 ];
         %tmp.10 = getv function %tmp.9 :interactUp;
         invoke %tmp.9 %tmp.10();
-G__code_garmiand_garmin_source_NavigationDelegate_mc_23_49_25_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationDelegate_mc_23_8_27_8_if_end;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_23_8_27_8_if_else_false:
-G__code_garmiand_garmin_source_NavigationDelegate_mc_25_15_27_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 26 12 ]
-        symbol [ App %tmp.11 26 13 16 ];
+G__code_garmiand_garmin_source_NavigationDelegate_mc_26_49_28_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationDelegate_mc_26_8_30_8_if_end;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_26_8_30_8_if_else_false:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_28_15_30_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 29 12 ]
+        symbol [ App %tmp.11 29 13 16 ];
         %tmp.11 = getm $.Toybox.Application;
-        symbol [ getApp %tmp.12 26 17 23 ];
+        symbol [ getApp %tmp.12 29 17 23 ];
         %tmp.12 = getv function %tmp.11 :getApp;
         %tmp.13 = invoke %tmp.11 %tmp.12();
         %tmp.14 = as %tmp.13 GarmiandApp;
-        symbol [ GarmiandApp %tmp.14 26 29 40 ];
-        symbol [ toggleOnlineMode %tmp.15 26 42 58 ];
+        symbol [ GarmiandApp %tmp.14 29 29 40 ];
+        symbol [ toggleOnlineMode %tmp.15 29 42 58 ];
         %tmp.15 = getv function %tmp.14 :toggleOnlineMode;
         invoke %tmp.14 %tmp.15();
-G__code_garmiand_garmin_source_NavigationDelegate_mc_25_15_27_8_stop:
-G__code_garmiand_garmin_source_NavigationDelegate_mc_23_8_27_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 28 8 ]
+G__code_garmiand_garmin_source_NavigationDelegate_mc_28_15_30_8_stop:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_26_8_30_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 31 8 ]
         %tmp.16 = true;
         ret %tmp.16;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_22_42_29_4_stop:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_25_42_32_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 32; @symbol_functiondef = [onPreviousPage,32,13,27]; @symbol_return<0> = [Lang,32,33,37]; @symbol_return<1> = [Boolean,32,38,45]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 35; @symbol_functiondef = [onPreviousPage,35,13,27]; @symbol_return<0> = [Lang,35,33,37]; @symbol_return<1> = [Boolean,35,38,45]; ]
     function onPreviousPage() as Lang.Boolean {
-G__code_garmiand_garmin_source_NavigationDelegate_mc_32_46_37_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 33 8 ]
-G__code_garmiand_garmin_source_NavigationDelegate_mc_33_8_35_8_if_stmt:
-        symbol [ _view %tmp.2 33 12 17 ];
+G__code_garmiand_garmin_source_NavigationDelegate_mc_35_46_40_4_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 36 8 ]
+G__code_garmiand_garmin_source_NavigationDelegate_mc_36_8_38_8_if_stmt:
+        symbol [ _view %tmp.2 36 12 17 ];
         %tmp.2 = getv ? :_view;
-        symbol [ getMapMode %tmp.3 33 18 28 ];
+        symbol [ getMapMode %tmp.3 36 18 28 ];
         %tmp.3 = getv function %tmp.2 :getMapMode;
         %tmp.4 = invoke %tmp.2 %tmp.3();
-        symbol [ BG_MODE_TILES %tmp.6 33 34 47 ];
+        symbol [ BG_MODE_TILES %tmp.6 36 34 47 ];
         %tmp.6 = getv ? :BG_MODE_TILES;
         %tmp.7 = eq %tmp.4 %tmp.6;
-        bf %tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_33_8_35_8_if_end;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_33_8_35_8_if_true:
-G__code_garmiand_garmin_source_NavigationDelegate_mc_33_49_35_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 34 12 ]
-        symbol [ _view %tmp.9 34 12 17 ];
+        bf %tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_36_8_38_8_if_end;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_36_8_38_8_if_true:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_36_49_38_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 37 12 ]
+        symbol [ _view %tmp.9 37 12 17 ];
         %tmp.9 = getv ? :_view;
-        symbol [ interactDown %tmp.10 34 18 30 ];
+        symbol [ interactDown %tmp.10 37 18 30 ];
         %tmp.10 = getv function %tmp.9 :interactDown;
         invoke %tmp.9 %tmp.10();
-G__code_garmiand_garmin_source_NavigationDelegate_mc_33_49_35_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationDelegate_mc_33_8_35_8_if_end;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_33_8_35_8_if_end:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 36 8 ]
+G__code_garmiand_garmin_source_NavigationDelegate_mc_36_49_38_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationDelegate_mc_36_8_38_8_if_end;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_36_8_38_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 39 8 ]
         %tmp.11 = true;
         ret %tmp.11;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_32_46_37_4_stop:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_35_46_40_4_stop:
     }
-    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 40; @symbol_functiondef = [onBack,40,13,19]; @symbol_return<0> = [Lang,40,25,29]; @symbol_return<1> = [Boolean,40,30,37]; ]
+    [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 44; @symbol_functiondef = [onBack,44,13,19]; @symbol_return<0> = [Lang,44,25,29]; @symbol_return<1> = [Boolean,44,30,37]; ]
     function onBack() as Lang.Boolean {
-G__code_garmiand_garmin_source_NavigationDelegate_mc_40_38_46_4_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 41 8 ]
-G__code_garmiand_garmin_source_NavigationDelegate_mc_41_8_44_8_if_stmt:
-        symbol [ _view %tmp.2 41 12 17 ];
-        %tmp.2 = getv ? :_view;
-        symbol [ getMapMode %tmp.3 41 18 28 ];
-        %tmp.3 = getv function %tmp.2 :getMapMode;
-        %tmp.4 = invoke %tmp.2 %tmp.3();
-        symbol [ BG_MODE_TILES %tmp.6 41 34 47 ];
-        %tmp.6 = getv ? :BG_MODE_TILES;
-        %tmp.7 = eq %tmp.4 %tmp.6;
-        bf %tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_41_8_44_8_if_end;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_41_8_44_8_if_true:
-G__code_garmiand_garmin_source_NavigationDelegate_mc_41_49_44_8_start:
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 42 12 ]
-        symbol [ _view %tmp.9 42 12 17 ];
-        %tmp.9 = getv ? :_view;
-        symbol [ centerToGps %tmp.10 42 18 29 ];
-        %tmp.10 = getv function %tmp.9 :centerToGps;
-        invoke %tmp.9 %tmp.10();
-[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 43 12 ]
-        %tmp.11 = true;
-        ret %tmp.11;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_41_49_44_8_stop:
-        goto @G__code_garmiand_garmin_source_NavigationDelegate_mc_41_8_44_8_if_end;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_41_8_44_8_if_end:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_44_38_53_4_start:
 [ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 45 8 ]
-        %tmp.12 = false;
-        ret %tmp.12;
-G__code_garmiand_garmin_source_NavigationDelegate_mc_40_38_46_4_stop:
+        [ "G__code_garmiand_garmin_source_NavigationDelegate_mc_44_38_53_4_start" "G__code_garmiand_garmin_source_NavigationDelegate_mc_44_38_53_4_stop" ]
+        %now.1 = local;
+        symbol [ now %now.1 45 12 15 ];
+        symbol [ System %tmp.1 45 18 24 ];
+        %tmp.1 = getm $.Toybox.System;
+        symbol [ getTimer %tmp.2 45 25 33 ];
+        %tmp.2 = getv function %tmp.1 :getTimer;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %now.1 %tmp.3;
+        symbol [ now %now.1 45 12 15 ];
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 46 8 ]
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_8_49_8_if_stmt:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_12_46_51_begin:
+        symbol [ _lastBackMs %tmp.5 46 12 23 ];
+        %tmp.5 = getv ? :_lastBackMs;
+        %tmp.6 = 0;
+        %tmp.7 = gt %tmp.5 %tmp.6;
+        bf %tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_46_8_49_8_if_end;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_31_46_51_true:
+        %tmp.8 = lgetv %now.1;
+        symbol [ now %tmp.8 46 31 34 ];
+        symbol [ _lastBackMs %tmp.10 46 37 48 ];
+        %tmp.10 = getv ? :_lastBackMs;
+        %tmp.11 = sub %tmp.8 %tmp.10;
+        %tmp.12 = 500;
+        %tmp.13 = lt %tmp.11 %tmp.12;
+        push %tmp.13;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_31_46_51_end:
+        %tmp.14 = phi [%tmp.7 @G__code_garmiand_garmin_source_NavigationDelegate_mc_46_12_46_51_begin] [%tmp.13 @G__code_garmiand_garmin_source_NavigationDelegate_mc_46_31_46_51_true] [%tmp.14 @G__code_garmiand_garmin_source_NavigationDelegate_mc_46_31_46_51_end];
+        bf %tmp.14 @G__code_garmiand_garmin_source_NavigationDelegate_mc_46_8_49_8_if_end;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_8_49_8_if_true:
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_56_49_8_start:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 47 12 ]
+        %tmp.15 = 0;
+        symbol [ _lastBackMs ? 47 12 23 ];
+        putv self :_lastBackMs %tmp.15;
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 48 12 ]
+        %tmp.16 = false;
+        ret %tmp.16;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_56_49_8_stop:
+        goto @G__code_garmiand_garmin_source_NavigationDelegate_mc_46_8_49_8_if_end;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_46_8_49_8_if_end:
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 50 8 ]
+        %tmp.17 = lgetv %now.1;
+        symbol [ now %tmp.17 50 22 25 ];
+        symbol [ _lastBackMs ? 50 8 19 ];
+        putv self :_lastBackMs %tmp.17;
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 51 8 ]
+        symbol [ _view %tmp.19 51 8 13 ];
+        %tmp.19 = getv ? :_view;
+        symbol [ centerToGps %tmp.20 51 14 25 ];
+        %tmp.20 = getv function %tmp.19 :centerToGps;
+        invoke %tmp.19 %tmp.20();
+[ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 52 8 ]
+        %tmp.21 = true;
+        ret %tmp.21;
+G__code_garmiand_garmin_source_NavigationDelegate_mc_44_38_53_4_stop:
     }
 }
 [ @file = "G:\code\garmiand\garmin\source\NavigationDelegate.mc"; @line = 1; ]

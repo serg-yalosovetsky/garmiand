@@ -145,8 +145,8 @@ G__code_garmiand_garmin_source_NavigationDelegate_mc_41_49_44_8_start:
 [ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 42 12 ]
         symbol [ _view %tmp.9 42 12 17 ];
         %tmp.9 = getv ? :_view;
-        symbol [ centerToGps %tmp.10 42 18 29 ];
-        %tmp.10 = getv function %tmp.9 :centerToGps;
+        symbol [ exitTilesMode %tmp.10 42 18 31 ];
+        %tmp.10 = getv function %tmp.9 :exitTilesMode;
         invoke %tmp.9 %tmp.10();
 [ "G:\code\garmiand\garmin\source\NavigationDelegate.mc" 43 12 ]
         %tmp.11 = true;

@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Multi-session coordination
+
+Before editing any source file in a non-trivial task, create a work claim in [`.claude/work/`](.claude/work/). Read existing claims first to detect conflicts. See [`.claude/work/README.md`](.claude/work/README.md) for the format.
+
 ## What this project does
 
 Transfers GPX routes from an Android phone to a Garmin Fenix 7 watch over Bluetooth (Connect IQ). The watch renders the route on top of a map background (Garmin TopoActive or custom raster tiles) with GPS position and off-route detection. A Node.js backend brokers map tile bundles when the phone has internet; BLE direct-chunking is the offline fallback.

@@ -57,7 +57,7 @@ class MapBundleBleSender(
      * Returns the bundleId on success, or null after exhausting all chunk sizes.
      */
     fun send(bundle: ByteArray, onProgress: ((sent: Int, total: Int) -> Unit)? = null): String? {
-        val bundleId = UUID.randomUUID().toString()
+        val bundleId = bundleHashString(bundle)
         val sessionId = UUID.randomUUID().toString()
         var chunkSize = startingChunkSize
         AppLog.i(TAG, "BLE send bundleId=$bundleId bytes=${bundle.size} startChunk=${chunkSize}B")
@@ -211,6 +211,12 @@ class MapBundleBleSender(
             }
         }
         return SendOutcome.OK
+    }
+
+    private fun bundleHashString(bundle: ByteArray): String {
+        val crc = java.util.zip.CRC32()
+        crc.update(bundle)
+        return "%08x".format(crc.value)
     }
 
     private fun isTooLarge(reason: String): Boolean {
