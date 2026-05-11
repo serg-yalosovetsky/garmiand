@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 03:29 dbg27";
+const APP_VERSION = "2026-05-11 03:54 dbg28";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -507,8 +507,6 @@ class NavigationView extends WatchUi.View {
                    : (_interactMode == INTERACT_JUMP)   ? "JMP" : "ZOOM";
             var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
             label = "[" + im + "]" + (have ? " ok" : " —");
-        } else if (_mapMode == BG_MODE_NONE) {
-            label = "[NONE]";
         } else {
             return;
         }
@@ -531,7 +529,7 @@ class NavigationView extends WatchUi.View {
     function drawDebugLine(dc as Graphics.Dc) as Void {
         if (_debugCurrent == null) { return; }
         var w = dc.getWidth();
-        var bandH = dc.getFontHeight(Graphics.FONT_TINY) + 8;
+        var bandH = dc.getFontHeight(Graphics.FONT_TINY) + 26;
         var th = dc.getFontHeight(Graphics.FONT_XTINY);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(0, bandH, w, th + 4);
@@ -637,16 +635,18 @@ class NavigationView extends WatchUi.View {
     function drawTopBand(dc as Graphics.Dc) as Void {
         var w = dc.getWidth();
         var name = _route.routeName != null ? _route.routeName : "Route";
-        var fitted = fitText(dc, name, Graphics.FONT_TINY, w - 50);
-        var th = dc.getFontHeight(Graphics.FONT_TINY);
-        var topBandH = th + 6;
+        var font = Graphics.FONT_TINY;
+        var th = dc.getFontHeight(font);
+        var topBandH = th + 26;  // text at y=20 sits in the wider part of the round screen
+        var fitted = fitText(dc, name, font, w - 80);
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(0, 0, w, topBandH);
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, 3, Graphics.FONT_TINY, fitted, Graphics.TEXT_JUSTIFY_CENTER);
-        // BLE indicator: filled green = online, outline gray = offline
-        var dotX = w - 10;
-        var dotY = topBandH / 2;
+        dc.drawText(w / 2, 20, font, fitted, Graphics.TEXT_JUSTIFY_CENTER);
+        // BLE indicator placed near bottom of band where circle is wide enough
+        // At y≈topBandH-4 the circle edge is ≈229px for w=260, so w-38=222 fits inside
+        var dotX = w - 38;
+        var dotY = topBandH - 4;
         if (_onlineMode) {
             dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
             dc.fillCircle(dotX, dotY, 5);
@@ -662,17 +662,17 @@ class NavigationView extends WatchUi.View {
         var w = dc.getWidth();
         var h = dc.getHeight();
         var text = "OFF ROUTE";
-        var tw = dc.getTextWidthInPixels(text, Graphics.FONT_TINY);
-        var th = dc.getFontHeight(Graphics.FONT_TINY);
-        var pad = 6;
+        var font = Graphics.FONT_XTINY;
+        var tw = dc.getTextWidthInPixels(text, font);
+        var th = dc.getFontHeight(font);
+        var pad = 4;
+        var modeBadgeH = th + 10;
+        var by = h - th - modeBadgeH - 4;
         var bx = (w - tw) / 2 - pad;
-        // stay above the mode badge (FONT_XTINY + 4px padding + 6px gap)
-        var modeBadgeH = dc.getFontHeight(Graphics.FONT_XTINY) + 10;
-        var by = h - th - modeBadgeH;
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(bx, by, tw + pad * 2, th + 4);
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, by + 2, Graphics.FONT_TINY, text, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(w / 2, by + 2, font, text, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function fitText(dc as Graphics.Dc, text as Lang.String, font as Graphics.FontType, maxW as Lang.Number) as Lang.String {
@@ -707,15 +707,16 @@ class NavigationView extends WatchUi.View {
             } else if (_interactMode == INTERACT_PAN_WE) {
                 _interactMode = INTERACT_JUMP;
             } else {
-                // INTERACT_JUMP — exit TILES mode
+                // INTERACT_JUMP — exit TILES mode back to plain black
                 _interactMode = INTERACT_ZOOM;
-                setMapModeAndPersist(BG_MODE_NONE);
+                setMapModeAndPersist(BG_MODE_NATIVE);
             }
             System.println("[Map] interact=" + _interactMode + " zoom=" + _zoomFactor);
             WatchUi.requestUpdate();
         } else {
+            // Not in TILES — toggle into TILES
             _interactMode = INTERACT_ZOOM;
-            setMapModeAndPersist((_mapMode + 1) % 3);
+            setMapModeAndPersist(BG_MODE_TILES);
             System.println("[Map] mapMode=" + _mapMode);
         }
     }
