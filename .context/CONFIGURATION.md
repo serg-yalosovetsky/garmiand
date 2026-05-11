@@ -37,8 +37,17 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 
 | Constant | Default | Meaning |
 |---|---|---|
-| `DEFAULT_TILE_OUTPUT` | `128` | Output tile pixel size after resize. With `maxTilesPerSide=2` → 256×256 px bundle on a 240 px screen. |
-| `maxTilesPerSide` (param) | `2` | Constrains the tile grid; `chooseZoom` picks the highest zoom that fits. |
+| `DEFAULT_TILE_OUTPUT` | `128` | Default output tile pixel size (128×128). Used by `quantizeCorridor` unless overridden. |
+| `MAX_CORRIDOR_TILES` | `20` | Global cap per `quantizeCorridor()` call. Overridable via the `maxTiles` parameter. |
+| `maxTilesPerSide` (param) | `2` | Constrains the bbox tile grid in `quantize()`; `chooseZoom` picks the highest fitting zoom. |
+
+`quantizeMultiZoom()` calls `quantizeCorridor()` three times with per-zoom overrides:
+
+| OSM zoom | `bufferMeters` | `maxTiles` | `outputSize` |
+|---|---|---|---|
+| 12 | 300 m | 4 | 64 px |
+| 13 | 300 m | 12 | 128 px |
+| 15 | 150 m | 6 | 128 px |
 
 ## Android — `MapBundleBleSender.kt`
 
@@ -80,7 +89,7 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 | Property | Type | Default | Meaning |
 |---|---|---|---|
 | `map_mode` | Number | `0` | 0 = NATIVE (TopoActive), 1 = TILES (custom bundle), 2 = NONE. Settable from Connect IQ Settings UI or the SELECT button. |
-| `last_bundle_id` | String | `""` | Persisted ID of the last successfully downloaded bundle. Watch reloads from `Application.Storage["bundle_<id>"]` on app start. |
+| `last_bundle_id` | String | `""` | Persisted ID of the last successfully downloaded or received bundle. Format: 8 hex chars (CRC32 of bundle bytes, e.g. `"a3f1e7c2"`). Watch reloads from `Application.Storage["b_<id>_*"]` on app start. |
 
 ## Watch — `NavigationCalculator.mc`
 
@@ -100,8 +109,9 @@ directly without entering any sub-mode (see `onDrag` in `NavigationDelegate`).
 | `INTERACT_PAN_NS` | `1` | `NS`   | SELECT cycle step 2: UP/DOWN pans north/south. |
 | `INTERACT_PAN_WE` | `2` | `WE`   | SELECT cycle step 3: UP/DOWN pans west/east. |
 | `INTERACT_JUMP`   | `3` | `JMP`  | SELECT cycle step 4: UP = center on GPS, DOWN = center on route; next SELECT exits TILES. |
-| `_zoomFactor` | `0.25f – 16.0f`, default `1.0f` | | Divides `halfLat`/`halfLon` in `projectPoint()`; higher = zoomed in. Reset to `1.0f` on `applyRoute()` and `centerToGps()`. |
+| `_zoomFactor` | `0.25f – 16.0f`, default `1.0f` | | Divides `halfLat`/`halfLon` in `projectPoint()`; higher = zoomed in. Reset to `1.0f` on `applyRoute()`, `centerToGps()`, `centerToRoute()`. |
 | `_panOffsetLat/Lon` | `Float`, default `0.0f` | | Degrees added to the route-center lat/lon. Updated by `panByPixels()` (touch drag) or `interactUp/Down()` (buttons). Reset by `centerToGps()` and `centerToRoute()`. |
+| `_activeOsmZoom` | `12`, `13`, or `15`, default `13` | (in badge) | Active OSM tile zoom level. Set by `checkZoomSwitch()` based on `_zoomFactor` thresholds: `<0.5`→12, `0.5–3.0`→13, `≥3.0`→15. Switching triggers `switchToActiveZoom()` in `onUpdate()`. |
 
 ## Watch — `TileDecoder.mc`
 

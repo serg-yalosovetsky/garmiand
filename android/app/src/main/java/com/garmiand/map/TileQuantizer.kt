@@ -127,6 +127,7 @@ object TileQuantizer {
         zoom: Int = 13,
         urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
         outputSize: Int = DEFAULT_TILE_OUTPUT,
+        maxTiles: Int = MAX_CORRIDOR_TILES,
     ): QuantizedBundle {
         require(points.isNotEmpty()) { "No route points" }
 
@@ -146,9 +147,9 @@ object TileQuantizer {
         }
 
         val sorted = tileCoords.sortedWith(compareBy({ it.second }, { it.first }))
-        val capped = if (sorted.size > MAX_CORRIDOR_TILES) {
-            AppLog.w(TAG, "corridor: ${sorted.size} tiles exceeds cap $MAX_CORRIDOR_TILES — truncating")
-            sorted.take(MAX_CORRIDOR_TILES)
+        val capped = if (sorted.size > maxTiles) {
+            AppLog.w(TAG, "corridor: ${sorted.size} tiles exceeds cap $maxTiles — truncating")
+            sorted.take(maxTiles)
         } else sorted
         AppLog.i(TAG, "corridor: ${capped.size} tiles at z$zoom buffer=${bufferMeters.toInt()}m")
 
@@ -221,5 +222,53 @@ object TileQuantizer {
         val lon = tx / n * 360.0 - 180.0
         val lat = Math.toDegrees(atan(sinh(PI * (1.0 - 2.0 * ty / n))))
         return lat to lon
+    }
+
+    /**
+     * Fetch corridor tiles at multiple OSM zoom levels and merge into one bundle.
+     *
+     * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx):
+     *   z12: buf=300m  cap=4   size=64  — overview; z12 tiles are ~10 km wide so 4 covers most routes
+     *   z13: buf=300m  cap=12  size=128 — normal (same quality as single-zoom mode)
+     *   z15: buf=150m  cap=6   size=128 — detail for zoomed-in view; narrow buffer keeps tile count low
+     *
+     * Bundle blob estimate: 4×4KB + 12×16KB + 6×16KB ≈ 304 KB — fits in watch RAM for decode.
+     * The watch decodes only one zoom level at a time (see NavigationView.checkZoomSwitch).
+     */
+    fun quantizeMultiZoom(
+        points: List<RoutePoint>,
+        zooms: List<Int> = listOf(12, 13, 15),
+        urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
+    ): QuantizedBundle {
+        require(points.isNotEmpty()) { "No route points" }
+        val allTiles = mutableListOf<QuantizedTile>()
+        var minLat = Double.MAX_VALUE
+        var maxLat = -Double.MAX_VALUE
+        var minLon = Double.MAX_VALUE
+        var maxLon = -Double.MAX_VALUE
+
+        for (zoom in zooms) {
+            val (buf, cap, size) = when (zoom) {
+                12 -> Triple(300.0, 4, 64)
+                15 -> Triple(150.0, 6, 128)
+                else -> Triple(300.0, 12, DEFAULT_TILE_OUTPUT)
+            }
+            AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px")
+            val bundle = try {
+                quantizeCorridor(points, bufferMeters = buf, zoom = zoom, urlTemplate = urlTemplate, outputSize = size, maxTiles = cap)
+            } catch (e: Exception) {
+                AppLog.w(TAG, "quantizeMultiZoom z$zoom failed: ${e.message}")
+                continue
+            }
+            allTiles += bundle.tiles
+            if (bundle.minLat < minLat) minLat = bundle.minLat
+            if (bundle.maxLat > maxLat) maxLat = bundle.maxLat
+            if (bundle.minLon < minLon) minLon = bundle.minLon
+            if (bundle.maxLon > maxLon) maxLon = bundle.maxLon
+        }
+
+        if (allTiles.isEmpty()) throw IllegalStateException("No tiles fetched for any zoom level")
+        AppLog.i(TAG, "quantizeMultiZoom: ${allTiles.size} total tiles across ${zooms.size} zoom levels")
+        return QuantizedBundle(minLat = minLat, maxLat = maxLat, minLon = minLon, maxLon = maxLon, tiles = allTiles)
     }
 }

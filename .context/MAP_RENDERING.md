@@ -26,8 +26,8 @@ which path was used.
 
 ### HTTPS (preferred, requires phone connectivity)
 
-1. `MainActivity.sendMapBundle` → `TileQuantizer.quantize(bbox)` produces a
-   `QuantizedBundle`.
+1. `MainActivity.sendMapBundle` → `TileQuantizer.quantizeMultiZoom(points)` produces a
+   `QuantizedBundle` with tiles at OSM zoom levels 12, 13, and 15 interleaved.
 2. `TileBundleSerializer.serialize(bundle)` → `ByteArray`.
 3. `MapBundleUploader` POSTs to `${BACKEND_URL}/sessions` with the bundle as
    `application/octet-stream`. Server responds with
@@ -95,10 +95,11 @@ concatenates them with `ByteArray.addAll()` (bulk, not byte-by-byte).
 
 **Phase 1 — Header + entry parsing.** `NavigationView.loadBundle()` calls
 `TileDecoder.parseHeader()` and `parsePalette()` (fast, ~300 bytes read).
-Then `prepareDecode(blob, hdr)` parses all tile entries (21 bytes × tileCount)
-and stores `_pendingBlob`, `_pendingEntries`. Each entry retains its
-`(zoom, tileX, tileY)` fields — these are used at render time to compute the
-tile's on-screen rectangle via Web Mercator inverse math.
+Then `prepareDecode(blob, hdr)` iterates all tile entries (21 bytes × tileCount)
+and stores only those whose `zoom == _activeOsmZoom` into `_pendingEntries`.
+The full blob is kept in `_pendingBlob` — tiles from other zoom levels remain
+in the blob but are not decoded. Each retained entry holds `(zoom, tileX, tileY)`
+for use at render time.
 
 **Phase 2 — Incremental pixel decode.** `NavigationView.decodeNextTile()` is
 called from `onUpdate()` once per frame. Each call:
@@ -112,7 +113,8 @@ called from `onUpdate()` once per frame. Each call:
    (holds `bmp`, `zoom`, `tileX`, `tileY`).
 4. `onUpdate()` calls `WatchUi.requestUpdate()` while tiles remain pending.
 
-Total decode time: 4 tiles × (128 ÷ 8 = 16 frames) = 64 `onUpdate` cycles.
+Decode time: `N × (tileWidth ÷ 8)` frames. With z13 128×128 tiles and 12 tiles:
+`12 × 16 = 192 onUpdate` cycles. z12 64×64 tiles: `4 × 8 = 32` cycles.
 
 **Important constraints discovered in testing:**
 - `Graphics.BufferedBitmapType.getBuffer()` does **not exist** in SDK 9.1.0 /
@@ -235,7 +237,12 @@ effHalfLon = halfLon / _zoomFactor
 ```
 Higher factor → smaller effective viewport → zoom in. Pan steps are also
 divided by `_zoomFactor` so panning speed stays proportional to the view size.
-`_zoomFactor` resets to 1.0 in `applyRoute()` and `centerToGps()`.
+`_zoomFactor` resets to 1.0 in `applyRoute()`, `centerToGps()`, and `centerToRoute()`.
+
+Every time `_zoomFactor` changes in ZOOM mode, `checkZoomSwitch()` is called.
+If the new value crosses an OSM zoom threshold, `_activeOsmZoom` is updated and
+tile re-decode is queued (see Multi-zoom tile bundles above). The top-band mode
+badge reflects the active OSM zoom: e.g. `ZOOM z13 ok`, `ZOOM z15 dec`.
 
 ## Native rendering (NATIVE mode)
 
@@ -244,17 +251,49 @@ NATIVE mode draws a plain black background, then the same manual polyline /
 waypoint / GPS-position overlays as TILES and NONE. There is no Garmin
 TopoActive backdrop in the current implementation.
 
+## Multi-zoom tile bundles
+
+A single `GMND` bundle may contain tiles at multiple OSM zoom levels.
+`quantizeMultiZoom()` fetches three corridors and merges them:
+
+| OSM zoom | Output size | Buffer | Max tiles | Blob size |
+|---|---|---|---|---|
+| 12 (overview) | 64×64 px | 300 m | 4 | ~16 KB |
+| 13 (normal)   | 128×128 px | 300 m | 12 | ~192 KB |
+| 15 (detail)   | 128×128 px | 150 m | 6 | ~96 KB |
+
+Total bundle ≈ 304 KB. The watch decodes **one zoom level at a time**
+(controlled by `_activeOsmZoom`, default 13).
+
+**Zoom switching.** `checkZoomSwitch()` maps `_zoomFactor` to an OSM zoom:
+
+| `_zoomFactor` range | `_activeOsmZoom` |
+|---|---|
+| < 0.5 | 12 (overview) |
+| 0.5 – 3.0 | 13 (normal, default) |
+| ≥ 3.0 | 15 (detail) |
+
+When the threshold is crossed, `_pendingZoomSwitch = true`. In the next
+`onUpdate()` frame, `switchToActiveZoom()` reloads the blob from Storage,
+calls `prepareDecode()` with the new filter, and decoding restarts. Old
+`BufferedBitmap`s are freed by `clearDecodedTiles()` before the reload.
+
+Peak RAM during zoom switch: ~304 KB blob + up to ~192 KB new bitmaps ≈ 496 KB
+(comfortably under the ~678 KB budget).
+
+**Backwards compatibility.** Old single-zoom bundles (z13 only) load correctly:
+`_activeOsmZoom = 13` matches all entries. Zooming past the thresholds shows an
+empty tile layer (route line stays visible) until a new multi-zoom bundle is synced.
+
 ## Sizing budget
 
-- 128×128 tile × 1 byte/pixel = 16 KB per tile pixel array.
-- 4 tiles + header + palette ≈ 65 KB per bundle.
-- `Application.Storage` on Fenix 7 is empirically ~128 KB **total**, and each
-  individual value is limited to ~32 KB in the simulator (and likely on device).
-  We split the blob into 16 KB chunks stored as `b_<id>_0`, `b_<id>_1`, …,
-  `b_<id>_n`, plus `b_<id>_n` (chunk count) and `b_<id>_sz` (total size).
-  Currently one bundle per app (overwritten on new sync).
-- Graphics memory pool (~256 KB on Fenix 7) holds the active Dc plus 4
-  `BufferedBitmap`s being decoded and blitted.
+- 64×64 tile × 1 byte/pixel = 4 KB per tile; 128×128 = 16 KB.
+- Multi-zoom bundle: up to 22 tiles ≈ 304 KB (see table above).
+- `Application.Storage` on Fenix 7: per-value limit ~32 KB (silent OOM if exceeded).
+  Blobs are split into 16 KB chunks (`b_<id>_0`, `b_<id>_1`, …).
+  LRU manifest (`bm`) tracks up to 32 cached bundles; oldest evicted when full.
+- Graphics RAM: `_decodedTiles` holds at most 12 × 16 KB = 192 KB of `BufferedBitmap`s
+  for the active zoom level at steady state.
 - HTTPS download: `makeWebRequest` response buffer is ~12–16 KB (base64 text).
   We download in 10 KB chunks via `GET /sessions/:id/chunk?offset=N&size=10240`,
   writing directly into a pre-allocated `ByteArray` buffer.

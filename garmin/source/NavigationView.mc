@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 05:49 dbg33";
+const APP_VERSION = "2026-05-11 05:56 dbg34";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -45,12 +45,18 @@ class NavigationView extends WatchUi.View {
     // Incremental tile decode state. After loadBundle() parses the header,
     // these fields drive column-by-column decoding inside onUpdate().
     // Each onUpdate() call processes COLS_PER_FRAME columns of the current tile.
+    // _pendingEntries holds only the tiles for _activeOsmZoom (filtered in prepareDecode).
     var _pendingBlob as Lang.ByteArray?;
     var _pendingEntries as Lang.Array?;
     var _pendingTileIndex as Lang.Number;
     var _pendingColIndex as Lang.Number;
     var _currentTileBmp as Graphics.BufferedBitmap?;
     var _currentTileDc as Graphics.Dc?;
+
+    // Active OSM zoom level: 12 (overview), 13 (normal), or 15 (detail).
+    // checkZoomSwitch() maps _zoomFactor → OSM zoom and triggers switchToActiveZoom().
+    var _activeOsmZoom as Lang.Number;
+    var _pendingZoomSwitch as Lang.Boolean;
 
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
@@ -107,6 +113,8 @@ class NavigationView extends WatchUi.View {
         _pendingColIndex = 0;
         _currentTileBmp = null;
         _currentTileDc = null;
+        _activeOsmZoom = 13;
+        _pendingZoomSwitch = false;
         _debugQueue = [] as Lang.Array<Lang.String>;
         _debugCurrent = null;
         _debugUntilMs = 0;
@@ -235,7 +243,7 @@ class NavigationView extends WatchUi.View {
         System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount);
     }
 
-    // Phase 1 of tile decode: parse entries. Fast (no pixels).
+    // Phase 1 of tile decode: parse entries filtered to _activeOsmZoom.
     // Sets up _pendingBlob/_pendingEntries so onUpdate() can decode one tile per frame.
     function prepareDecode(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
         _pendingBlob = null;
@@ -244,28 +252,37 @@ class NavigationView extends WatchUi.View {
         if (hdr.tileCount == 0 || _palette == null) {
             return;
         }
-        var entries = new [hdr.tileCount];
+        var entries = [] as Lang.Array;
         for (var i = 0; i < hdr.tileCount; i++) {
-            entries[i] = TileDecoder.parseTileEntry(blob, hdr, i);
+            var entry = TileDecoder.parseTileEntry(blob, hdr, i);
+            if (entry.zoom == _activeOsmZoom) {
+                entries.add(entry);
+            }
+        }
+        if (entries.size() == 0) {
+            pushDebug("no z" + _activeOsmZoom + " tiles");
+            return;
         }
         _pendingEntries = entries;
         _pendingBlob = blob;
         _pendingTileIndex = 0;
-        pushDebug("decode: 0/" + hdr.tileCount + " tiles");
+        pushDebug("z" + _activeOsmZoom + " " + entries.size() + "/" + hdr.tileCount + "t");
     }
 
     // Phase 2: column-by-column tile decode. Called from onUpdate() until done.
     // Processes COLS_PER_FRAME columns per call to stay under the watchdog budget.
+    // Operates on _pendingEntries which contains only the _activeOsmZoom tiles.
     function decodeNextTile() as Void {
-        if (_pendingBlob == null || _pendingEntries == null || _bundleHeader == null || _palette == null) {
+        if (_pendingBlob == null || _pendingEntries == null || _palette == null) {
             return;
         }
-        var hdr = _bundleHeader as BundleHeader;
-        if (_pendingTileIndex >= hdr.tileCount) {
+        var entries = _pendingEntries as Lang.Array;
+        var tileCount = entries.size();
+        if (_pendingTileIndex >= tileCount) {
             _pendingBlob = null;
             return;
         }
-        var entry = (_pendingEntries as Lang.Array)[_pendingTileIndex] as TileEntry;
+        var entry = entries[_pendingTileIndex] as TileEntry;
 
         // Allocate BufferedBitmap for the current tile if not yet done.
         if (_currentTileBmp == null) {
@@ -306,10 +323,10 @@ class NavigationView extends WatchUi.View {
             _currentTileDc = null;
             _pendingColIndex = 0;
             _pendingTileIndex++;
-            if (_pendingTileIndex >= hdr.tileCount) {
+            if (_pendingTileIndex >= tileCount) {
                 _pendingBlob = null;
                 _pendingEntries = null;
-                pushDebug("decoded " + hdr.tileCount + " tiles");
+                pushDebug("z" + _activeOsmZoom + " " + tileCount + "t ok");
             }
         }
     }
@@ -381,6 +398,7 @@ class NavigationView extends WatchUi.View {
         _panOffsetLon = 0.0f;
         _zoomFactor = 1.0f;
         _routeNameUntilMs = System.getTimer() + 5000;
+        checkZoomSwitch();
     }
 
     function updateGpsPosition(lat as Lang.Float, lon as Lang.Float) as Void {
@@ -426,6 +444,13 @@ class NavigationView extends WatchUi.View {
             (app as GarmiandApp).processPendingTileChunk();
         }
         ensureBundleLoaded();
+
+        // Zoom switch requested by checkZoomSwitch (called from interactUp/Down/applyRoute).
+        // Heavy blob load deferred to onUpdate so it runs under the larger watchdog budget.
+        if (_pendingZoomSwitch) {
+            _pendingZoomSwitch = false;
+            switchToActiveZoom();
+        }
 
         // Incremental decode: one tile per frame to stay within watchdog budget.
         if (_pendingBlob != null) {
@@ -639,7 +664,9 @@ class NavigationView extends WatchUi.View {
                    : (_interactMode == INTERACT_PAN_WE) ? "WE"
                    : (_interactMode == INTERACT_JUMP)   ? "JMP" : "ZOOM";
             var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
-            var modeLabel = im + (have ? " ok" : " -");
+            var dec = _pendingBlob != null;
+            var zStatus = dec ? "dec" : (have ? "ok" : "-");
+            var modeLabel = im + " z" + _activeOsmZoom.toString() + " " + zStatus;
             dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
             dc.drawText(w / 2, 4, Graphics.FONT_XTINY, modeLabel, Graphics.TEXT_JUSTIFY_CENTER);
         }
@@ -745,6 +772,7 @@ class NavigationView extends WatchUi.View {
             _panOffsetLon = 0.0f;
         }
         _zoomFactor = 1.0f;
+        checkZoomSwitch();
         pushDebug("GPS ctr");
         WatchUi.requestUpdate();
     }
@@ -760,6 +788,7 @@ class NavigationView extends WatchUi.View {
         _panOffsetLat = 0.0f;
         _panOffsetLon = 0.0f;
         _zoomFactor = 1.0f;
+        checkZoomSwitch();
         pushDebug("route ctr");
         WatchUi.requestUpdate();
     }
@@ -786,6 +815,7 @@ class NavigationView extends WatchUi.View {
         if (_interactMode == INTERACT_ZOOM) {
             _zoomFactor = (_zoomFactor * 1.5f).toFloat();
             if (_zoomFactor > 16.0f) { _zoomFactor = 16.0f; }
+            checkZoomSwitch();
         } else {
             var stepLat = (_viewLat0 - _viewLat1) * 0.2f / _zoomFactor;
             var stepLon = (_viewLon1 - _viewLon0) * 0.2f / _zoomFactor;
@@ -808,6 +838,7 @@ class NavigationView extends WatchUi.View {
         if (_interactMode == INTERACT_ZOOM) {
             _zoomFactor = (_zoomFactor / 1.5f).toFloat();
             if (_zoomFactor < 0.25f) { _zoomFactor = 0.25f; }
+            checkZoomSwitch();
         } else {
             var stepLat = (_viewLat0 - _viewLat1) * 0.2f / _zoomFactor;
             var stepLon = (_viewLon1 - _viewLon0) * 0.2f / _zoomFactor;
@@ -818,5 +849,43 @@ class NavigationView extends WatchUi.View {
             }
         }
         WatchUi.requestUpdate();
+    }
+
+    // Map current _zoomFactor to an OSM zoom level and trigger a tile reload if changed.
+    // Thresholds: <0.5 → z12 (overview), 0.5–3.0 → z13 (normal), ≥3.0 → z15 (detail).
+    // Sets _pendingZoomSwitch so the actual blob load happens in onUpdate (larger budget).
+    function checkZoomSwitch() as Void {
+        var newZoom;
+        if (_zoomFactor >= 3.0f) {
+            newZoom = 15;
+        } else if (_zoomFactor <= 0.5f) {
+            newZoom = 12;
+        } else {
+            newZoom = 13;
+        }
+        if (newZoom == _activeOsmZoom) { return; }
+        _activeOsmZoom = newZoom;
+        _pendingZoomSwitch = true;
+        WatchUi.requestUpdate();
+    }
+
+    // Reload the stored bundle blob and re-run prepareDecode filtered to _activeOsmZoom.
+    // Called from onUpdate() to avoid watchdog issues in event-handler callbacks.
+    function switchToActiveZoom() as Void {
+        clearDecodedTiles();
+        if (_bundleId == null || _bundleHeader == null || _palette == null) {
+            pushDebug("z" + _activeOsmZoom + " not ready");
+            return;
+        }
+        var blob = TileDecoder.load(_bundleId as Lang.String);
+        if (blob == null) {
+            pushDebug("z" + _activeOsmZoom + " no blob");
+            return;
+        }
+        try {
+            prepareDecode(blob, _bundleHeader as BundleHeader);
+        } catch (e) {
+            pushDebug("zswitch EX: " + e.getErrorMessage());
+        }
     }
 }

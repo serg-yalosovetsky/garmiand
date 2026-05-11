@@ -217,3 +217,84 @@ chunks. The phone also pauses 10 s every 2 minutes of continuous sending.
 must run before `processPendingTileChunk()`. If reversed, the last chunk's
 byte-copy and its Storage persist land in the same frame, approaching the watchdog
 limit. Any future work in `onPhoneMessage` should be constrained to queueing only.
+
+## ADR-014: Multi-zoom tile bundles with lazy OSM zoom switching
+
+**Decision.** `quantizeMultiZoom()` fetches corridor tiles at OSM zoom levels
+12, 13, and 15 and packs them into a single `GMND` bundle. The watch decodes
+only **one zoom level at a time** (`_activeOsmZoom`). When `_zoomFactor` crosses
+a threshold, `checkZoomSwitch()` updates `_activeOsmZoom` and queues a
+`_pendingZoomSwitch` flag; `onUpdate()` then calls `switchToActiveZoom()` which
+reloads the stored blob and re-runs `prepareDecode()` filtered to the new level.
+
+**Why a single bundle, not three separate ones.**
+Three bundles would require three separate `tile_session` / `ble_bundle_start`
+messages, three `TileDecoder.persist()` calls, and three Storage namespaces.
+The `GMND` format already stores a per-tile `zoom` byte, so interleaving zoom
+levels is a zero-format-change. One bundle → one CRC32 cache key → one transfer.
+
+**Why lazy decode, not decode-all-up-front.**
+Fenix 7 RAM budget is ~678 KB. Holding decoded `BufferedBitmap`s for all three
+levels simultaneously would require up to 22 × 16 KB = 352 KB of bitmaps plus
+the ~304 KB blob = 656 KB — approaching the ceiling with no margin. Decoding
+only the active level keeps peak RAM at ~304 KB (blob) + ~192 KB (z13 bitmaps)
+= 496 KB, leaving comfortable headroom.
+
+**Why defer the reload to `onUpdate()`.**
+`interactUp/Down()` run in BehaviorDelegate event-handler callbacks with a
+shorter watchdog budget than `onUpdate()`. `TileDecoder.load()` does ~20 native
+`Storage.getValue()` calls to reassemble a ~304 KB blob. Setting
+`_pendingZoomSwitch = true` and handling it at the top of `onUpdate()` uses the
+full frame budget, consistent with the existing deferred BLE-chunk processing
+(ADR-010) and deferred bundle load (via `ensureBundleLoaded`).
+
+**Per-zoom tile settings.**
+
+| OSM zoom | `outputSize` | `bufferMeters` | `maxTiles` | Blob contribution |
+|---|---|---|---|---|
+| 12 | 64 px | 300 m | 4 | ~16 KB |
+| 13 | 128 px | 300 m | 12 | ~192 KB |
+| 15 | 128 px | 150 m | 6 | ~96 KB |
+
+z12 uses 64×64 because its tiles cover ~10 km each — 2× upscale on a 260 px
+watch is acceptable for overview use. z13 and z15 keep 128×128 for readable
+road detail.
+
+**Implication.** `prepareDecode()` now filters tile entries by `_activeOsmZoom`
+instead of decoding all entries. The terminal condition in `decodeNextTile()` is
+`_pendingEntries.size()` (active-zoom tile count), not `hdr.tileCount` (total).
+Old single-zoom bundles (z13 only) remain fully compatible: `_activeOsmZoom = 13`
+matches all their entries. Zooming past a threshold with an old bundle shows a
+blank tile layer (route line stays visible) until a new multi-zoom bundle is synced.
+
+## ADR-013: Deterministic CRC32 `bundle_id` for tile cache hit detection
+
+**Decision.** `bundle_id` in all tile delivery messages (`tile_session`,
+`ble_bundle_start`, `ble_wip_report`) is `CRC32(bundle bytes)` formatted as 8
+lowercase hex digits. Both the phone and the watch check whether a bundle with
+that ID is already persisted before starting any transfer.
+
+**Why.** The previous scheme used `UUID.randomUUID()` per sync attempt, which
+meant every sync triggered a full re-download or BLE re-transfer even when the
+route (and therefore the quantized tile data) was unchanged. CRC32 of the bundle
+bytes is deterministic: same route → same pixels → same bundle → same 8-char
+ID → Storage hit on the watch.
+
+**Cache hit actions:**
+- *HTTPS path* — `GarmiandApp.handleTileSession` calls `TileDecoder.exists(bundleId)`;
+  if true, calls `setBundleId()` and returns without any web request.
+- *BLE path* — `GarmiandApp.handleBleBundleStart` calls `TileDecoder.exists()`;
+  if true, builds `received_indices = [0..N-1]` and transmits `ble_wip_report`.
+  Phone's existing `sendOnePass` loop skips all N indices and returns `OK`.
+
+**Why CRC32 and not SHA-256.** CRC32 produces 8 hex chars — fits comfortably in
+an App.Storage key (`b_XXXXXXXX_n` = 13 chars) and is fast to compute on both
+sides. Collision probability for bundles from the same device is negligible (~2
+billion to 1). If bundle content changes (palette update, zoom change) the CRC
+changes, so the watch re-downloads correctly.
+
+**Implication.** The server's own session UUID (in `downloadUrl`) is independent
+of `bundle_id` — the watch never uses it as a Storage key. `bundle_id` and
+`session_id` are separate fields in `tile_session`. `MapBundleBleSender.send()`
+derives `bundleId = bundleHashString(bundle)` from the byte content, replacing
+the previous `UUID.randomUUID()` call.

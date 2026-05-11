@@ -200,9 +200,9 @@ class MainActivity : AppCompatActivity() {
     private fun sendMapBundle(route: RoutePackage, onlineMode: Boolean): MapSendStatus {
         if (route.points.isEmpty()) return MapSendStatus.FAILED
 
-        AppLog.i(TAG, "Quantizing corridor for ${route.points.size} pts buffer=300m z=13")
+        AppLog.i(TAG, "Quantizing multi-zoom corridor for ${route.points.size} pts (z12/z13/z15)")
         val quantized = try {
-            TileQuantizer.quantizeCorridor(route.points, bufferMeters = 300.0, zoom = 13)
+            TileQuantizer.quantizeMultiZoom(route.points)
         } catch (e: Exception) {
             AppLog.e(TAG, "Quantize failed", e)
             return MapSendStatus.FAILED
