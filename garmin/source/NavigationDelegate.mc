@@ -7,12 +7,44 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
     var _route as RouteData;
     var _view as NavigationView;
     var _lastBackMs as Lang.Number;
+    var _dragPrevX as Lang.Number;
+    var _dragPrevY as Lang.Number;
 
     function initialize(route as RouteData, view as NavigationView) {
         BehaviorDelegate.initialize();
         _route = route;
         _view = view;
         _lastBackMs = 0;
+        _dragPrevX = 0;
+        _dragPrevY = 0;
+    }
+
+    // Drag handler: pans the map in real time as the finger moves.
+    // BehaviorDelegate already maps tap → onSelect → cycleMapMode, so we
+    // only need to intercept drag events here.
+    function onDrag(evt as WatchUi.DragEvent) as Lang.Boolean {
+        var type = evt.getType();
+        var coords = evt.getCoordinates();
+        if (coords == null) { return false; }
+        var x = (coords[0] as Lang.Numeric).toNumber();
+        var y = (coords[1] as Lang.Numeric).toNumber();
+
+        if (type == WatchUi.DRAG_TYPE_START) {
+            _dragPrevX = x;
+            _dragPrevY = y;
+            return true;
+        }
+        if (type == WatchUi.DRAG_TYPE_CONTINUE || type == WatchUi.DRAG_TYPE_STOP) {
+            var dx = x - _dragPrevX;
+            var dy = y - _dragPrevY;
+            _dragPrevX = x;
+            _dragPrevY = y;
+            if (dx != 0 || dy != 0) {
+                _view.panByPixels(dx, dy);
+            }
+            return true;
+        }
+        return false;
     }
 
     // SELECT: cycle interact sub-modes in TILES, cycle bg mode otherwise.

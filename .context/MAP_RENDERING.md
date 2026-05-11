@@ -190,18 +190,42 @@ position; with off-screen coordinates it silently draws nothing.
 
 ## Zoom and pan modes
 
-In TILES mode the user can interact via the SELECT button, which cycles through
-four sub-modes in `NavigationDelegate` / `cycleMapMode()`:
+### Touch drag (primary pan method)
 
-| `_interactMode` | Constant | UP/DOWN action |
-|---|---|---|
-| 0 | `INTERACT_PAN_NS` | pan the viewport north/south |
-| 1 | `INTERACT_PAN_WE` | pan the viewport east/west |
-| 2 | `INTERACT_ZOOM` | zoom in / zoom out |
-| 3 | `INTERACT_CENTERED` | re-centres on GPS position (no UP/DOWN) |
+`NavigationDelegate.onDrag(evt as WatchUi.DragEvent)` handles finger-drag
+events, which the Connect IQ framework fires continuously as the finger moves:
 
-A fifth SELECT press exits TILES mode (sets `BG_MODE_NONE`) and resets
-`_interactMode` to `INTERACT_PAN_NS`.
+- `DRAG_TYPE_START` — stores the initial finger position in `_dragPrevX/Y`.
+- `DRAG_TYPE_CONTINUE` — computes `(dx, dy)` delta from the previous position,
+  calls `NavigationView.panByPixels(dx, dy)`, updates `_dragPrevX/Y`.
+- `DRAG_TYPE_STOP` — same as CONTINUE for the final event.
+
+`panByPixels(dx, dy)` converts screen-pixel delta to geographic delta:
+```
+latPerPx = halfLat * 2 / screenH    (halfLat = viewport lat span / 2 / zoomFactor)
+lonPerPx = halfLon * 2 / screenW
+_panOffsetLat += dy * latPerPx      (dy > 0 = finger down = reveals north)
+_panOffsetLon -= dx * lonPerPx      (dx > 0 = finger right = reveals west)
+```
+
+Drag events are active in all modes (NATIVE/TILES/NONE) whenever the route
+viewport is set. BehaviorDelegate separately maps tap → `onSelect` →
+`cycleMapMode()`, so no override of `onTap` is needed.
+
+Touch events must be enabled explicitly; `GarmiandApp.onStart()` calls
+`WatchUi.configureTouchEvents({:enabled => true})`.
+
+### Physical button sub-modes (SELECT cycle)
+
+The SELECT button cycles through four interact sub-modes; a fourth press in
+JUMP mode exits TILES entirely (returns to NATIVE). Badge shown in top band:
+
+| `_interactMode` | Constant | Badge | UP / DOWN action |
+|---|---|---|---|
+| 0 | `INTERACT_ZOOM`   | `ZOOM` | zoom in (×1.5) / zoom out (÷1.5) |
+| 1 | `INTERACT_PAN_NS` | `NS`   | pan north / pan south |
+| 2 | `INTERACT_PAN_WE` | `WE`   | pan west / pan east |
+| 3 | `INTERACT_JUMP`   | `JMP`  | UP = center on GPS, DOWN = center on route |
 
 **Zoom implementation.** `_zoomFactor` (range 0.25–16.0, default 1.0) divides
 `halfLat` / `halfLon` inside `projectPoint()`:

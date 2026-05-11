@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 05:39 dbg32";
+const APP_VERSION = "2026-05-11 05:49 dbg33";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -761,6 +761,18 @@ class NavigationView extends WatchUi.View {
         _panOffsetLon = 0.0f;
         _zoomFactor = 1.0f;
         pushDebug("route ctr");
+        WatchUi.requestUpdate();
+    }
+
+    // Pan viewport by a screen-pixel delta (from touch drag).
+    // dx>0 = finger right → reveals west; dy>0 = finger down → reveals north.
+    function panByPixels(dx as Lang.Number, dy as Lang.Number) as Void {
+        if (!_viewSet || _screenW <= 0 || _screenH <= 0) { return; }
+        var halfLat = (_viewLat0 - _viewLat1) * 0.5f / _zoomFactor;
+        var halfLon = (_viewLon1 - _viewLon0) * 0.5f / _zoomFactor;
+        if (halfLat == 0.0f || halfLon == 0.0f) { return; }
+        _panOffsetLat = (_panOffsetLat + dy.toFloat() * halfLat * 2.0f / _screenH.toFloat()).toFloat();
+        _panOffsetLon = (_panOffsetLon - dx.toFloat() * halfLon * 2.0f / _screenW.toFloat()).toFloat();
         WatchUi.requestUpdate();
     }
 

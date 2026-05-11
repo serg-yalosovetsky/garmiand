@@ -227,6 +227,10 @@ class MainActivity : AppCompatActivity() {
             AppLog.w(TAG, "BACKEND_URL not configured — falling back to BLE")
             return sendBundleViaBle(bundle)
         }
+        // Content-based ID — stable across sessions for the same route/tiles.
+        // The watch keys its Storage on this; using a hash lets it skip re-download
+        // when the tiles haven't changed (same route re-synced).
+        val contentBundleId = bundleHashString(bundle)
         return try {
             val uploader = MapBundleUploader(url, BuildConfig.BACKEND_TOKEN)
             val result = uploader.upload(bundle)
@@ -234,17 +238,23 @@ class MainActivity : AppCompatActivity() {
             val ack = garminCompanion.send(
                 SyncMessage.TileSession(
                     sessionId = sessionId,
-                    bundleId = result.bundleId,
+                    bundleId = contentBundleId,
                     downloadUrl = result.downloadUrl,
                     totalBytes = result.size,
                 )
             )
-            AppLog.i(TAG, "tile_session ack ok=${ack.ok} reason=${ack.reason}")
+            AppLog.i(TAG, "tile_session bundleId=$contentBundleId ack ok=${ack.ok} reason=${ack.reason}")
             if (ack.ok) MapSendStatus.HTTPS_OK else MapSendStatus.FAILED
         } catch (e: MapBundleUploadError) {
             AppLog.w(TAG, "HTTPS upload failed (${e.message}) — falling back to BLE")
             sendBundleViaBle(bundle)
         }
+    }
+
+    private fun bundleHashString(bundle: ByteArray): String {
+        val crc = java.util.zip.CRC32()
+        crc.update(bundle)
+        return "%08x".format(crc.value)
     }
 
     private fun sendBundleViaBle(bundle: ByteArray): MapSendStatus {

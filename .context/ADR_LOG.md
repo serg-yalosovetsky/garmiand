@@ -168,6 +168,28 @@ per tile per frame (lightweight: two `projectPoint()` calls each).
 No bundle-level pixel-grid state (`_pendingMinX/Y`, `_bundlePixelW/H`) is
 needed.
 
+## ADR-012: Touch drag for real-time map panning
+
+**Decision.** `NavigationDelegate` overrides `onDrag(evt as WatchUi.DragEvent)`
+to pan the map viewport as the finger moves, via incremental `panByPixels(dx, dy)` 
+calls on each `DRAG_TYPE_CONTINUE` event. Physical SELECT → UP/DOWN sub-mode
+cycling is retained for zoom and for GPS/route re-centering.
+
+**Why.** The prior approach required cycling through three SELECT sub-modes
+(ZOOM → NS → WE → JUMP) with physical buttons to pan in any direction.
+Drag-to-pan is more natural, avoids mode juggling entirely, and covers both
+N/S and E/W in a single gesture. There is no API collision: Connect IQ's
+`DragEvent` is separate from the `FlickEvent` that `BehaviorDelegate` uses
+for page-navigation swipes, so overriding `onDrag` does not break UP/DOWN/BACK
+physical-button handling.
+
+**Implication.** `GarmiandApp.onStart()` must call
+`WatchUi.configureTouchEvents({:enabled => true})` to activate drag events.
+`NavigationView.panByPixels(dx, dy)` converts screen-pixel deltas to
+geographic deltas using the current viewport span and `_zoomFactor`. The
+INTERACT_PAN_NS / INTERACT_PAN_WE sub-modes remain for backward compatibility
+with users who prefer buttons.
+
 ## ADR-010: Deferred BLE chunk processing + resumable transfer
 
 **Decision.** All BLE chunk processing is deferred from the `onPhoneMessage`

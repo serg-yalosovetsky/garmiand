@@ -91,13 +91,17 @@ empty (HTTPS path falls back to BLE) and a placeholder token.
 
 ## Watch — `NavigationView.mc` (interact / zoom)
 
-| Constant / field | Value / range | Meaning |
-|---|---|---|
-| `INTERACT_PAN_NS` | `0` | SELECT cycle step 1: UP/DOWN pans the viewport north/south. |
-| `INTERACT_PAN_WE` | `1` | SELECT cycle step 2: UP/DOWN pans east/west. |
-| `INTERACT_ZOOM`   | `2` | SELECT cycle step 3: UP zooms in (×1.5), DOWN zooms out (÷1.5). |
-| `INTERACT_CENTERED` | `3` | SELECT cycle step 4: viewport re-centres on GPS. No UP/DOWN effect. |
-| `_zoomFactor` | `0.25f – 16.0f`, default `1.0f` | Divides `halfLat`/`halfLon` in `projectPoint()`; higher = zoomed in. Reset to `1.0f` on `applyRoute()` and `centerToGps()`. |
+SELECT cycles: ZOOM → PAN_NS → PAN_WE → JUMP → exits TILES. Touch drag pans
+directly without entering any sub-mode (see `onDrag` in `NavigationDelegate`).
+
+| Constant / field | Value / range | Badge | Meaning |
+|---|---|---|---|
+| `INTERACT_ZOOM`   | `0` | `ZOOM` | SELECT cycle step 1: UP zooms in (×1.5), DOWN zooms out (÷1.5). |
+| `INTERACT_PAN_NS` | `1` | `NS`   | SELECT cycle step 2: UP/DOWN pans north/south. |
+| `INTERACT_PAN_WE` | `2` | `WE`   | SELECT cycle step 3: UP/DOWN pans west/east. |
+| `INTERACT_JUMP`   | `3` | `JMP`  | SELECT cycle step 4: UP = center on GPS, DOWN = center on route; next SELECT exits TILES. |
+| `_zoomFactor` | `0.25f – 16.0f`, default `1.0f` | | Divides `halfLat`/`halfLon` in `projectPoint()`; higher = zoomed in. Reset to `1.0f` on `applyRoute()` and `centerToGps()`. |
+| `_panOffsetLat/Lon` | `Float`, default `0.0f` | | Degrees added to the route-center lat/lon. Updated by `panByPixels()` (touch drag) or `interactUp/Down()` (buttons). Reset by `centerToGps()` and `centerToRoute()`. |
 
 ## Watch — `TileDecoder.mc`
 

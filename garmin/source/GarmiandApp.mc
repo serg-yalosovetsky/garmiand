@@ -84,6 +84,7 @@ class GarmiandApp extends App.AppBase {
     }
 
     function onStart(state) {
+        WatchUi.configureTouchEvents({:enabled => true});
         Communications.registerForPhoneAppMessages(method(:onPhoneMessage));
 
         loadSavedRoute();

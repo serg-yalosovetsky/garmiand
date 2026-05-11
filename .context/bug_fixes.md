@@ -130,6 +130,30 @@ exists in Storage, the assembler is restored from those keys — the phone's
 `ble_bundle_start` handshake then reads back which chunk indices are already on
 the watch, and the phone skips them.
 
+## Bundle re-downloaded / re-transferred on every sync for the same route
+
+**Symptom.** Sending the same route twice re-fetches the bundle from the backend
+(or re-streams all BLE chunks) even though the tile data is identical.
+
+**Root cause.** The phone generated a new `UUID.randomUUID()` as `bundle_id` on
+every sync call. The watch stored the bundle under the old UUID key. A new UUID
+→ new key → `TileDecoder.exists()` returned false → full re-download.
+
+**Fix.** `bundle_id` is now `CRC32(bundle bytes)` formatted as 8 lowercase hex
+digits (`"%08x".format(crc.value)`). Same route bytes → same hash → same Storage
+key. The watch calls `TileDecoder.exists(bundleId)` before starting any download:
+- **HTTPS path** (`handleTileSession`): exits early, calls `setBundleId()`, no web requests.
+- **BLE path** (`handleBleBundleStart`): populates `received_indices` with `[0..N-1]`, phone skips all chunks.
+
+**Implementation files:**
+- `MainActivity.kt`: `bundleHashString()` + `contentBundleId` in `uploadAndAnnounce()`
+- `MapBundleBleSender.kt`: `bundleHashString()` in `send()` (replaces UUID)
+- `GarmiandApp.mc`: `TileDecoder.exists()` check in `handleTileSession` and `handleBleBundleStart`
+- `TileDecoder.mc`: `exists()` static function (O(1) probe of the `_n` metadata key)
+
+**Note.** The server's own session UUID (embedded in `downloadUrl`) is separate
+and still random — it is not the `bundle_id` the watch uses as a Storage key.
+
 ## Markers missing after sync
 
 `route_chunk` and the polyline draw, but markers don't show. Almost always caused by forgetting to call `WatchUi.requestUpdate()` inside the `markers` branch of `onPhoneMessage`. The handler must call it on every successful state mutation.

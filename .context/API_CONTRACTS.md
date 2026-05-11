@@ -54,9 +54,16 @@ bundle from our backend in 10 KB chunks.
 
 | Key | Type | Notes |
 |---|---|---|
-| `bundle_id` | `String` | UUID, persisted into `last_bundle_id` Property and used as the `Application.Storage` key prefix (`b_<first8chars>_*`). |
+| `bundle_id` | `String` | **CRC32 of the bundle bytes**, formatted as 8 lowercase hex digits (e.g. `"a3f1e7c2"`). Deterministic: same route produces the same bytes → same hash → same Storage key. Persisted into `last_bundle_id` Property; used as Storage key prefix `b_<bundle_id>_*`. **Not** the server's session UUID (that is only in `download_url`). |
+| `session_id` | `String` | UUID per sync attempt, embedded in `download_url` only. Has no meaning on the watch beyond the URL. |
 | `download_url` | `String` | Public HTTPS base URL. Watch appends `/chunk?offset=N&size=10240` for each slice. |
 | `total_bytes` | `Int` | Total blob size in bytes. Watch pre-allocates a `ByteArray` of this size to avoid heap fragmentation from repeated `addAll`. If absent, the watch falls back to dynamic growth. |
+
+**Cache check.** Before initiating the HTTPS download, the watch calls
+`TileDecoder.exists(bundleId)` (an O(1) Storage probe). If the bundle is
+already persisted, the watch activates it immediately (`setBundleId()`) and
+skips the entire `makeWebRequest` sequence. The same route re-synced from the
+phone produces the same CRC32 hash, so the second sync is a no-op on the watch.
 
 ### `tile_chunk` *(BLE bundle delivery, fallback when phone is offline)*
 Phone splits a serialized `GMND` bundle (see [MAP_RENDERING.md](MAP_RENDERING.md))
@@ -78,7 +85,7 @@ checks its WIP Storage for matching `bundle_id` and replies with `ble_wip_report
 
 | Key | Type | Notes |
 |---|---|---|
-| `bundle_id` | `String` | UUID of the bundle about to be sent. |
+| `bundle_id` | `String` | CRC32 of the bundle bytes (8 hex chars). Same format as `tile_session.bundle_id`. |
 | `n` | `Int` | Total chunk count for this bundle. |
 | `tb` | `Int` | Total bundle size in bytes. |
 
@@ -90,13 +97,19 @@ Sent by the watch in response to `ble_bundle_start`. Phone waits up to 3 s
 | Key | Type | Notes |
 |---|---|---|
 | `bundle_id` | `String` | Echo of the bundle being transferred. |
-| `received_indices` | `List<Int>` | Chunk indices already on the watch. Empty list = no WIP (send everything from 0). |
+| `received_indices` | `List<Int>` | Chunk indices already on the watch. Empty list = no WIP (send everything from 0). **Full list `[0..N-1]` means the bundle is already fully persisted** — phone skips all chunks and the transfer completes instantly. |
 
-**Flow.** Phone sends `ble_bundle_start` → watch looks up `ble_wip_id` in
-Storage; if it matches, transmits `ble_wip_report` with existing indices via
-`Communications.transmit()`; phone skips those indices in the chunk loop. If
-watch has WIP for a *different* `bundle_id`, it clears the old WIP and replies
-with an empty list.
+**Flow.** Phone sends `ble_bundle_start` → watch checks in this order:
+
+1. **WIP assembler exists** for the same `bundle_id` → transmit WIP indices.
+2. **No WIP but bundle fully persisted** (`TileDecoder.exists()` returns true) →
+   transmit `[0, 1, …, N-1]` (all indices). Watch also calls `setBundleId()` to
+   activate the cached bundle immediately.
+3. **WIP for a different `bundle_id`** → clear old WIP, transmit empty list.
+4. **No WIP, not persisted** → transmit empty list (send everything).
+
+In all cases the phone skips any index in `received_indices`, so case 2 results
+in zero chunks transferred.
 
 **WIP Storage keys** (watch, prefix `ble_wip_`):
 

@@ -61,6 +61,40 @@ cleared by `BleChunkAssembler.clearWip()` once assembly completes.
 If `setValue` throws `StorageFullException` (total limit), delete old bundle
 keys (simulator's `Settings → Edit Storage`) or reduce bundle size.
 
+## Touch events: DragEvent / ClickEvent / FlickEvent (not TouchEvent)
+
+SDK 9.1.0 / fenix7 exposes touch through **three separate event classes**, not
+a unified `TouchEvent` with a type field. `WatchUi.TOUCH_TYPE_PRESS` and
+`TOUCH_TYPE_RELEASE` are **undefined** in this SDK — using them causes a
+compile-time "Undefined symbol" error.
+
+| Class | Handler in `InputDelegate` | Fires when |
+|---|---|---|
+| `ClickEvent` | `onTap(evt as ClickEvent)` | Quick finger tap |
+| `DragEvent`  | `onDrag(evt as DragEvent)` | Finger held and moving |
+| `FlickEvent` | `onFlick(evt as FlickEvent)` | Fast swipe (also triggers `BehaviorDelegate.onSwipe`) |
+
+`DragEvent` constants (API since 3.3.0):
+- `WatchUi.DRAG_TYPE_START` — first event when drag begins
+- `WatchUi.DRAG_TYPE_CONTINUE` — intermediate events as finger moves
+- `WatchUi.DRAG_TYPE_STOP` — last event when finger lifts
+
+All three classes expose `getCoordinates()` returning the current `[x, y]`.
+`DragEvent.getType()` returns one of the `DRAG_TYPE_*` values.
+
+**Enabling touch events.** Call `WatchUi.configureTouchEvents({:enabled => true})`
+from `AppBase.onStart()` (API since 5.2.0). For apps targeting only Fenix 7,
+which ships with API ≥ 5.x firmware, this is safe without a version guard.
+The default state is implementation-defined; calling it explicitly is the
+only guaranteed way to activate drag events.
+
+**Interaction with `BehaviorDelegate`.**
+`BehaviorDelegate` maps `ClickEvent` → `onSelect` and `FlickEvent` (direction
+UP/DOWN) → `onNextPage`/`onPreviousPage`. Overriding `onDrag` in a
+`BehaviorDelegate` subclass intercepts drag events independently — it does not
+conflict with the tap/swipe mappings. Return `true` to consume, `false` to
+propagate to the base-class handler.
+
 ## `Math.exp` does not exist; use `Math.pow(Math.E, x)`
 
 `Math.exp(x)` is absent from the SDK 9.1.0 fenix7 API.
