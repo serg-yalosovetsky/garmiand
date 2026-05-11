@@ -86,6 +86,8 @@ class GarmiandApp extends App.AppBase {
     function onStart(state) {
         Communications.registerForPhoneAppMessages(method(:onPhoneMessage));
 
+        loadSavedRoute();
+
         // Restore any in-progress BLE bundle transfer from App.Storage.
         var restoredAsm = BleChunkAssembler.loadWip();
         if (restoredAsm != null) {
@@ -114,6 +116,10 @@ class GarmiandApp extends App.AppBase {
         var view = new NavigationView(_route);
         _navView = view;
         view.setOnlineMode(_onlineMode);
+        if (_route.isComplete) {
+            view.applyRoute(_route);
+            view.pushDebug("restored route pts=" + _route.lats.size());
+        }
         var delegate = new NavigationDelegate(_route, view);
         view.pushDebug("App started, online=" + _onlineMode);
         return [view, delegate];
@@ -206,6 +212,7 @@ class GarmiandApp extends App.AppBase {
                 appLog("route applied");
                 logFreeMem("after sync_finish");
             }
+            saveRoute();
             WatchUi.requestUpdate();
             return;
         }
@@ -240,12 +247,73 @@ class GarmiandApp extends App.AppBase {
             if (_navView != null) {
                 _navView.applyRoute(_route);
             }
+            saveRoute();
             appLog("route_full pts=" + _route.lats.size());
             WatchUi.requestUpdate();
             return;
         }
 
         appLog("RX unknown kind=" + kind);
+    }
+
+    function saveRoute() as Void {
+        if (!_route.isComplete) { return; }
+        try {
+            App.Storage.setValue("route_id",     _route.routeId);
+            App.Storage.setValue("route_name",   _route.routeName);
+            App.Storage.setValue("route_lats",   _route.lats);
+            App.Storage.setValue("route_lons",   _route.lons);
+            App.Storage.setValue("route_mlats",  _route.markerLats);
+            App.Storage.setValue("route_mlons",  _route.markerLons);
+            App.Storage.setValue("route_mtitles",_route.markerTitles);
+            System.println("[Route] saved " + _route.lats.size() + " pts");
+        } catch (e) {
+            System.println("[Route] save EX: " + e.getErrorMessage());
+        }
+    }
+
+    function loadSavedRoute() as Void {
+        try {
+            var latsV = App.Storage.getValue("route_lats");
+            var lonsV = App.Storage.getValue("route_lons");
+            if (!(latsV instanceof Lang.Array) || !(lonsV instanceof Lang.Array)) {
+                System.println("[Route] no saved route in storage");
+                return;
+            }
+            _route.reset();
+            var ridV = App.Storage.getValue("route_id");
+            _route.routeId = (ridV instanceof Lang.String) ? (ridV as Lang.String) : null;
+            var rnameV = App.Storage.getValue("route_name");
+            _route.routeName = (rnameV instanceof Lang.String) ? (rnameV as Lang.String) : null;
+            var latsA = latsV as Lang.Array;
+            var lonsA = lonsV as Lang.Array;
+            var n = latsA.size();
+            for (var i = 0; i < n; i++) {
+                _route.lats.add((latsA[i] as Lang.Numeric).toFloat());
+                _route.lons.add((lonsA[i] as Lang.Numeric).toFloat());
+            }
+            var mlaV = App.Storage.getValue("route_mlats");
+            var mloV = App.Storage.getValue("route_mlons");
+            var mtiV = App.Storage.getValue("route_mtitles");
+            if (mlaV instanceof Lang.Array && mloV instanceof Lang.Array && mtiV instanceof Lang.Array) {
+                var mlaA = mlaV as Lang.Array;
+                var mloA = mloV as Lang.Array;
+                var mtiA = mtiV as Lang.Array;
+                var mn = mlaA.size();
+                for (var i = 0; i < mn; i++) {
+                    _route.markerLats.add((mlaA[i] as Lang.Numeric).toFloat());
+                    _route.markerLons.add((mloA[i] as Lang.Numeric).toFloat());
+                    _route.markerTitles.add(mtiA[i] as Lang.String);
+                    _route.markerIds.add("");
+                }
+            }
+            _route.expectedChunkCount = 1;
+            _route.receivedChunkCount = 1;
+            _route.isComplete = true;
+            System.println("[Route] restored " + n + " pts from storage");
+        } catch (e) {
+            System.println("[Route] load EX: " + e.getErrorMessage());
+        }
     }
 
     function logFreeMem(label as Lang.String) as Void {

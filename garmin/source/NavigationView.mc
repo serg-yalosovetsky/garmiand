@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 03:54 dbg28";
+const APP_VERSION = "2026-05-11 03:54 dbg29";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -442,7 +442,6 @@ class NavigationView extends WatchUi.View {
         drawPositionOverlay(dc);
 
         drawTopBand(dc);
-        drawModeBadge(dc);
         drawDebugLine(dc);
         drawOffRouteBannerIfNeeded(dc);
     }
@@ -499,29 +498,6 @@ class NavigationView extends WatchUi.View {
         dc.drawText(w / 2, h / 4, Graphics.FONT_TINY, text, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawModeBadge(dc as Graphics.Dc) as Void {
-        var label;
-        if (_mapMode == BG_MODE_TILES) {
-            var im = (_interactMode == INTERACT_PAN_NS) ? "NS"
-                   : (_interactMode == INTERACT_PAN_WE) ? "WE"
-                   : (_interactMode == INTERACT_JUMP)   ? "JMP" : "ZOOM";
-            var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
-            label = "[" + im + "]" + (have ? " ok" : " —");
-        } else {
-            return;
-        }
-        var w = dc.getWidth();
-        var h = dc.getHeight();
-        var font = Graphics.FONT_XTINY;
-        var th = dc.getFontHeight(font);
-        var tw = dc.getTextWidthInPixels(label, font);
-        var cx = w / 2;
-        var ty = h - th - 4;
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillRectangle(cx - tw / 2 - 4, ty - 2, tw + 8, th + 4);
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, ty, font, label, Graphics.TEXT_JUSTIFY_CENTER);
-    }
 
     // Yellow band under the title showing the most recent debug message.
     // tickDebug() rotates _debugCurrent at most once per second so each
@@ -634,17 +610,31 @@ class NavigationView extends WatchUi.View {
 
     function drawTopBand(dc as Graphics.Dc) as Void {
         var w = dc.getWidth();
-        var name = _route.routeName != null ? _route.routeName : "Route";
         var font = Graphics.FONT_TINY;
         var th = dc.getFontHeight(font);
-        var topBandH = th + 26;  // text at y=20 sits in the wider part of the round screen
-        var fitted = fitText(dc, name, font, w - 80);
+        var topBandH = th + 26;  // route name at y=20 sits in the wider part of the round screen
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.fillRectangle(0, 0, w, topBandH);
+
+        // Mode line at very top (y=4) — only in TILES mode, where circle is narrow
+        // but short labels ("ZOOM", "NS ok", etc.) fit in ~110px visible width there
+        if (_mapMode == BG_MODE_TILES) {
+            var im = (_interactMode == INTERACT_PAN_NS) ? "NS"
+                   : (_interactMode == INTERACT_PAN_WE) ? "WE"
+                   : (_interactMode == INTERACT_JUMP)   ? "JMP" : "ZOOM";
+            var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
+            var modeLabel = im + (have ? " ok" : " -");
+            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(w / 2, 4, Graphics.FONT_XTINY, modeLabel, Graphics.TEXT_JUSTIFY_CENTER);
+        }
+
+        // Route name
+        var name = _route.routeName != null ? _route.routeName : "Route";
+        var fitted = fitText(dc, name, font, w - 80);
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(w / 2, 20, font, fitted, Graphics.TEXT_JUSTIFY_CENTER);
-        // BLE indicator placed near bottom of band where circle is wide enough
-        // At y≈topBandH-4 the circle edge is ≈229px for w=260, so w-38=222 fits inside
+
+        // BLE indicator near bottom of band where circle is wide enough (w-38≈222 < 229)
         var dotX = w - 38;
         var dotY = topBandH - 4;
         if (_onlineMode) {
