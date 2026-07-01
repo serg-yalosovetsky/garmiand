@@ -25,6 +25,15 @@ function appLog(msg as Lang.String) as Void {
 // ~10 KB raw → ~13.3 KB base64; stays well inside the CIQ TEXT_PLAIN buffer
 const DL_CHUNK_SIZE = 10 * 1024;
 
+// Auto map fetch: ask the phone for a fresh bundle when the user nears the
+// edge of the cached one. Deliberately lazy — the CIQ watchdog kills apps
+// that burn CPU, so the check runs on every AUTOFETCH_CHECK_EVERY-th GPS tick
+// (a handful of float compares), and an actual transmit happens at most once
+// per AUTOFETCH_COOLDOWN_MS and never while a transfer/decode is in flight.
+const AUTOFETCH_COOLDOWN_MS = 120000;   // ≥2 min between requests
+const AUTOFETCH_CHECK_EVERY = 5;        // check every 5th GPS tick (~5 s)
+const AUTOFETCH_EDGE_FRACTION = 0.25;   // "near edge" = outer 25% of the bbox
+
 class NullConnectionListener extends Communications.ConnectionListener {
     function initialize() { Communications.ConnectionListener.initialize(); }
     function onComplete() as Void {}
@@ -49,6 +58,10 @@ class GarmiandApp extends App.AppBase {
     // Blob ready to persist — deferred from HTTP callback to onUpdate (watchdog budget)
     var _pendingPersistId as Lang.String?;
     var _pendingPersistBlob as Lang.ByteArray?;
+    // Auto map fetch state (see AUTOFETCH_* consts)
+    var _autoFetchEnabled as Lang.Boolean;
+    var _lastAutoFetchMs as Lang.Number;
+    var _gpsTickCounter as Lang.Number;
 
     function initialize() {
         AppBase.initialize();
@@ -62,6 +75,17 @@ class GarmiandApp extends App.AppBase {
         _pendingTileChunkDicts = [] as Lang.Array<Lang.Dictionary>;
         _pendingPersistId = null;
         _pendingPersistBlob = null;
+        _autoFetchEnabled = readAutoFetchProperty();
+        _lastAutoFetchMs = 0;
+        _gpsTickCounter = 0;
+    }
+
+    function readAutoFetchProperty() as Lang.Boolean {
+        try {
+            var v = App.Properties.getValue("auto_fetch");
+            if (v instanceof Lang.Boolean) { return v as Lang.Boolean; }
+        } catch (e) {}
+        return true;
     }
 
     function readOnlineModeProperty() as Lang.Boolean {
@@ -158,6 +182,53 @@ class GarmiandApp extends App.AppBase {
         _currentLon = lon;
         if (_navView != null) {
             _navView.updateGpsPosition(lat, lon);
+        }
+        maybeAutoFetch(lat, lon);
+    }
+
+    // Auto map fetch. Every check is O(1) float math; heavy work (quantize,
+    // download) happens on the PHONE. The watch only sends one small transmit,
+    // then rests for AUTOFETCH_COOLDOWN_MS — watchdog-safe by construction.
+    function maybeAutoFetch(lat as Lang.Float, lon as Lang.Float) as Void {
+        _gpsTickCounter++;
+        if (_gpsTickCounter < AUTOFETCH_CHECK_EVERY) { return; }
+        _gpsTickCounter = 0;
+        if (!_autoFetchEnabled) { return; }
+        var view = _navView;
+        if (view == null) { return; }
+        var v = view as NavigationView;
+        if (v.getMapMode() != BG_MODE_TILES) { return; }
+        var hdrN = v.getBundleHeader();
+        if (hdrN == null) { return; }
+        // Let the watch rest: never request while a transfer or decode is active.
+        if (_dlBuffer != null || _pendingPersistBlob != null) { return; }
+        if (_pendingTileChunkDicts.size() > 0) { return; }
+        if (v.isDecodePending()) { return; }
+        var now = System.getTimer();
+        if (_lastAutoFetchMs != 0 && now - _lastAutoFetchMs < AUTOFETCH_COOLDOWN_MS) { return; }
+        var hdr = hdrN as BundleHeader;
+        var latSpan = hdr.maxLat - hdr.minLat;
+        var lonSpan = hdr.maxLon - hdr.minLon;
+        if (latSpan <= 0.0f || lonSpan <= 0.0f) { return; }
+        var mLat = latSpan * AUTOFETCH_EDGE_FRACTION;
+        var mLon = lonSpan * AUTOFETCH_EDGE_FRACTION;
+        var nearEdge = lat > hdr.maxLat - mLat || lat < hdr.minLat + mLat
+                    || lon > hdr.maxLon - mLon || lon < hdr.minLon + mLon;
+        if (!nearEdge) { return; }
+        _lastAutoFetchMs = now;
+        appLog("auto map_request");
+        try {
+            Communications.transmit(
+                {
+                    "kind" => "map_request",
+                    "lat" => lat,
+                    "lon" => lon
+                } as Lang.Dictionary,
+                null,
+                new NullConnectionListener()
+            );
+        } catch (e) {
+            System.println("[AutoFetch] transmit failed: " + e.getErrorMessage());
         }
     }
 

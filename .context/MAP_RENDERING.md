@@ -299,6 +299,28 @@ bundle header bbox when no route has configured it, and `setBundleId()`
 auto-switches `_mapMode` to TILES on a fresh bundle, so the map is viewable
 immediately; `applyRoute()` later overrides the viewport when a route arrives.
 
+## Auto map fetch (watch-initiated refresh while moving)
+
+When the user walks toward the edge of the cached bundle, the watch asks the
+phone for a fresh one — no manual re-sync needed.
+
+**Watch side** (`GarmiandApp.maybeAutoFetch`, gated by the `auto_fetch`
+property, default on): every 5th GPS tick (~5 s) it runs a handful of float
+compares — TILES mode active, bundle header present, no transfer/decode in
+flight, position within the outer 25% of the bundle bbox (or outside), and
+≥2 min since the last request. If all pass, it sends one small
+`Communications.transmit` of `map_request {lat, lon}` and rests again. All
+heavy work happens on the phone, so the CIQ watchdog never sees sustained CPU
+load from this feature.
+
+**Phone side** (`MapRequestResponder`, registered as a persistent watch
+listener in `MainActivity`): on `map_request` it quantizes a multi-zoom bundle
+around the point (`quantizeMultiZoom` with `bufferScale = 4.0` → ~1.2 km at
+z13), uploads via HTTPS with BLE fallback, and announces `tile_session` as
+usual. Requests are dropped while one is being served or if the point moved
+<300 m from the previously served center (content-CRC bundle ids make
+identical bundles a Storage cache hit on the watch anyway).
+
 ## Sizing budget
 
 - 64×64 tile × 1 byte/pixel = 4 KB per tile; 128×128 = 16 KB.

@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-07-02 dbg35";
+const APP_VERSION = "2026-07-02 dbg36";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -809,6 +809,14 @@ class NavigationView extends WatchUi.View {
 
     function getMapMode() as Lang.Number {
         return _mapMode;
+    }
+
+    function getBundleHeader() as BundleHeader? {
+        return _bundleHeader;
+    }
+
+    function isDecodePending() as Lang.Boolean {
+        return _pendingBlob != null || _pendingZoomSwitch;
     }
 
     // SELECT handler. In TILES mode cycles through interact sub-modes;

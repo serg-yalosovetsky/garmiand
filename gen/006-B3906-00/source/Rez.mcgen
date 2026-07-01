@@ -11,6 +11,7 @@ module Rez {
 
     module Strings {
         (:initialized) var MapMode_None as ResourceId;
+        (:initialized) var AutoFetch_Label as ResourceId;
         (:initialized) var MapMode_Tiles as ResourceId;
         (:initialized) var MapMode_Label as ResourceId;
         (:initialized) var MapMode_Native as ResourceId;

@@ -1,4 +1,4 @@
-<settings>
+﻿<settings>
     <setting propertyKey="@Properties.map_mode" title="@Strings.MapMode_Label">
         <settingConfig type="list">
             <listEntry value="0">@Strings.MapMode_Native</listEntry>
@@ -12,4 +12,8 @@
     <setting propertyKey="@Properties.online_mode" title="@Strings.OnlineMode_Label">
         <settingConfig type="boolean"/>
     </setting>
+    <setting propertyKey="@Properties.auto_fetch" title="@Strings.AutoFetch_Label">
+        <settingConfig type="boolean"/>
+    </setting>
 </settings>
+

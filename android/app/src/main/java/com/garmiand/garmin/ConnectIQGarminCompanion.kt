@@ -22,7 +22,14 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
     private var connectIQ: ConnectIQ? = null
     private var connectedDevice: IQDevice? = null
     private var watchApp: IQApp? = null
+    // Временный слот (BLE-sender ставит/снимает на время handshake) …
     @Volatile private var watchMessageListener: ((Map<*, *>) -> Unit)? = null
+    // …и постоянные слушатели (map_request и т.п.) — получают ВСЕ сообщения всегда.
+    private val persistentListeners = java.util.concurrent.CopyOnWriteArrayList<(Map<*, *>) -> Unit>()
+
+    fun addPersistentWatchListener(listener: (Map<*, *>) -> Unit) {
+        persistentListeners.add(listener)
+    }
 
     fun initialize(onReady: (Boolean) -> Unit) {
         connectIQ = ConnectIQ.getInstance(context, ConnectIQ.IQConnectType.WIRELESS)
@@ -82,6 +89,11 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
                             if (msg is Map<*, *>) {
                                 AppLog.d(TAG, "watch→phone msg kind=${(msg as Map<*, *>)["kind"]}")
                                 watchMessageListener?.invoke(msg)
+                                for (l in persistentListeners) {
+                                    try { l(msg) } catch (e: Exception) {
+                                        AppLog.w(TAG, "persistent listener failed: ${e.message}")
+                                    }
+                                }
                             }
                         }
                     } catch (e: Exception) {

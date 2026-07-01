@@ -239,6 +239,9 @@ object TileQuantizer {
         points: List<RoutePoint>,
         zooms: List<Int> = listOf(12, 13, 15),
         urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
+        // Множитель буфера. 1.0 — коридор маршрута; авто-докачка вокруг одной
+        // точки использует ~4.0, чтобы одна точка дала осмысленную площадь.
+        bufferScale: Double = 1.0,
     ): QuantizedBundle {
         require(points.isNotEmpty()) { "No route points" }
         val allTiles = mutableListOf<QuantizedTile>()
@@ -248,11 +251,12 @@ object TileQuantizer {
         var maxLon = -Double.MAX_VALUE
 
         for (zoom in zooms) {
-            val (buf, cap, size) = when (zoom) {
+            val (rawBuf, cap, size) = when (zoom) {
                 12 -> Triple(300.0, 4, 64)
                 15 -> Triple(150.0, 6, 128)
                 else -> Triple(300.0, 12, DEFAULT_TILE_OUTPUT)
             }
+            val buf = rawBuf * bufferScale
             AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px")
             val bundle = try {
                 quantizeCorridor(points, bufferMeters = buf, zoom = zoom, urlTemplate = urlTemplate, outputSize = size, maxTiles = cap)

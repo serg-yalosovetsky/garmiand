@@ -1,4 +1,4 @@
-<strings>
+﻿<strings>
     <string id="AppName">Garmiand V1</string>
     <string id="MapMode_Label">Map Background</string>
     <string id="MapMode_Native">Native (TopoActive)</string>
@@ -6,4 +6,6 @@
     <string id="MapMode_None">None</string>
     <string id="LastBundleId_Label">Last Bundle ID</string>
     <string id="OnlineMode_Label">BLE Download</string>
+    <string id="AutoFetch_Label">Auto map fetch</string>
 </strings>
+

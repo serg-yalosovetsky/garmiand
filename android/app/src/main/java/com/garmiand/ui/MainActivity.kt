@@ -29,6 +29,7 @@ import com.garmiand.sync.BleChunkSizeProber
 import com.garmiand.sync.MapBundleBleSender
 import com.garmiand.sync.MapBundleUploadError
 import com.garmiand.sync.MapBundleUploader
+import com.garmiand.sync.MapRequestResponder
 import com.garmiand.sync.RouteSyncOrchestrator
 import com.garmiand.sync.SyncResult
 import com.garmiand.util.AppLog
@@ -111,8 +112,21 @@ class MainActivity : AppCompatActivity() {
 
         garminCompanion = ConnectIQGarminCompanion(this)
         connectToGarmin()
+        registerMapRequestResponder()
 
         handleIncomingGmnd(intent)
+    }
+
+    // Авто-докачка: часы шлют map_request при подходе к краю бандла.
+    private fun registerMapRequestResponder() {
+        val responder = MapRequestResponder(
+            companion = garminCompanion,
+            backendUrl = BuildConfig.BACKEND_URL,
+            backendToken = BuildConfig.BACKEND_TOKEN,
+            blePrefs = getSharedPreferences("garmiand_ble", Context.MODE_PRIVATE),
+            onStatus = { s -> runOnUiThread { tvStatus.text = s } },
+        )
+        garminCompanion.addPersistentWatchListener { msg -> responder.handle(msg) }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -211,6 +225,7 @@ class MainActivity : AppCompatActivity() {
             garminCompanion.shutdown()
             garminCompanion = ConnectIQGarminCompanion(this)
             connectToGarmin()
+            registerMapRequestResponder()
         }
     }
 
