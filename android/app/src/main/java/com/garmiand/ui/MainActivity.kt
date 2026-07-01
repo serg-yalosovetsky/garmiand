@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -35,6 +36,8 @@ import java.util.UUID
 
 private const val TAG = "MainActivity"
 private const val REQUEST_GPX_FILE = 1001
+// Extra, который шлёт MapsCreator (GarminSender.kt) вместе с EXTRA_STREAM.
+private const val EXTRA_GMND_URI = "gmnd_uri"
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,10 +50,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var switchCacheMap: SwitchCompat
     private lateinit var switchOnlineMode: SwitchCompat
     private lateinit var btnProbeBle: Button
+    private lateinit var btnSendMap: Button
 
     private val gpxBridge = GpxFileImportBridge()
     private lateinit var garminCompanion: ConnectIQGarminCompanion
     private var loadedRoute: RoutePackage? = null
+    // GMND-бандл, принятый извне (MapsCreator / share sheet) — шлётся на часы as-is.
+    private var externalBundle: ByteArray? = null
 
     private val logListener: (String) -> Unit = { line ->
         runOnUiThread {
@@ -76,6 +82,7 @@ class MainActivity : AppCompatActivity() {
         switchCacheMap = findViewById(R.id.switch_cache_map)
         switchOnlineMode = findViewById(R.id.switch_online_mode)
         btnProbeBle = findViewById(R.id.btn_probe_ble)
+        btnSendMap = findViewById(R.id.btn_send_map)
 
         switchCacheMap.setOnCheckedChangeListener { _, checked ->
             switchOnlineMode.isEnabled = checked
@@ -86,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         btnImport.setOnClickListener { pickGpxFile() }
         btnSend.setOnClickListener { sendRoute() }
+        btnSendMap.setOnClickListener { sendExternalBundle() }
         btnProbeBle.setOnClickListener { probeBleChunkSize() }
         findViewById<Button>(R.id.btn_clear_log).setOnClickListener { AppLog.clear() }
         findViewById<Button>(R.id.btn_copy_log).setOnClickListener {
@@ -103,6 +111,86 @@ class MainActivity : AppCompatActivity() {
 
         garminCompanion = ConnectIQGarminCompanion(this)
         connectToGarmin()
+
+        handleIncomingGmnd(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIncomingGmnd(intent)
+    }
+
+    // ── Приём .gmnd от MapsCreator (явный intent или share sheet) ──────────────
+
+    private fun handleIncomingGmnd(intent: Intent?) {
+        if (intent == null) return
+        @Suppress("DEPRECATION")
+        val uri: Uri = (intent.getParcelableExtra(Intent.EXTRA_STREAM) as? Uri)
+            ?: intent.getStringExtra(EXTRA_GMND_URI)?.let(Uri::parse)
+            ?: intent.data
+            ?: return
+        AppLog.i(TAG, "Incoming GMND uri=$uri")
+        Thread {
+            val blob = try {
+                contentResolver.openInputStream(uri)?.use { it.readBytes() }
+            } catch (e: Exception) {
+                AppLog.e(TAG, "GMND read failed", e)
+                null
+            }
+            runOnUiThread {
+                if (blob == null) {
+                    tvStatus.text = "Map file: read failed"
+                    return@runOnUiThread
+                }
+                val err = validateGmnd(blob)
+                if (err != null) {
+                    AppLog.w(TAG, "GMND invalid: $err (${blob.size}B)")
+                    tvStatus.text = "Map file: invalid ($err)"
+                    return@runOnUiThread
+                }
+                val tileCount = ((blob[6].toInt() and 0xFF) shl 8) or (blob[7].toInt() and 0xFF)
+                externalBundle = blob
+                btnSendMap.isEnabled = true
+                tvStatus.text = "Map loaded: $tileCount tiles, ${blob.size / 1024} KB"
+                AppLog.i(TAG, "GMND accepted: $tileCount tiles ${blob.size}B id=${bundleHashString(blob)}")
+            }
+        }.start()
+    }
+
+    /** null = валиден; иначе — краткая причина. Формат см. TileBundleSerializer. */
+    private fun validateGmnd(b: ByteArray): String? {
+        if (b.size < 24) return "too small"
+        if (b[0] != 'G'.code.toByte() || b[1] != 'M'.code.toByte() ||
+            b[2] != 'N'.code.toByte() || b[3] != 'D'.code.toByte()
+        ) return "bad magic"
+        val version = b[4].toInt() and 0xFF
+        if (version != TileBundleSerializer.VERSION) return "version $version"
+        val paletteSize = b[5].toInt() and 0xFF
+        if (paletteSize != com.garmiand.map.Palette.SIZE) return "palette $paletteSize"
+        val tileCount = ((b[6].toInt() and 0xFF) shl 8) or (b[7].toInt() and 0xFF)
+        if (tileCount == 0) return "no tiles"
+        return null
+    }
+
+    private fun sendExternalBundle() {
+        val blob = externalBundle ?: return
+        val onlineMode = switchOnlineMode.isChecked
+        btnSendMap.isEnabled = false
+        progressBar.visibility = View.VISIBLE
+        progressBar.progress = 0
+        AppLog.i(TAG, "sendExternalBundle: ${blob.size}B mode=${if (onlineMode) "HTTPS" else "BLE"}")
+        Thread {
+            val status = if (onlineMode) uploadAndAnnounce(blob) else sendBundleViaBle(blob)
+            runOnUiThread {
+                progressBar.visibility = View.GONE
+                btnSendMap.isEnabled = true
+                tvStatus.text = when (status) {
+                    MapSendStatus.HTTPS_OK -> "Map sent (HTTPS)"
+                    MapSendStatus.BLE_OK -> "Map sent (BLE)"
+                    MapSendStatus.FAILED -> "Map send FAILED"
+                }
+            }
+        }.start()
     }
 
     private fun connectToGarmin() {

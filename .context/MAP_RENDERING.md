@@ -265,13 +265,21 @@ A single `GMND` bundle may contain tiles at multiple OSM zoom levels.
 Total bundle ≈ 304 KB. The watch decodes **one zoom level at a time**
 (controlled by `_activeOsmZoom`, default 13).
 
-**Zoom switching.** `checkZoomSwitch()` maps `_zoomFactor` to an OSM zoom:
+**Zoom switching.** Zoom levels are **discovered from the bundle itself**:
+`loadBundle()` calls `scanAvailableZooms()`, which collects the sorted distinct
+zooms present in the tile entries into `_availableZooms` and sets the default
+`_activeOsmZoom` to the available zoom nearest to 13. `checkZoomSwitch()` maps
+`_zoomFactor` to one of them:
 
 | `_zoomFactor` range | `_activeOsmZoom` |
 |---|---|
-| < 0.5 | 12 (overview) |
-| 0.5 – 3.0 | 13 (normal, default) |
-| ≥ 3.0 | 15 (detail) |
+| < 0.5 | lowest available (overview) |
+| 0.5 – 3.0 | nearest to 13 (normal, default) |
+| ≥ 3.0 | highest available (detail) |
+
+(With no bundle loaded the old fixed 12/13/15 mapping applies.) This makes
+single-zoom or arbitrary-zoom bundles — e.g. exported from MapsCreator — render
+and zoom correctly instead of matching zero entries against a hardcoded trio.
 
 When the threshold is crossed, `_pendingZoomSwitch = true`. In the next
 `onUpdate()` frame, `switchToActiveZoom()` reloads the blob from Storage,
@@ -282,8 +290,14 @@ Peak RAM during zoom switch: ~304 KB blob + up to ~192 KB new bitmaps ≈ 496 KB
 (comfortably under the ~678 KB budget).
 
 **Backwards compatibility.** Old single-zoom bundles (z13 only) load correctly:
-`_activeOsmZoom = 13` matches all entries. Zooming past the thresholds shows an
-empty tile layer (route line stays visible) until a new multi-zoom bundle is synced.
+`scanAvailableZooms` yields `[13]`, so every `_zoomFactor` maps to z13 — the
+tile layer never goes empty; `drawScaledBitmap` handles the visual scaling.
+
+**Bundle without a route.** A `.gmnd` may be sent standalone (MapsCreator →
+garmiand → watch). `applyBundleViewportIfNeeded()` sets the viewport from the
+bundle header bbox when no route has configured it, and `setBundleId()`
+auto-switches `_mapMode` to TILES on a fresh bundle, so the map is viewable
+immediately; `applyRoute()` later overrides the viewport when a route arrives.
 
 ## Sizing budget
 

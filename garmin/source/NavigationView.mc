@@ -18,7 +18,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
 
-const APP_VERSION = "2026-05-11 05:56 dbg34";
+const APP_VERSION = "2026-07-02 dbg35";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -53,10 +53,13 @@ class NavigationView extends WatchUi.View {
     var _currentTileBmp as Graphics.BufferedBitmap?;
     var _currentTileDc as Graphics.Dc?;
 
-    // Active OSM zoom level: 12 (overview), 13 (normal), or 15 (detail).
-    // checkZoomSwitch() maps _zoomFactor → OSM zoom and triggers switchToActiveZoom().
+    // Active OSM zoom level. checkZoomSwitch() maps _zoomFactor → OSM zoom and
+    // triggers switchToActiveZoom(). Levels come from the bundle itself
+    // (_availableZooms) — historically z12/z13/z15, but any set works.
     var _activeOsmZoom as Lang.Number;
     var _pendingZoomSwitch as Lang.Boolean;
+    // Sorted (asc) distinct zoom levels present in the loaded bundle, or null.
+    var _availableZooms as Lang.Array<Lang.Number>?;
 
     var _currentLat as Lang.Float;
     var _currentLon as Lang.Float;
@@ -115,6 +118,7 @@ class NavigationView extends WatchUi.View {
         _currentTileDc = null;
         _activeOsmZoom = 13;
         _pendingZoomSwitch = false;
+        _availableZooms = null;
         _debugQueue = [] as Lang.Array<Lang.String>;
         _debugCurrent = null;
         _debugUntilMs = 0;
@@ -234,6 +238,8 @@ class NavigationView extends WatchUi.View {
             _palette = null;
         }
         if (_palette != null) {
+            scanAvailableZooms(blob, hdr);
+            applyBundleViewportIfNeeded(hdr);
             try {
                 prepareDecode(blob, hdr);
             } catch (e) {
@@ -241,6 +247,71 @@ class NavigationView extends WatchUi.View {
             }
         }
         System.println("[Tiles] loaded bundle " + bundleId + " tiles=" + hdr.tileCount);
+    }
+
+    // Collect the sorted distinct zoom levels actually present in the bundle and
+    // pick the active zoom = nearest to 13 ("normal" level). Bundles from
+    // MapsCreator may carry any zoom set — never assume the z12/z13/z15 trio.
+    function scanAvailableZooms(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
+        var zooms = [] as Lang.Array<Lang.Number>;
+        for (var i = 0; i < hdr.tileCount; i++) {
+            var z = TileDecoder.readU8(blob, hdr.tileEntriesOffset + i * TILE_ENTRY_SIZE);
+            var known = false;
+            for (var j = 0; j < zooms.size(); j++) {
+                if ((zooms[j] as Lang.Number) == z) { known = true; break; }
+            }
+            if (!known) { zooms.add(z); }
+        }
+        // insertion sort — the list holds 1-3 elements
+        for (var i = 1; i < zooms.size(); i++) {
+            var v = zooms[i] as Lang.Number;
+            var j = i - 1;
+            while (j >= 0 && (zooms[j] as Lang.Number) > v) {
+                zooms[j + 1] = zooms[j];
+                j--;
+            }
+            zooms[j + 1] = v;
+        }
+        _availableZooms = zooms;
+        _activeOsmZoom = nearestAvailableZoom(13);
+        var zs = "";
+        for (var i = 0; i < zooms.size(); i++) {
+            zs = zs + (i > 0 ? "," : "") + (zooms[i] as Lang.Number).toString();
+        }
+        pushDebug("zooms " + zs + " act z" + _activeOsmZoom);
+    }
+
+    function nearestAvailableZoom(target as Lang.Number) as Lang.Number {
+        var az = _availableZooms;
+        if (az == null || (az as Lang.Array).size() == 0) { return target; }
+        var zooms = az as Lang.Array<Lang.Number>;
+        var best = zooms[0] as Lang.Number;
+        var bestDiff = best - target;
+        if (bestDiff < 0) { bestDiff = -bestDiff; }
+        for (var i = 1; i < zooms.size(); i++) {
+            var z = zooms[i] as Lang.Number;
+            var d = z - target;
+            if (d < 0) { d = -d; }
+            if (d < bestDiff) { best = z; bestDiff = d; }
+        }
+        return best;
+    }
+
+    // A map bundle can arrive without a route (sent from MapsCreator). If the
+    // route hasn't configured the viewport yet, use the bundle bbox so TILES
+    // mode is viewable immediately; applyRoute() will override it later.
+    function applyBundleViewportIfNeeded(hdr as BundleHeader) as Void {
+        if (_viewSet) { return; }
+        if (hdr.maxLat <= hdr.minLat || hdr.maxLon <= hdr.minLon) { return; }
+        _viewLat0 = hdr.maxLat;
+        _viewLat1 = hdr.minLat;
+        _viewLon0 = hdr.minLon;
+        _viewLon1 = hdr.maxLon;
+        _viewSet = true;
+        _panOffsetLat = 0.0f;
+        _panOffsetLon = 0.0f;
+        _zoomFactor = 1.0f;
+        pushDebug("view from bundle bbox");
     }
 
     // Phase 1 of tile decode: parse entries filtered to _activeOsmZoom.
@@ -424,6 +495,10 @@ class NavigationView extends WatchUi.View {
         }
         if (id != null) {
             pushDebug("setBundleId " + (id as Lang.String).substring(0, 8));
+            // A fresh bundle means the user wants to see the map — enter TILES.
+            if (_mapMode != BG_MODE_TILES) {
+                setMapModeAndPersist(BG_MODE_TILES);
+            }
             // Don't call loadBundle() here — HTTP/BLE callback watchdog budget is too short.
             // ensureBundleLoaded() in onUpdate() handles the actual load.
         } else {
@@ -460,7 +535,10 @@ class NavigationView extends WatchUi.View {
             }
         }
 
-        if (!_route.isComplete) {
+        // A route is optional: with a viewport from the bundle bbox (map sent
+        // without a route) we still render TILES. Waiting screen only when
+        // there is neither a route nor a viewable bundle.
+        if (!_route.isComplete && !_viewSet) {
             drawWaitingScreen(dc);
             return;
         }
@@ -852,11 +930,23 @@ class NavigationView extends WatchUi.View {
     }
 
     // Map current _zoomFactor to an OSM zoom level and trigger a tile reload if changed.
-    // Thresholds: <0.5 → z12 (overview), 0.5–3.0 → z13 (normal), ≥3.0 → z15 (detail).
-    // Sets _pendingZoomSwitch so the actual blob load happens in onUpdate (larger budget).
+    // Thresholds: <0.5 → overview (lowest available), 0.5–3.0 → normal (nearest to 13),
+    // ≥3.0 → detail (highest available). Falls back to the fixed z12/z13/z15 trio when
+    // no bundle is loaded yet. Sets _pendingZoomSwitch so the actual blob load happens
+    // in onUpdate (larger watchdog budget).
     function checkZoomSwitch() as Void {
         var newZoom;
-        if (_zoomFactor >= 3.0f) {
+        var az = _availableZooms;
+        if (az != null && (az as Lang.Array).size() > 0) {
+            var zooms = az as Lang.Array<Lang.Number>;
+            if (_zoomFactor >= 3.0f) {
+                newZoom = zooms[zooms.size() - 1] as Lang.Number;
+            } else if (_zoomFactor <= 0.5f) {
+                newZoom = zooms[0] as Lang.Number;
+            } else {
+                newZoom = nearestAvailableZoom(13);
+            }
+        } else if (_zoomFactor >= 3.0f) {
             newZoom = 15;
         } else if (_zoomFactor <= 0.5f) {
             newZoom = 12;

@@ -38,15 +38,31 @@
     "configMin" : null,
     "configMax" : null,
     "configMaxLength" : null
+  }, {
+    "key" : "online_mode",
+    "valueType" : "boolean",
+    "defaultValue" : true,
+    "configTitle" : "OnlineMode_Label",
+    "configPrompt" : null,
+    "configType" : "boolean",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
   } ],
   "supportsLiveValidation" : false,
   "languages" : {
     "valyrian" : {
       "MapMode_None" : "None",
+      "MapMode_Tiles" : "Custom Tiles",
       "MapMode_Label" : "Map Background",
       "MapMode_Native" : "Native (TopoActive)",
       "LastBundleId_Label" : "Last Bundle ID",
-      "MapMode_Tiles" : "Custom Tiles",
+      "OnlineMode_Label" : "BLE Download",
       "AppName" : "Garmiand V1"
     }
   }
