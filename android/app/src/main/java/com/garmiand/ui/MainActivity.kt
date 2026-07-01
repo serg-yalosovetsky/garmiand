@@ -19,6 +19,7 @@ import com.garmiand.BuildConfig
 import com.garmiand.R
 import com.garmiand.domain.RoutePackage
 import com.garmiand.garmin.ConnectIQGarminCompanion
+import com.garmiand.garmin.GarminLink
 import com.garmiand.map.QuantizedBundle
 import com.garmiand.map.TileBundleSerializer
 import com.garmiand.map.TileQuantizer
@@ -29,7 +30,7 @@ import com.garmiand.sync.BleChunkSizeProber
 import com.garmiand.sync.MapBundleBleSender
 import com.garmiand.sync.MapBundleUploadError
 import com.garmiand.sync.MapBundleUploader
-import com.garmiand.sync.MapRequestResponder
+import com.garmiand.service.GarminLinkService
 import com.garmiand.sync.RouteSyncOrchestrator
 import com.garmiand.sync.SyncResult
 import com.garmiand.util.AppLog
@@ -110,23 +111,23 @@ class MainActivity : AppCompatActivity() {
 
         tvStatus.setOnClickListener { retryGarminConnect() }
 
-        garminCompanion = ConnectIQGarminCompanion(this)
+        // Связь с часами живёт в GarminLink (singleton) + GarminLinkService
+        // (foreground) — авто-докачка работает и с выключенным экраном.
+        requestNotificationPermissionIfNeeded()
+        garminCompanion = GarminLink.obtain(this)
+        GarminLinkService.start(this)
         connectToGarmin()
-        registerMapRequestResponder()
 
         handleIncomingGmnd(intent)
     }
 
-    // Авто-докачка: часы шлют map_request при подходе к краю бандла.
-    private fun registerMapRequestResponder() {
-        val responder = MapRequestResponder(
-            companion = garminCompanion,
-            backendUrl = BuildConfig.BACKEND_URL,
-            backendToken = BuildConfig.BACKEND_TOKEN,
-            blePrefs = getSharedPreferences("garmiand_ble", Context.MODE_PRIVATE),
-            onStatus = { s -> runOnUiThread { tvStatus.text = s } },
-        )
-        garminCompanion.addPersistentWatchListener { msg -> responder.handle(msg) }
+    private fun requestNotificationPermissionIfNeeded() {
+        if (android.os.Build.VERSION.SDK_INT >= 33 &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) !=
+            android.content.pm.PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 42)
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -209,8 +210,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun connectToGarmin() {
         tvStatus.text = "Connecting to Garmin..."
-        AppLog.i(TAG, "Initializing Connect IQ...")
-        garminCompanion.initialize { ready ->
+        GarminLink.ensureConnected(this) { ready ->
             runOnUiThread {
                 tvStatus.text = if (ready) "Garmin connected" else "Garmin not available (tap to retry)"
             }
@@ -222,10 +222,9 @@ class MainActivity : AppCompatActivity() {
         val status = tvStatus.text.toString()
         if (status.startsWith("Connecting") || status.startsWith("Garmin not available")) {
             AppLog.i(TAG, "Retrying Garmin connection...")
-            garminCompanion.shutdown()
-            garminCompanion = ConnectIQGarminCompanion(this)
+            GarminLink.reset()
+            garminCompanion = GarminLink.obtain(this)
             connectToGarmin()
-            registerMapRequestResponder()
         }
     }
 
@@ -403,6 +402,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         AppLog.removeListener(logListener)
-        garminCompanion.shutdown()
+        // Companion НЕ выключаем — им владеет GarminLink/GarminLinkService,
+        // чтобы авто-докачка жила после закрытия Activity.
     }
 }
