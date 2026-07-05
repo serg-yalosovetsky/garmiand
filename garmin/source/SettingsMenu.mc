@@ -12,6 +12,8 @@ class SettingsMenu extends WatchUi.Menu2 {
             "Online maps", null, :online_mode, readBool("online_mode", true), null));
         addItem(new WatchUi.ToggleMenuItem(
             "Auto fetch", null, :auto_fetch, readBool("auto_fetch", true), null));
+        addItem(new WatchUi.MenuItem(
+            "Send logs", "→ phone → Loki", :send_logs, null));
     }
 
     function readBool(key as Lang.String, dflt as Lang.Boolean) as Lang.Boolean {
@@ -31,9 +33,15 @@ class SettingsMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     function onSelect(item as WatchUi.MenuItem) as Void {
         var id = item.getId();
-        var on = (item as WatchUi.ToggleMenuItem).isEnabled();
         var app = App.getApp();
         if (!(app instanceof GarmiandApp)) { return; }
+        if (id == :send_logs) {
+            (app as GarmiandApp).requestLogDump();
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            return;
+        }
+        // Toggle items only past this point.
+        var on = (item as WatchUi.ToggleMenuItem).isEnabled();
         if (id == :online_mode) {
             (app as GarmiandApp).setOnlineMode(on);
         } else if (id == :auto_fetch) {

@@ -1,10 +1,13 @@
 package com.garmiand.ui
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -71,9 +74,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Trigger a watch-log dump on demand:  adb shell am broadcast -a
+    // com.garmiand.GET_WATCH_LOGS -p com.garmiand   → phone asks the watch to
+    // stream its log buffer, which then ships to Loki via AppLog.
+    private val logRequestReceiver = object : BroadcastReceiver() {
+        override fun onReceive(c: Context?, i: Intent?) {
+            AppLog.i("MainActivity", "GET_WATCH_LOGS broadcast → requesting watch logs")
+            GarminLink.requestWatchLogs(this@MainActivity)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val logFilter = IntentFilter("com.garmiand.GET_WATCH_LOGS")
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(logRequestReceiver, logFilter, Context.RECEIVER_EXPORTED)
+        } else {
+            @Suppress("UnspecifiedRegisterReceiverFlag")
+            registerReceiver(logRequestReceiver, logFilter)
+        }
 
         tvStatus = findViewById(R.id.tv_status)
         btnImport = findViewById(R.id.btn_import)
@@ -401,6 +422,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        try { unregisterReceiver(logRequestReceiver) } catch (e: Exception) {}
         AppLog.removeListener(logListener)
         // Companion НЕ выключаем — им владеет GarminLink/GarminLinkService,
         // чтобы авто-докачка жила после закрытия Activity.

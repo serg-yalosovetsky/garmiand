@@ -123,6 +123,19 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
         watchMessageListener = listener
     }
 
+    /** Fire a raw command payload at the watch (e.g. {kind:"get_logs"}). */
+    fun sendRaw(payload: Map<String, Any>) {
+        val ciq = connectIQ ?: run { AppLog.w(TAG, "sendRaw: ConnectIQ not initialized"); return }
+        val device = connectedDevice ?: run { AppLog.w(TAG, "sendRaw: no device connected"); return }
+        val app = watchApp ?: run { AppLog.w(TAG, "sendRaw: watch app not found"); return }
+        AppLog.i(TAG, "send -> ${payload["kind"]} (raw)")
+        ciq.sendMessage(device, app, payload, object : IQSendMessageListener {
+            override fun onMessageStatus(dev: IQDevice, iqApp: IQApp, status: IQMessageStatus) {
+                AppLog.i(TAG, "ack ${payload["kind"]} status=$status")
+            }
+        })
+    }
+
     override fun send(message: SyncMessage): SyncAck {
         val ciq = connectIQ
             ?: return SyncAck(message.sessionId, ok = false, reason = "ConnectIQ not initialized")

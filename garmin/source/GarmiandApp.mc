@@ -76,13 +76,18 @@ class GarmiandApp extends App.AppBase {
     var _autoFetchEnabled as Lang.Boolean;
     var _lastAutoFetchMs as Lang.Number;
     var _gpsTickCounter as Lang.Number;
-    // Watch-side log lines queued for forwarding to the phone (→ Loki).
-    var _logQueue as Lang.Array<Lang.String>;
+    // Watch-side log: kept in a rolling in-memory buffer + persisted to
+    // App.Storage (the "log file"). Nothing is transmitted continuously; the
+    // whole buffer is streamed to the phone only when a get_logs request (or the
+    // Settings "Send logs" item) sets _dumpPending. This avoids colliding with a
+    // phone→watch sync (which caused FAILURE_DURING_TRANSFER) and survives crashes.
+    var _logBuf as Lang.Array<Lang.String>;
     var _logTxBusy as Lang.Boolean;
-    // Timer value (ms) of the last message received from the phone. Log
-    // transmits pause near this so watch→phone traffic never collides with an
-    // in-flight phone→watch sync (which caused FAILURE_DURING_TRANSFER).
-    var _lastRxMs as Lang.Number;
+    var _lastRxMs as Lang.Number;      // timer ms of last phone→watch message
+    var _logDirty as Lang.Boolean;     // buffer changed since last persist
+    var _dumpPending as Lang.Boolean;  // a log dump was requested
+    var _dumpIdx as Lang.Number;       // next line index to stream during a dump
+    var _persistTick as Lang.Number;   // throttles persistLog() from pollGps
 
     function initialize() {
         AppBase.initialize();
@@ -99,37 +104,80 @@ class GarmiandApp extends App.AppBase {
         _autoFetchEnabled = readAutoFetchProperty();
         _lastAutoFetchMs = 0;
         _gpsTickCounter = 0;
-        _logQueue = [] as Lang.Array<Lang.String>;
+        _logBuf = [] as Lang.Array<Lang.String>;
         _logTxBusy = false;
         _lastRxMs = 0;
+        _logDirty = false;
+        _dumpPending = false;
+        _dumpIdx = 0;
+        _persistTick = 0;
+        loadPersistedLog();
     }
 
-    // Queue one line to forward to the phone. Cheap (array add + cap); the
-    // actual transmit happens from pollGps() so it never runs inside onUpdate.
+    // Append one line to the in-memory log buffer (cheap: add + cap at 300).
     function enqueueWatchLog(line as Lang.String) as Void {
-        _logQueue.add(line);
-        var n = _logQueue.size();
-        if (n > 40) {
-            _logQueue = _logQueue.slice(n - 40, n) as Lang.Array<Lang.String>;
+        _logBuf.add(line);
+        var n = _logBuf.size();
+        if (n > 300) {
+            _logBuf = _logBuf.slice(n - 300, n) as Lang.Array<Lang.String>;
+        }
+        _logDirty = true;
+    }
+
+    // Restore the log from Storage so pre-crash lines survive a restart.
+    function loadPersistedLog() as Void {
+        try {
+            var v = App.Storage.getValue("watch_log_buf");
+            if (v instanceof Lang.Array) {
+                var buf = v as Lang.Array<Lang.String>;
+                var n = buf.size();
+                if (n > 300) { buf = buf.slice(n - 300, n) as Lang.Array<Lang.String>; }
+                _logBuf = buf;
+            }
+        } catch (e) {
         }
     }
 
-    // Called ~once per second from pollGps(). Sends one small batch to the
-    // phone (kind=watch_log) when the link is idle. One transmit in flight max.
-    function flushWatchLog() as Void {
-        if (_logTxBusy) { return; }
-        if (_logQueue.size() == 0) { return; }
-        // Stay off the air while a phone→watch transfer is active (a message
-        // arrived < 3 s ago) so we never break a sync with a colliding transmit.
+    // Persist the buffer to Storage ("log file"). One setValue every ~10 s from
+    // pollGps (watchdog-safe) so a later crash still leaves the log on disk.
+    function persistLog() as Void {
+        if (!_logDirty) { return; }
+        try {
+            App.Storage.setValue("watch_log_buf", _logBuf);
+            _logDirty = false;
+        } catch (e) {
+        }
+    }
+
+    // Request a full log dump to the phone (get_logs message / Settings item).
+    function requestLogDump() as Void {
+        _dumpPending = true;
+        _dumpIdx = 0;
+        appLog("log dump requested (" + _logBuf.size() + " lines)");
+    }
+
+    // Called ~1×/s from pollGps. Persists periodically; when a dump is pending,
+    // streams the buffer to the phone one small batch at a time. Stays off the
+    // air during active phone→watch traffic so it never breaks a sync.
+    function serviceLog() as Void {
+        _persistTick++;
+        if (_persistTick >= 10) {
+            _persistTick = 0;
+            persistLog();
+        }
+        if (!_dumpPending || _logTxBusy) { return; }
         if (System.getTimer() - _lastRxMs < 3000) { return; }
-        var n = _logQueue.size();
-        if (n > 6) { n = 6; }
-        var batch = _logQueue.slice(0, n) as Lang.Array<Lang.String>;
-        _logQueue = _logQueue.slice(n, _logQueue.size()) as Lang.Array<Lang.String>;
+        var total = _logBuf.size();
+        if (_dumpIdx >= total) { _dumpPending = false; return; }
+        var end = _dumpIdx + 8;
+        if (end > total) { end = total; }
+        var batch = _logBuf.slice(_dumpIdx, end) as Lang.Array<Lang.String>;
+        var startIdx = _dumpIdx;
+        _dumpIdx = end;
         _logTxBusy = true;
         try {
             Communications.transmit(
-                { "kind" => "watch_log", "v" => 1, "lines" => batch },
+                { "kind" => "watch_log", "v" => 1, "from" => startIdx, "total" => total, "lines" => batch },
                 null,
                 new LogConnectionListener()
             );
@@ -245,7 +293,7 @@ class GarmiandApp extends App.AppBase {
     }
 
     function pollGps() as Void {
-        flushWatchLog();
+        serviceLog();
         var info = Position.getInfo();
         applyPositionInfo(info, "poll");
     }
@@ -332,6 +380,11 @@ class GarmiandApp extends App.AppBase {
 
         var kind = dict["kind"];
         System.println("[PhoneMsg] kind=" + kind);
+
+        if ("get_logs".equals(kind)) {
+            requestLogDump();
+            return;
+        }
 
         if ("sync_start".equals(kind)) {
             appLog("RX sync_start");

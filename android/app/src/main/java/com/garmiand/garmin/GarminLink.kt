@@ -74,6 +74,11 @@ object GarminLink {
         state = State.IDLE
     }
 
+    /** Ask the watch to stream its accumulated log buffer back (→ Loki). */
+    fun requestWatchLogs(context: Context) {
+        obtain(context.applicationContext).sendRaw(mapOf("kind" to "get_logs", "v" to 1))
+    }
+
     private fun registerResponder(context: Context, companion: ConnectIQGarminCompanion) {
         if (!responderRegistered.compareAndSet(false, true)) return
         val responder = MapRequestResponder(
