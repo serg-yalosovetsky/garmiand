@@ -19,7 +19,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // (legacy) not part of the cycle anymore
 
-const APP_VERSION = "2026-07-02 dbg36";
+const APP_VERSION = "2026-07-05 dbg37";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -98,6 +98,23 @@ class NavigationView extends WatchUi.View {
     // Zoom: >1 = zoomed in (viewport shrunk), <1 = zoomed out. Reset with pan.
     var _zoomFactor as Lang.Float;
 
+    // Composited tile layer cache. The decoded tiles are drawn (scaled) ONCE into
+    // a single screen-sized BufferedBitmap; subsequent frames blit that buffer with
+    // a pixel offset so panning shifts the map "in one piece" instead of re-scaling
+    // every tile each frame. Recomposited only when zoom/zoomFactor/viewport change
+    // or the pan drifts past half a screen. Falls back to direct per-tile scaling if
+    // the buffer can't be allocated — so it can never make things worse than before.
+    var _layerBmp as Graphics.BufferedBitmap?;
+    var _layerValid as Lang.Boolean;
+    var _layerDisabled as Lang.Boolean; // set once if buffer alloc ever fails
+    var _layerZoom as Lang.Number;
+    var _layerZoomFactor as Lang.Float;
+    var _layerPanLat as Lang.Float;
+    var _layerPanLon as Lang.Float;
+    var _layerViewLat0 as Lang.Float;
+    var _layerViewLon0 as Lang.Float;
+    var _layerTileCount as Lang.Number;
+
     function initialize(route as RouteData) {
         View.initialize();
         _route = route;
@@ -136,6 +153,16 @@ class NavigationView extends WatchUi.View {
         _panOffsetLon = 0.0f;
         _interactMode = INTERACT_ZOOM;
         _zoomFactor = 1.0f;
+        _layerBmp = null;
+        _layerValid = false;
+        _layerDisabled = false;
+        _layerZoom = -1;
+        _layerZoomFactor = 0.0f;
+        _layerPanLat = 0.0f;
+        _layerPanLon = 0.0f;
+        _layerViewLat0 = 0.0f;
+        _layerViewLon0 = 0.0f;
+        _layerTileCount = -1;
         // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
         // via Graphics.createBufferedBitmap, which requires the view's graphics
         // context. That context isn't ready until onShow(). Calling it from
@@ -218,6 +245,9 @@ class NavigationView extends WatchUi.View {
         _pendingColIndex = 0;
         _currentTileBmp = null;
         _currentTileDc = null;
+        // Invalidate the composited layer; keep the buffer allocated for reuse.
+        _layerValid = false;
+        _layerTileCount = -1;
     }
 
     function loadBundle(bundleId as Lang.String) as Void {
@@ -600,12 +630,102 @@ class NavigationView extends WatchUi.View {
     function drawCustomTiles(dc as Graphics.Dc) as Void {
         var tiles = _decodedTiles;
         if (tiles == null || tiles.size() == 0 || !_viewSet) { return; }
+
+        // Fast path: reuse the composited layer and just shift it by the pan delta
+        // (move the map "in one piece"). ensureLayer() returns false when the
+        // buffer is unavailable/disabled, in which case we fall back to direct draw.
+        if (!_layerDisabled && ensureLayer(tiles)) {
+            var off = layerBlitOffset();
+            dc.drawBitmap(off[0], off[1], _layerBmp as Graphics.BufferedBitmap);
+            return;
+        }
+        drawTilesDirect(dc, tiles);
+    }
+
+    // Direct per-tile scaled draw into an arbitrary Dc (screen or the layer buffer).
+    function drawTilesDirect(dc as Graphics.Dc, tiles as Lang.Array<DecodedTile>) as Void {
         for (var i = 0; i < tiles.size(); i++) {
             var t = tiles[i] as DecodedTile;
             var r = tileScreenRect(t);
             if (r == null) { continue; }
             dc.drawScaledBitmap(r[0], r[1], r[2], r[3], t.bmp);
         }
+    }
+
+    // Pixel offset to blit the composited layer at, given how far the pan has
+    // drifted from the pan the layer was composited at. Derived from projectPoint:
+    // +panLon shifts content left, +panLat shifts content down.
+    function layerBlitOffset() as Lang.Array<Lang.Number> {
+        var halfLat = (_viewLat0 - _viewLat1) * 0.5f / _zoomFactor;
+        var halfLon = (_viewLon1 - _viewLon0) * 0.5f / _zoomFactor;
+        var dx = 0;
+        var dy = 0;
+        if (halfLon != 0.0f) {
+            dx = (-(_panOffsetLon - _layerPanLon) / (halfLon * 2.0f) * _screenW).toNumber();
+        }
+        if (halfLat != 0.0f) {
+            dy = ((_panOffsetLat - _layerPanLat) / (halfLat * 2.0f) * _screenH).toNumber();
+        }
+        return [dx, dy] as Lang.Array<Lang.Number>;
+    }
+
+    // Ensure a valid composited layer exists for the current view. Returns true if
+    // _layerBmp can be blitted (possibly with a pan offset), false to fall back.
+    function ensureLayer(tiles as Lang.Array<DecodedTile>) as Lang.Boolean {
+        var stale = !_layerValid
+            || _layerBmp == null
+            || _layerZoom != _activeOsmZoom
+            || _layerZoomFactor != _zoomFactor
+            || _layerViewLat0 != _viewLat0
+            || _layerViewLon0 != _viewLon0
+            || _layerTileCount != tiles.size();
+        if (!stale) {
+            // Reuse as long as the pan drift stays within half a screen; beyond
+            // that the exposed black margin gets too big, so recomposite instead.
+            var off = layerBlitOffset();
+            var adx = off[0] < 0 ? -off[0] : off[0];
+            var ady = off[1] < 0 ? -off[1] : off[1];
+            if (adx <= _screenW / 2 && ady <= _screenH / 2) {
+                return true;
+            }
+        }
+        return compositeLayer(tiles);
+    }
+
+    // (Re)draw all decoded tiles into the screen-sized layer buffer once, recording
+    // the pan/zoom/view state it represents. Allocates the buffer lazily; on any
+    // allocation failure it disables the cache for the session and returns false so
+    // the caller degrades to direct drawing (never worse than the pre-cache path).
+    function compositeLayer(tiles as Lang.Array<DecodedTile>) as Lang.Boolean {
+        if (_screenW <= 0 || _screenH <= 0 || _palette == null) { return false; }
+        try {
+            if (_layerBmp == null) {
+                _layerBmp = Graphics.createBufferedBitmap({
+                    :width => _screenW,
+                    :height => _screenH,
+                    :palette => _palette,
+                }).get() as Graphics.BufferedBitmap;
+            }
+        } catch (e) {
+            _layerBmp = null;
+            _layerDisabled = true;
+            pushDebug("layer off: " + e.getErrorMessage());
+            return false;
+        }
+        if (_layerBmp == null) { _layerDisabled = true; return false; }
+        var ldc = (_layerBmp as Graphics.BufferedBitmap).getDc();
+        ldc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
+        ldc.clear();
+        drawTilesDirect(ldc, tiles);
+        _layerPanLat = _panOffsetLat;
+        _layerPanLon = _panOffsetLon;
+        _layerZoom = _activeOsmZoom;
+        _layerZoomFactor = _zoomFactor;
+        _layerViewLat0 = _viewLat0;
+        _layerViewLon0 = _viewLon0;
+        _layerTileCount = tiles.size();
+        _layerValid = true;
+        return true;
     }
 
     function drawCenterText(dc as Graphics.Dc, text as Lang.String, color as Lang.Number) as Void {
