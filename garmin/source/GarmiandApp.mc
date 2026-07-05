@@ -498,14 +498,11 @@ class GarmiandApp extends App.AppBase {
             }
             return;
         }
-        if (!_onlineMode) {
-            System.println("[Tiles] offline mode — skip download, use cached bundle=" + bundleId);
-            if (_navView != null) {
-                (_navView as NavigationView).pushDebug("offline mode — skip GET");
-                (_navView as NavigationView).setBundleId(bundleId);
-            }
-            return;
-        }
+        // A tile_session with a download_url is an explicit "fetch this bundle"
+        // from the phone (it already uploaded it over HTTPS), so honor it even
+        // when the watch is in offline mode. offline_mode only gates the
+        // watch-initiated auto-fetch (map_request), not an offered bundle — the
+        // download fails gracefully if GCM really has no connectivity.
         var totalBytes = dict["total_bytes"];
         _dlTotal = (totalBytes instanceof Lang.Number) ? (totalBytes as Lang.Number) : 0;
         System.println("[Tiles] HTTPS bundle " + bundleId + " <- " + url + " total=" + _dlTotal);
