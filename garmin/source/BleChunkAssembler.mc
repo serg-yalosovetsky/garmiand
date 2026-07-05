@@ -86,6 +86,9 @@ class BleChunkAssembler {
                     return [null, null, "alloc_fail:" + tb] as Lang.Array;
                 }
             }
+            // Persist the static WIP metadata ONCE per bundle. Doing it on every
+            // chunk (6 flash writes/frame) tripped the CIQ watchdog mid-transfer.
+            persistWipMeta();
         }
 
         if (!_received.hasKey(idx)) {
@@ -147,15 +150,26 @@ class BleChunkAssembler {
         return _bundleId;
     }
 
-    // Persist one chunk payload to Storage and update WIP metadata.
-    // Called after each new (non-duplicate) chunk is written to _blob.
-    function persistChunkWip(idx as Lang.Number, bytes as Lang.ByteArray) as Void {
+    // Persist the static bundle metadata once at transfer start.
+    function persistWipMeta() as Void {
         try {
-            App.Storage.setValue("ble_wip_c_" + idx, bytes);
             App.Storage.setValue("ble_wip_id", _bundleId);
             App.Storage.setValue("ble_wip_tot", _expectedTotal);
             App.Storage.setValue("ble_wip_sz", _totalBytes);
             App.Storage.setValue("ble_wip_csz", _knownChunkSize);
+            App.Storage.setValue("ble_wip_n", _receivedCount);
+        } catch (e) {
+            System.println("[BLE] persistWipMeta failed: " + e.getErrorMessage());
+        }
+    }
+
+    // Persist one chunk payload to Storage and update the received count.
+    // Only two flash writes per chunk (payload + count) — the invariant
+    // metadata is written once by persistWipMeta() so a single frame stays
+    // well under the watchdog budget.
+    function persistChunkWip(idx as Lang.Number, bytes as Lang.ByteArray) as Void {
+        try {
+            App.Storage.setValue("ble_wip_c_" + idx, bytes);
             App.Storage.setValue("ble_wip_n", _receivedCount);
         } catch (e) {
             System.println("[BLE] persistChunkWip " + idx + " failed: " + e.getErrorMessage());

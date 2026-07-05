@@ -227,17 +227,23 @@ object TileQuantizer {
     /**
      * Fetch corridor tiles at multiple OSM zoom levels and merge into one bundle.
      *
-     * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx):
-     *   z12: buf=300m  cap=4   size=64  — overview; z12 tiles are ~10 km wide so 4 covers most routes
-     *   z13: buf=300m  cap=12  size=128 — normal (same quality as single-zoom mode)
-     *   z15: buf=150m  cap=6   size=128 — detail for zoomed-in view; narrow buffer keeps tile count low
+     * The watch picks exactly one of three levels to render, keyed off the
+     * viewport zoom factor (NavigationView.checkZoomSwitch): zooms[0] when
+     * zoomed out, the level nearest z13 at normal scale, zooms.last() when
+     * zoomed in. So the set must be spread around z13 for all three buckets to
+     * resolve to distinct, useful levels.
      *
-     * Bundle blob estimate: 4×4KB + 12×16KB + 6×16KB ≈ 304 KB — fits in watch RAM for decode.
+     * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx):
+     *   z11: buf=600m  cap=6   size=64  — wide overview; z11 tiles are ~20 km so a few cover any route
+     *   z13: buf=300m  cap=12  size=128 — town-level default view
+     *   z16: buf=150m  cap=12  size=128 — street/building detail for orientation when zoomed in
+     *
+     * Bundle blob estimate: 6×4KB + 12×16KB + 12×16KB ≈ 408 KB — fits in watch RAM for decode.
      * The watch decodes only one zoom level at a time (see NavigationView.checkZoomSwitch).
      */
     fun quantizeMultiZoom(
         points: List<RoutePoint>,
-        zooms: List<Int> = listOf(12, 13, 15),
+        zooms: List<Int> = listOf(11, 13, 16),
         urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
         // Множитель буфера. 1.0 — коридор маршрута; авто-докачка вокруг одной
         // точки использует ~4.0, чтобы одна точка дала осмысленную площадь.
@@ -252,8 +258,8 @@ object TileQuantizer {
 
         for (zoom in zooms) {
             val (rawBuf, cap, size) = when (zoom) {
-                12 -> Triple(300.0, 4, 64)
-                15 -> Triple(150.0, 6, 128)
+                11 -> Triple(600.0, 6, 64)
+                16 -> Triple(150.0, 12, 128)
                 else -> Triple(300.0, 12, DEFAULT_TILE_OUTPUT)
             }
             val buf = rawBuf * bufferScale

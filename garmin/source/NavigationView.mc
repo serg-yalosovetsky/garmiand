@@ -938,7 +938,7 @@ class NavigationView extends WatchUi.View {
 
     // Map current _zoomFactor to an OSM zoom level and trigger a tile reload if changed.
     // Thresholds: <0.5 → overview (lowest available), 0.5–3.0 → normal (nearest to 13),
-    // ≥3.0 → detail (highest available). Falls back to the fixed z12/z13/z15 trio when
+    // ≥3.0 → detail (highest available). Falls back to the fixed z11/z13/z16 trio when
     // no bundle is loaded yet. Sets _pendingZoomSwitch so the actual blob load happens
     // in onUpdate (larger watchdog budget).
     function checkZoomSwitch() as Void {
@@ -954,9 +954,9 @@ class NavigationView extends WatchUi.View {
                 newZoom = nearestAvailableZoom(13);
             }
         } else if (_zoomFactor >= 3.0f) {
-            newZoom = 15;
+            newZoom = 16;
         } else if (_zoomFactor <= 0.5f) {
-            newZoom = 12;
+            newZoom = 11;
         } else {
             newZoom = 13;
         }
