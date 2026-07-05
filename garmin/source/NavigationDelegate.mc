@@ -25,12 +25,14 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
     var _dragPrevX as Lang.Number;
     var _dragPrevY as Lang.Number;
 
-    // START-button press disambiguation state.
+    // START-button press disambiguation state. A SINGLE timer is allocated
+    // once and reused: CIQ caps the number of live Timer objects, so we must
+    // never `new` one per key press. The long-press and single/double phases
+    // never overlap, so one timer covers both.
     var _enterDown as Lang.Boolean;
     var _longFired as Lang.Boolean;
     var _pendingSingle as Lang.Boolean;
-    var _longTimer as Timer.Timer?;
-    var _singleTimer as Timer.Timer?;
+    var _btnTimer as Timer.Timer;
 
     function initialize(route as RouteData, view as NavigationView) {
         BehaviorDelegate.initialize();
@@ -41,8 +43,7 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
         _enterDown = false;
         _longFired = false;
         _pendingSingle = false;
-        _longTimer = null;
-        _singleTimer = null;
+        _btnTimer = new Timer.Timer();
     }
 
     // START pressed down: start timing a possible long press. Every other key
@@ -76,25 +77,19 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
     // ---- START press timing helpers -------------------------------------
 
     function armLongTimer() as Void {
-        disarmLongTimer();
-        var t = new Timer.Timer();
-        t.start(method(:onLongExpire), ENTER_LONG_MS, false);
-        _longTimer = t;
+        _btnTimer.stop();
+        _btnTimer.start(method(:onLongExpire), ENTER_LONG_MS, false);
     }
 
     function disarmLongTimer() as Void {
-        if (_longTimer != null) {
-            (_longTimer as Timer.Timer).stop();
-            _longTimer = null;
-        }
+        _btnTimer.stop();
     }
 
     // Fires while START is still held -> treat as a long press (Settings).
     function onLongExpire() as Void {
-        _longTimer = null;
         if (_enterDown) {
             _longFired = true;
-            cancelPendingSingle();
+            _pendingSingle = false;
             openSettings();
         }
     }
@@ -102,19 +97,18 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
     // A completed START click: first click waits for a possible second one.
     function handleEnterClick() as Void {
         if (_pendingSingle) {
-            cancelPendingSingle();
+            _btnTimer.stop();
+            _pendingSingle = false;
             _view.centerToGps();           // double press -> jump to GPS
         } else {
             _pendingSingle = true;
-            var t = new Timer.Timer();
-            t.start(method(:onSingleExpire), ENTER_DOUBLE_MS, false);
-            _singleTimer = t;
+            _btnTimer.stop();
+            _btnTimer.start(method(:onSingleExpire), ENTER_DOUBLE_MS, false);
         }
     }
 
     // No second click arrived in time -> it was a single press.
     function onSingleExpire() as Void {
-        _singleTimer = null;
         if (_pendingSingle) {
             _pendingSingle = false;
             _view.cycleMapMode();          // single press -> cycle 3 modes
@@ -122,10 +116,7 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function cancelPendingSingle() as Void {
-        if (_singleTimer != null) {
-            (_singleTimer as Timer.Timer).stop();
-            _singleTimer = null;
-        }
+        _btnTimer.stop();
         _pendingSingle = false;
     }
 
