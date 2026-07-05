@@ -13,6 +13,21 @@ val backendToken: String = providers.gradleProperty("garmiand.backendToken").orN
     ?: providers.environmentVariable("GARMIAND_BACKEND_TOKEN").orNull
     ?: "dev-token-change-me"
 
+// Remote logging to Grafana Loki. Auth follows the reader-android pattern:
+// a build-time token replayed as a header that nginx accepts instead of the
+// browser SSO cookie (see LokiSink). Empty lokiUrl disables remote logging.
+val lokiUrl: String = providers.gradleProperty("garmiand.lokiUrl").orNull
+    ?: providers.environmentVariable("GARMIAND_LOKI_URL").orNull
+    ?: ""
+
+val lokiToken: String = providers.gradleProperty("garmiand.lokiToken").orNull
+    ?: providers.environmentVariable("GARMIAND_LOKI_TOKEN").orNull
+    ?: ""
+
+val lokiTokenHeader: String = providers.gradleProperty("garmiand.lokiTokenHeader").orNull
+    ?: providers.environmentVariable("GARMIAND_LOKI_TOKEN_HEADER").orNull
+    ?: "X-Reader-Token"
+
 android {
     namespace = "com.garmiand"
     compileSdk = 35
@@ -26,6 +41,9 @@ android {
 
         buildConfigField("String", "BACKEND_URL", "\"$backendUrl\"")
         buildConfigField("String", "BACKEND_TOKEN", "\"$backendToken\"")
+        buildConfigField("String", "LOKI_URL", "\"$lokiUrl\"")
+        buildConfigField("String", "LOKI_TOKEN", "\"$lokiToken\"")
+        buildConfigField("String", "LOKI_TOKEN_HEADER", "\"$lokiTokenHeader\"")
     }
 
     buildFeatures {

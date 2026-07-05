@@ -41,11 +41,14 @@ object AppLog {
     fun d(tag: String, msg: String) { append("D", tag, msg); Log.d(tag, msg) }
 
     private fun append(level: String, tag: String, msg: String) {
-        val line = "${timeFmt.format(Date())} $level/$tag: $msg"
+        val now = System.currentTimeMillis()
+        val line = "${timeFmt.format(Date(now))} $level/$tag: $msg"
         synchronized(buffer) {
             buffer.addLast(line)
             while (buffer.size > MAX_LINES) buffer.removeFirst()
         }
         listeners.forEach { it(line) }
+        // Mirror to Grafana Loki (no-op unless LOKI_URL is configured).
+        LokiSink.enqueue(level, now, "$tag: $msg")
     }
 }
