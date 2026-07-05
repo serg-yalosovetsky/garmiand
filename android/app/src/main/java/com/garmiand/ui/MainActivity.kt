@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var logScroll: ScrollView
     private lateinit var switchCacheMap: SwitchCompat
     private lateinit var switchOnlineMode: SwitchCompat
+    private lateinit var switchMapSource: SwitchCompat
     private lateinit var btnProbeBle: Button
     private lateinit var btnSendMap: Button
 
@@ -104,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         logScroll = findViewById(R.id.log_scroll)
         switchCacheMap = findViewById(R.id.switch_cache_map)
         switchOnlineMode = findViewById(R.id.switch_online_mode)
+        switchMapSource = findViewById(R.id.switch_map_source)
         btnProbeBle = findViewById(R.id.btn_probe_ble)
         btnSendMap = findViewById(R.id.btn_send_map)
 
@@ -111,6 +113,16 @@ class MainActivity : AppCompatActivity() {
             switchOnlineMode.isEnabled = checked
         }
         switchOnlineMode.isEnabled = switchCacheMap.isChecked
+
+        // Map source: checked = Bing Hybrid, unchecked = OSM. Persisted so the
+        // background auto-fetch (MapRequestResponder) uses the same choice.
+        switchMapSource.isChecked = com.garmiand.map.MapSourcePrefs.useBing(this)
+        switchMapSource.text = "Карта: ${com.garmiand.map.MapSourcePrefs.label(this)}"
+        switchMapSource.setOnCheckedChangeListener { _, checked ->
+            com.garmiand.map.MapSourcePrefs.setUseBing(this, checked)
+            switchMapSource.text = "Карта: ${com.garmiand.map.MapSourcePrefs.label(this)}"
+            AppLog.i(TAG, "Map source → ${com.garmiand.map.MapSourcePrefs.label(this)}")
+        }
 
         btnSend.isEnabled = false
 
@@ -323,9 +335,10 @@ class MainActivity : AppCompatActivity() {
     private fun sendMapBundle(route: RoutePackage, onlineMode: Boolean): MapSendStatus {
         if (route.points.isEmpty()) return MapSendStatus.FAILED
 
-        AppLog.i(TAG, "Quantizing multi-zoom corridor for ${route.points.size} pts (z12/z13/z15)")
+        val src = com.garmiand.map.MapSourcePrefs.urlTemplate(this)
+        AppLog.i(TAG, "Quantizing multi-zoom corridor for ${route.points.size} pts src=${com.garmiand.map.MapSourcePrefs.label(this)}")
         val quantized = try {
-            TileQuantizer.quantizeMultiZoom(route.points)
+            TileQuantizer.quantizeMultiZoom(route.points, urlTemplate = src)
         } catch (e: Exception) {
             AppLog.e(TAG, "Quantize failed", e)
             return MapSendStatus.FAILED

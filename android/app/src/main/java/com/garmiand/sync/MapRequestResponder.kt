@@ -34,6 +34,9 @@ class MapRequestResponder(
     private val backendToken: String,
     private val blePrefs: SharedPreferences,
     private val onStatus: (String) -> Unit = {},
+    // Resolves the active tile source at fetch time (so a toggle in the phone UI
+    // takes effect for background auto-fetch too). Defaults to Bing Hybrid.
+    private val tileUrlProvider: () -> String = { com.garmiand.map.BING_HYBRID_URL },
 ) {
     private val busy = AtomicBoolean(false)
     @Volatile private var lastLat = Double.NaN
@@ -58,6 +61,7 @@ class MapRequestResponder(
             try {
                 val bundle = TileQuantizer.quantizeMultiZoom(
                     points = listOf(RoutePoint(lat, lon)),
+                    urlTemplate = tileUrlProvider(),
                     bufferScale = POINT_BUFFER_SCALE,
                 )
                 if (bundle.tiles.isEmpty()) {

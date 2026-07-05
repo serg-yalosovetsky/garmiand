@@ -81,12 +81,14 @@ object GarminLink {
 
     private fun registerResponder(context: Context, companion: ConnectIQGarminCompanion) {
         if (!responderRegistered.compareAndSet(false, true)) return
+        val appCtx = context.applicationContext
         val responder = MapRequestResponder(
             companion = companion,
             backendUrl = BuildConfig.BACKEND_URL,
             backendToken = BuildConfig.BACKEND_TOKEN,
             blePrefs = context.getSharedPreferences("garmiand_ble", Context.MODE_PRIVATE),
             onStatus = { s -> AppLog.i(TAG, s) },
+            tileUrlProvider = { com.garmiand.map.MapSourcePrefs.urlTemplate(appCtx) },
         )
         companion.addPersistentWatchListener { msg -> responder.handle(msg) }
         AppLog.i(TAG, "MapRequestResponder registered")

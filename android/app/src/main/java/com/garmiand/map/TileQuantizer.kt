@@ -16,6 +16,17 @@ import kotlin.math.tan
 
 private const val TAG = "TileQuantizer"
 private const val USER_AGENT = "Garmiand/1.0 (https://github.com/serg-yalosovetsky/garmiand)"
+
+// Tile sources. OSM is plain vector-rendered raster (labels shrink to mush after
+// downscale+quantize). Bing Hybrid is satellite imagery with roads+labels baked in
+// ("it=A,G,L"), which reads better for orientation. Bing uses a quadkey path (not
+// z/x/y): "{q}" → Bing quadkey, "{s}" → server 1..3. Scheme taken from SAS.Planet's
+// Bing_Sat_BE_H.zmp; https avoids Android's cleartext-http block.
+const val OSM_URL = "https://tile.openstreetmap.org/%d/%d/%d.png"
+const val BING_HYBRID_URL =
+    "https://ak.dynamic.t{s}.tiles.virtualearth.net/comp/ch/{q}?mkt=ru-RU&it=A,G,L&shading=hill&og=8&n=z"
+// Active default source for all bundle builds.
+val DEFAULT_TILE_URL = BING_HYBRID_URL
 private const val SOURCE_TILE_SIZE = 256
 // 128px × 128px × 1 byte/pixel = 16 KB per tile. Corridor approach at zoom 13 yields
 // ~10–15 tiles (160–240 KB) for a 20 km route — well within LRU-cached App.Storage.
@@ -63,7 +74,7 @@ object TileQuantizer {
 
     fun quantize(
         minLat: Double, maxLat: Double, minLon: Double, maxLon: Double,
-        urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
+        urlTemplate: String = DEFAULT_TILE_URL,
         outputSize: Int = DEFAULT_TILE_OUTPUT,
         maxTilesPerSide: Int = 2,
     ): QuantizedBundle {
@@ -125,7 +136,7 @@ object TileQuantizer {
         points: List<RoutePoint>,
         bufferMeters: Double = 300.0,
         zoom: Int = 13,
-        urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
+        urlTemplate: String = DEFAULT_TILE_URL,
         outputSize: Int = DEFAULT_TILE_OUTPUT,
         maxTiles: Int = MAX_CORRIDOR_TILES,
     ): QuantizedBundle {
@@ -191,8 +202,34 @@ object TileQuantizer {
         return out
     }
 
+    // Bing quadkey: interleave x/y bits from the most significant down. Digit per
+    // level = (x bit) + 2*(y bit). Matches SAS.Planet's Bing_Sat_BE_H GetUrlScript.
+    private fun quadKey(x: Int, y: Int, zoom: Int): String {
+        val sb = StringBuilder(zoom)
+        for (i in zoom downTo 1) {
+            var digit = 0
+            val mask = 1 shl (i - 1)
+            if (x and mask != 0) digit += 1
+            if (y and mask != 0) digit += 2
+            sb.append(digit)
+        }
+        return sb.toString()
+    }
+
+    // Resolve a tile template to a concrete URL. "{q}" → Bing quadkey scheme
+    // (with "{s}" server 1..3); otherwise the classic printf z/x/y form.
+    private fun buildTileUrl(urlTemplate: String, zoom: Int, x: Int, y: Int): String {
+        return if (urlTemplate.contains("{q}")) {
+            urlTemplate
+                .replace("{q}", quadKey(x, y, zoom))
+                .replace("{s}", (1..3).random().toString())
+        } else {
+            String.format(urlTemplate, zoom, x, y)
+        }
+    }
+
     private fun fetchTile(urlTemplate: String, zoom: Int, x: Int, y: Int): Bitmap? {
-        val url = URL(String.format(urlTemplate, zoom, x, y))
+        val url = URL(buildTileUrl(urlTemplate, zoom, x, y))
         return try {
             val conn = (url.openConnection() as HttpURLConnection).apply {
                 connectTimeout = 5000
@@ -248,7 +285,7 @@ object TileQuantizer {
     fun quantizeMultiZoom(
         points: List<RoutePoint>,
         zooms: List<Int> = listOf(13, 15, 17),
-        urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
+        urlTemplate: String = DEFAULT_TILE_URL,
         // Множитель буфера. 1.0 — коридор маршрута; авто-докачка вокруг одной
         // точки использует ~4.0, чтобы одна точка дала осмысленную площадь.
         bufferScale: Double = 1.0,

@@ -60,6 +60,15 @@
         android:checked="true"
         android:textSize="13sp" />
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_map_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Bing Hybrid (спутник + подписи)"
+        android:checked="true"
+        android:textSize="13sp" />
+
     <Button
         android:id="@+id/btn_send_map"
         android:layout_width="match_parent"
