@@ -23,8 +23,13 @@ private const val USER_AGENT = "Garmiand/1.0 (https://github.com/serg-yalosovets
 // z/x/y): "{q}" → Bing quadkey, "{s}" → server 1..3. Scheme taken from SAS.Planet's
 // Bing_Sat_BE_H.zmp; https avoids Android's cleartext-http block.
 const val OSM_URL = "https://tile.openstreetmap.org/%d/%d/%d.png"
+// http (not https) on purpose: the Bing CDN is fronted by Akamai whose TLS cert
+// omits virtualearth.net from its SAN, so HTTPS fails Android's hostname check on
+// every tile. SAS.Planet fetches these over plain http too. Cleartext is permitted
+// for this domain only via res/xml/network_security_config.xml; everything else
+// (OSM etc.) stays https.
 const val BING_HYBRID_URL =
-    "https://ak.dynamic.t{s}.tiles.virtualearth.net/comp/ch/{q}?mkt=ru-RU&it=A,G,L&shading=hill&og=8&n=z"
+    "http://ak.dynamic.t{s}.tiles.virtualearth.net/comp/ch/{q}?mkt=ru-RU&it=A,G,L&shading=hill&og=8&n=z"
 // Active default source for all bundle builds.
 val DEFAULT_TILE_URL = BING_HYBRID_URL
 private const val SOURCE_TILE_SIZE = 256

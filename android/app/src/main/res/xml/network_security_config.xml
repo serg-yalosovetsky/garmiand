@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cleartext (http) is permitted ONLY for the Bing tile CDN. Its Akamai-fronted
+  TLS cert omits virtualearth.net from its SAN, so HTTPS fails Android's hostname
+  verification on every tile; SAS.Planet fetches these over http as well. All
+  other hosts (OSM, our backend, Loki) keep the default https-only policy.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">virtualearth.net</domain>
+    </domain-config>
+</network-security-config>
