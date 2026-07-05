@@ -107,8 +107,32 @@ class GarmiandApp extends App.AppBase {
         }
     }
 
+    // Apply an explicit online-mode value (from the Settings menu).
+    function setOnlineMode(v as Lang.Boolean) as Void {
+        _onlineMode = v;
+        try {
+            App.Properties.setValue("online_mode", _onlineMode);
+        } catch (e) {}
+        System.println("[App] onlineMode=" + _onlineMode);
+        if (_navView != null) {
+            (_navView as NavigationView).setOnlineMode(_onlineMode);
+        }
+    }
+
+    // Apply an explicit auto-fetch value (from the Settings menu).
+    function setAutoFetch(v as Lang.Boolean) as Void {
+        _autoFetchEnabled = v;
+        try {
+            App.Properties.setValue("auto_fetch", _autoFetchEnabled);
+        } catch (e) {}
+        System.println("[App] autoFetch=" + _autoFetchEnabled);
+    }
+
     function onStart(state) {
-        WatchUi.configureTouchEvents({:enabled => true});
+        // Touch events are configured from NavigationView.onShow(): the
+        // WatchUi.configureTouchEvents() API is only allowed while the app is
+        // in the foreground, and onStart() runs before the initial view is
+        // shown (calling it here throws an unhandled exception at startup).
         Communications.registerForPhoneAppMessages(method(:onPhoneMessage));
 
         loadSavedRoute();

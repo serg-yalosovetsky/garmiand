@@ -10,13 +10,14 @@ const BG_MODE_NATIVE = 0;
 const BG_MODE_TILES = 1;
 const BG_MODE_NONE = 2;
 
-// Interact sub-modes within BG_MODE_TILES (cycled by SELECT).
-// SELECT cycle: ZOOM → PAN_NS → PAN_WE → JUMP → exits TILES mode.
-// In JUMP mode: UP = center on GPS position, DOWN = center on route.
+// Interact sub-modes within BG_MODE_TILES, cycled by a single press of the
+// START (mode) button. Three modes only: ZOOM → PAN_NS → PAN_WE → (ZOOM).
+// UP/DOWN act per the active mode. Jump-to-GPS moved to a START double-press;
+// INTERACT_JUMP is kept only so the legacy handlers still compile.
 const INTERACT_ZOOM   = 0;   // UP = zoom in,   DOWN = zoom out
 const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
-const INTERACT_JUMP   = 3;   // UP = go to GPS,  DOWN = go to route
+const INTERACT_JUMP   = 3;   // (legacy) not part of the cycle anymore
 
 const APP_VERSION = "2026-07-02 dbg36";
 
@@ -143,6 +144,12 @@ class NavigationView extends WatchUi.View {
     }
 
     function onShow() as Void {
+        // Enable touch events now that we are in the foreground. This API is
+        // rejected when called before the app is shown (e.g. in App.onStart).
+        try {
+            WatchUi.configureTouchEvents({:enabled => true});
+        } catch (e) {
+        }
         if (_debugTimer == null) {
             var t = new Timer.Timer();
             t.start(method(:tickDebug), 250, true);
@@ -819,30 +826,22 @@ class NavigationView extends WatchUi.View {
         return _pendingBlob != null || _pendingZoomSwitch;
     }
 
-    // SELECT handler. In TILES mode cycles through interact sub-modes;
-    // 4th press (from JUMP) exits TILES. Outside TILES cycles bg mode.
-    // Cycle: ZOOM → NS → WE → JUMP → exit TILES
+    // START single-press handler. Keeps the tile map on screen and cycles the
+    // three interaction modes only: ZOOM → PAN_NS → PAN_WE → (ZOOM).
+    // If the map is not in TILES mode yet, the first press just enters it.
     function cycleMapMode() as Void {
-        if (_mapMode == BG_MODE_TILES) {
-            if (_interactMode == INTERACT_ZOOM) {
-                _interactMode = INTERACT_PAN_NS;
-            } else if (_interactMode == INTERACT_PAN_NS) {
-                _interactMode = INTERACT_PAN_WE;
-            } else if (_interactMode == INTERACT_PAN_WE) {
-                _interactMode = INTERACT_JUMP;
-            } else {
-                // INTERACT_JUMP — exit TILES mode back to plain black
-                _interactMode = INTERACT_ZOOM;
-                setMapModeAndPersist(BG_MODE_NATIVE);
-            }
-            System.println("[Map] interact=" + _interactMode + " zoom=" + _zoomFactor);
-            WatchUi.requestUpdate();
-        } else {
-            // Not in TILES — toggle into TILES
+        if (_mapMode != BG_MODE_TILES) {
             _interactMode = INTERACT_ZOOM;
             setMapModeAndPersist(BG_MODE_TILES);
-            System.println("[Map] mapMode=" + _mapMode);
+        } else if (_interactMode == INTERACT_ZOOM) {
+            _interactMode = INTERACT_PAN_NS;
+        } else if (_interactMode == INTERACT_PAN_NS) {
+            _interactMode = INTERACT_PAN_WE;
+        } else {
+            _interactMode = INTERACT_ZOOM;
         }
+        System.println("[Map] interact=" + _interactMode + " zoom=" + _zoomFactor);
+        WatchUi.requestUpdate();
     }
 
     // Center viewport on current GPS position (JUMP UP / BACK).
