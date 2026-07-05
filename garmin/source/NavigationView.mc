@@ -19,7 +19,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // (legacy) not part of the cycle anymore
 
-const APP_VERSION = "2026-07-05 dbg37";
+const APP_VERSION = "2026-07-05 dbg38";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -700,10 +700,12 @@ class NavigationView extends WatchUi.View {
         if (_screenW <= 0 || _screenH <= 0 || _palette == null) { return false; }
         try {
             if (_layerBmp == null) {
+                // No :palette here: a paletted render target does not reliably
+                // accept drawScaledBitmap of the tiles (blank result). The device
+                // native depth is already low-color, so memory stays modest.
                 _layerBmp = Graphics.createBufferedBitmap({
                     :width => _screenW,
                     :height => _screenH,
-                    :palette => _palette,
                 }).get() as Graphics.BufferedBitmap;
             }
         } catch (e) {
