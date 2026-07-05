@@ -197,22 +197,25 @@ class BleChunkAssembler {
             if (nN <= 0 || nN >= totN || szN <= 0 || cszN <= 0) {
                 return null;
             }
-            var blob = new [szN]b;
+            // Rebuild the blob in index order with native addAll() (C++), NOT a
+            // Monkey C per-byte copy — the old loop ran ~szN*4 bytecodes in one
+            // call and tripped the watchdog in onStart on large bundles, crashing
+            // the app on every launch while stale WIP sat in Storage. Missing
+            // chunks are zero-padded so received chunks keep their byte offsets.
+            var blob = new [0]b as Lang.ByteArray;
             var received = {} as Lang.Dictionary<Lang.Number, Lang.Boolean>;
             var rcvCount = 0;
             for (var i = 0; i < totN; i++) {
+                var expected = (i == totN - 1) ? (szN - i * cszN) : cszN;
+                if (expected < 0) { expected = 0; }
                 var chunkData = App.Storage.getValue("ble_wip_c_" + i);
-                if (!(chunkData instanceof Lang.ByteArray)) {
-                    continue;
+                if (chunkData instanceof Lang.ByteArray && (chunkData as Lang.ByteArray).size() == expected) {
+                    blob.addAll(chunkData as Lang.ByteArray);
+                    received.put(i, true);
+                    rcvCount++;
+                } else {
+                    blob.addAll(new [expected]b); // placeholder, filled on resume
                 }
-                var ch = chunkData as Lang.ByteArray;
-                var offset = i * cszN;
-                var chSize = ch.size();
-                for (var k = 0; k < chSize; k++) {
-                    blob[offset + k] = ch[k];
-                }
-                received.put(i, true);
-                rcvCount++;
             }
             if (rcvCount == 0) {
                 return null;
