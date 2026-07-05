@@ -79,6 +79,10 @@ class GarmiandApp extends App.AppBase {
     // Watch-side log lines queued for forwarding to the phone (→ Loki).
     var _logQueue as Lang.Array<Lang.String>;
     var _logTxBusy as Lang.Boolean;
+    // Timer value (ms) of the last message received from the phone. Log
+    // transmits pause near this so watch→phone traffic never collides with an
+    // in-flight phone→watch sync (which caused FAILURE_DURING_TRANSFER).
+    var _lastRxMs as Lang.Number;
 
     function initialize() {
         AppBase.initialize();
@@ -97,6 +101,7 @@ class GarmiandApp extends App.AppBase {
         _gpsTickCounter = 0;
         _logQueue = [] as Lang.Array<Lang.String>;
         _logTxBusy = false;
+        _lastRxMs = 0;
     }
 
     // Queue one line to forward to the phone. Cheap (array add + cap); the
@@ -114,6 +119,9 @@ class GarmiandApp extends App.AppBase {
     function flushWatchLog() as Void {
         if (_logTxBusy) { return; }
         if (_logQueue.size() == 0) { return; }
+        // Stay off the air while a phone→watch transfer is active (a message
+        // arrived < 3 s ago) so we never break a sync with a colliding transmit.
+        if (System.getTimer() - _lastRxMs < 3000) { return; }
         var n = _logQueue.size();
         if (n > 6) { n = 6; }
         var batch = _logQueue.slice(0, n) as Lang.Array<Lang.String>;
@@ -312,6 +320,7 @@ class GarmiandApp extends App.AppBase {
     }
 
     function onPhoneMessage(msg as Communications.PhoneAppMessage) as Void {
+        _lastRxMs = System.getTimer(); // pause watch-log tx around incoming traffic
         var data = msg.data;
         if (!(data instanceof Lang.Dictionary)) {
             return;
