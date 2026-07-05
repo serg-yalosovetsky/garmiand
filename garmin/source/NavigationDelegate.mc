@@ -99,7 +99,7 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
         if (_pendingSingle) {
             _btnTimer.stop();
             _pendingSingle = false;
-            _view.centerToGps();           // double press -> jump to GPS
+            _view.toggleGpsJump();         // double press -> stash/pop GPS jump
         } else {
             _pendingSingle = true;
             _btnTimer.stop();

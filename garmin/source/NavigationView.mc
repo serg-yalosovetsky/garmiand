@@ -19,7 +19,7 @@ const INTERACT_PAN_NS = 1;   // UP = pan north,  DOWN = pan south
 const INTERACT_PAN_WE = 2;   // UP = pan west,   DOWN = pan east
 const INTERACT_JUMP   = 3;   // (legacy) not part of the cycle anymore
 
-const APP_VERSION = "2026-07-05 dbg38";
+const APP_VERSION = "2026-07-05 dbg39";
 
 class DecodedTile {
     var bmp as Graphics.BufferedBitmap;
@@ -115,6 +115,14 @@ class NavigationView extends WatchUi.View {
     var _layerViewLon0 as Lang.Float;
     var _layerTileCount as Lang.Number;
 
+    // GPS-jump stash/pop state (START double-press toggles between the saved
+    // view and the current GPS position).
+    var _gpsJumpActive as Lang.Boolean;
+    var _savedPanLat as Lang.Float;
+    var _savedPanLon as Lang.Float;
+    var _savedZoomFactor as Lang.Float;
+    var _savedActiveZoom as Lang.Number;
+
     function initialize(route as RouteData) {
         View.initialize();
         _route = route;
@@ -163,6 +171,11 @@ class NavigationView extends WatchUi.View {
         _layerViewLat0 = 0.0f;
         _layerViewLon0 = 0.0f;
         _layerTileCount = -1;
+        _gpsJumpActive = false;
+        _savedPanLat = 0.0f;
+        _savedPanLon = 0.0f;
+        _savedZoomFactor = 1.0f;
+        _savedActiveZoom = 15;
         // NB: don't call loadBundle here — decodeAllTiles allocates BufferedBitmaps
         // via Graphics.createBufferedBitmap, which requires the view's graphics
         // context. That context isn't ready until onShow(). Calling it from
@@ -969,6 +982,29 @@ class NavigationView extends WatchUi.View {
         }
         System.println("[Map] interact=" + _interactMode + " zoom=" + _zoomFactor);
         WatchUi.requestUpdate();
+    }
+
+    // START double-press: stash/pop the current view around a GPS jump.
+    // 1st double-press: remember the current pan+zoom, then jump to GPS.
+    // 2nd double-press: restore the remembered view ("pop").
+    function toggleGpsJump() as Void {
+        if (!_gpsJumpActive) {
+            _savedPanLat = _panOffsetLat;
+            _savedPanLon = _panOffsetLon;
+            _savedZoomFactor = _zoomFactor;
+            _savedActiveZoom = _activeOsmZoom;
+            _gpsJumpActive = true;
+            centerToGps();
+            pushDebug("-> GPS");
+        } else {
+            _panOffsetLat = _savedPanLat;
+            _panOffsetLon = _savedPanLon;
+            _zoomFactor = _savedZoomFactor;
+            _gpsJumpActive = false;
+            checkZoomSwitch(); // restore zoom level if it changed at GPS
+            pushDebug("<- back");
+            WatchUi.requestUpdate();
+        }
     }
 
     // Center viewport on current GPS position (JUMP UP / BACK).
