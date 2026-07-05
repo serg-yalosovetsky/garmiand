@@ -6,19 +6,21 @@ package com.garmiand.map
  * [Palette.VERSION] AND match the watch-side decoder, otherwise old
  * bundles in Application.Storage decode to garbage.
  *
- * Layout: 4×4×4 RGB cube, evenly spaced. Index = (r << 4) | (g << 2) | b
- * where r/g/b are 0..3.
+ * Layout: 6×6×6 RGB cube, evenly spaced. Index = r*36 + g*6 + b where
+ * r/g/b are 0..5. 216 colors cost the same 1 byte/pixel as the old 64-color
+ * cube but banding is far lower — map labels stay legible after quantization.
  */
 object Palette {
-    const val SIZE = 64
-    const val VERSION = 1
+    const val SIZE = 216
+    const val VERSION = 2
 
-    /** Index 0..63 → packed 0xRRGGBB. */
+    private val LEVELS = intArrayOf(0, 51, 102, 153, 204, 255)
+
+    /** Index 0..215 → packed 0xRRGGBB. */
     val COLORS: IntArray = IntArray(SIZE).also { arr ->
-        val levels = intArrayOf(0, 85, 170, 255)
-        for (r in 0..3) for (g in 0..3) for (b in 0..3) {
-            arr[(r shl 4) or (g shl 2) or b] =
-                (levels[r] shl 16) or (levels[g] shl 8) or levels[b]
+        for (r in 0..5) for (g in 0..5) for (b in 0..5) {
+            arr[r * 36 + g * 6 + b] =
+                (LEVELS[r] shl 16) or (LEVELS[g] shl 8) or LEVELS[b]
         }
     }
 
@@ -39,18 +41,13 @@ object Palette {
         val r = (argb shr 16) and 0xFF
         val g = (argb shr 8) and 0xFF
         val b = argb and 0xFF
-        // 4×4×4 cube => quantize each channel to 0..3 by dividing by 64
-        // (255/3 ≈ 85 step → bucket boundaries at 42, 127, 212).
+        // 6×6×6 cube => quantize each channel to 0..5 (step 51, nearest level).
         val ri = quantizeChannel(r)
         val gi = quantizeChannel(g)
         val bi = quantizeChannel(b)
-        return (ri shl 4) or (gi shl 2) or bi
+        return ri * 36 + gi * 6 + bi
     }
 
-    private fun quantizeChannel(v: Int): Int = when {
-        v < 42 -> 0
-        v < 127 -> 1
-        v < 212 -> 2
-        else -> 3
-    }
+    /** Nearest of the 6 evenly spaced levels (step 51). */
+    private fun quantizeChannel(v: Int): Int = ((v + 25) / 51).coerceIn(0, 5)
 }

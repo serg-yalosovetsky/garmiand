@@ -229,21 +229,22 @@ object TileQuantizer {
      *
      * The watch picks exactly one of three levels to render, keyed off the
      * viewport zoom factor (NavigationView.checkZoomSwitch): zooms[0] when
-     * zoomed out, the level nearest z13 at normal scale, zooms.last() when
-     * zoomed in. So the set must be spread around z13 for all three buckets to
-     * resolve to distinct, useful levels.
+     * zoomed out, the level nearest the default target at normal scale,
+     * zooms.last() when zoomed in. The set is spread so all three buckets
+     * resolve to distinct, useful levels, and the default (mid) is a legible
+     * street zoom rather than a coarse overview.
      *
      * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx):
-     *   z11: buf=600m  cap=6   size=64  — wide overview; z11 tiles are ~20 km so a few cover any route
-     *   z13: buf=300m  cap=12  size=128 — town-level default view
-     *   z16: buf=150m  cap=12  size=128 — street/building detail for orientation when zoomed in
+     *   z13: buf=400m  cap=6   size=128 — town overview when zoomed out
+     *   z15: buf=250m  cap=10  size=128 — street-level DEFAULT view (nearest-15 bucket)
+     *   z17: buf=150m  cap=10  size=128 — fine detail; labels stay legible with the 216-color palette
      *
-     * Bundle blob estimate: 6×4KB + 12×16KB + 12×16KB ≈ 408 KB — fits in watch RAM for decode.
+     * Bundle blob estimate: 6×16KB + 10×16KB + 10×16KB ≈ 416 KB — fits in watch RAM for decode.
      * The watch decodes only one zoom level at a time (see NavigationView.checkZoomSwitch).
      */
     fun quantizeMultiZoom(
         points: List<RoutePoint>,
-        zooms: List<Int> = listOf(11, 13, 16),
+        zooms: List<Int> = listOf(13, 15, 17),
         urlTemplate: String = "https://tile.openstreetmap.org/%d/%d/%d.png",
         // Множитель буфера. 1.0 — коридор маршрута; авто-докачка вокруг одной
         // точки использует ~4.0, чтобы одна точка дала осмысленную площадь.
@@ -258,9 +259,9 @@ object TileQuantizer {
 
         for (zoom in zooms) {
             val (rawBuf, cap, size) = when (zoom) {
-                11 -> Triple(600.0, 6, 64)
-                16 -> Triple(150.0, 12, 128)
-                else -> Triple(300.0, 12, DEFAULT_TILE_OUTPUT)
+                13 -> Triple(400.0, 6, 128)
+                17 -> Triple(150.0, 10, 128)
+                else -> Triple(250.0, 10, DEFAULT_TILE_OUTPUT) // z15 default streets
             }
             val buf = rawBuf * bufferScale
             AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px")

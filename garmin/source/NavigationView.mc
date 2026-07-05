@@ -117,7 +117,7 @@ class NavigationView extends WatchUi.View {
         _pendingColIndex = 0;
         _currentTileBmp = null;
         _currentTileDc = null;
-        _activeOsmZoom = 13;
+        _activeOsmZoom = 15;
         _pendingZoomSwitch = false;
         _availableZooms = null;
         _debugQueue = [] as Lang.Array<Lang.String>;
@@ -257,8 +257,8 @@ class NavigationView extends WatchUi.View {
     }
 
     // Collect the sorted distinct zoom levels actually present in the bundle and
-    // pick the active zoom = nearest to 13 ("normal" level). Bundles from
-    // MapsCreator may carry any zoom set — never assume the z12/z13/z15 trio.
+    // pick the active zoom = nearest to 15 ("normal"/street level). Bundles from
+    // MapsCreator may carry any zoom set — never assume a fixed trio.
     function scanAvailableZooms(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
         var zooms = [] as Lang.Array<Lang.Number>;
         for (var i = 0; i < hdr.tileCount; i++) {
@@ -280,7 +280,7 @@ class NavigationView extends WatchUi.View {
             zooms[j + 1] = v;
         }
         _availableZooms = zooms;
-        _activeOsmZoom = nearestAvailableZoom(13);
+        _activeOsmZoom = nearestAvailableZoom(15);
         var zs = "";
         for (var i = 0; i < zooms.size(); i++) {
             zs = zs + (i > 0 ? "," : "") + (zooms[i] as Lang.Number).toString();
@@ -937,8 +937,8 @@ class NavigationView extends WatchUi.View {
     }
 
     // Map current _zoomFactor to an OSM zoom level and trigger a tile reload if changed.
-    // Thresholds: <0.5 → overview (lowest available), 0.5–3.0 → normal (nearest to 13),
-    // ≥3.0 → detail (highest available). Falls back to the fixed z11/z13/z16 trio when
+    // Thresholds: <0.5 → overview (lowest available), 0.5–3.0 → normal (nearest to 15),
+    // ≥3.0 → detail (highest available). Falls back to the fixed z13/z15/z17 trio when
     // no bundle is loaded yet. Sets _pendingZoomSwitch so the actual blob load happens
     // in onUpdate (larger watchdog budget).
     function checkZoomSwitch() as Void {
@@ -951,14 +951,14 @@ class NavigationView extends WatchUi.View {
             } else if (_zoomFactor <= 0.5f) {
                 newZoom = zooms[0] as Lang.Number;
             } else {
-                newZoom = nearestAvailableZoom(13);
+                newZoom = nearestAvailableZoom(15);
             }
         } else if (_zoomFactor >= 3.0f) {
-            newZoom = 16;
+            newZoom = 17;
         } else if (_zoomFactor <= 0.5f) {
-            newZoom = 11;
-        } else {
             newZoom = 13;
+        } else {
+            newZoom = 15;
         }
         if (newZoom == _activeOsmZoom) { return; }
         _activeOsmZoom = newZoom;

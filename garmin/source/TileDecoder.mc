@@ -30,7 +30,7 @@ const BUNDLE_MAGIC_0 = 0x47; // 'G'
 const BUNDLE_MAGIC_1 = 0x4D; // 'M'
 const BUNDLE_MAGIC_2 = 0x4E; // 'N'
 const BUNDLE_MAGIC_3 = 0x44; // 'D'
-const BUNDLE_VERSION = 1;
+const BUNDLE_VERSION = 2;
 const TILE_ENTRY_SIZE = 21;
 const HEADER_FIXED_SIZE = 24;
 
