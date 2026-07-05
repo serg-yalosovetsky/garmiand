@@ -221,6 +221,15 @@ class TileDecoder {
                 return null;
             }
             var nc = (numChunks as Lang.Number);
+            // Guard against OOM: the whole blob is assembled in RAM here, and
+            // addAll() growth peaks well above the final size. A bundle over ~12
+            // 16 KB chunks (~192 KB) blows the Fenix heap during load and crashes
+            // (and would crash-loop on every startup while it sits in Storage).
+            // Refuse it — a fresh, smaller bundle from the phone will replace it.
+            if (nc > 12) {
+                appLog("bundle too big (" + nc + " chunks) — skip load");
+                return null;
+            }
             // Use addAll() (native C++) instead of a Monkey C byte-copy loop —
             // the loop costs ~4 bytecodes per byte and trips the watchdog on bundles
             // larger than ~20 KB. addAll() is a single native call regardless of size.

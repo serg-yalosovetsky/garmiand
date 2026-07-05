@@ -235,12 +235,15 @@ object TileQuantizer {
      * street zoom rather than a coarse overview.
      *
      * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx):
-     *   z13: buf=400m  cap=6   size=128 — town overview when zoomed out
-     *   z15: buf=250m  cap=10  size=128 — street-level DEFAULT view (nearest-15 bucket)
-     *   z17: buf=150m  cap=10  size=128 — fine detail; labels stay legible with the 216-color palette
+     *   z13: buf=400m  cap=3   size=64  — town overview when zoomed out (small)
+     *   z15: buf=250m  cap=6   size=128 — street-level DEFAULT view (nearest-15 bucket)
+     *   z17: buf=150m  cap=3   size=128 — fine detail; labels legible with the 216-color palette
      *
-     * Bundle blob estimate: 6×16KB + 10×16KB + 10×16KB ≈ 416 KB — fits in watch RAM for decode.
-     * The watch decodes only one zoom level at a time (see NavigationView.checkZoomSwitch).
+     * Bundle blob estimate: 3×4KB + 6×16KB + 3×16KB ≈ 156 KB. The WHOLE blob is
+     * loaded into the Fenix heap at once (TileDecoder.load), and ByteArray.addAll
+     * growth peaks ~1.5× — a ~330 KB bundle OOM'd, so the total is kept ≲ 160 KB
+     * (≤ 12 storage chunks; the watch refuses anything larger). The watch still
+     * decodes only one zoom level at a time (see NavigationView.checkZoomSwitch).
      */
     fun quantizeMultiZoom(
         points: List<RoutePoint>,
@@ -259,9 +262,9 @@ object TileQuantizer {
 
         for (zoom in zooms) {
             val (rawBuf, cap, size) = when (zoom) {
-                13 -> Triple(400.0, 6, 128)
-                17 -> Triple(150.0, 10, 128)
-                else -> Triple(250.0, 10, DEFAULT_TILE_OUTPUT) // z15 default streets
+                13 -> Triple(400.0, 3, 64)
+                17 -> Triple(150.0, 3, 128)
+                else -> Triple(250.0, 6, DEFAULT_TILE_OUTPUT) // z15 default streets
             }
             val buf = rawBuf * bufferScale
             AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px")
