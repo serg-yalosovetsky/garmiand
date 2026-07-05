@@ -167,6 +167,11 @@ class NavigationView extends WatchUi.View {
     function pushDebug(msg as Lang.String) as Void {
         _debugQueue.add(msg);
         System.println("[DBG] " + msg);
+        // Forward to the phone (→ Loki) for off-device debugging.
+        var app = App.getApp();
+        if (app instanceof GarmiandApp) {
+            (app as GarmiandApp).enqueueWatchLog(msg);
+        }
         WatchUi.requestUpdate();
     }
 

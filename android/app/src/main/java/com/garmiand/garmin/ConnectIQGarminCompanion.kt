@@ -88,6 +88,15 @@ class ConnectIQGarminCompanion(private val context: Context) : GarminCompanion {
                             val msg = messages.firstOrNull()
                             if (msg is Map<*, *>) {
                                 AppLog.d(TAG, "watch→phone msg kind=${(msg as Map<*, *>)["kind"]}")
+                                // Watch-side log lines forwarded for Loki. Re-emit
+                                // through AppLog (tag "Watch") so they ship to Loki,
+                                // and don't bother the message listeners with them.
+                                if (msg["kind"] == "watch_log") {
+                                    (msg["lines"] as? List<*>)?.forEach { line ->
+                                        AppLog.i("Watch", line?.toString() ?: "")
+                                    }
+                                    return@registerForAppEvents
+                                }
                                 watchMessageListener?.invoke(msg)
                                 for (l in persistentListeners) {
                                     try { l(msg) } catch (e: Exception) {

@@ -13,11 +13,13 @@ using Toybox.WatchUi;
 function appLog(msg as Lang.String) as Void {
     var app = App.getApp();
     if (app instanceof GarmiandApp) {
-        var v = (app as GarmiandApp).getNavView();
+        var ga = app as GarmiandApp;
+        var v = ga.getNavView();
         if (v != null) {
             (v as NavigationView).pushDebug(msg); // pushDebug calls System.println itself
             return;
         }
+        ga.enqueueWatchLog(msg); // no view yet — still forward to phone (→ Loki)
     }
     System.println("[DBG] " + msg); // fallback: no view yet
 }
@@ -38,6 +40,18 @@ class NullConnectionListener extends Communications.ConnectionListener {
     function initialize() { Communications.ConnectionListener.initialize(); }
     function onComplete() as Void {}
     function onError() as Void {}
+}
+
+// Frees the watch-log transmit slot once a batch has been sent (or failed),
+// so flushWatchLog() never has more than one transmit in flight.
+class LogConnectionListener extends Communications.ConnectionListener {
+    function initialize() { Communications.ConnectionListener.initialize(); }
+    function onComplete() as Void { notifyDone(); }
+    function onError() as Void { notifyDone(); }
+    function notifyDone() as Void {
+        var app = App.getApp();
+        if (app instanceof GarmiandApp) { (app as GarmiandApp).onLogTxDone(); }
+    }
 }
 
 class GarmiandApp extends App.AppBase {
@@ -62,6 +76,9 @@ class GarmiandApp extends App.AppBase {
     var _autoFetchEnabled as Lang.Boolean;
     var _lastAutoFetchMs as Lang.Number;
     var _gpsTickCounter as Lang.Number;
+    // Watch-side log lines queued for forwarding to the phone (→ Loki).
+    var _logQueue as Lang.Array<Lang.String>;
+    var _logTxBusy as Lang.Boolean;
 
     function initialize() {
         AppBase.initialize();
@@ -78,6 +95,43 @@ class GarmiandApp extends App.AppBase {
         _autoFetchEnabled = readAutoFetchProperty();
         _lastAutoFetchMs = 0;
         _gpsTickCounter = 0;
+        _logQueue = [] as Lang.Array<Lang.String>;
+        _logTxBusy = false;
+    }
+
+    // Queue one line to forward to the phone. Cheap (array add + cap); the
+    // actual transmit happens from pollGps() so it never runs inside onUpdate.
+    function enqueueWatchLog(line as Lang.String) as Void {
+        _logQueue.add(line);
+        var n = _logQueue.size();
+        if (n > 40) {
+            _logQueue = _logQueue.slice(n - 40, n) as Lang.Array<Lang.String>;
+        }
+    }
+
+    // Called ~once per second from pollGps(). Sends one small batch to the
+    // phone (kind=watch_log) when the link is idle. One transmit in flight max.
+    function flushWatchLog() as Void {
+        if (_logTxBusy) { return; }
+        if (_logQueue.size() == 0) { return; }
+        var n = _logQueue.size();
+        if (n > 6) { n = 6; }
+        var batch = _logQueue.slice(0, n) as Lang.Array<Lang.String>;
+        _logQueue = _logQueue.slice(n, _logQueue.size()) as Lang.Array<Lang.String>;
+        _logTxBusy = true;
+        try {
+            Communications.transmit(
+                { "kind" => "watch_log", "v" => 1, "lines" => batch },
+                null,
+                new LogConnectionListener()
+            );
+        } catch (e) {
+            _logTxBusy = false;
+        }
+    }
+
+    function onLogTxDone() as Void {
+        _logTxBusy = false;
     }
 
     function readAutoFetchProperty() as Lang.Boolean {
@@ -183,6 +237,7 @@ class GarmiandApp extends App.AppBase {
     }
 
     function pollGps() as Void {
+        flushWatchLog();
         var info = Position.getInfo();
         applyPositionInfo(info, "poll");
     }
