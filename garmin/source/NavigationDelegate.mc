@@ -126,15 +126,17 @@ class NavigationDelegate extends WatchUi.BehaviorDelegate {
 
     // ---- Other inputs ----------------------------------------------------
 
-    // UP button: act per the active interaction mode.
+    // Physical UP/DOWN keys were inverted for every interaction mode (zoom,
+    // pan-NS, pan-WE), so the button→action mapping is swapped here: the key that
+    // fires onNextPage drives interactDown() and vice-versa. One swap fixes all
+    // three modes because interactUp/Down each branch on the active mode.
     function onNextPage() as Lang.Boolean {
-        _view.interactUp();
+        _view.interactDown();
         return true;
     }
 
-    // DOWN button: act per the active interaction mode.
     function onPreviousPage() as Lang.Boolean {
-        _view.interactDown();
+        _view.interactUp();
         return true;
     }
 
