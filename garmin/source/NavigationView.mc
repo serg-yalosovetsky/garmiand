@@ -1,6 +1,7 @@
 using Toybox.Application as App;
 using Toybox.Graphics;
 using Toybox.Lang;
+using Toybox.Math;
 using Toybox.Position;
 using Toybox.System;
 using Toybox.Timer;
@@ -355,9 +356,27 @@ class NavigationView extends WatchUi.View {
         _viewLon0 = (minLon - padLon).toFloat();
         _viewLon1 = (maxLon + padLon).toFloat();
         _viewSet = true;
-        _panOffsetLat = 0.0f;
-        _panOffsetLon = 0.0f;
-        _zoomFactor = 1.0f;
+
+        // Default to a READABLE window (~2.5 km) centred on the route start, not
+        // the whole-route fit — a long route squeezed into the screen makes the
+        // map/labels unreadably tiny. The viewport bbox stays the whole route, so
+        // zooming out still reveals the full route (coarse z13); zooming in / GPS
+        // follow keeps street detail. _zoomFactor scales the bbox down to ~2.5 km.
+        var midLat = (_viewLat0 + _viewLat1) * 0.5f;
+        var cosLat = Math.cos(midLat.toDouble() * Math.PI / 180.0).toFloat();
+        if (cosLat < 0.1f) { cosLat = 0.1f; }
+        var spanKmLat = (_viewLat0 - _viewLat1) * 111.0f;
+        var spanKmLon = (_viewLon1 - _viewLon0) * 111.0f * cosLat;
+        var biggerKm = spanKmLat > spanKmLon ? spanKmLat : spanKmLon;
+        var zf = biggerKm / 2.5f;
+        if (zf < 1.0f) { zf = 1.0f; }
+        if (zf > 16.0f) { zf = 16.0f; }
+        _zoomFactor = zf;
+        // Centre the initial view on the start marker ("S"), not the bbox centre.
+        var ctrLat = (_viewLat0 + _viewLat1) * 0.5f;
+        var ctrLon = (_viewLon0 + _viewLon1) * 0.5f;
+        _panOffsetLat = (_route.lats[0] - ctrLat).toFloat();
+        _panOffsetLon = (_route.lons[0] - ctrLon).toFloat();
         _routeNameUntilMs = System.getTimer() + 5000;
         checkZoomSwitch();
     }
