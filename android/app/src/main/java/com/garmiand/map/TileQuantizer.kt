@@ -46,7 +46,7 @@ data class QuantizedTile(
     val tileY: Int,
     val width: Int,
     val height: Int,
-    /** Column-major palette indices (one byte per pixel, value 0..63). */
+    /** v3 RLE block: [colTable w×u16][per-column (count,index) runs] (see quantizeBitmap). */
     val pixels: ByteArray,
 )
 
@@ -175,11 +175,18 @@ object TileQuantizer {
             }
         }
 
-        val sorted = tileCoords.sortedWith(compareBy({ it.second }, { it.first }))
-        val capped = if (sorted.size > maxTiles) {
-            AppLog.w(TAG, "corridor: ${sorted.size} tiles exceeds cap $maxTiles — truncating")
-            sorted.take(maxTiles)
-        } else sorted
+        // When the corridor exceeds the cap, keep the tiles CLOSEST to its centroid
+        // so the limited coverage lands where the user actually is — route middle on
+        // a full-route send, or the GPS point on an auto-fetch (single-point corridor).
+        // The old (y,x)-sort took a corner block, wasting most of the budget off-screen.
+        val capped = if (tileCoords.size > maxTiles) {
+            val cx = tileCoords.map { it.first }.average()
+            val cy = tileCoords.map { it.second }.average()
+            AppLog.w(TAG, "corridor: ${tileCoords.size} tiles exceeds cap $maxTiles — keeping $maxTiles nearest centre")
+            tileCoords.sortedBy { (tx, ty) ->
+                val dx = tx - cx; val dy = ty - cy; dx * dx + dy * dy
+            }.take(maxTiles)
+        } else tileCoords.sortedWith(compareBy({ it.second }, { it.first }))
         AppLog.i(TAG, "corridor: ${capped.size} tiles at z$zoom buffer=${bufferMeters.toInt()}m")
 
         val tiles = mutableListOf<QuantizedTile>()
@@ -202,20 +209,50 @@ object TileQuantizer {
         return QuantizedBundle(minLat = botLat, maxLat = topLat, minLon = leftLon, maxLon = rightLon, tiles = tiles)
     }
 
-    /** Convert ARGB bitmap to column-major palette indices (one byte per pixel). */
+    /**
+     * Quantize + RLE-encode a tile (wire format v3). Layout of the returned block:
+     *   [colTable: w × uint16 BE] — colTable[x] = byte offset (from block start) of
+     *                               column x's run data
+     *   [per-column runs]         — (count:uint8, index:uint8) pairs; sum of counts
+     *                               in a column = h (a run > 255 is split)
+     * Column-major with a per-column offset table so the watch keeps random column
+     * access for incremental decode. Runs shrink the blob a lot vs 1 byte/pixel
+     * (quantized map tiles have long same-colour runs), so more tiles fit the watch
+     * Storage budget. Decode is also cheaper: each run is one fillRectangle.
+     */
     private fun quantizeBitmap(bmp: Bitmap): ByteArray {
         val w = bmp.width
         val h = bmp.height
         val rowMajor = IntArray(w * h)
         bmp.getPixels(rowMajor, 0, w, 0, 0, w, h)
-        // Column-major: out[col * h + row] = palette index of input[row * w + col].
-        // The watch-side decoder reads in this order, see [TileDecoder.mc].
-        val out = ByteArray(w * h)
+
+        val colTableBytes = w * 2
+        val cols = ArrayList<ByteArray>(w)
+        val idxs = IntArray(h)
         for (col in 0 until w) {
-            for (row in 0 until h) {
-                val argb = rowMajor[row * w + col]
-                out[col * h + row] = Palette.nearest(argb).toByte()
+            for (row in 0 until h) idxs[row] = Palette.nearest(rowMajor[row * w + col])
+            val rle = ArrayList<Byte>()
+            var row = 0
+            while (row < h) {
+                val idx = idxs[row]
+                var run = 1
+                while (row + run < h && run < 255 && idxs[row + run] == idx) run++
+                rle.add(run.toByte())
+                rle.add(idx.toByte())
+                row += run
             }
+            cols.add(rle.toByteArray())
+        }
+
+        var total = colTableBytes
+        for (c in cols) total += c.size
+        val out = ByteArray(total)
+        var off = colTableBytes
+        for (col in 0 until w) {
+            out[col * 2] = ((off ushr 8) and 0xFF).toByte()
+            out[col * 2 + 1] = (off and 0xFF).toByte()
+            System.arraycopy(cols[col], 0, out, off, cols[col].size)
+            off += cols[col].size
         }
         return out
     }
@@ -290,20 +327,21 @@ object TileQuantizer {
      * street zoom rather than a coarse overview.
      *
      * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx, sharp=nearest-neighbour):
-     *   z13: buf=400m  cap=3   size=64   smooth — town overview when zoomed out (small)
-     *   z15: buf=250m  cap=6   size=128  sharp  — street DEFAULT view (256px native OOM'd the
+     *   z13: buf=400m  cap=6   size=64   smooth — overview, covers more of the route (cheap 64px)
+     *   z15: buf=250m  cap=9   size=128  sharp  — street DEFAULT view (256px native OOM'd the
      *          watch decode → back to 128px; nearest-neighbour still sharpens labels a bit)
-     *   z17: buf=150m  cap=3   size=128  sharp  — deep detail; nearest-neighbour keeps edges hard
+     *   (z17 deep-detail dropped by default — its budget went to z15 for wider street
+     *    coverage; add it back to `zooms` if fine detail is needed.)
      *
-     * Bundle blob estimate: 3×4KB + 6×16KB + 3×16KB ≈ 156 KB. The WHOLE blob is
-     * loaded into the Fenix heap at once (TileDecoder.load), and ByteArray.addAll
-     * growth peaks ~1.5× — a ~330 KB bundle OOM'd, so the total is kept ≲ 160 KB
-     * (≤ 12 storage chunks; the watch refuses anything larger). The watch still
-     * decodes only one zoom level at a time (see NavigationView.checkZoomSwitch).
+     * Bundle blob estimate: 6×4KB + 9×16KB ≈ 168 KB. The WHOLE blob is loaded into
+     * the Fenix heap at once (TileDecoder.load), and ByteArray.addAll growth peaks
+     * ~1.5× — a ~330 KB bundle OOM'd, so the total is kept ≲ 190 KB (≤ 12 storage
+     * chunks; the watch refuses anything larger). The watch still decodes only one
+     * zoom level at a time (see NavigationView.checkZoomSwitch).
      */
     fun quantizeMultiZoom(
         points: List<RoutePoint>,
-        zooms: List<Int> = listOf(13, 15, 17),
+        zooms: List<Int> = listOf(13, 15),
         urlTemplate: String = DEFAULT_TILE_URL,
         // Множитель буфера. 1.0 — коридор маршрута; авто-докачка вокруг одной
         // точки использует ~4.0, чтобы одна точка дала осмысленную площадь.
@@ -319,18 +357,16 @@ object TileQuantizer {
         for (zoom in zooms) {
             // (buffer, maxTiles, outputPx, sharpDownscale). Budget keeps the whole
             // blob ≤ ~192 KB (12×16 KB) so the watch load guard accepts it:
-            //   z13  3×4KB=12KB  ·  z15  2×64KB=128KB  ·  z17  2×16KB=32KB ≈ 172KB.
-            // z15 is the default street level (what the user actually reads), so it
-            // renders at native 256px (no downscale) with hard label edges. z13 is a
-            // coarse overview — smooth downscale is fine and cheap. Caps are the knob
-            // to trade coverage vs. clarity; raising any of them risks the 192KB wall.
+            //   z13  6×4KB=24KB  ·  z15  9×16KB=144KB  ≈ 168KB (z17 dropped by default).
+            // z15 is the default street level, so most of the budget goes there for
+            // wider coverage; z13 gives a cheap coarse overview when zoomed out. Caps
+            // are the knob to trade coverage vs. RAM; raising them risks the 192KB wall.
             val (rawBuf, cap, size, sharp) = when (zoom) {
-                13 -> ZoomPlan(400.0, 3, 64, false)   // overview: smooth 256→64
-                17 -> ZoomPlan(150.0, 3, 128, true)   // deep detail: sharp 256→128
-                // z15 streets: 128px. NOT native 256 — 256px tiles OOM'd / stalled
-                // the Fenix 7 decode (stuck "dec", no map). Nearest-neighbour still
-                // sharpens labels a bit without the memory cost.
-                else -> ZoomPlan(250.0, 6, DEFAULT_TILE_OUTPUT, true)
+                13 -> ZoomPlan(400.0, 6, 64, false)   // overview: cover more of the route (cheap 64px)
+                17 -> ZoomPlan(150.0, 3, 128, true)   // deep detail (only if z17 explicitly requested)
+                // z15 streets: 128px (256px native OOM'd the decode). cap 9 = wider
+                // coverage around the corridor centroid; nearest-neighbour keeps labels.
+                else -> ZoomPlan(250.0, 9, DEFAULT_TILE_OUTPUT, true)
             }
             val buf = rawBuf * bufferScale
             AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px sharp=$sharp")

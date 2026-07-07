@@ -30,7 +30,7 @@ const BUNDLE_MAGIC_0 = 0x47; // 'G'
 const BUNDLE_MAGIC_1 = 0x4D; // 'M'
 const BUNDLE_MAGIC_2 = 0x4E; // 'N'
 const BUNDLE_MAGIC_3 = 0x44; // 'D'
-const BUNDLE_VERSION = 2;
+const BUNDLE_VERSION = 3; // v3: per-tile pixel block is column-major RLE (see fillTileColumns)
 const TILE_ENTRY_SIZE = 21;
 const HEADER_FIXED_SIZE = 24;
 
@@ -362,26 +362,30 @@ class TileDecoder {
         startCol as Lang.Number,
         numCols as Lang.Number
     ) as Void {
+        // v3 RLE: pixel block = [colTable: w × uint16 BE][per-column (count,index)
+        // runs]. colTable[x] (at base + x*2) is column x's run-data offset from the
+        // block start. Each run maps to one fillRectangle — cheaper than the old
+        // per-pixel scan, and fewer iterations (runs ≤ h) keeps the watchdog happy.
         var w = entry.width;
         var h = entry.height;
-        var off = entry.pixelOffset;
+        var base = entry.pixelOffset;
         var palSize = palette.size();
+        var blobSize = blob.size();
         var endCol = startCol + numCols;
         if (endCol > w) { endCol = w; }
         for (var x = startCol; x < endCol; x++) {
-            var colBase = off + x * h;
-            var runStart = 0;
-            var runIdx = blob[colBase] & 0xFF;
-            if (runIdx >= palSize) { runIdx = 0; }
-            for (var y = 1; y <= h; y++) {
-                var curIdx = (y < h) ? (blob[colBase + y] & 0xFF) : -1;
-                if (curIdx >= palSize) { curIdx = 0; }
-                if (curIdx != runIdx) {
-                    bdc.setColor(palette[runIdx], Graphics.COLOR_TRANSPARENT);
-                    bdc.fillRectangle(x, runStart, 1, y - runStart);
-                    runStart = y;
-                    runIdx = curIdx;
-                }
+            var t = base + x * 2;
+            var colOff = base + (((blob[t] & 0xFF) << 8) | (blob[t + 1] & 0xFF));
+            var y = 0;
+            while (y < h && colOff + 1 < blobSize) {
+                var count = blob[colOff] & 0xFF;
+                var idx = blob[colOff + 1] & 0xFF;
+                colOff += 2;
+                if (count <= 0) { break; }
+                if (idx >= palSize) { idx = 0; }
+                bdc.setColor(palette[idx], Graphics.COLOR_TRANSPARENT);
+                bdc.fillRectangle(x, y, 1, count);
+                y += count;
             }
         }
     }

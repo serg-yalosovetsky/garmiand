@@ -29,7 +29,9 @@ import java.nio.ByteOrder
  *   17    4   pixelLength (uint32)
  */
 object TileBundleSerializer {
-    const val VERSION = 2
+    // v3: per-tile pixel block is RLE (see TileQuantizer.quantizeBitmap) instead of
+    // raw 1 byte/pixel — smaller blobs, watch decodes runs directly.
+    const val VERSION = 3
     private const val HEADER_FIXED_SIZE = 24
     private const val TILE_ENTRY_SIZE = 21
     private const val MAGIC: Int = 0x474D4E44 // 'G','M','N','D'
