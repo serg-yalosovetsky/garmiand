@@ -392,3 +392,50 @@ class NullConnectionListener extends Communications.ConnectionListener {
 
 Pass `new NullConnectionListener()` as the third argument. This class lives
 in `GarmiandApp.mc`. Never pass `null` for any typed CIQ parameter.
+
+## Map tiles render as a purple wash / wrong colors (216-color palette)
+
+**Symptom.** On fenix7 the raster map (TILES mode) renders in a purple/violet
+cast — structure is visible but colors are wrong. Introduced by commit
+`069543a` "Path B: 216-color palette".
+
+**Cause.** fenix7/fenix7x are **64-color MIP displays**. `map/Palette.kt` was
+changed to a 216-color (6×6×6) cube. `Graphics.createBufferedBitmap({:palette})`
+has **undefined behaviour when the palette exceeds the device's color count** —
+the index→color mapping corrupts, producing the purple wash. (This is also why
+`6299e2e` had to drop the palette from the composited layer buffer to "fix blank
+map" — same root cause, different symptom.)
+
+**Fix.** Keep the palette ≤ 64 entries: revert to the 4×4×4 cube (levels
+0/85/170/255, index `(r<<4)|(g<<2)|b`). The watch reads the palette dynamically
+from the blob, so no watch change is needed — only the phone must emit ≤64
+colors. 216 colors gave *zero* visual benefit anyway: the display shows 64.
+
+**Corollary — label legibility ≠ palette size.** Path B added 216 colors to make
+labels legible; that never worked (display is 64-color). Legibility is bounded by
+**tile resolution**, not palette: the 256→128 bilinear downscale averages 1px
+label strokes into the background before quantization. Fix labels via native
+256px tiles (no downscale) and nearest-neighbour resampling at street zoom, not
+more palette colors. See `TileQuantizer.quantizeMultiZoom` (z15 = native 256).
+
+## "Too Many Timers Error" crash during a map sync
+
+**Symptom.** Watch crashes with `Error: Too Many Timers Error` (CIQ_LOG.YML) while
+a map bundle is being sent (BLE). No file/line — native symbols only.
+
+**Cause.** `GarmiandApp.armBleStallTimer()` did `new Timer.Timer()` on **every
+received BLE chunk** (`processPendingTileChunk` calls it per chunk). A sync of
+10–20 chunks allocated 10–20 Timer objects in quick succession; `stop()` doesn't
+free the underlying system-timer slot synchronously (freed on GC), so rapid
+re-arm exhausted the CIQ timer pool. Compounded by an always-on 250 ms
+`_debugTimer` in NavigationView holding another slot.
+
+**Fix.** Minimise concurrent timers and never churn `new Timer.Timer()`:
+- `_bleStallTimer` is allocated **once** in `onStart()` and reused — arm/disarm
+  just `stop()`/`start()` the same instance (never `new`, never nulled).
+- Removed the dedicated `_debugTimer`; `tickDebug()` is now called from
+  `onUpdate()` (pushDebug already requests a frame). No always-on debug slot.
+
+Result: at most 3 active timers (gps + button + bleStall), no per-chunk churn.
+**Rule of thumb: allocate each Timer.Timer once as a field and reuse via
+stop()/start(); do not `new` a timer on a hot path.**
