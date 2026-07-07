@@ -61,7 +61,12 @@ class GarmiandApp extends App.AppBase {
     var _gpsTimer as Timer.Timer?;
     var _navView as NavigationView?;
     var _bleChunkAssembler as BleChunkAssembler?;
-    var _bleStallTimer as Timer.Timer?;
+    // BLE-stall detection WITHOUT a dedicated timer: the deadline (System.getTimer
+    // ms) after which an in-flight transfer is considered stalled. 0 = no active
+    // transfer. Checked once per second from pollGps(). A reused one-shot Timer
+    // here fired immediately on re-arm (CIQ quirk) and reset the assembler every
+    // few ms, so the bundle never finished — hence the timestamp approach.
+    var _bleStallDeadlineMs as Lang.Number;
     var _onlineMode as Lang.Boolean;
     // chunked HTTPS download state
     var _dlBuffer as Lang.ByteArray?;
@@ -107,6 +112,7 @@ class GarmiandApp extends App.AppBase {
         _logBuf = [] as Lang.Array<Lang.String>;
         _logTxBusy = false;
         _lastRxMs = 0;
+        _bleStallDeadlineMs = 0;
         _logDirty = false;
         _dumpPending = false;
         _dumpIdx = 0;
@@ -293,6 +299,7 @@ class GarmiandApp extends App.AppBase {
     }
 
     function pollGps() as Void {
+        checkBleStall();
         serviceLog();
         var info = Position.getInfo();
         applyPositionInfo(info, "poll");
@@ -669,25 +676,24 @@ class GarmiandApp extends App.AppBase {
         }
     }
 
+    // Arm the stall watchdog: (re)set the 10 s deadline. Called on each accepted
+    // chunk. No Timer object — checkBleStall() (from pollGps, 1 s) does the firing.
     function armBleStallTimer() as Void {
-        if (_bleStallTimer != null) {
-            (_bleStallTimer as Timer.Timer).stop();
-            _bleStallTimer = null;
-        }
-        var t = new Timer.Timer();
-        t.start(method(:onBleStallTimeout), 10000, false);
-        _bleStallTimer = t;
+        _bleStallDeadlineMs = System.getTimer() + 10000;
     }
 
+    // Transfer finished / cancelled — disable the stall check.
     function disarmBleStallTimer() as Void {
-        if (_bleStallTimer != null) {
-            (_bleStallTimer as Timer.Timer).stop();
-            _bleStallTimer = null;
-        }
+        _bleStallDeadlineMs = 0;
     }
 
-    function onBleStallTimeout() as Void {
-        _bleStallTimer = null;
+    // Polled once per second from pollGps(). Resets a stalled assembler after the
+    // deadline passes (10 s with no new chunk), then disables itself.
+    function checkBleStall() as Void {
+        if (_bleStallDeadlineMs == 0 || System.getTimer() < _bleStallDeadlineMs) {
+            return;
+        }
+        _bleStallDeadlineMs = 0;
         if (_bleChunkAssembler == null) {
             return;
         }
