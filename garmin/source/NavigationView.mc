@@ -21,38 +21,14 @@ const INTERACT_JUMP   = 3;   // (legacy) not part of the cycle anymore
 
 const APP_VERSION = "2026-07-05 dbg39";
 
-class DecodedTile {
-    var bmp as Graphics.BufferedBitmap;
-    var zoom as Lang.Number;
-    var tileX as Lang.Number;
-    var tileY as Lang.Number;
-
-    function initialize(b as Graphics.BufferedBitmap, z as Lang.Number, tx as Lang.Number, ty as Lang.Number) {
-        bmp = b;
-        zoom = z;
-        tileX = tx;
-        tileY = ty;
-    }
-}
-
 class NavigationView extends WatchUi.View {
     var _route as RouteData;
     var _mapMode as Lang.Number;
     var _bundleId as Lang.String?;
     var _bundleHeader as BundleHeader?;
     var _palette as Lang.Array<Lang.Number>?;
-    var _decodedTiles as Lang.Array<DecodedTile>?;
-
-    // Incremental tile decode state. After loadBundle() parses the header,
-    // these fields drive column-by-column decoding inside onUpdate().
-    // Each onUpdate() call processes COLS_PER_FRAME columns of the current tile.
-    // _pendingEntries holds only the tiles for _activeOsmZoom (filtered in prepareDecode).
-    var _pendingBlob as Lang.ByteArray?;
-    var _pendingEntries as Lang.Array?;
-    var _pendingTileIndex as Lang.Number;
-    var _pendingColIndex as Lang.Number;
-    var _currentTileBmp as Graphics.BufferedBitmap?;
-    var _currentTileDc as Graphics.Dc?;
+    // Tile decode + composited-layer rendering (state + methods live in TileRenderer).
+    var _tiles as TileRenderer;
 
     // Active OSM zoom level. checkZoomSwitch() maps _zoomFactor → OSM zoom and
     // triggers switchToActiveZoom(). Levels come from the bundle itself
@@ -69,11 +45,11 @@ class NavigationView extends WatchUi.View {
     var _bundleLoadAttempted as Lang.Boolean;
 
     // On-screen debug log. pushDebug() enqueues a message; tickDebug()
-    // (timer-driven) pops one per second so each is visible at least 1 s.
+    // (driven from onUpdate, no dedicated timer) pops one per second so each is
+    // visible at least 1 s.
     var _debugQueue as Lang.Array<Lang.String>;
     var _debugCurrent as Lang.String?;
     var _debugUntilMs as Lang.Number;
-    var _debugTimer as Timer.Timer?;
 
     // Route name is shown for 5 s after applyRoute(), then hidden.
     // 0 = hidden; >0 = System.getTimer() deadline.
@@ -98,23 +74,6 @@ class NavigationView extends WatchUi.View {
     // Zoom: >1 = zoomed in (viewport shrunk), <1 = zoomed out. Reset with pan.
     var _zoomFactor as Lang.Float;
 
-    // Composited tile layer cache. The decoded tiles are drawn (scaled) ONCE into
-    // a single screen-sized BufferedBitmap; subsequent frames blit that buffer with
-    // a pixel offset so panning shifts the map "in one piece" instead of re-scaling
-    // every tile each frame. Recomposited only when zoom/zoomFactor/viewport change
-    // or the pan drifts past half a screen. Falls back to direct per-tile scaling if
-    // the buffer can't be allocated — so it can never make things worse than before.
-    var _layerBmp as Graphics.BufferedBitmap?;
-    var _layerValid as Lang.Boolean;
-    var _layerDisabled as Lang.Boolean; // set once if buffer alloc ever fails
-    var _layerZoom as Lang.Number;
-    var _layerZoomFactor as Lang.Float;
-    var _layerPanLat as Lang.Float;
-    var _layerPanLon as Lang.Float;
-    var _layerViewLat0 as Lang.Float;
-    var _layerViewLon0 as Lang.Float;
-    var _layerTileCount as Lang.Number;
-
     // GPS-jump stash/pop state (START double-press toggles between the saved
     // view and the current GPS position).
     var _gpsJumpActive as Lang.Boolean;
@@ -130,25 +89,18 @@ class NavigationView extends WatchUi.View {
         _bundleId = readLastBundleIdProperty();
         _bundleHeader = null;
         _palette = null;
-        _decodedTiles = null;
+        _tiles = new TileRenderer(self);
         _currentLat = 0.0f;
         _currentLon = 0.0f;
         _isOffRoute = false;
         _onlineMode = true;
         _bundleLoadAttempted = false;
-        _pendingBlob = null;
-        _pendingEntries = null;
-        _pendingTileIndex = 0;
-        _pendingColIndex = 0;
-        _currentTileBmp = null;
-        _currentTileDc = null;
         _activeOsmZoom = 15;
         _pendingZoomSwitch = false;
         _availableZooms = null;
         _debugQueue = [] as Lang.Array<Lang.String>;
         _debugCurrent = null;
         _debugUntilMs = 0;
-        _debugTimer = null;
         _routeNameUntilMs = 0;
         _viewLat0 = 0.0f;
         _viewLat1 = 0.0f;
@@ -161,16 +113,6 @@ class NavigationView extends WatchUi.View {
         _panOffsetLon = 0.0f;
         _interactMode = INTERACT_ZOOM;
         _zoomFactor = 1.0f;
-        _layerBmp = null;
-        _layerValid = false;
-        _layerDisabled = false;
-        _layerZoom = -1;
-        _layerZoomFactor = 0.0f;
-        _layerPanLat = 0.0f;
-        _layerPanLon = 0.0f;
-        _layerViewLat0 = 0.0f;
-        _layerViewLon0 = 0.0f;
-        _layerTileCount = -1;
         _gpsJumpActive = false;
         _savedPanLat = 0.0f;
         _savedPanLon = 0.0f;
@@ -190,18 +132,11 @@ class NavigationView extends WatchUi.View {
             WatchUi.configureTouchEvents({:enabled => true});
         } catch (e) {
         }
-        if (_debugTimer == null) {
-            var t = new Timer.Timer();
-            t.start(method(:tickDebug), 250, true);
-            _debugTimer = t;
-        }
+        // No dedicated debug timer: tickDebug() is driven from onUpdate() so we
+        // never hold an always-on 250 ms Timer slot (keep active timers minimal).
     }
 
     function onHide() as Void {
-        if (_debugTimer != null) {
-            (_debugTimer as Timer.Timer).stop();
-            _debugTimer = null;
-        }
     }
 
     function pushDebug(msg as Lang.String) as Void {
@@ -250,21 +185,8 @@ class NavigationView extends WatchUi.View {
         }
     }
 
-    function clearDecodedTiles() as Void {
-        _decodedTiles = null;
-        _pendingBlob = null;
-        _pendingEntries = null;
-        _pendingTileIndex = 0;
-        _pendingColIndex = 0;
-        _currentTileBmp = null;
-        _currentTileDc = null;
-        // Invalidate the composited layer; keep the buffer allocated for reuse.
-        _layerValid = false;
-        _layerTileCount = -1;
-    }
-
     function loadBundle(bundleId as Lang.String) as Void {
-        clearDecodedTiles();
+        _tiles.clear();
         pushDebug("load: " + bundleId.substring(0, 8));
         var blob = TileDecoder.load(bundleId);
         if (blob == null) {
@@ -296,7 +218,7 @@ class NavigationView extends WatchUi.View {
             scanAvailableZooms(blob, hdr);
             applyBundleViewportIfNeeded(hdr);
             try {
-                prepareDecode(blob, hdr);
+                _tiles.prepareDecode(blob, hdr);
             } catch (e) {
                 pushDebug("prepareDecode EX: " + e.getErrorMessage());
             }
@@ -369,93 +291,6 @@ class NavigationView extends WatchUi.View {
         pushDebug("view from bundle bbox");
     }
 
-    // Phase 1 of tile decode: parse entries filtered to _activeOsmZoom.
-    // Sets up _pendingBlob/_pendingEntries so onUpdate() can decode one tile per frame.
-    function prepareDecode(blob as Lang.ByteArray, hdr as BundleHeader) as Void {
-        _pendingBlob = null;
-        _pendingEntries = null;
-        _decodedTiles = [] as Lang.Array<DecodedTile>;
-        if (hdr.tileCount == 0 || _palette == null) {
-            return;
-        }
-        var entries = [] as Lang.Array;
-        for (var i = 0; i < hdr.tileCount; i++) {
-            var entry = TileDecoder.parseTileEntry(blob, hdr, i);
-            if (entry.zoom == _activeOsmZoom) {
-                entries.add(entry);
-            }
-        }
-        if (entries.size() == 0) {
-            pushDebug("no z" + _activeOsmZoom + " tiles");
-            return;
-        }
-        _pendingEntries = entries;
-        _pendingBlob = blob;
-        _pendingTileIndex = 0;
-        pushDebug("z" + _activeOsmZoom + " " + entries.size() + "/" + hdr.tileCount + "t");
-    }
-
-    // Phase 2: column-by-column tile decode. Called from onUpdate() until done.
-    // Processes COLS_PER_FRAME columns per call to stay under the watchdog budget.
-    // Operates on _pendingEntries which contains only the _activeOsmZoom tiles.
-    function decodeNextTile() as Void {
-        if (_pendingBlob == null || _pendingEntries == null || _palette == null) {
-            return;
-        }
-        var entries = _pendingEntries as Lang.Array;
-        var tileCount = entries.size();
-        if (_pendingTileIndex >= tileCount) {
-            _pendingBlob = null;
-            return;
-        }
-        var entry = entries[_pendingTileIndex] as TileEntry;
-
-        // Allocate BufferedBitmap for the current tile if not yet done.
-        if (_currentTileBmp == null) {
-            try {
-                _currentTileBmp = Graphics.createBufferedBitmap({
-                    :width => entry.width,
-                    :height => entry.height,
-                    :palette => _palette,
-                }).get() as Graphics.BufferedBitmap;
-                _currentTileDc = (_currentTileBmp as Graphics.BufferedBitmap).getDc();
-            } catch (e) {
-                pushDebug("bmp fail: " + e.getErrorMessage());
-                _pendingTileIndex++;
-                _pendingColIndex = 0;
-                return;
-            }
-            _pendingColIndex = 0;
-        }
-
-        // Fill COLS_PER_FRAME columns into the current bitmap's DC.
-        TileDecoder.fillTileColumns(
-            _pendingBlob as Lang.ByteArray,
-            entry,
-            _palette as Lang.Array<Lang.Number>,
-            _currentTileDc as Graphics.Dc,
-            _pendingColIndex,
-            8 // columns per frame — keep iterations ≤ 8*h ≈ 1024
-        );
-        _pendingColIndex += 8;
-
-        if (_pendingColIndex >= entry.width) {
-            // Tile complete — add to decoded list.
-            if (_decodedTiles == null) { _decodedTiles = [] as Lang.Array<DecodedTile>; }
-            (_decodedTiles as Lang.Array<DecodedTile>).add(
-                new DecodedTile(_currentTileBmp as Graphics.BufferedBitmap, entry.zoom, entry.tileX, entry.tileY)
-            );
-            _currentTileBmp = null;
-            _currentTileDc = null;
-            _pendingColIndex = 0;
-            _pendingTileIndex++;
-            if (_pendingTileIndex >= tileCount) {
-                _pendingBlob = null;
-                _pendingEntries = null;
-                pushDebug("z" + _activeOsmZoom + " " + tileCount + "t ok");
-            }
-        }
-    }
 
     function readMapModeProperty() as Lang.Number {
         try {
@@ -559,7 +394,7 @@ class NavigationView extends WatchUi.View {
         } else {
             _bundleHeader = null;
             _palette = null;
-            clearDecodedTiles();
+            _tiles.clear();
         }
         WatchUi.requestUpdate();
     }
@@ -567,6 +402,7 @@ class NavigationView extends WatchUi.View {
     function onUpdate(dc as Graphics.Dc) as Void {
         _screenW = dc.getWidth();
         _screenH = dc.getHeight();
+        tickDebug(); // rotate the on-screen debug band (no dedicated timer)
 
         var app = App.getApp();
         if (app instanceof GarmiandApp) {
@@ -583,9 +419,9 @@ class NavigationView extends WatchUi.View {
         }
 
         // Incremental decode: one tile per frame to stay within watchdog budget.
-        if (_pendingBlob != null) {
-            decodeNextTile();
-            if (_pendingBlob != null) {
+        if (_tiles.isDecoding()) {
+            _tiles.decodeNextTile();
+            if (_tiles.isDecoding()) {
                 WatchUi.requestUpdate(); // more tiles remaining
             }
         }
@@ -594,207 +430,24 @@ class NavigationView extends WatchUi.View {
         // without a route) we still render TILES. Waiting screen only when
         // there is neither a route nor a viewable bundle.
         if (!_route.isComplete && !_viewSet) {
-            drawWaitingScreen(dc);
+            MapOverlays.drawWaitingScreen(dc, self);
             return;
         }
 
         dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
         dc.clear();
         if (_mapMode == BG_MODE_TILES) {
-            drawCustomTiles(dc);
+            _tiles.drawCustomTiles(dc);
         }
         // BG_MODE_NATIVE is no longer rendered by MapView (sim crashes); we
         // draw a plain black background and the same overlay everywhere.
-        drawPolylineOverlay(dc);
-        drawWaypointOverlay(dc);
-        drawPositionOverlay(dc);
+        MapOverlays.drawPolyline(dc, self);
+        MapOverlays.drawWaypoints(dc, self);
+        MapOverlays.drawPosition(dc, self);
 
-        drawTopBand(dc);
-        drawDebugLine(dc);
-        drawOffRouteBannerIfNeeded(dc);
-    }
-
-    // Web Mercator: tile row ty at zoom (n = 2^zoom) → latitude of the tile's north edge.
-    function tileYToLat(ty as Lang.Number, n as Lang.Number) as Lang.Float {
-        var yFrac = Math.PI * (1.0 - 2.0 * ty.toDouble() / n.toDouble());
-        var ex = Math.pow(Math.E, yFrac).toFloat();
-        var sinhVal = (ex - 1.0f / ex) * 0.5f;
-        return Math.toDegrees(Math.atan(sinhVal.toDouble())).toFloat();
-    }
-
-    // Returns [screenX, screenY, screenW, screenH] for a decoded tile, or null.
-    // Tiles are positioned via geographic projection, not pixel offsets, so they
-    // render at the correct scale regardless of zoom level or viewport size.
-    function tileScreenRect(t as DecodedTile) as Lang.Array<Lang.Number>? {
-        var n = 1 << t.zoom;
-        var lonNW = t.tileX.toFloat() / n.toFloat() * 360.0f - 180.0f;
-        var lonSE = (t.tileX + 1).toFloat() / n.toFloat() * 360.0f - 180.0f;
-        var latNW = tileYToLat(t.tileY, n);
-        var latSE = tileYToLat(t.tileY + 1, n);
-        var nw = projectPoint(latNW, lonNW);
-        var se = projectPoint(latSE, lonSE);
-        if (nw == null || se == null) { return null; }
-        var sw = se[0] - nw[0];
-        var sh = se[1] - nw[1];
-        if (sw <= 0 || sh <= 0) { return null; }
-        return [nw[0], nw[1], sw, sh] as Lang.Array<Lang.Number>;
-    }
-
-    function drawCustomTiles(dc as Graphics.Dc) as Void {
-        var tiles = _decodedTiles;
-        if (tiles == null || tiles.size() == 0 || !_viewSet) { return; }
-
-        // Fast path: reuse the composited layer and just shift it by the pan delta
-        // (move the map "in one piece"). ensureLayer() returns false when the
-        // buffer is unavailable/disabled, in which case we fall back to direct draw.
-        if (!_layerDisabled && ensureLayer(tiles)) {
-            var off = layerBlitOffset();
-            dc.drawBitmap(off[0], off[1], _layerBmp as Graphics.BufferedBitmap);
-            return;
-        }
-        drawTilesDirect(dc, tiles);
-    }
-
-    // Direct per-tile scaled draw into an arbitrary Dc (screen or the layer buffer).
-    function drawTilesDirect(dc as Graphics.Dc, tiles as Lang.Array<DecodedTile>) as Void {
-        for (var i = 0; i < tiles.size(); i++) {
-            var t = tiles[i] as DecodedTile;
-            var r = tileScreenRect(t);
-            if (r == null) { continue; }
-            dc.drawScaledBitmap(r[0], r[1], r[2], r[3], t.bmp);
-        }
-    }
-
-    // Pixel offset to blit the composited layer at, given how far the pan has
-    // drifted from the pan the layer was composited at. Derived from projectPoint:
-    // +panLon shifts content left, +panLat shifts content down.
-    function layerBlitOffset() as Lang.Array<Lang.Number> {
-        var halfLat = (_viewLat0 - _viewLat1) * 0.5f / _zoomFactor;
-        var halfLon = (_viewLon1 - _viewLon0) * 0.5f / _zoomFactor;
-        var dx = 0;
-        var dy = 0;
-        if (halfLon != 0.0f) {
-            dx = (-(_panOffsetLon - _layerPanLon) / (halfLon * 2.0f) * _screenW).toNumber();
-        }
-        if (halfLat != 0.0f) {
-            dy = ((_panOffsetLat - _layerPanLat) / (halfLat * 2.0f) * _screenH).toNumber();
-        }
-        return [dx, dy] as Lang.Array<Lang.Number>;
-    }
-
-    // Ensure a valid composited layer exists for the current view. Returns true if
-    // _layerBmp can be blitted (possibly with a pan offset), false to fall back.
-    function ensureLayer(tiles as Lang.Array<DecodedTile>) as Lang.Boolean {
-        var stale = !_layerValid
-            || _layerBmp == null
-            || _layerZoom != _activeOsmZoom
-            || _layerZoomFactor != _zoomFactor
-            || _layerViewLat0 != _viewLat0
-            || _layerViewLon0 != _viewLon0
-            || _layerTileCount != tiles.size();
-        if (!stale) {
-            // Reuse as long as the pan drift stays within half a screen; beyond
-            // that the exposed black margin gets too big, so recomposite instead.
-            var off = layerBlitOffset();
-            var adx = off[0] < 0 ? -off[0] : off[0];
-            var ady = off[1] < 0 ? -off[1] : off[1];
-            if (adx <= _screenW / 2 && ady <= _screenH / 2) {
-                return true;
-            }
-        }
-        return compositeLayer(tiles);
-    }
-
-    // (Re)draw all decoded tiles into the screen-sized layer buffer once, recording
-    // the pan/zoom/view state it represents. Allocates the buffer lazily; on any
-    // allocation failure it disables the cache for the session and returns false so
-    // the caller degrades to direct drawing (never worse than the pre-cache path).
-    function compositeLayer(tiles as Lang.Array<DecodedTile>) as Lang.Boolean {
-        if (_screenW <= 0 || _screenH <= 0 || _palette == null) { return false; }
-        try {
-            if (_layerBmp == null) {
-                // No :palette here: a paletted render target does not reliably
-                // accept drawScaledBitmap of the tiles (blank result). The device
-                // native depth is already low-color, so memory stays modest.
-                _layerBmp = Graphics.createBufferedBitmap({
-                    :width => _screenW,
-                    :height => _screenH,
-                }).get() as Graphics.BufferedBitmap;
-            }
-        } catch (e) {
-            _layerBmp = null;
-            _layerDisabled = true;
-            pushDebug("layer off: " + e.getErrorMessage());
-            return false;
-        }
-        if (_layerBmp == null) { _layerDisabled = true; return false; }
-        var ldc = (_layerBmp as Graphics.BufferedBitmap).getDc();
-        ldc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        ldc.clear();
-        drawTilesDirect(ldc, tiles);
-        _layerPanLat = _panOffsetLat;
-        _layerPanLon = _panOffsetLon;
-        _layerZoom = _activeOsmZoom;
-        _layerZoomFactor = _zoomFactor;
-        _layerViewLat0 = _viewLat0;
-        _layerViewLon0 = _viewLon0;
-        _layerTileCount = tiles.size();
-        _layerValid = true;
-        return true;
-    }
-
-    function drawCenterText(dc as Graphics.Dc, text as Lang.String, color as Lang.Number) as Void {
-        var w = dc.getWidth();
-        var h = dc.getHeight();
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, h / 2, Graphics.FONT_XTINY, text, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
-    // Place diagnostic text above center so the GPS dot doesn't sit on top of it.
-    function drawTopText(dc as Graphics.Dc, text as Lang.String, color as Lang.Number) as Void {
-        var w = dc.getWidth();
-        var h = dc.getHeight();
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, h / 4, Graphics.FONT_TINY, text, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
-
-    // Yellow band under the title showing the most recent debug message.
-    // tickDebug() rotates _debugCurrent at most once per second so each
-    // event is readable on screen.
-    function drawDebugLine(dc as Graphics.Dc) as Void {
-        if (_debugCurrent == null) { return; }
-        var w = dc.getWidth();
-        var bandH = topBandH(dc);
-        var th = dc.getFontHeight(Graphics.FONT_XTINY);
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillRectangle(0, bandH, w, th + 4);
-        dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-        var queued = _debugQueue.size();
-        var suffix = queued > 0 ? "  +" + queued : "";
-        dc.drawText(w / 2, bandH + 2, Graphics.FONT_XTINY, (_debugCurrent as Lang.String) + suffix, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
-    function drawWaitingScreen(dc as Graphics.Dc) as Void {
-        var w = dc.getWidth();
-        var h = dc.getHeight();
-        var cx = w / 2;
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.clear();
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, h / 2 - 25, Graphics.FONT_MEDIUM, "Garmiand", Graphics.TEXT_JUSTIFY_CENTER);
-        var statusText;
-        if (_route.expectedChunkCount > 0) {
-            var pct = (_route.receivedChunkCount * 100 / _route.expectedChunkCount).toString() + "%";
-            statusText = "Syncing " + pct;
-        } else {
-            statusText = "Waiting...";
-        }
-        dc.drawText(cx, h / 2 + 10, Graphics.FONT_SMALL, statusText, Graphics.TEXT_JUSTIFY_CENTER);
-        var vth = dc.getFontHeight(Graphics.FONT_XTINY);
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(cx, (h * 4) / 5 - vth / 2, Graphics.FONT_XTINY, "v " + APP_VERSION, Graphics.TEXT_JUSTIFY_CENTER);
-        drawDebugLine(dc);
+        MapOverlays.drawTopBand(dc, self);
+        MapOverlays.drawDebugLine(dc, self);
+        MapOverlays.drawOffRoute(dc, self);
     }
 
     // Project a (lat, lon) to screen coords using the tracked viewport + pan offset + zoom.
@@ -813,146 +466,6 @@ class NavigationView extends WatchUi.View {
         return [x, y] as Lang.Array<Lang.Number>;
     }
 
-    function drawPolylineOverlay(dc as Graphics.Dc) as Void {
-        var pts = _route.lats.size();
-        if (pts < 2) {
-            return;
-        }
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        var prev = projectPoint(_route.lats[0], _route.lons[0]);
-        for (var i = 1; i < pts; i++) {
-            var cur = projectPoint(_route.lats[i], _route.lons[i]);
-            if (prev != null && cur != null) {
-                dc.drawLine(prev[0], prev[1], cur[0], cur[1]);
-            }
-            prev = cur;
-        }
-    }
-
-    function drawWaypointOverlay(dc as Graphics.Dc) as Void {
-        var cnt = _route.markerLats.size();
-        for (var i = 0; i < cnt; i++) {
-            var pt = projectPoint(_route.markerLats[i], _route.markerLons[i]);
-            if (pt == null) { continue; }
-            var x = pt[0];
-            var y = pt[1];
-            var title = _route.markerTitles[i];
-            if ("Start".equals(title)) {
-                dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-                dc.fillCircle(x, y, 6);
-                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                dc.drawCircle(x, y, 6);
-                dc.drawText(x + 8, y - 8, Graphics.FONT_TINY, "S", Graphics.TEXT_JUSTIFY_LEFT);
-            } else if ("Finish".equals(title)) {
-                dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-                dc.fillRectangle(x - 6, y - 6, 12, 12);
-                dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                dc.drawRectangle(x - 6, y - 6, 12, 12);
-                dc.drawText(x + 8, y - 8, Graphics.FONT_TINY, "F", Graphics.TEXT_JUSTIFY_LEFT);
-            } else {
-                dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
-                dc.fillCircle(x, y, 4);
-            }
-        }
-    }
-
-    function drawPositionOverlay(dc as Graphics.Dc) as Void {
-        if (_currentLat == 0.0f && _currentLon == 0.0f) {
-            return;
-        }
-        var pt = projectPoint(_currentLat, _currentLon);
-        if (pt == null) { return; }
-        dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
-        dc.fillCircle(pt[0], pt[1], 6);
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawCircle(pt[0], pt[1], 6);
-    }
-
-    // Height of the top band. Full (~50px) only while route name is on screen
-    // (5s after applyRoute); compact (~26px) otherwise so the map shows through.
-    function topBandH(dc as Graphics.Dc) as Lang.Number {
-        if (_routeNameUntilMs > 0) {
-            return dc.getFontHeight(Graphics.FONT_TINY) + 26;
-        }
-        return dc.getFontHeight(Graphics.FONT_XTINY) + 10;
-    }
-
-    function drawTopBand(dc as Graphics.Dc) as Void {
-        var w = dc.getWidth();
-        var bh = topBandH(dc);
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillRectangle(0, 0, w, bh);
-
-        // Mode line at y=4 — only in TILES mode
-        if (_mapMode == BG_MODE_TILES) {
-            var im = (_interactMode == INTERACT_PAN_NS) ? "NS"
-                   : (_interactMode == INTERACT_PAN_WE) ? "WE"
-                   : (_interactMode == INTERACT_JUMP)   ? "JMP" : "ZOOM";
-            var have = _decodedTiles != null && (_decodedTiles as Lang.Array).size() > 0;
-            var dec = _pendingBlob != null;
-            var zStatus = dec ? "dec" : (have ? "ok" : "-");
-            var modeLabel = im + " z" + _activeOsmZoom.toString() + " " + zStatus;
-            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(w / 2, 4, Graphics.FONT_XTINY, modeLabel, Graphics.TEXT_JUSTIFY_CENTER);
-        }
-
-        // Route name — visible for 5 s after applyRoute()
-        if (_routeNameUntilMs > 0) {
-            var name = _route.routeName != null ? _route.routeName : "Route";
-            var fitted = fitText(dc, name, Graphics.FONT_TINY, w - 80);
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(w / 2, 20, Graphics.FONT_TINY, fitted, Graphics.TEXT_JUSTIFY_CENTER);
-        }
-
-        // BLE indicator. When band is compact (no route name), y=20 keeps us inside the
-        // circle (boundary at y=20 is x≈199; dot centre at w-70=190 + r5 = 195 < 199).
-        // When full band, original w-38 at y≈46 is safe (boundary ≈229 there).
-        var showName = _routeNameUntilMs > 0;
-        var dotX = showName ? (w - 38) : (w - 70);
-        var dotY = showName ? (bh - 4) : 20;
-        if (_onlineMode) {
-            dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_TRANSPARENT);
-            dc.fillCircle(dotX, dotY, 5);
-        } else {
-            dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-            dc.drawCircle(dotX, dotY, 5);
-            dc.drawLine(dotX - 4, dotY - 4, dotX + 4, dotY + 4);
-        }
-    }
-
-    function drawOffRouteBannerIfNeeded(dc as Graphics.Dc) as Void {
-        if (!_isOffRoute) { return; }
-        var w = dc.getWidth();
-        var h = dc.getHeight();
-        var text = "OFF ROUTE";
-        var font = Graphics.FONT_XTINY;
-        var tw = dc.getTextWidthInPixels(text, font);
-        var th = dc.getFontHeight(font);
-        var pad = 4;
-        var modeBadgeH = th + 10;
-        var by = h - th - modeBadgeH - 4;
-        var bx = (w - tw) / 2 - pad;
-        dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-        dc.fillRectangle(bx, by, tw + pad * 2, th + 4);
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(w / 2, by + 2, font, text, Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
-    function fitText(dc as Graphics.Dc, text as Lang.String, font as Graphics.FontType, maxW as Lang.Number) as Lang.String {
-        if (dc.getTextWidthInPixels(text, font) <= maxW) {
-            return text;
-        }
-        var ellipsis = "...";
-        var n = text.length();
-        while (n > 1) {
-            n = n - 1;
-            var candidate = text.substring(0, n) + ellipsis;
-            if (dc.getTextWidthInPixels(candidate, font) <= maxW) {
-                return candidate;
-            }
-        }
-        return ellipsis;
-    }
 
     function getMapMode() as Lang.Number {
         return _mapMode;
@@ -963,7 +476,7 @@ class NavigationView extends WatchUi.View {
     }
 
     function isDecodePending() as Lang.Boolean {
-        return _pendingBlob != null || _pendingZoomSwitch;
+        return _tiles.isDecoding() || _pendingZoomSwitch;
     }
 
     // START single-press handler. Keeps the tile map on screen and cycles the
@@ -1132,7 +645,7 @@ class NavigationView extends WatchUi.View {
     // Reload the stored bundle blob and re-run prepareDecode filtered to _activeOsmZoom.
     // Called from onUpdate() to avoid watchdog issues in event-handler callbacks.
     function switchToActiveZoom() as Void {
-        clearDecodedTiles();
+        _tiles.clear();
         if (_bundleId == null || _bundleHeader == null || _palette == null) {
             pushDebug("z" + _activeOsmZoom + " not ready");
             return;
@@ -1143,7 +656,7 @@ class NavigationView extends WatchUi.View {
             return;
         }
         try {
-            prepareDecode(blob, _bundleHeader as BundleHeader);
+            _tiles.prepareDecode(blob, _bundleHeader as BundleHeader);
         } catch (e) {
             pushDebug("zswitch EX: " + e.getErrorMessage());
         }
