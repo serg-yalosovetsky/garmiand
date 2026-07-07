@@ -2,24 +2,29 @@ package com.garmiand.map
 
 /**
  * Fixed 64-color palette shared between phone (this file) and watch
- * (parsePalette in TileDecoder.mc). Any change here must bump
- * [Palette.VERSION] AND match the watch-side decoder, otherwise old
- * bundles in Application.Storage decode to garbage.
+ * (parsePalette in TileDecoder.mc). Any change here must match the watch-side
+ * decoder, otherwise old bundles in Application.Storage decode to garbage.
  *
- * Layout: 6×6×6 RGB cube, evenly spaced. Index = r*36 + g*6 + b where
- * r/g/b are 0..5. 216 colors cost the same 1 byte/pixel as the old 64-color
- * cube but banding is far lower — map labels stay legible after quantization.
+ * Layout: 4×4×4 RGB cube, evenly spaced (levels = 0/85/170/255 per channel).
+ * Index = (r shl 4) or (g shl 2) or b where r/g/b are 0..3.
+ *
+ * ⚠️ Keep this at 64 entries. Target devices fenix7/fenix7x are 64-color MIP
+ * displays; Graphics.createBufferedBitmap has *undefined behaviour* when the
+ * palette exceeds the device's color count. A 216-color (6×6×6) cube — tried in
+ * "Path B" for legibility — rendered every tile as a purple wash (corrupted
+ * index→color mapping) because the watch can only show 64 colors anyway. Label
+ * legibility must be solved via tile resolution / source, not palette size.
  */
 object Palette {
-    const val SIZE = 216
+    const val SIZE = 64
     const val VERSION = 2
 
-    private val LEVELS = intArrayOf(0, 51, 102, 153, 204, 255)
+    private val LEVELS = intArrayOf(0, 85, 170, 255)
 
-    /** Index 0..215 → packed 0xRRGGBB. */
+    /** Index 0..63 → packed 0xRRGGBB. */
     val COLORS: IntArray = IntArray(SIZE).also { arr ->
-        for (r in 0..5) for (g in 0..5) for (b in 0..5) {
-            arr[r * 36 + g * 6 + b] =
+        for (r in 0..3) for (g in 0..3) for (b in 0..3) {
+            arr[(r shl 4) or (g shl 2) or b] =
                 (LEVELS[r] shl 16) or (LEVELS[g] shl 8) or LEVELS[b]
         }
     }
@@ -41,13 +46,14 @@ object Palette {
         val r = (argb shr 16) and 0xFF
         val g = (argb shr 8) and 0xFF
         val b = argb and 0xFF
-        // 6×6×6 cube => quantize each channel to 0..5 (step 51, nearest level).
-        val ri = quantizeChannel(r)
-        val gi = quantizeChannel(g)
-        val bi = quantizeChannel(b)
-        return ri * 36 + gi * 6 + bi
+        return (quantizeChannel(r) shl 4) or (quantizeChannel(g) shl 2) or quantizeChannel(b)
     }
 
-    /** Nearest of the 6 evenly spaced levels (step 51). */
-    private fun quantizeChannel(v: Int): Int = ((v + 25) / 51).coerceIn(0, 5)
+    /** Nearest of the 4 evenly spaced levels (0/85/170/255); thresholds at midpoints. */
+    private fun quantizeChannel(v: Int): Int = when {
+        v < 43 -> 0
+        v < 128 -> 1
+        v < 213 -> 2
+        else -> 3
+    }
 }

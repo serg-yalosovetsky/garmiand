@@ -58,6 +58,14 @@ data class QuantizedBundle(
     val tiles: List<QuantizedTile>,
 )
 
+/** Per-zoom fetch plan for [TileQuantizer.quantizeMultiZoom] (destructured inline). */
+private data class ZoomPlan(
+    val bufferMeters: Double,
+    val maxTiles: Int,
+    val outputPx: Int,
+    val sharpDownscale: Boolean,
+)
+
 object TileQuantizer {
 
     /** Pick a single zoom that keeps the route in a manageable tile grid. */
@@ -144,6 +152,11 @@ object TileQuantizer {
         urlTemplate: String = DEFAULT_TILE_URL,
         outputSize: Int = DEFAULT_TILE_OUTPUT,
         maxTiles: Int = MAX_CORRIDOR_TILES,
+        // Bilinear (true) averages neighbours — smooth for heavy overview
+        // downscale, but blurs thin label strokes into the background. Set false
+        // (nearest-neighbour) at street/detail zooms to keep label edges hard.
+        // Ignored when outputSize == SOURCE_TILE_SIZE (no scaling happens).
+        filterDownscale: Boolean = true,
     ): QuantizedBundle {
         require(points.isNotEmpty()) { "No route points" }
 
@@ -173,7 +186,7 @@ object TileQuantizer {
         for ((tx, ty) in capped) {
             val bmp = fetchTile(urlTemplate, zoom, tx, ty) ?: continue
             val resized = if (bmp.width == outputSize && bmp.height == outputSize) bmp
-                else Bitmap.createScaledBitmap(bmp, outputSize, outputSize, true)
+                else Bitmap.createScaledBitmap(bmp, outputSize, outputSize, filterDownscale)
                     .also { if (it !== bmp) bmp.recycle() }
             val pixels = quantizeBitmap(resized)
             resized.recycle()
@@ -276,10 +289,11 @@ object TileQuantizer {
      * resolve to distinct, useful levels, and the default (mid) is a legible
      * street zoom rather than a coarse overview.
      *
-     * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx):
-     *   z13: buf=400m  cap=3   size=64  — town overview when zoomed out (small)
-     *   z15: buf=250m  cap=6   size=128 — street-level DEFAULT view (nearest-15 bucket)
-     *   z17: buf=150m  cap=3   size=128 — fine detail; labels legible with the 216-color palette
+     * Per-level settings (buf=bufferMeters, cap=maxTiles, size=outputPx, sharp=nearest-neighbour):
+     *   z13: buf=400m  cap=3   size=64   smooth — town overview when zoomed out (small)
+     *   z15: buf=250m  cap=6   size=128  sharp  — street DEFAULT view (256px native OOM'd the
+     *          watch decode → back to 128px; nearest-neighbour still sharpens labels a bit)
+     *   z17: buf=150m  cap=3   size=128  sharp  — deep detail; nearest-neighbour keeps edges hard
      *
      * Bundle blob estimate: 3×4KB + 6×16KB + 3×16KB ≈ 156 KB. The WHOLE blob is
      * loaded into the Fenix heap at once (TileDecoder.load), and ByteArray.addAll
@@ -303,15 +317,25 @@ object TileQuantizer {
         var maxLon = -Double.MAX_VALUE
 
         for (zoom in zooms) {
-            val (rawBuf, cap, size) = when (zoom) {
-                13 -> Triple(400.0, 3, 64)
-                17 -> Triple(150.0, 3, 128)
-                else -> Triple(250.0, 6, DEFAULT_TILE_OUTPUT) // z15 default streets
+            // (buffer, maxTiles, outputPx, sharpDownscale). Budget keeps the whole
+            // blob ≤ ~192 KB (12×16 KB) so the watch load guard accepts it:
+            //   z13  3×4KB=12KB  ·  z15  2×64KB=128KB  ·  z17  2×16KB=32KB ≈ 172KB.
+            // z15 is the default street level (what the user actually reads), so it
+            // renders at native 256px (no downscale) with hard label edges. z13 is a
+            // coarse overview — smooth downscale is fine and cheap. Caps are the knob
+            // to trade coverage vs. clarity; raising any of them risks the 192KB wall.
+            val (rawBuf, cap, size, sharp) = when (zoom) {
+                13 -> ZoomPlan(400.0, 3, 64, false)   // overview: smooth 256→64
+                17 -> ZoomPlan(150.0, 3, 128, true)   // deep detail: sharp 256→128
+                // z15 streets: 128px. NOT native 256 — 256px tiles OOM'd / stalled
+                // the Fenix 7 decode (stuck "dec", no map). Nearest-neighbour still
+                // sharpens labels a bit without the memory cost.
+                else -> ZoomPlan(250.0, 6, DEFAULT_TILE_OUTPUT, true)
             }
             val buf = rawBuf * bufferScale
-            AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px")
+            AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px sharp=$sharp")
             val bundle = try {
-                quantizeCorridor(points, bufferMeters = buf, zoom = zoom, urlTemplate = urlTemplate, outputSize = size, maxTiles = cap)
+                quantizeCorridor(points, bufferMeters = buf, zoom = zoom, urlTemplate = urlTemplate, outputSize = size, maxTiles = cap, filterDownscale = !sharp)
             } catch (e: Exception) {
                 AppLog.w(TAG, "quantizeMultiZoom z$zoom failed: ${e.message}")
                 continue
