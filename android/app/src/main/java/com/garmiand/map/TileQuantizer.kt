@@ -364,9 +364,12 @@ object TileQuantizer {
             val (rawBuf, cap, size, sharp) = when (zoom) {
                 13 -> ZoomPlan(400.0, 6, 64, false)   // overview: cover more of the route (cheap 64px)
                 17 -> ZoomPlan(150.0, 3, 128, true)   // deep detail (only if z17 explicitly requested)
-                // z15 streets: 128px (256px native OOM'd the decode). cap 9 = wider
-                // coverage around the corridor centroid; nearest-neighbour keeps labels.
-                else -> ZoomPlan(250.0, 9, DEFAULT_TILE_OUTPUT, true)
+                // z15 streets: 128px (256px native OOM'd the decode). cap 30 covers
+                // most of the corridor at street detail. Safe only because TileRenderer
+                // (#6) decodes ONLY the ≤8 tiles nearest screen centre — the other tiles
+                // stay as undecoded metadata, so RAM is blob + 8 bitmaps, not all tiles.
+                // HTTPS-only: a 30-tile bundle (~380KB) exceeds the ~160KB BLE-safe size.
+                else -> ZoomPlan(250.0, 30, DEFAULT_TILE_OUTPUT, true)
             }
             val buf = rawBuf * bufferScale
             AppLog.i(TAG, "quantizeMultiZoom: z$zoom buf=${buf.toInt()}m cap=$cap size=${size}px sharp=$sharp")

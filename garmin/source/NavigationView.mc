@@ -372,11 +372,13 @@ class NavigationView extends WatchUi.View {
         if (zf < 1.0f) { zf = 1.0f; }
         if (zf > 16.0f) { zf = 16.0f; }
         _zoomFactor = zf;
-        // Centre the initial view on the start marker ("S"), not the bbox centre.
-        var ctrLat = (_viewLat0 + _viewLat1) * 0.5f;
-        var ctrLon = (_viewLon0 + _viewLon1) * 0.5f;
-        _panOffsetLat = (_route.lats[0] - ctrLat).toFloat();
-        _panOffsetLon = (_route.lons[0] - ctrLon).toFloat();
+        // Keep the view centred on the bbox centre (pan 0) — that's where the
+        // corridor tiles cluster (A+B keeps the cap nearest the centroid ≈ route
+        // middle). Centring on the route START instead put the initial view over an
+        // area with NO tiles on a long route → blank map. The GPS-jump / pan still
+        // let the user move to the start; auto-fetch brings tiles as they walk.
+        _panOffsetLat = 0.0f;
+        _panOffsetLon = 0.0f;
         _routeNameUntilMs = System.getTimer() + 5000;
         checkZoomSwitch();
     }

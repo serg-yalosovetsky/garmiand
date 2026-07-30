@@ -13,6 +13,7 @@ android/.idea/
 android/local.properties
 
 # Garmin SDK build output
+garmin/build/
 garmin/dist/
 garmin/gen/
 *.prg

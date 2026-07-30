@@ -130,6 +130,11 @@ class MainActivity : AppCompatActivity() {
         btnSend.setOnClickListener { sendRoute() }
         btnSendMap.setOnClickListener { sendExternalBundle() }
         btnProbeBle.setOnClickListener { probeBleChunkSize() }
+        findViewById<Button>(R.id.btn_watch_logs).setOnClickListener {
+            AppLog.i(TAG, "Requesting watch logs (button) → get_logs")
+            GarminLink.requestWatchLogs(this)
+            Toast.makeText(this, "Запрошены логи с часов…", Toast.LENGTH_SHORT).show()
+        }
         findViewById<Button>(R.id.btn_clear_log).setOnClickListener { AppLog.clear() }
         findViewById<Button>(R.id.btn_copy_log).setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -382,6 +387,13 @@ class MainActivity : AppCompatActivity() {
             AppLog.i(TAG, "tile_session bundleId=$contentBundleId ack ok=${ack.ok} reason=${ack.reason}")
             if (ack.ok) MapSendStatus.HTTPS_OK else MapSendStatus.FAILED
         } catch (e: MapBundleUploadError) {
+            // BLE stalls hard above ~160 KB (chunk assembler resets on gaps and loses
+            // progress), so a big HTTPS-sized bundle must NOT fall back to BLE — it
+            // would loop forever delivering only fragments. Fail loudly instead.
+            if (bundle.size > 160 * 1024) {
+                AppLog.e(TAG, "HTTPS upload failed (${e.message}); bundle ${bundle.size}B too big for BLE — NOT falling back")
+                return MapSendStatus.FAILED
+            }
             AppLog.w(TAG, "HTTPS upload failed (${e.message}) — falling back to BLE")
             sendBundleViaBle(bundle)
         }

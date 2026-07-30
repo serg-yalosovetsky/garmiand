@@ -81,8 +81,15 @@
         android:id="@+id/btn_probe_ble"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:text="Probe BLE chunk size" />
+
+    <Button
+        android:id="@+id/btn_watch_logs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Запросить логи с часов" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
