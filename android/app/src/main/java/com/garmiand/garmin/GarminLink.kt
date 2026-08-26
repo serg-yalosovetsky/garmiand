@@ -82,6 +82,9 @@ object GarminLink {
     private fun registerResponder(context: Context, companion: ConnectIQGarminCompanion) {
         if (!responderRegistered.compareAndSet(false, true)) return
         val appCtx = context.applicationContext
+        // Склад заранее скачанных тайлов нужен и фоновому пути: авто-докачка
+        // случается в движении, где связь как раз и пропадает.
+        com.garmiand.map.TileQuantizer.ensureStore(appCtx)
         val responder = MapRequestResponder(
             companion = companion,
             backendUrl = BuildConfig.BACKEND_URL,

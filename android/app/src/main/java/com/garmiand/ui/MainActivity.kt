@@ -89,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Склад заранее скачанных тайлов открываем сразу: так в логе видно, что
+        // и откуда подхватилось, ещё до первой отправки карты.
+        TileQuantizer.ensureStore(this)
+
         val logFilter = IntentFilter("com.garmiand.GET_WATCH_LOGS")
         if (Build.VERSION.SDK_INT >= 33) {
             registerReceiver(logRequestReceiver, logFilter, Context.RECEIVER_EXPORTED)
@@ -342,6 +346,10 @@ class MainActivity : AppCompatActivity() {
 
         val src = com.garmiand.map.MapSourcePrefs.urlTemplate(this)
         AppLog.i(TAG, "Quantizing multi-zoom corridor for ${route.points.size} pts src=${com.garmiand.map.MapSourcePrefs.label(this)}")
+        // Заранее скачанные тайлы берутся раньше сети — быстрее, и работает там,
+        // где связи нет.
+        TileQuantizer.ensureStore(this)
+        TileQuantizer.resetStoreStats()
         val quantized = try {
             TileQuantizer.quantizeMultiZoom(route.points, urlTemplate = src)
         } catch (e: Exception) {
@@ -353,7 +361,12 @@ class MainActivity : AppCompatActivity() {
             return MapSendStatus.FAILED
         }
         val blob = TileBundleSerializer.serialize(quantized)
-        AppLog.i(TAG, "Bundle ready: ${quantized.tiles.size} tiles, ${blob.size}B mode=${if (onlineMode) "HTTPS" else "BLE"}")
+        val (fromStore, fromNet) = TileQuantizer.storeStats()
+        AppLog.i(
+            TAG,
+            "Bundle ready: ${quantized.tiles.size} tiles, ${blob.size}B " +
+                "mode=${if (onlineMode) "HTTPS" else "BLE"} (склад $fromStore, сеть $fromNet)",
+        )
 
         return if (onlineMode) {
             uploadAndAnnounce(blob)

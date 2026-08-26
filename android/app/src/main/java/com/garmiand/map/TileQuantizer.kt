@@ -1,5 +1,6 @@
 package com.garmiand.map
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.garmiand.domain.RoutePoint
@@ -283,7 +284,55 @@ object TileQuantizer {
         }
     }
 
+    /**
+     * Склад заранее скачанных тайлов. Подключается один раз при старте
+     * ([com.garmiand.map.TileStoreRegistry.open]); null — склада нет, всё идёт
+     * из сети, как раньше.
+     */
+    @Volatile
+    private var tileStore: TileStoreRegistry? = null
+
+    private var fromStore = 0
+    private var fromNetwork = 0
+
+    fun attachStore(store: TileStoreRegistry?) {
+        tileStore = store
+        AppLog.i(TAG, "склад тайлов: ${store?.describe() ?: "не подключён"}")
+    }
+
+    /**
+     * Открыть склад, если ещё не открыт. Идемпотентно и потому зовётся из обоих
+     * путей: ручной отправки и фонового авто-fetch — второй стартует без
+     * MainActivity, так что полагаться на её onCreate нельзя.
+     */
+    @Synchronized
+    fun ensureStore(context: Context) {
+        if (tileStore != null) return
+        attachStore(TileStoreRegistry.open(context.applicationContext))
+    }
+
+    /** Сколько тайлов пришло со склада и сколько из сети с последнего сброса. */
+    fun storeStats(): Pair<Int, Int> = fromStore to fromNetwork
+
+    fun resetStoreStats() {
+        fromStore = 0
+        fromNetwork = 0
+    }
+
     private fun fetchTile(urlTemplate: String, zoom: Int, x: Int, y: Int): Bitmap? {
+        // Сначала диск: он всегда быстрее сети и работает там, где её нет вовсе.
+        // Это и есть смысл склада — на маршруте связи может не быть, а тайлы,
+        // скачанные дома, лежат рядом.
+        tileStore?.get(zoom, x, y)?.let { bytes ->
+            val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            if (bmp != null) {
+                fromStore++
+                return bmp
+            }
+            // Битый блоб в базе — не повод бросать тайл: пробуем сеть.
+            AppLog.w(TAG, "склад отдал нечитаемый тайл $zoom/$x/$y — иду в сеть")
+        }
+
         val url = URL(buildTileUrl(urlTemplate, zoom, x, y))
         return try {
             val conn = (url.openConnection() as HttpURLConnection).apply {
@@ -293,7 +342,7 @@ object TileQuantizer {
             }
             conn.inputStream.use { stream ->
                 val bytes = stream.readBytes()
-                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.also { fromNetwork++ }
             }
         } catch (e: Exception) {
             AppLog.w(TAG, "fetchTile $zoom/$x/$y failed: ${e.message}")
