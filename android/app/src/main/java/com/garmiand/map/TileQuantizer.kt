@@ -319,12 +319,27 @@ object TileQuantizer {
                 connectTimeout = ROUTER_TIMEOUT_MS
                 readTimeout = ROUTER_TIMEOUT_MS
                 setRequestProperty("User-Agent", USER_AGENT)
+                // Машинный доступ: на том же домене человек ходит через SSO.
+                BuildConfig.TILES_TOKEN.takeIf { it.isNotEmpty() }?.let {
+                    setRequestProperty("X-Tiles-Token", it)
+                }
             }
             // 404 — обычный ответ «этого тайла на складе нет», не сбой связи:
             // счётчик неудач не трогаем, просто идём в интернет.
-            if (conn.responseCode == 404) {
+            val code = conn.responseCode
+            if (code == 404) {
+                // Штатное «нет на складе» — идём в интернет, связь тут ни при чём.
                 conn.disconnect()
                 routerFailures = 0
+                return null
+            }
+            if (code == 401 || code == 403) {
+                // Токен не принят: повторять бессмысленно, гасим уровень сразу.
+                conn.disconnect()
+                if (routerFailures < ROUTER_GIVE_UP) {
+                    AppLog.w(TAG, "роутер отверг токен (HTTP $code) — уровень выключен")
+                }
+                routerFailures = ROUTER_GIVE_UP
                 return null
             }
             conn.inputStream.use { stream ->
