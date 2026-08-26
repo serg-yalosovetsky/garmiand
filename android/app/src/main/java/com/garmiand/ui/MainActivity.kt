@@ -361,11 +361,12 @@ class MainActivity : AppCompatActivity() {
             return MapSendStatus.FAILED
         }
         val blob = TileBundleSerializer.serialize(quantized)
-        val (fromStore, fromNet) = TileQuantizer.storeStats()
+        val (fromStore, fromRouter, fromNet) = TileQuantizer.storeStats()
         AppLog.i(
             TAG,
             "Bundle ready: ${quantized.tiles.size} tiles, ${blob.size}B " +
-                "mode=${if (onlineMode) "HTTPS" else "BLE"} (склад $fromStore, сеть $fromNet)",
+                "mode=${if (onlineMode) "HTTPS" else "BLE"} " +
+                "(склад $fromStore, роутер $fromRouter, сеть $fromNet)",
         )
 
         return if (onlineMode) {

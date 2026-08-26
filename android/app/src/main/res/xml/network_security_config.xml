@@ -9,4 +9,14 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">virtualearth.net</domain>
     </domain-config>
+    <!--
+      Тайл-сервер на роутере (склад заранее скачанных тайлов). Только http:
+      сертификата у него нет и быть не должно — он доступен лишь в домашней сети
+      и через Tailscale, наружу не торчит. Адреса заданы как IP: MagicDNS-имя
+      резолвится не во всех сетях.
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">100.126.187.74</domain>
+        <domain includeSubdomains="false">192.168.1.1</domain>
+    </domain-config>
 </network-security-config>

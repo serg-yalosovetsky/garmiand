@@ -3,6 +3,7 @@ package com.garmiand.map
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.garmiand.BuildConfig
 import com.garmiand.domain.RoutePoint
 import com.garmiand.util.AppLog
 import java.net.HttpURLConnection
@@ -293,7 +294,54 @@ object TileQuantizer {
     private var tileStore: TileStoreRegistry? = null
 
     private var fromStore = 0
+    private var fromRouter = 0
     private var fromNetwork = 0
+
+    // Тайл-сервер на роутере — средний уровень между складом и интернетом.
+    // Вне дома он недостижим, и ждать его на каждом тайле нельзя: после
+    // ROUTER_GIVE_UP подряд неудач уровень отключается до перезапуска приложения.
+    private const val ROUTER_TIMEOUT_MS = 2000
+    private const val ROUTER_GIVE_UP = 3
+
+    @Volatile
+    private var routerFailures = 0
+
+    private fun routerBase(): String? {
+        if (routerFailures >= ROUTER_GIVE_UP) return null
+        val base = BuildConfig.ROUTER_TILE_URL.trimEnd('/')
+        return base.ifEmpty { null }
+    }
+
+    private fun fetchFromRouter(zoom: Int, x: Int, y: Int): Bitmap? {
+        val base = routerBase() ?: return null
+        return try {
+            val conn = (URL("$base/tile/$zoom/$x/$y").openConnection() as HttpURLConnection).apply {
+                connectTimeout = ROUTER_TIMEOUT_MS
+                readTimeout = ROUTER_TIMEOUT_MS
+                setRequestProperty("User-Agent", USER_AGENT)
+            }
+            // 404 — обычный ответ «этого тайла на складе нет», не сбой связи:
+            // счётчик неудач не трогаем, просто идём в интернет.
+            if (conn.responseCode == 404) {
+                conn.disconnect()
+                routerFailures = 0
+                return null
+            }
+            conn.inputStream.use { stream ->
+                val bytes = stream.readBytes()
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.also {
+                    routerFailures = 0
+                    fromRouter++
+                }
+            }
+        } catch (e: Exception) {
+            routerFailures++
+            if (routerFailures == ROUTER_GIVE_UP) {
+                AppLog.i(TAG, "роутер недоступен ($ROUTER_GIVE_UP раза) — дальше только сеть: ${e.message}")
+            }
+            null
+        }
+    }
 
     fun attachStore(store: TileStoreRegistry?) {
         tileStore = store
@@ -311,11 +359,12 @@ object TileQuantizer {
         attachStore(TileStoreRegistry.open(context.applicationContext))
     }
 
-    /** Сколько тайлов пришло со склада и сколько из сети с последнего сброса. */
-    fun storeStats(): Pair<Int, Int> = fromStore to fromNetwork
+    /** Откуда пришли тайлы с последнего сброса: склад, роутер, сеть. */
+    fun storeStats(): Triple<Int, Int, Int> = Triple(fromStore, fromRouter, fromNetwork)
 
     fun resetStoreStats() {
         fromStore = 0
+        fromRouter = 0
         fromNetwork = 0
     }
 
@@ -329,9 +378,12 @@ object TileQuantizer {
                 fromStore++
                 return bmp
             }
-            // Битый блоб в базе — не повод бросать тайл: пробуем сеть.
-            AppLog.w(TAG, "склад отдал нечитаемый тайл $zoom/$x/$y — иду в сеть")
+            // Битый блоб в базе — не повод бросать тайл: пробуем дальше.
+            AppLog.w(TAG, "склад отдал нечитаемый тайл $zoom/$x/$y — иду дальше")
         }
+
+        // Роутер: то, что он уже скачал в свой склад, качать из интернета незачем.
+        fetchFromRouter(zoom, x, y)?.let { return it }
 
         val url = URL(buildTileUrl(urlTemplate, zoom, x, y))
         return try {

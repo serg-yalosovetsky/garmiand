@@ -28,6 +28,14 @@ val lokiTokenHeader: String = providers.gradleProperty("garmiand.lokiTokenHeader
     ?: providers.environmentVariable("GARMIAND_LOKI_TOKEN_HEADER").orNull
     ?: "X-Reader-Token"
 
+// Тайл-сервер на роутере: отдаёт то, что роутер уже скачал в свой склад.
+// Средний уровень между кешем на телефоне и интернетом — быстрее и без трафика.
+// Только IP: MagicDNS-имя резолвится не на всех сетях, а падать тут дорого.
+// Пусто — уровень выключен, всё идёт из сети как раньше.
+val routerTileUrl: String = providers.gradleProperty("garmiand.routerTileUrl").orNull
+    ?: providers.environmentVariable("GARMIAND_ROUTER_TILE_URL").orNull
+    ?: "http://100.126.187.74:8811"
+
 android {
     namespace = "com.garmiand"
     compileSdk = 35
@@ -44,6 +52,7 @@ android {
         buildConfigField("String", "LOKI_URL", "\"$lokiUrl\"")
         buildConfigField("String", "LOKI_TOKEN", "\"$lokiToken\"")
         buildConfigField("String", "LOKI_TOKEN_HEADER", "\"$lokiTokenHeader\"")
+        buildConfigField("String", "ROUTER_TILE_URL", "\"$routerTileUrl\"")
     }
 
     buildFeatures {
